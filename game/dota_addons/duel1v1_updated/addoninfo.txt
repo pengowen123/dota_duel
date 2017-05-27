@@ -1,0 +1,8 @@
+"AddonInfo"
+{
+	"TeamCount"		"2"
+	"duel1v1"
+	{
+		"MaxPlayers"		"2"
+	}
+}

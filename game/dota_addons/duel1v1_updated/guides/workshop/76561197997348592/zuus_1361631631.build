@@ -1,0 +1,125 @@
+"HeroGuide"
+{
+	"Hero"	"zuus"
+	"Title"	"7.06 - Standard Zeus (Core) Build"
+	"GuideRevision"	"1"
+	"FileVersion"	"1"
+	"Scratch"	"0"
+
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"#DOTA_Item_Build_Starting_Items"
+			{
+				"item"	"item_tango"
+				"item"	"item_clarity"
+			}
+			"patreon.com/Torte"
+			{
+			}
+			"#DOTA_Item_Build_Early_Game"
+			{
+				"item"	"item_bottle"
+				"item"	"item_boots"
+			}
+			"Core Items (Middle)"
+			{
+				"item"	"item_arcane_boots"
+				"item"	"item_aether_lens"
+				"item"	"item_veil_of_discord"
+			}
+			"#DOTA_Item_Build_Luxury"
+			{
+				"item"	"item_soul_ring"
+				"item"	"item_force_staff"
+				"item"	"item_cyclone"
+				"item"	"item_black_king_bar"
+			}
+			"Extension Items "
+			{
+				"item"	"item_travel_boots"
+				"item"	"item_blink"
+				"item"	"item_ultimate_scepter"
+				"item"	"item_bloodstone"
+				"item"	"item_refresher"
+				"item"	"item_octarine_core"
+			}
+		}
+		"ItemTooltips"
+		{
+				"item_blink"	"For a truly aggressive Zeus, Blink Dagger can be used to initiate and nuke an enemy before they know what happened. Generally, you should only be getting this if you want to lead the charge or have several solo-kill targets you can kill."
+				"item_bottle"	"Zeus needs ferry him throughout the game until Arcane Boots and other items. Use Arc Lightning to last-hit properly until you can afford Bottle."
+				"item_cyclone"	"The extra speed, mana regeneration and the ability to keep yourself out of danger for those few seconds while you wait for your abilities to get off cooldown could save your life every once in awhile."
+				"item_aether_lens"	"Aether Lens for Zeus means more damage, better range and a bit more survivability. Depending if you want to just be able to cast more spells with Octarine Core or actually need the extra space to ensure you can cast the spells; Aether Lens might be right for you."
+				"item_force_staff"	"Force Staff is a substitute to Blink Dagger if you need an easier item to get to or the mobility of Blink Dagger is not especially needed. Force Staff offers a bit more stats and a positioning tool that is more situationally useful over Blink Dagger."
+				"item_ultimate_scepter"	"Aghanim\'s has a great global finisher that allows you to zone enemies their exit path, to scout Roshan or to engage in fights.
+
+Careful that the Nimbus targets the closest target to its center."
+				"item_refresher"	"Refresher Orb is a more difficult item to get with a lot of build-up to pieces you won\'t need; but it pays off and requires fast-fingers to keep up with all the spells before you get targeted."
+				"item_black_king_bar"	"This is a just-in-case idea where you are constantly getting disabled and really just want to stop it all."
+				"item_bloodstone"	"Zeus really does well into the late-game if he can snowball. With low cooldowns on his ability and the constant need for mana makes Bloodstone a great choice if you farm for it (via Arc Lightning), then later take advantage of it with your team."
+				"item_arcane_boots"	"Disassemble to make Bloodstone."
+				"item_octarine_core"	"Octarian Core is the last step to making a true god out of Zeus. Perhaps unncessary, perhaps pointless given how squishy Zeus is; but nevertheless all-powerful and awesome."
+				"item_veil_of_discord"	"Veil of Discord is a relatively cheap damage that amplifies all of Zeus\' damage; making it truly a cost-efficient item in view of how aggressive Zeus wants to be with his advantage of levels (thanks to the mid-lane experience gain)."
+				"item_glimmer_cape"	"Use Glimmer Cape as an escape mechanism that can hopefully aid you repositioning against the enemy team. As Zeus, you should be as furtherest away as possible to cast your abilities, but sometimes that can be proven difficult against heroes that can Blink Dagger."
+		}
+	}
+
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"	"zuus_arc_lightning"
+			"2"	"zuus_static_field"
+			"3"	"zuus_lightning_bolt"
+			"4"	"zuus_lightning_bolt"
+			"5"	"zuus_lightning_bolt"
+			"6"	"zuus_thundergods_wrath"
+			"7"	"zuus_lightning_bolt"
+			"8"	"zuus_arc_lightning"
+			"9"	"zuus_arc_lightning"
+			"10"	"special_bonus_mp_regen_2"
+			"11"	"zuus_arc_lightning"
+			"12"	"zuus_thundergods_wrath"
+			"13"	"zuus_static_field"
+			"14"	"zuus_static_field"
+			"15"	"special_bonus_magic_resistance_15"
+			"16"	"zuus_static_field"
+			"17"	"undefined"
+			"18"	"zuus_thundergods_wrath"
+			"19"	"undefined"
+			"20"	"special_bonus_unique_zeus_3"
+			"21"	"undefined"
+			"22"	"undefined"
+			"23"	"undefined"
+			"24"	"undefined"
+			"25"	"special_bonus_cast_range_200"
+		}
+		"AbilityTooltips"
+		{
+				"zuus_arc_lightning"	"Use Arc Lightning during the laning phase to farm the key items you need. Additionally, Arc Lightning, with your passive, Static Field, helps stack and pull jungle camps for you to later farm for your items once more.
+
+In team-fights, use this between your nuking abilities to continually harass."
+				"zuus_lightning_bolt"	"Low cooldown, incredible damage and it gives true sight around you! If you can\'t quite reach your opponent, click on the ground and it will target the closest foe!
+
+Use this ability to see wards and other invisible units as well as to give vision which you can then use Arc Lightning to follow-up."
+				"zuus_static_field"	"The range is huge, so don\'t worry too much about you being too far from your opponent for this to affect them. Any spell you do will be buffed by this, so when in a tight situation, slam all your hotkeys to make sure you deal as much damage as possible."
+				"zuus_cloud"	"Aghanim\'s has a great global finisher that allows you to zone enemies their exit path, to scout Roshan or to engage in fights.
+
+Careful that the Nimbus targets the closest target to its center."
+				"zuus_thundergods_wrath"	"Try to avoid using this to steal kills and more to ensure someone\'s dead (either they have fled too far from an ally, etc.):
+
+1. Use Lightning Bolt to nuke down an enemy
+2. Spam Arc Lightning when off-cooldown
+3. Lightning Bolt once more
+4. End with Thundergod\'s Wrath to ensure the kill."
+				"special_bonus_unique_zeus_3"	"Though situational, the disrupt from your Lightning Bolt works with Aghanim\'s Scepter and it can disrupt channeling spells, town portal scrolls and more!"
+				"attribute_bonus"	"This hero build and many others are supported by the following Patrons and contributors:
+
++ 
+
+Support us and have your name directly credited in a hero build of your choice. Visit Patreon.com/Torte"
+		}
+	}
+}

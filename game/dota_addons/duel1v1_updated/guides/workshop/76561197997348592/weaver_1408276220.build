@@ -1,0 +1,150 @@
+"HeroGuide"
+{
+	"Hero"	"weaver"
+	"Title"	"7.06 - Standard Weaver (Core) Build"
+	"GuideRevision"	"1"
+	"FileVersion"	"1"
+	"Scratch"	"0"
+
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"#DOTA_Item_Build_Starting_Items"
+			{
+				"item"	"item_tango"
+				"item"	"item_clarity"
+				"item"	"item_branches"
+				"item"	"item_ring_of_protection"
+				"item"	"item_branches"
+			}
+			"Starting Items (Middle)"
+			{
+				"item"	"item_wraith_band"
+				"item"	"item_faerie_fire"
+				"item"	"item_branches"
+			}
+			"patreon.com/Torte"
+			{
+			}
+			"Early Game (Safe Lane)"
+			{
+				"item"	"item_blight_stone"
+				"item"	"item_ring_of_aquila"
+				"item"	"item_boots"
+			}
+			"Early Game (Middle)"
+			{
+				"item"	"item_bottle"
+				"item"	"item_ring_of_aquila"
+				"item"	"item_boots"
+				"item"	"item_blight_stone"
+			}
+			"#DOTA_Item_Build_Core_Items"
+			{
+				"item"	"item_power_treads"
+				"item"	"item_magic_wand"
+				"item"	"item_dragon_lance"
+				"item"	"item_desolator"
+			}
+			"#DOTA_Item_Build_Luxury"
+			{
+				"item"	"item_infused_raindrop"
+				"item"	"item_diffusal_blade_2"
+				"item"	"item_black_king_bar"
+			}
+			"Extension Items"
+			{
+				"item"	"item_sphere"
+				"item"	"item_butterfly"
+				"item"	"item_heart"
+				"item"	"item_mjollnir"
+				"item"	"item_skadi"
+				"item"	"item_bloodthorn"
+			}
+		}
+		"ItemTooltips"
+		{
+				"item_bottle"	"Bottle is especially useful if you find yourself constantly low on mana or need to alleviate any fear of low mana or low health from farming the jungle, etc."
+				"item_wraith_band"	"Wraith Band before Ring of Aquila to improve your last-hitting."
+				"item_ultimate_scepter"	"Aghanim\'s Scepter let\'s you apply your ultimate to another hero. Typically you want to save this for yourself; however the line-up could have a better core physical carry or hero that would need it over you; especially if you are not being targeted whatsoever."
+				"item_black_king_bar"	"Linken\'s Sphere is useful for heroes like Doom or major single-target spells that disable you completely. 
+
+If there are a lot of AOE spells or particular ultimate initiating abilites. Black King Bar can be a much better solution."
+				"item_sphere"	"Great damage, conservative item, keeps you alive to let you pull off Time Lapse. The extra stats are especially appreciated as Weaver\'s stats towards the late-game are decent, but rely heavily on your abilities to stay alive."
+				"item_monkey_king_bar"	"Evasion heroes despise Monkey King Bar. This item is straight damage and can be key to competing rivaling physical carries. 
+
+The mini-stun from Monkey King Bar can be great given Weaver\'s late-game attack speed. "
+				"item_radiance"	"If doing incredibly well, consider getting radiance for Weaver, otherwise, skip it for cheaper damage-dealing items."
+				"item_butterfly"	"Linken\'s Sphere and Evasion makes Weaver difficult to catch even with True Sight when he casts Shukuchi. More importantly, more damage from the agility stats makes this an incredibly worthwhile item."
+				"item_greater_crit"	"Tear foes even faster with Daedalus as its critical strike is incredible powerful and great for a fast-moving and damaging hero like Weaver. Weaver wants to destroy enemies fast and quickly before they can target Weaver."
+				"item_maelstrom"	"Maelstrom gives you the fast-farm you need and the extra damage to provide kills when ganking early in the game. Maelstrom will severely hasten your farm in the jungle and in lane."
+				"item_desolator"	"The armor reduction from this item works alongside your The Swarm ability, making your attack deal even more damage! Geminate Attack  still occurs even if you get Desolator."
+				"item_medallion_of_courage"	"The armor reduction from this item works alongside your The Swarm ability, making your attack deal even more damage! Great if you want to early-game pressure instead of farming for your more core items."
+				"item_solar_crest"	"The armor reduction from this item works alongside your The Swarm ability, making your attack deal even more damage! Great if you want to early-game pressure instead of farming for your more core items."
+				"item_ring_of_aquila"	"Ring of Aquila provides easy last-hitting with the small mana regeneration you want to pop your Shukuchi at any time\'s notice."
+		}
+	}
+
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"	"weaver_shukuchi"
+			"2"	"weaver_geminate_attack"
+			"3"	"weaver_shukuchi"
+			"4"	"weaver_the_swarm"
+			"5"	"weaver_shukuchi"
+			"6"	"weaver_time_lapse"
+			"7"	"weaver_shukuchi"
+			"8"	"weaver_the_swarm"
+			"9"	"weaver_the_swarm"
+			"10"	"special_bonus_unique_weaver_1"
+			"11"	"weaver_the_swarm"
+			"12"	"weaver_time_lapse"
+			"13"	"weaver_geminate_attack"
+			"14"	"weaver_geminate_attack"
+			"15"	"special_bonus_attack_damage_25"
+			"16"	"weaver_geminate_attack"
+			"17"	"undefined"
+			"18"	"weaver_time_lapse"
+			"19"	"undefined"
+			"20"	"special_bonus_agility_15"
+			"21"	"undefined"
+			"22"	"undefined"
+			"23"	"undefined"
+			"24"	"undefined"
+			"25"	"special_bonus_unique_weaver_2"
+		}
+		"AbilityTooltips"
+		{
+				"special_bonus_agility_15"	"For a more offensive Weaver, the agility is generally preferred. However if the enemy has a lot of nukes - the health can be a legitimate life-saver alongside Infused Raindrop."
+				"special_bonus_hp_200"	"For a more offensive Weaver, the agility is generally preferred. However if the enemy has a lot of nukes - the health can be a legitimate life-saver alongside Infused Raindrop."
+				"weaver_the_swarm"	"The Swarm has a constant armor reduction (of 1) at every attack at any level. Initiate with this as a fight nears or to prevent a fight:
+
+1. Target an enemy team with The Swarm
+2. Engage with Shukuchi to get within maximum range of a target
+3. After Geminate occurs, reposition with Shukuchi"
+				"weaver_shukuchi"	"Shukuchi has numerous and value depending on the situation and phase of the match:
+
+1. Use Shukuchi to harass enemies in your lane; try to avoid hitting creeps, you end up pushing the lane
+
+2. Use Shukuchi to reposition in a fight and lose being a target of an enemy
+
+3. Ideally a good escape"
+				"weaver_geminate_attack"	"Geminate Attack works with orb effects such as Maelstrom or Desolator. 
+
+Use Geminate Attack to last-hit or harass enemies in the lane. Later on, it will serve to get one last hit in if an enemy is fleeing beyond your range."
+				"weaver_time_lapse"	"If stunned or silenced, you will not be able to cast this ability; so don\'t depend on it too much if you\'re in a jam. 
+
+Use this ability to rewind to a safe location even at full health.
+
+Time Lapse resets your abilities; so use Shukuchi first to ensure you can Time Lapse."
+				"attribute_bonus"	"This hero build and many others are supported by the following Patrons and contributors:
+
++ 
+
+Support us and have your name directly credited in a hero build of your choice. Visit Patreon.com/Torte"
+		}
+	}
+}

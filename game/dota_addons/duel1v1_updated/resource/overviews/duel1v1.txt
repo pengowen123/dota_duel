@@ -1,0 +1,8 @@
+duel1v1
+{
+	material materials/overviews/duel1v1.vmat
+	pos_x -8192
+	pos_y 8192
+	scale 16.000
+}
+

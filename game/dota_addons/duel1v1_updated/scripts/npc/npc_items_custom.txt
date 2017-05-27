@@ -1,0 +1,179 @@
+"DOTAAbilities"
+{
+  // Black king bar that is always at the lowest duration
+  "item_bkb"
+  {
+    "ID"                    "3001"
+    "BaseClass"             "item_datadriven"
+    "AbilityTextureName"    "item_bkb"
+
+    "ItemCost"              "3975"
+    "ItemShopTags"          "black;king;bar;bkb"
+    "ItemQuality"           "epic"
+    "ItemAliases"           "black;king;bar;bkb"
+    "ItemSellable"          "1"
+    "ItemKillable"          "1"
+    "ItemDroppable"         "1"
+    "ItemPurchasable"       "1"
+
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+    "AbilityCastPoint"      "0.0"
+    "AbilityCooldown"       "55.0"
+    "AbilityCastAnimation"  "ACT_DOTA_IDLE"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"      "FIELD_INTEGER"
+            "bonus_str"     "10"
+        }
+
+        "02"
+        {
+            "var_type"      "FIELD_INTEGER"
+            "damage"  "24"
+        }
+    }
+
+    "OnSpellStart"
+    {
+      "FireSound"
+      {
+        "EffectName"    "DOTA_Item.BlackKingBar.Activate"
+        "Target"        "CASTER"
+      }
+      "ApplyModifier"
+      {
+        "Target"        "CASTER"
+        "ModifierName"  "modifier_black_king_bar_immune"
+        "Duration"      "5"
+      }
+      "ApplyModifier"
+      {
+        "Target"        "CASTER"
+        "ModifierName"  "item_bkb_grow_modifier"
+        "Duration"      "5"
+      }
+    }
+
+    "Modifiers"
+    {
+      "item_bkb_passive_modifier"
+      {
+        "Passive"           "1"
+        "IsHidden"          "1"
+        "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+        "Properties"
+        {
+          "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"    "%bonus_str"
+          "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%damage"
+        }
+      }
+    }
+  }
+
+  "item_recipe_bkb"
+  {
+    "ID"                    "3002"
+    "BaseClass"             "item_datadriven"
+    "AbilityTextureName"    "item_recipe_bkb"
+
+    "ItemCost"              "1375"
+    "ItemShopTags"          ""
+    "ItemRecipe"            "1"
+    "ItemResult"            "item_bkb"
+
+    "ItemRequirements"
+    {
+      "01"                  "item_ogre_axe;item_mithril_hammer"
+    }
+  }
+
+  // Bloodstone that does not have any abilities and always has 12 charges
+  "item_bloodstone_no_deny"
+  {
+    "ID"                    "3003"
+    "BaseClass"             "item_datadriven"
+    "AbilityTextureName"    "item_bloodstone_no_deny"
+
+    "ItemCost"              "4850"
+    "ItemShopTags"          "blood;stone"
+    "ItemQuality"           "epic"
+    "ItemAliases"           "blood;stone"
+    "ItemSellable"          "1"
+    "ItemKillable"          "1"
+    "ItemDroppable"         "1"
+    "ItemPurchasable"       "1"
+
+    "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"        "FIELD_INTEGER"
+            "health"    "475"
+        }
+
+        "02"
+        {
+            "var_type"        "FIELD_INTEGER"
+            "mana"      "425"
+        }
+
+        "03"
+        {
+            "var_type"        "FIELD_INTEGER"
+            "hp_regen"        "9"
+        }
+
+        "04"
+        {
+            "var_type"        "FIELD_INTEGER"
+            "mana_regen_pct"  "200"
+        }
+
+        "05"
+        {
+            "var_type"        "FIELD_INTEGER"
+            "mana_regen"      "12"
+        }
+    }
+
+    "Modifiers"
+    {
+      "item_bloodstone_no_deny_passive_modifier"
+      {
+        "Passive"           "1"
+        "IsHidden"          "1"
+        "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+        "Properties"
+        {
+          "MODIFIER_PROPERTY_HEALTH_BONUS"            "%health"
+          "MODIFIER_PROPERTY_MANA_BONUS"              "%mana"
+          "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"   "%hp_regen"
+          "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"   "%mana_regen_pct"
+          "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"     "%mana_regen"
+        }
+      }
+    }
+  }
+
+  "item_recipe_bloodstone_no_deny"
+  {
+    "ID"                    "3004"
+    "BaseClass"             "item_datadriven"
+    "AbilityTextureName"    "item_recipe_bloodstone_no_deny"
+
+    "ItemCost"              "900"
+    "ItemShopTags"          ""
+    "ItemRecipe"            "1"
+    "ItemResult"            "item_bloodstone_no_deny"
+
+    "ItemRequirements"
+    {
+      "01"                  "item_soul_booster;item_soul_ring"
+    }
+  }
+}
