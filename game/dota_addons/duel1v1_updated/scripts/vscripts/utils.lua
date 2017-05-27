@@ -5,6 +5,8 @@
 function GetPlayerEntities()
   local player_entities = {}
 
+  local entity = Entities:First()
+
   for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
     if PlayerResource:IsValidPlayerID(playerID) then
       local entity = PlayerResource:GetSelectedHeroEntity(playerID)
@@ -12,6 +14,13 @@ function GetPlayerEntities()
       if entity then
         table.insert(player_entities, entity)
       end
+    end
+  end
+
+  -- Also add all meepo clones because the above code won't find them
+  for i, entity in pairs(Entities:FindAllByName("npc_dota_hero_meepo")) do
+    if entity:IsClone() then
+      table.insert(player_entities, entity)
     end
   end
 
@@ -30,7 +39,7 @@ end
 
 -- Teleports `entity` to the entity named `radiant_target_name` if `entity` is on the radiant team, or
 -- to the entity named `dire_target_name` otherwise
-function TeleportEntityByTeam(entity, radiant_target_name, dire_target_name)
+function TeleportEntityByTeam(entity, radiant_target_name, dire_target_name, center_camera)
   local team = entity:GetTeam()
 
   if team == DOTA_TEAM_GOODGUYS then
@@ -39,6 +48,10 @@ function TeleportEntityByTeam(entity, radiant_target_name, dire_target_name)
 
   if team == DOTA_TEAM_BADGUYS then
     TeleportEntity(entity, dire_target_name)
+  end
+
+  if center_camera then
+      SendToConsole("dota_camera_center")
   end
 end
 

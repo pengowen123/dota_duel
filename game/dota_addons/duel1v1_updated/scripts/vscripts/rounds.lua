@@ -21,33 +21,45 @@ function StartRound()
 
   for i, player_entity in pairs(player_entities) do
     ResetCooldowns(player_entity)
-    TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire")
     ClearBuffs(player_entity)
+    -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
+    TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
+    ClearBase()
   end
 end
 
 
 -- Performs all end of round actions, such as resetting cooldowns
 function EndRound()
+  -- To avoid starting the round while one is being played (which happens if someone dies before the round starts, such as spectre
+  -- haunting to the enemy base)
+  Timers:RemoveTimer("timer_start_round")
+
   local round_start_delay = 30.0
   PrintTeamOnly(tostring(round_start_delay) .. " seconds to round start")
-  Timers:CreateTimer(round_start_delay, StartRound)
+
+  local args = {
+    endTime = round_start_delay,
+    callback = StartRound
+  }
+
+  Timers:CreateTimer("timer_start_round", args)
 
   -- Clear arena after 10 seconds
   local clear_arena_delay = 15.0
   Timers:CreateTimer(clear_arena_delay, ClearArena)
 
-
-  -- To catch heroes like storm spirit or puck when they are invulnerable, call ResetPlayers 15
+  -- To catch heroes like storm spirit when they are invulnerable, call ResetPlayers 15
   -- times with 1 second between each call
   local reset_delay = 1.0
   local resets = clear_arena_delay
 
   Timers:CreateTimer(
     function()
-      -- Only center the camera the first time (if a player dodges the first teleport, the camera won't be centered, but this should rarely happen)
+      -- Only center the camera the first time (if a player dodges the first teleport, the camera won't be centered at the base,
+      -- but this should rarely happen)
       local center_camera = resets == clear_arena_delay
-      ResetPlayers(resets < clear_arena_delay)
+      ResetPlayers(center_camera)
 
       resets = resets - 1
 
@@ -66,9 +78,10 @@ function ResetPlayers(center_camera)
   local player_entities = GetPlayerEntities()
 
   for i, player_entity in pairs(player_entities) do
-    ResetPosition(player_entity, center_camera)
     ResetCooldowns(player_entity)
     ClearBuffs(player_entity)
+    -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
+    ResetPosition(player_entity, center_camera)
   end
 end
 
@@ -76,7 +89,7 @@ end
 -- Removes all entities in the arena
 -- NOTE: If this causes problems, maybe change the trigger to one that damages rather than removes
 --       It should only be a problem if a player gets removed, but if they are able to get into the arena when it is cleared,
---		 there is a bug and changing the trigger won't help (instead of being removed they will die, causing the round to start twice)
+--		   that is a bug
 function ClearArena()
   local trigger = Entities:FindByName(nil, "trigger_clear_arena")
 
@@ -92,15 +105,27 @@ function ClearArena()
 end
 
 
+-- Removes all entities in each base
+function ClearBase()
+  for i, trigger in pairs(Entities:FindAllByName("trigger_clear_base")) do
+    trigger:Enable()
+
+    local disable = function()
+      trigger:Disable()
+    end
+
+    local delay = 0.1
+
+    Timers:CreateTimer(delay, disable)
+  end
+end
+
+
 -- Teleports an entity to its base and disjoints incoming projectiles
 function ResetPosition(entity, center_camera)
   ProjectileManager:ProjectileDodge(entity)
 
-  TeleportEntityByTeam(entity, "base_teleport_radiant", "base_teleport_dire")
-
-  if center_camera then
-      SendToConsole("dota_camera_center")
-  end
+  TeleportEntityByTeam(entity, "base_teleport_radiant", "base_teleport_dire", center_camera)
 end
 
 

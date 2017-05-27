@@ -96,6 +96,7 @@ end
 ]]
 function GameMode:OnHeroInGame(hero)
   DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
+  print('adding xp to: ' .. hero:GetUnitName())
   hero:AddExperience(99999.0, 0, false, false)
 end
 
@@ -119,5 +120,7 @@ function GameMode:InitGameMode()
 
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
 
+  -- Disable triggers
   ClearArena()
+  ClearBase()
 end

@@ -31,7 +31,7 @@
   "npc_dota_hero_life_stealer" "1"
   "npc_dota_hero_lina" "1"
   "npc_dota_hero_lion" "1"
-  "npc_dota_hero_monkey_king" "1"
+  "npc_dota_hero_monkey_king" "0" // Removed because of a bug where the game crashes when he uses his ultimate
   "npc_dota_hero_mirana" "1"
   "npc_dota_hero_morphling" "1"
   "npc_dota_hero_necrolyte" "1"

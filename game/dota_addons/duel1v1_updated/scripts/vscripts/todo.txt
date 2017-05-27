@@ -1,3 +1,3 @@
 Test the gamemode:
-	- Try to get out of the map and remove any way of doing so
+	- Try to cheat as well
 	- Test the balance (especially that of heroes like slark and void)
