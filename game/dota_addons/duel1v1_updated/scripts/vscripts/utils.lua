@@ -15,14 +15,16 @@ modifier_max_charges = {
 -- Returns a table containing handles to all player entities
 function GetPlayerEntities()
   local player_entities = {}
+  local player_ids = {}
 
   local entity = Entities:First()
 
-  for i, playerID in pairs(GetPlayers()) do
+  for i, playerID in pairs(GetPlayerIDs()) do
     local entity = PlayerResource:GetSelectedHeroEntity(playerID)
 
     if entity then
       table.insert(player_entities, entity)
+      player_ids[playerID] = true
     end
   end
 
@@ -33,12 +35,20 @@ function GetPlayerEntities()
     end
   end
 
+  -- Also add all monkey king clones (if these aren't added, the game will crash when monkey king ults
+  -- because the entities that control the clones get removed when ClearBase is called)
+  for i, entity in pairs(Entities:FindAllByName("npc_dota_hero_monkey_king")) do
+    if not player_ids[entity:GetEntityIndex()] then
+      table.insert(player_entities, entity)
+    end
+  end
+
   return player_entities
 end
 
 
 -- Returns a table containing all player IDs
-function GetPlayers()
+function GetPlayerIDs()
   local players = {}
 
   for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do

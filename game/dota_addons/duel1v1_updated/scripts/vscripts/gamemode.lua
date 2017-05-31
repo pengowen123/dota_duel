@@ -63,12 +63,6 @@ require('modifiers')
   This function should generally only be used if the Precache() function in addon_game_mode.lua is not working.
 ]]
 function GameMode:PostLoadPrecache()
-  DebugPrint("[BAREBONES] Performing Post-Load precache")    
-  --PrecacheItemByNameAsync("item_example_item", function(...) end)
-  --PrecacheItemByNameAsync("example_ability", function(...) end)
-
-  --PrecacheUnitByNameAsync("npc_dota_hero_viper", function(...) end)
-  --PrecacheUnitByNameAsync("npc_dota_hero_enigma", function(...) end)
 end
 
 --[[
@@ -76,7 +70,6 @@ end
   It can be used to initialize state that isn't initializeable in InitGameMode() but needs to be done before everyone loads in.
 ]]
 function GameMode:OnFirstPlayerLoaded()
-  DebugPrint("[BAREBONES] First Player has loaded")
 end
 
 --[[
@@ -84,7 +77,6 @@ end
   It can be used to initialize non-hero player state or adjust the hero selection (i.e. force random etc)
 ]]
 function GameMode:OnAllPlayersLoaded()
-  DebugPrint("[BAREBONES] All Players have loaded into the game")
 end
 
 --[[
@@ -95,8 +87,6 @@ end
   The hero parameter is the hero entity that just spawned in
 ]]
 function GameMode:OnHeroInGame(hero)
-  DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
-  hero:AddExperience(99999.0, 0, false, false)
 end
 
 --[[
@@ -106,6 +96,15 @@ end
 ]]
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
+
+  -- Level players up to level 25
+  for i, playerID in pairs(GetPlayerIDs()) do
+    local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+
+    if player_entity then
+      player_entity:AddExperience(99999.0, 0, false, false)
+    end
+  end
 
   local game_start_delay = 60.0
 
@@ -139,14 +138,14 @@ function GameMode:InitGameMode()
   GameMode = self
 
   -- Skip strategy time to save players time (it's useless in this gamemode)
-  GameRules:SetStrategyTime(0)
+  GameRules:SetStrategyTime(0.5)
 
   -- Initialize listeners
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
 
   -- Disable triggers
   ClearArena()
-  ClearBase()
+  ClearBases()
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)
@@ -156,7 +155,7 @@ end
 -- A function that tests if a player has disconnected and makes them lose the game
 -- Returns a number so it can be used in a timer
 function WatchForDisconnect(keys)
-  for i, playerID in pairs(GetPlayers()) do
+  for i, playerID in pairs(GetPlayerIDs()) do
     local connection_state = PlayerResource:GetConnectionState(playerID)
 
     -- If a player disconnects, make them lose and stop watching for disconnects

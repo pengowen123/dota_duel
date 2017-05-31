@@ -1,11 +1,3 @@
-Add notes to workshop description listing the changes made in the gamemode:
-	- rapier is banned
-	- bkb duration
-	- bloodstone ability removal
-	- maybe monkey king removal
-
-Try to re-add monkey king (fix his ult crashing, hiding in trees is not considered game-breaking)
-
 Test the gamemode:
 	- Try to cheat as well
 	- Test the balance:

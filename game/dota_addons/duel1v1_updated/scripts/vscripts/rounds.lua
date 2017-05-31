@@ -29,6 +29,7 @@ function StartRound()
   PrintTeamOnly("Round start")
 
   ResetNeutrals()
+  ClearBases()
 
   local player_entities = GetPlayerEntities()
 
@@ -37,7 +38,6 @@ function StartRound()
     ClearBuffs(player_entity)
     -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
     TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
-    ClearBase()
   end
 end
 
@@ -132,7 +132,7 @@ end
 
 
 -- Removes all entities in each base
-function ClearBase()
+function ClearBases()
   for i, trigger in pairs(Entities:FindAllByName("trigger_clear_base")) do
     trigger:Enable()
 
