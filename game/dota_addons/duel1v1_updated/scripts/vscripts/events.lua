@@ -4,17 +4,6 @@ require('utils')
 
 -- Cleanup a player when they leave
 function GameMode:OnDisconnect(keys)
-  DebugPrint('[BAREBONES] Player Disconnected ' .. tostring(keys.userid))
-  DebugPrintTable(keys)
-
-  local npc = EntIndexToHScript(keys.entindex)
-  local team = npc:GetTeam()
-
-  local opposite_team_name = GetOppositeTeamName(team)
-
-  -- Make the disconnected player lose
-  PrintTeamOnly("A player has disconnected, awarding victory to " .. opposite_team_name)
-  GameRules:MakeTeamLose(team)
 end
 -- The overall game state has changed
 function GameMode:OnGameRulesStateChange(keys)

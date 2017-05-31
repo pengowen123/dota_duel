@@ -24,7 +24,19 @@ function leave_arena_modifier:OnDestroy()
 		if enemy_player == nil then
 			enemy_player = parent
 		end
-		
+
+		-- If the entity will reincarnate, kill them and re-add the modifier to kill them again
+		if parent:WillReincarnate() then
+			local re_add_modifier = function()
+				local data = { duration = 0.1 }
+				parent:AddNewModifier(nil, nil, "leave_arena_modifier", data)
+			end
+
+			local reincarnate_delay = 3.25
+
+			Timers:CreateTimer(reincarnate_delay, re_add_modifier)
+		end
+
 		parent:Kill(nil, enemy_player)
 	end
 end

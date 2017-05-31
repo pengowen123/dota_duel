@@ -96,7 +96,6 @@ end
 ]]
 function GameMode:OnHeroInGame(hero)
   DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
-  print('adding xp to: ' .. hero:GetUnitName())
   hero:AddExperience(99999.0, 0, false, false)
 end
 
@@ -108,9 +107,30 @@ end
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
 
-  local game_start_delay = 45.0
-  PrintTeamOnly(tostring(game_start_delay) .. " seconds to round start")
-  Timers:CreateTimer(game_start_delay, StartRound)
+  local game_start_delay = 60.0
+
+  local args = {
+    endTime = game_start_delay,
+    callback = StartRound,
+  }
+
+  PrintRoundStartMessage(game_start_delay)
+
+  -- Start round after `game_start_delay` seconds
+  Timers:CreateTimer("timer_start_round", args)
+
+  local args_msg = {
+    endTime = game_start_delay - 10.0,
+    callback = function()
+      PrintRoundStartMessage(10.0)
+    end
+  }
+
+  -- Tell players when there are 10 seconds before the round starts
+  Timers:CreateTimer("ten_second_message", args_msg)
+
+  -- To prevent people from spawning outside the shop area
+  ResetPlayers(true)
 end
 
 -- This function initializes the game mode and is called before anyone loads into the game
@@ -118,9 +138,44 @@ end
 function GameMode:InitGameMode()
   GameMode = self
 
+  -- Skip strategy time to save players time (it's useless in this gamemode)
+  GameRules:SetStrategyTime(0)
+
+  -- Initialize listeners
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
 
   -- Disable triggers
   ClearArena()
   ClearBase()
+
+  -- Watch for player disconnect
+  Timers:CreateTimer(WatchForDisconnect)
+end
+
+
+-- A function that tests if a player has disconnected and makes them lose the game
+-- Returns a number so it can be used in a timer
+function WatchForDisconnect(keys)
+  for i, playerID in pairs(GetPlayers()) do
+    local connection_state = PlayerResource:GetConnectionState(playerID)
+
+    -- If a player disconnects, make them lose and stop watching for disconnects
+    if connection_state == DOTA_CONNECTION_STATE_DISCONNECTED then
+      OnDisconnect(playerID)
+      return nil
+    end
+  end
+
+  return 1.0
+end
+
+function OnDisconnect(playerID)
+  local npc = PlayerResource:GetSelectedHeroEntity(playerID)
+  local team = npc:GetTeam()
+
+  local opposite_team_name = GetOppositeTeamName(team)
+
+  -- Make the disconnected player lose
+  PrintTeamOnly("A player has disconnected, awarding victory to " .. opposite_team_name)
+  GameRules:MakeTeamLose(team)
 end

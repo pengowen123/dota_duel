@@ -3,26 +3,39 @@
 require('utils')
 
 
--- Ends the round if the entity that died was a player
+-- Ends the round if a player died
 function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
-  if entity:IsRealHero() then
-    EndRound()
+  -- Only end the round if the entity is a hero and won't reincarnate
+  if entity:IsRealHero() and not entity:IsReincarnating() then
+    -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
+    -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
+    local first_reset_delay = 5.0
+
+    Timers:CreateTimer(
+      first_reset_delay,
+      function()
+        EndRound()
+      end
+    )
   end
 end
 
 
 -- Starts the next round, resetting all player entities and teleporting them to the arena
+-- Also removes nightstalker's darkness
 function StartRound()
   PrintTeamOnly("Round start")
+
+  ResetNeutrals()
 
   local player_entities = GetPlayerEntities()
 
   for i, player_entity in pairs(player_entities) do
     ResetCooldowns(player_entity)
     ClearBuffs(player_entity)
-    -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
+    -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
     TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
     ClearBase()
   end
@@ -31,19 +44,33 @@ end
 
 -- Performs all end of round actions, such as resetting cooldowns
 function EndRound()
+  local round_start_delay = 30.0
+
+  if not TimerExists("timer_start_round") then
+    PrintTeamOnly(tostring(round_start_delay) .. " seconds to round start")
+  end
+
   -- To avoid starting the round while one is being played (which happens if someone dies before the round starts, such as spectre
   -- haunting to the enemy base)
   Timers:RemoveTimer("timer_start_round")
-
-  local round_start_delay = 30.0
-  PrintTeamOnly(tostring(round_start_delay) .. " seconds to round start")
+  Timers:RemoveTimer("ten_second_message")
 
   local args = {
     endTime = round_start_delay,
     callback = StartRound
   }
 
+  -- Start round after `round_start_delay` seconds
   Timers:CreateTimer("timer_start_round", args)
+
+  local args_msg = {
+    endTime = round_start_delay - 10.0,
+    callback = function()
+      PrintRoundStartMessage(10.0)
+    end
+  }
+
+  Timers:CreateTimer("ten_second_message", args_msg)
 
   -- Clear arena after 10 seconds
   local clear_arena_delay = 15.0
@@ -87,8 +114,7 @@ end
 
 
 -- Removes all entities in the arena
--- NOTE: If this causes problems, maybe change the trigger to one that damages rather than removes
---       It should only be a problem if a player gets removed, but if they are able to get into the arena when it is cleared,
+-- NOTE: This can cause problems if a player gets removed, but if they are able to get into the arena when it is cleared,
 --		   that is a bug
 function ClearArena()
   local trigger = Entities:FindByName(nil, "trigger_clear_arena")
@@ -142,12 +168,39 @@ function ResetCooldowns(entity)
   for i = 0, 15 do
     local item = entity:GetItemInSlot(i)
 
-    if item then
+    -- Don't refresh the cooldown of observer wards because it causes them to disappear
+    if item and not IsObserverWard(item:GetAbilityName()) then
       -- Reset charges on items like drums of endurance
       local max_charges = item:GetInitialCharges()
       item:SetCurrentCharges(max_charges)
 
       item:EndCooldown()
+    end
+  end
+
+  ResetCharges(entity)
+end
+
+
+-- Sets the charges on all charge-based abilities from the entity to the maximum value
+-- Also sets shadow fiend's souls to 36
+-- To prevent abuse, this will not give shadow fiend 46 souls if he has aghanim's scepter
+function ResetCharges(entity)
+  for i, modifier in pairs(entity:FindAllModifiers()) do
+    local name = modifier:GetName()
+
+    local max_charges = modifier_max_charges[name]
+
+    if max_charges ~= nil then
+      modifier:SetStackCount(max_charges)
+    end
+  end
+
+  if entity:GetName() == "npc_dota_hero_nevermore" then
+    local necromastery = entity:FindModifierByName("modifier_nevermore_necromastery")
+
+    if necromastery ~= nil then
+      necromastery:SetStackCount(36)
     end
   end
 end
@@ -158,9 +211,23 @@ function ClearBuffs(entity)
   local modifiers = entity:FindAllModifiers()
 
   for i, modifier in pairs(modifiers) do
-    -- Don't remove permanent modifiers (prevent item and passive stats from being removed)
-    if modifier:GetDuration() ~= -1 then
+    local is_troll_warlord_fervor = modifier:GetName() == "modifier_troll_warlord_fervor"
+
+    -- Don't remove modifiers such as ones that represent abiltiies
+    if IsSafeToRemove(modifier) then
       modifier:Destroy()
     end
+
+    -- Troll fervor is both the stack count and the passive, so it must be removed to reset the stack count
+    -- It is re-added here to prevent problems
+    if is_troll_warlord_fervor then
+      entity:AddNewModifier(entity, entity:GetAbilityByIndex(3), "modifier_troll_warlord_fervor", {})
+    end
   end
+end
+
+
+-- Spawns neutrals at their neutral camps
+function ResetNeutrals()
+  SendToServerConsole("dota_spawn_neutrals")
 end

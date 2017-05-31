@@ -1,19 +1,28 @@
 -- Utility functions
 
 
+-- Constants
+
+modifier_max_charges = {
+  ["modifier_sniper_shrapnel_charge_counter"] = 3,
+  ["modifier_ember_spirit_fire_remnant_charge_counter"] = 3,
+  ["modifier_earth_spirit_stone_caller_charge_counter"] = 6,
+  ["modifier_shadow_demon_demonic_purge_charge_counter"] = 3,
+  ["modifier_bloodseeker_rupture_charge_counter"] = 2,
+}
+
+
 -- Returns a table containing handles to all player entities
 function GetPlayerEntities()
   local player_entities = {}
 
   local entity = Entities:First()
 
-  for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
-    if PlayerResource:IsValidPlayerID(playerID) then
-      local entity = PlayerResource:GetSelectedHeroEntity(playerID)
+  for i, playerID in pairs(GetPlayers()) do
+    local entity = PlayerResource:GetSelectedHeroEntity(playerID)
 
-      if entity then
-        table.insert(player_entities, entity)
-      end
+    if entity then
+      table.insert(player_entities, entity)
     end
   end
 
@@ -25,6 +34,20 @@ function GetPlayerEntities()
   end
 
   return player_entities
+end
+
+
+-- Returns a table containing all player IDs
+function GetPlayers()
+  local players = {}
+
+  for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+    if PlayerResource:IsValidPlayerID(playerID) then
+      table.insert(players, playerID)
+    end
+  end
+
+  return players
 end
 
 
@@ -74,6 +97,7 @@ function GetOppositeTeamName(team)
 end
 
 
+-- Returns the player entity of the player that is on the opposite team of the provided one
 function GetEnemyPlayer(team)
   local player_entities = GetPlayerEntities()
 
@@ -82,4 +106,45 @@ function GetEnemyPlayer(team)
       return player_entity
     end
   end
+end
+
+
+-- Returns whether a timer with the given name exists
+function TimerExists(name)
+  return Timers.timers[name] ~= nil
+end
+
+
+-- Returns whether the modifier should be removed at the start or end of rounds
+function IsSafeToRemove(modifier)
+  -- All temporary modifiers are safe to remove
+  local is_temporary = modifier:GetDuration() ~= -1
+
+  -- These permanent modifiers are also safe to remove
+  -- NOTE: Troll warlord's fervor is not safe to remove
+  --       It has to be removed to reset the stack count, but it must be re-added after removal
+  local additional_modifiers = {
+    ["modifier_troll_warlord_fervor"] = true,
+    ["modifier_legion_commander_duel_damage_boost"] = true,
+    ["modifier_silencer_int_steal"] = true,
+    ["modifier_life_stealer_infest"] = true,
+    ["modifier_night_stalker_darkness"] = true,
+  }
+
+  local name = modifier:GetName()
+
+  return (is_temporary or additional_modifiers[name] ~= nil)
+    and modifier_max_charges[name] == nil
+end
+
+
+-- Prints "x seconds to round start" where `x` is the provided value
+function PrintRoundStartMessage(seconds)
+  PrintTeamOnly(tostring(seconds) .. " seconds to round start")
+end
+
+
+-- Returns whether the provided item name is that of an observer ward or observer and sentry ward stack
+function IsObserverWard(item_name)
+  return item_name == "item_ward_observer" or item_name == "item_ward_dispenser"
 end
