@@ -18,6 +18,10 @@ function leave_arena_modifier:OnDestroy()
 		if parent.GetTeam == nil then
 			return
 		end
+
+		if IsMonkeyKingClone(parent) then
+			return
+		end
 		
 		local enemy_player = GetEnemyPlayer(parent:GetTeam())
 

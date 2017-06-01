@@ -133,7 +133,12 @@ end
 
 -- Removes all entities in each base
 function ClearBases()
-  for i, trigger in pairs(Entities:FindAllByName("trigger_clear_base")) do
+  local triggers = {}
+
+  table.insert(triggers, Entities:FindByName(nil, "trigger_clear_base_radiant"))
+  table.insert(triggers, Entities:FindByName(nil, "trigger_clear_base_dire"))
+
+  for i, trigger in pairs(triggers) do
     trigger:Enable()
 
     local disable = function()

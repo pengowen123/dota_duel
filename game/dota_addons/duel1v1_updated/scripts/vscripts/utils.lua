@@ -35,14 +35,6 @@ function GetPlayerEntities()
     end
   end
 
-  -- Also add all monkey king clones (if these aren't added, the game will crash when monkey king ults
-  -- because the entities that control the clones get removed when ClearBase is called)
-  for i, entity in pairs(Entities:FindAllByName("npc_dota_hero_monkey_king")) do
-    if not player_ids[entity:GetEntityIndex()] then
-      table.insert(player_entities, entity)
-    end
-  end
-
   return player_entities
 end
 
@@ -141,10 +133,15 @@ function IsSafeToRemove(modifier)
     ["modifier_night_stalker_darkness"] = true,
   }
 
+  local unsafe = {
+    ["modifier_fountain_aura_buff"] = true,
+  }
+
   local name = modifier:GetName()
 
-  return (is_temporary or additional_modifiers[name] ~= nil)
+  return (is_temporary or additional_modifiers[name])
     and modifier_max_charges[name] == nil
+    and unsafe[name] == nil
 end
 
 
@@ -157,4 +154,12 @@ end
 -- Returns whether the provided item name is that of an observer ward or observer and sentry ward stack
 function IsObserverWard(item_name)
   return item_name == "item_ward_observer" or item_name == "item_ward_dispenser"
+end
+
+
+-- Returns whether the provided entity is a monkey king clone
+function IsMonkeyKingClone(entity)
+  return entity:HasModifier("modifier_monkey_king_fur_army_soldier_hidden")
+    or   entity:HasModifier("modifier_monkey_king_fur_army_soldier")
+    or   entity:HasModifier("modifier_monkey_king_fur_army_soldier_inactive")
 end

@@ -1,5 +1,5 @@
 Test the gamemode:
-	- Try to cheat as well
+	- Try to cheat
 	- Test the balance:
-		- slark and void
-		- invis heroes like riki, bounty hunter and broodmother
+		- slark and void and other strong heroes in the original duel 1v1
+		- invis heroes like riki, bounty hunter and broodmother that are harder to counter with wards
