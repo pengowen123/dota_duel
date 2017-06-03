@@ -1,5 +1,3 @@
-LinkLuaModifier("modifier_stun","libraries/modifiers/modifier_stun.lua",LUA_MODIFIER_MOTION_NONE)
-
 function OnStartTouch(trigger)
 	local activator = trigger.activator
 

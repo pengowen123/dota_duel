@@ -102,7 +102,13 @@ function GameMode:OnGameInProgress()
     local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
 
     if player_entity then
-      player_entity:AddExperience(99999.0, 0, false, false)
+      local levelup = function()
+        player_entity:AddExperience(99999.0, 0, false, false)
+      end
+
+      local levelup_delay = 0.5
+
+      Timers:CreateTimer(levelup_delay, levelup)
     end
   end
 
@@ -142,10 +148,6 @@ function GameMode:InitGameMode()
 
   -- Initialize listeners
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
-
-  -- Disable triggers
-  ClearArena()
-  ClearBases()
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)

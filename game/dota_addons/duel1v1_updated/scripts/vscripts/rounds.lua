@@ -29,7 +29,9 @@ function StartRound()
   PrintTeamOnly("Round start")
 
   ResetNeutrals()
-  ClearBases()
+
+  local clear_base_delay = 0.1
+  Timers:CreateTimer(clear_base_delay, ClearBases)
 
   local player_entities = GetPlayerEntities()
 
@@ -55,24 +57,23 @@ function EndRound()
   Timers:RemoveTimer("timer_start_round")
   Timers:RemoveTimer("ten_second_message")
 
+  -- Start round after `round_start_delay` seconds
   local args = {
     endTime = round_start_delay,
     callback = StartRound
   }
-
-  -- Start round after `round_start_delay` seconds
   Timers:CreateTimer("timer_start_round", args)
 
+  -- Alert players to there being ten seconds left before the round starts
   local args_msg = {
     endTime = round_start_delay - 10.0,
     callback = function()
       PrintRoundStartMessage(10.0)
     end
   }
-
   Timers:CreateTimer("ten_second_message", args_msg)
 
-  -- Clear arena after 10 seconds
+  -- Clear arena (with some delay to prevent heroes like storm spirit from staying in the arena and getting removed)
   local clear_arena_delay = 15.0
   Timers:CreateTimer(clear_arena_delay, ClearArena)
 

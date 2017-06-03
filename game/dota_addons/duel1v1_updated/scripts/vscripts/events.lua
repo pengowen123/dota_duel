@@ -20,19 +20,6 @@ end
 
 -- An item was picked up off the ground
 function GameMode:OnItemPickedUp(keys)
-  DebugPrint( '[BAREBONES] OnItemPickedUp' )
-  DebugPrintTable(keys)
-
-  local unitEntity = nil
-  if keys.UnitEntitIndex then
-    unitEntity = EntIndexToHScript(keys.UnitEntitIndex)
-  elseif keys.HeroEntityIndex then
-    unitEntity = EntIndexToHScript(keys.HeroEntityIndex)
-  end
-
-  local itemEntity = EntIndexToHScript(keys.ItemEntityIndex)
-  local player = PlayerResource:GetPlayer(keys.PlayerID)
-  local itemname = keys.itemname
 end
 
 -- A player has reconnected to the game.  This function can be used to repaint Player-based particles or change

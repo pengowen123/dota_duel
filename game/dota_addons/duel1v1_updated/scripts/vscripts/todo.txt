@@ -1,3 +1,5 @@
+Add note to workshop description to say that the same hero can be picked by both players
+
 Test the gamemode:
 	- Try to cheat
 	- Test the balance:
