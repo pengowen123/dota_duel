@@ -5,4 +5,10 @@
     "override_hero"     "npc_dota_hero_night_stalker"
     "Ability4"        "night_stalker_darkness_custom"
   }
+
+  "npc_dota_hero_pudge_custom"
+  {
+    "override_hero"     "npc_dota_hero_pudge"
+    "Ability3"        "pudge_flesh_heap_custom"
+  }
 }

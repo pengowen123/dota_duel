@@ -1,7 +1,4 @@
-Add note to workshop description to say that the same hero can be picked by both players
-
 Test the gamemode:
-	- Try to cheat
 	- Test the balance:
 		- slark and void and other strong heroes in the original duel 1v1
 		- invis heroes like riki, bounty hunter and broodmother that are harder to counter with wards

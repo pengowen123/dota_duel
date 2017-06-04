@@ -1,0 +1,136 @@
+"HeroGuide"
+{
+	"Hero"	"pudge"
+	"Title"	"7.06 - Standard Pudge (Roamer) Build"
+	"GuideRevision"	"1"
+	"FileVersion"	"1"
+	"Scratch"	"0"
+
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"#DOTA_Item_Build_Starting_Items"
+			{
+				"item"	"item_wind_lace"
+				"item"	"item_ward_observer"
+				"item"	"item_tango"
+				"item"	"item_clarity"
+			}
+			"patreon.com/Torte"
+			{
+			}
+			"Core Items (Offlane)"
+			{
+				"item"	"item_tranquil_boots"
+				"item"	"item_soul_ring"
+				"item"	"item_magic_wand"
+				"item"	"item_aether_lens"
+				"item"	"item_blink"
+			}
+			"Utility Items"
+			{
+				"item"	"item_smoke_of_deceit"
+				"item"	"item_ward_observer"
+				"item"	"item_tome_of_knowledge"
+				"item"	"item_gem"
+			}
+			"#DOTA_Item_Build_Luxury"
+			{
+				"item"	"item_infused_raindrop"
+				"item"	"item_bottle"
+				"item"	"item_urn_of_shadows"
+				"item"	"item_ghost"
+				"item"	"item_glimmer_cape"
+				"item"	"item_black_king_bar"
+			}
+			"Extension Items"
+			{
+				"item"	"item_travel_boots"
+				"item"	"item_blade_mail"
+				"item"	"item_force_staff"
+				"item"	"item_pipe"
+				"item"	"item_ultimate_scepter"
+				"item"	"item_shivas_guard"
+			}
+		}
+		"ItemTooltips"
+		{
+				"item_blink"	"Can\'t seem to hook? Blink, ultimate and nuke them down easily with your Hook."
+				"item_infused_raindrop"	"Infused Raindrop some of the early mana issues Pudge faces while also adding some barrier of damage-control versus early nuke ability or harassment.
+
+This can be especially good against some key int. heroes in the midlane and beyond and can ultimately save your life and waste their time."
+				"item_wind_lace"	"Use Wind Lace to move even faster on foes when rotting. Allowing you to stay on top of them even the most speediest of enemies."
+				"item_gem"	"Pudge is great gem holder generally because he is difficult to kill and is always in the center of fights."
+				"item_bottle"	"If no one is attacking you and you\'re chasing an enemy with Rot on, you can use Bottle to heal while it is active and extend its damage and value."
+				"item_ward_observer"	"To take full advantage of your hook\'s range, you\'ll need to see where your opponent\'s are. Get wards both for your benefit and the team."
+				"item_phase_boots"	"Generally to help with your chasing and rot. Also very useful for running away as Pudge is very fat and slow."
+				"item_pipe"	"Pipe of Insight can be useful this late into the game, especially if the enemy team has late-game nukers such as Zeus or Leshrac."
+				"item_urn_of_shadows"	"With the amount of ganking that Pudge is doing, Urn of Shadows can be used offensively or in-between ganks to heal yourself. Especially useful of how Rot can deplete your life."
+				"item_aether_lens"	"Aether Lens extends your hook range, your Blink range and your casting range for your ultimate; allowing Pudge to not be so obliged to be caught in the middle of a fight when he engages."
+				"item_force_staff"	"Pudge can initiate well, but he cannot escape whatsoever. Maneuverability to follow-through with your Rot or to escape from ganks over cliffs or blockades can be very useful for Pudge."
+				"item_ultimate_scepter"	"Longer Hook Range, lower cooldown. You can now use Hook to either damage foes for whatever reason (not just to gank), but also to abuse its range for some truly sick shots! Make them count with Aghanim\'s Scepter!"
+				"item_black_king_bar"	"Pull off the full damage and duration of your Dismember ultimate with Black King Bar. As Pudge, you\'ll be targeted first in team-fights. Black King Bar removes that fear of being unable to fully incapacitate your foes."
+				"item_shivas_guard"	"As Pudge, late in the game, you should be extremely strong and with a lot of health. Shiva\'s Guard works furthermore with his presence and his \'Rot\' slow. This ensures you can\'t be killed by physical carries without severe penalties from them."
+				"item_hood_of_defiance"	"Hood is used both to diminish magic damage and to resist how your ability Rot hurts you."
+				"item_arcane_boots"	"If you\'re having trouble nabbing your hooks, arcane boots can come in handy here."
+				"item_smoke_of_deceit"	"Be a sniper with Smoke of Deceit. Hook, Smoke, reposition. The range of the Hook is much farther than your smoke which makes it a great way to vanish without enemies finding the source of your hook shot."
+				"item_tranquil_boots"	"Keep up with the ganks and roaming around the map with Tranquil Boots. Tranquil Boots have incredible speed, very nice regeneration and decent armor. Making fights incredibly easy.
+
+Works through Rot."
+				"item_glimmer_cape"	"Glimmer Cape is an ideal cheap item that can be bought before Blink Dagger if you don\'t need Blink or after; the magic resistance, invisibility for a number of reasons are all justifications to snag this for Pudge."
+		}
+	}
+
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"	"pudge_rot"
+			"2"	"pudge_meat_hook"
+			"3"	"pudge_meat_hook"
+			"4"	"pudge_rot"
+			"5"	"pudge_meat_hook"
+			"6"	"pudge_dismember"
+			"7"	"pudge_meat_hook"
+			"8"	"pudge_rot"
+			"9"	"pudge_rot"
+			"10"	"special_bonus_strength_8"
+			"11"	"pudge_flesh_heap"
+			"12"	"pudge_dismember"
+			"13"	"pudge_flesh_heap"
+			"14"	"pudge_flesh_heap"
+			"15"	"special_bonus_armor_5"
+			"16"	"pudge_flesh_heap"
+			"17"	"undefined"
+			"18"	"pudge_dismember"
+			"19"	"undefined"
+			"20"	"special_bonus_gold_income_25"
+			"21"	"undefined"
+			"22"	"undefined"
+			"23"	"undefined"
+			"24"	"undefined"
+			"25"	"special_bonus_unique_pudge_1"
+		}
+		"AbilityTooltips"
+		{
+				"pudge_meat_hook"	"You can use Meat Hook after using Dismember if you have Blink Dagger to initiate. Otherwise, initiate Meat Hook first before using Dismember."
+				"pudge_rot"	"Rot slows your foes and hurts them as well as yourself.
+
+Does not disrupt any regeneration you\'re doing, so use Healing Salve or Bottle if you aren\'t taking any foreign damage."
+				"pudge_flesh_heap"	"This ability is retroactive, so do not worry about getting this as soon as possible due to the number of kills you\'re racking up. Grab this after maximizing Hook."
+				"pudge_dismember"	"There\'s a small delay on Dismember, so if Meat Hooking first, use Dismember immediately after (then Rot):
+
+1. Meat Hook or Blink onto a target enemy
+2. Use Dismember on them
+3. Immediately use Rot if in-range
+4. Follow-up with Meat Hook if unused
+5. Continue Rotting if they haven\'t died yet"
+				"attribute_bonus"	"This hero build and many others are supported by the following Patrons and contributors:
+
++ 
+
+Support us and have your name directly credited in a hero build of your choice. Visit Patreon.com/Torte"
+		}
+	}
+}

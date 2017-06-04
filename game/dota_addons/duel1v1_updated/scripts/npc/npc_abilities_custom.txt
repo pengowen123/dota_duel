@@ -119,6 +119,34 @@
     }
   }
 
+  "pudge_flesh_heap_custom"
+  {
+    "BaseClass"                                       "ability_datadriven"
+    "AbilityBehavior"                                 "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "AbilityTextureName"                              "pudge_flesh_heap_custom"
+      
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"                                    "FIELD_INTEGER"
+        "spell_resist"                                "6 8 10 12"
+      }
+    }
+
+    "Modifiers"
+    {
+      "pudge_flesh_heap_stacks_custom"
+      {
+          "Passive"                                   "1"
+          "Properties"
+          {
+            "MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"   "%spell_resist"
+          }   
+      }
+    }
+  }
+
 //-------------------
 // Dummy stuff
 //-------------------

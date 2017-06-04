@@ -175,7 +175,7 @@ function ResetCooldowns(entity)
     local item = entity:GetItemInSlot(i)
 
     -- Don't refresh the cooldown of observer wards because it causes them to disappear
-    if item and not IsObserverWard(item:GetAbilityName()) then
+    if item and ShouldResetItemCooldown(item:GetAbilityName()) then
       -- Reset charges on items like drums of endurance
       local max_charges = item:GetInitialCharges()
       item:SetCurrentCharges(max_charges)
@@ -217,17 +217,19 @@ function ClearBuffs(entity)
   local modifiers = entity:FindAllModifiers()
 
   for i, modifier in pairs(modifiers) do
-    local is_troll_warlord_fervor = modifier:GetName() == "modifier_troll_warlord_fervor"
+    local name = modifier:GetName()
 
     -- Don't remove modifiers such as ones that represent abiltiies
     if IsSafeToRemove(modifier) then
       modifier:Destroy()
     end
 
-    -- Troll fervor is both the stack count and the passive, so it must be removed to reset the stack count
-    -- It is re-added here to prevent problems
-    if is_troll_warlord_fervor then
-      entity:AddNewModifier(entity, entity:GetAbilityByIndex(3), "modifier_troll_warlord_fervor", {})
+    -- Some modifiers are both the stack count and the passive, so they must be removed to reset the stack count
+    -- However, removing them removes the passive as well so the modifier is re-added here to fix that
+    local ability_origin = ShouldBeReadded(name)
+
+    if ability_origin then
+      entity:AddNewModifier(entity, entity:GetAbilityByIndex(ability_origin), name, {})
     end
   end
 end

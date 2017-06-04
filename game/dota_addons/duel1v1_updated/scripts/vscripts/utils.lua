@@ -131,6 +131,7 @@ function IsSafeToRemove(modifier)
     ["modifier_silencer_int_steal"] = true,
     ["modifier_life_stealer_infest"] = true,
     ["modifier_night_stalker_darkness"] = true,
+    ["modifier_pudge_flesh_heap"] = true,
   }
 
   local unsafe = {
@@ -145,15 +146,33 @@ function IsSafeToRemove(modifier)
 end
 
 
+-- Returns what ability index this ability is from, if it should be re-added after being removed
+function ShouldBeReadded(modifier_name)
+  local modifiers = {
+    ["modifier_troll_warlord_fervor"] = 3,
+    ["modifier_slark_essence_shift"] = 2,
+  }
+
+  return modifiers[modifier_name]
+end
+
+
 -- Prints "x seconds to round start" where `x` is the provided value
 function PrintRoundStartMessage(seconds)
   PrintTeamOnly(tostring(seconds) .. " seconds to round start")
 end
 
 
--- Returns whether the provided item name is that of an observer ward or observer and sentry ward stack
-function IsObserverWard(item_name)
-  return item_name == "item_ward_observer" or item_name == "item_ward_dispenser"
+-- Returns whether the item with the provided name should have its cooldown reset
+-- Returns false for items that cause bugs when their cooldowns get reset
+function ShouldResetItemCooldown(item_name)
+  local unsafe_items = {
+    ["item_ward_observer"] = true,
+    ["item_ward_dispenser"] = true,
+    ["item_smoke_of_deceit"] = true,
+  }
+
+  return not unsafe_items[item_name]
 end
 
 
