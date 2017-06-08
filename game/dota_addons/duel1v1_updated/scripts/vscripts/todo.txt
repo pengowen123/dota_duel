@@ -1,3 +1,5 @@
+make custom print functions that have different text based on the player's selected language
+
 Test the gamemode:
 	- Test the balance:
 		- slark and void and other strong heroes in the original duel 1v1

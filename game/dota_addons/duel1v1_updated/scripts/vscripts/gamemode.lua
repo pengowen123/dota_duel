@@ -171,6 +171,10 @@ function WatchForDisconnect(keys)
 end
 
 function OnDisconnect(playerID)
+  if IsMatchEnded() then
+    return
+  end
+  
   local npc = PlayerResource:GetSelectedHeroEntity(playerID)
   local team = npc:GetTeam()
 

@@ -9,6 +9,7 @@ modifier_max_charges = {
   ["modifier_earth_spirit_stone_caller_charge_counter"] = 6,
   ["modifier_shadow_demon_demonic_purge_charge_counter"] = 3,
   ["modifier_bloodseeker_rupture_charge_counter"] = 2,
+  ["modifier_broodmother_spin_web_charge_counter"] = 4
 }
 
 
@@ -123,8 +124,6 @@ function IsSafeToRemove(modifier)
   local is_temporary = modifier:GetDuration() ~= -1
 
   -- These permanent modifiers are also safe to remove
-  -- NOTE: Troll warlord's fervor is not safe to remove
-  --       It has to be removed to reset the stack count, but it must be re-added after removal
   local additional_modifiers = {
     ["modifier_troll_warlord_fervor"] = true,
     ["modifier_legion_commander_duel_damage_boost"] = true,
@@ -181,4 +180,18 @@ function IsMonkeyKingClone(entity)
   return entity:HasModifier("modifier_monkey_king_fur_army_soldier_hidden")
     or   entity:HasModifier("modifier_monkey_king_fur_army_soldier")
     or   entity:HasModifier("modifier_monkey_king_fur_army_soldier_inactive")
+end
+
+
+-- Returns whether the match has ended
+function IsMatchEnded()
+  for i, player_id in pairs(GetPlayerIDs()) do
+    local team = PlayerResource:GetTeam(player_id)
+
+    if PlayerResource:GetTeamKills(team) >= 5 then
+      return true
+    end
+  end
+
+  return false
 end
