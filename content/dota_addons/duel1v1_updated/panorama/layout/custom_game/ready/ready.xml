@@ -1,0 +1,67 @@
+<root>
+
+	<styles>
+		<include src="file://{resources}/styles/custom_game/ready/ready.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/ready/ready.js" />
+	</scripts>
+
+	<snippets>
+
+		<snippet name="PlayerReady">
+
+			<Panel class="PlayerReady">
+
+				<Panel class="PlayerReadyLeft" id="PlayerReadyLeft">
+
+					<Label id="PlayerName" text="" />
+
+				</Panel>
+
+				<Panel class="PlayerReadyRight">
+
+					<Panel class="ReadyImage">
+
+						<Image id="ReadyImage" />
+
+					</Panel>
+
+				</Panel>
+
+			</Panel>
+
+		</snippet>
+
+	</snippets>
+
+	<Panel class="Root">
+
+		<Panel class="Ready" id="Ready">
+
+			<Label id="ReadyLabel" text="#duel_time_remaining" />
+
+			<Panel class="LeftSide">
+
+				<Panel id="Players">
+
+				</Panel>
+
+			</Panel>
+
+			<Panel class="RightSide">
+
+				<Button class="ReadyButton" id="ReadyButton" onactivate="ReadyUp()">
+
+					<Label id="ReadyButtonLabel" text="#duel_ready_up" />
+
+				</Button>
+
+			</Panel>
+
+		</Panel>
+
+	</Panel>
+
+</root>

@@ -46,6 +46,9 @@ require('events')
 -- Gamemode modules (not barebones)
 require('rounds')
 require('modifiers')
+require('initialize')
+require('ready')
+require('round_timer')
 
 --[[
   This function should be used to set up Async precache calls at the beginning of the gameplay.
@@ -97,45 +100,19 @@ end
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
 
-  -- Level players up to level 25
-  for i, playerID in pairs(GetPlayerIDs()) do
-    local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
-
-    if player_entity then
-      local levelup = function()
-        player_entity:AddExperience(99999.0, 0, false, false)
-      end
-
-      local levelup_delay = 0.5
-
-      Timers:CreateTimer(levelup_delay, levelup)
-    end
-  end
-
-  local game_start_delay = 60.0
-
-  local args = {
-    endTime = game_start_delay,
-    callback = StartRound,
-  }
-
-  PrintRoundStartMessage(game_start_delay)
-
-  -- Start round after `game_start_delay` seconds
-  Timers:CreateTimer("timer_start_round", args)
-
-  local args_msg = {
-    endTime = game_start_delay - 10.0,
-    callback = function()
-      PrintRoundStartMessage(10.0)
-    end
-  }
-
-  -- Tell players when there are 10 seconds before the round starts
-  Timers:CreateTimer("ten_second_message", args_msg)
+  -- Level up players with a delay because if a player picks at the last possible second
+  -- they won't get levels if this is called instantly
+  Timers:CreateTimer(0.1, LevelUpPlayers)
 
   -- To prevent people from spawning outside the shop area
   ResetPlayers(true)
+
+  InitNeutrals()
+  InitReadyUpData()
+
+  -- Start the first round after 60 seconds
+  local game_start_delay = 60
+  SetRoundStartTimer(game_start_delay)
 end
 
 -- This function initializes the game mode and is called before anyone loads into the game
@@ -148,6 +125,7 @@ function GameMode:InitGameMode()
 
   -- Initialize listeners
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
+  CustomGameEventManager:RegisterListener("player_ready_js", OnReadyUp)
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)
@@ -162,7 +140,7 @@ function WatchForDisconnect(keys)
 
     -- If a player disconnects, make them lose and stop watching for disconnects
     if connection_state == DOTA_CONNECTION_STATE_DISCONNECTED then
-      OnDisconnect(playerID)
+      MakePlayerLose(playerID, "#duel_disconnect")
       return nil
     end
   end
@@ -170,17 +148,28 @@ function WatchForDisconnect(keys)
   return 1.0
 end
 
-function OnDisconnect(playerID)
+-- Makes the provided player lose, and sends a notification to all players with the provided text
+function MakePlayerLose(playerID, text)
   if IsMatchEnded() then
     return
   end
   
-  local npc = PlayerResource:GetSelectedHeroEntity(playerID)
-  local team = npc:GetTeam()
+  local team = PlayerResource:GetTeam(playerID)
 
   local opposite_team_name = GetOppositeTeamName(team)
 
   -- Make the disconnected player lose
-  PrintTeamOnly("A player has disconnected, awarding victory to " .. opposite_team_name)
-  GameRules:MakeTeamLose(team)
+  -- GameRules:MakeTeamLose(team)
+  
+  -- Send a notification
+
+  Notifications:ClearBottomFromAll()
+  Notifications:BottomToAll({
+    text = "#duel_player_lose",
+    duration = 60,
+    vars = {
+      reason = text,
+      team = opposite_team_name,
+    }
+  })
 end

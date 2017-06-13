@@ -82,18 +82,12 @@ function TeleportEntityByTeam(entity, radiant_target_name, dire_target_name, cen
 end
 
 
--- Prints the message to allies only chat for all players
-function PrintTeamOnly(message)
-  GameRules:SendCustomMessage(message, DOTA_TEAM_GOODGUYS, 1)
-end
-
-
 -- Returns the name ("Radiant" or "Dire") of the enemy team of the provided one
 function GetOppositeTeamName(team)
-  local opposite_team_name = "Radiant"
+  local opposite_team_name = "#DOTA_GoodGuys"
 
   if team == DOTA_TEAM_GOODGUYS then
-    opposite_team_name = "Dire"
+    opposite_team_name = "#DOTA_BadGuys"
   end
 
   return opposite_team_name
@@ -153,12 +147,6 @@ function ShouldBeReadded(modifier_name)
   }
 
   return modifiers[modifier_name]
-end
-
-
--- Prints "x seconds to round start" where `x` is the provided value
-function PrintRoundStartMessage(seconds)
-  PrintTeamOnly(tostring(seconds) .. " seconds to round start")
 end
 
 

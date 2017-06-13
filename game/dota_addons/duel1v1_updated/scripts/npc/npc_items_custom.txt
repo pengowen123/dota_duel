@@ -1,26 +1,10 @@
 "DOTAAbilities"
 {
   // Black king bar that is always at the lowest duration
-  "item_bkb"
+  "item_black_king_bar"
   {
-    "ID"                    "3001"
-    "BaseClass"             "item_datadriven"
-    "AbilityTextureName"    "item_bkb"
-
-    "ItemCost"              "3975"
-    "ItemShopTags"          "black;king;bar;bkb"
-    "ItemQuality"           "epic"
-    "ItemAliases"           "black;king;bar;bkb"
-    "ItemSellable"          "1"
-    "ItemKillable"          "1"
-    "ItemDroppable"         "1"
-    "ItemPurchasable"       "1"
-
-    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
-    "AbilityCastPoint"      "0.0"
     "AbilityCooldown"       "55.0"
-    "AbilityCastAnimation"  "ACT_DOTA_IDLE"
-
+    
     "AbilitySpecial"
     {
         "01"
@@ -64,19 +48,14 @@
       "ApplyModifier"
       {
         "Target"            "CASTER"
-        "ModifierName"      "item_bkb_grow_modifier"
+        "ModifierName"      "item_black_king_bar_grow_modifier"
         "Duration"          "%duration"
-      }
-      "RunScript"
-      {
-        "ScriptFile"        "items/black_king_bar.lua"
-        "Function"          "BasicDispel"
       }
     }
 
     "Modifiers"
     {
-      "item_bkb_passive_modifier"
+      "item_black_king_bar_passive_modifier"
       {
         "Passive"           "1"
         "IsHidden"          "1"
@@ -87,23 +66,6 @@
           "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%damage"
         }
       }
-    }
-  }
-
-  "item_recipe_bkb"
-  {
-    "ID"                    "3002"
-    "BaseClass"             "item_datadriven"
-    "AbilityTextureName"    "item_recipe_bkb"
-
-    "ItemCost"              "1375"
-    "ItemShopTags"          ""
-    "ItemRecipe"            "1"
-    "ItemResult"            "item_bkb"
-
-    "ItemRequirements"
-    {
-      "01"                  "item_ogre_axe;item_mithril_hammer"
     }
   }
 

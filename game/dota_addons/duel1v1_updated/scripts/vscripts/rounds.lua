@@ -1,6 +1,8 @@
 -- The logic that controls the rounds, which makes up most of the gamemode.
 
 require('utils')
+require('neutrals')
+require('round_timer')
 
 
 -- Ends the round if a player died
@@ -24,11 +26,16 @@ end
 
 
 -- Starts the next round, resetting all player entities and teleporting them to the arena
--- Also removes nightstalker's darkness
+-- Also removes nightstalker's darkness and hides the ready-up UI
 function StartRound()
-  PrintTeamOnly("Round start")
+  -- Prevent the end round timer from teleporting players back to their base after the round starts
+  -- Also remove the timer that kills everything in the arena
+  Timers:RemoveTimer("reset_players")
 
-  ResetNeutrals()
+  ClearArena()
+  CustomGameEventManager:Send_ServerToAllClients("start_round", nil)
+
+  Timers:CreateTimer(0.5, SpawnAllNeutrals)
 
   local clear_base_delay = 0.1
   Timers:CreateTimer(clear_base_delay, ClearBases)
@@ -46,58 +53,43 @@ end
 
 -- Performs all end of round actions, such as resetting cooldowns
 function EndRound()
-  local round_start_delay = 30.0
+  CustomGameEventManager:Send_ServerToAllClients("end_round", nil)
 
-  if not TimerExists("timer_start_round") then
-    PrintTeamOnly(tostring(round_start_delay) .. " seconds to round start")
-  end
+  -- Start the round after 30 seconds
+  local round_start_delay = 30
+  SetRoundStartTimer(round_start_delay)
+  
+  -- Wait to clear the arena because certain heroes are able to dodge the teleport to base
+  -- They will eventually be teleported again, so we wait until that happens to avoid killing the player
+  -- accidentally
 
-  -- To avoid starting the round while one is being played (which happens if someone dies before the round starts, such as spectre
-  -- haunting to the enemy base)
-  Timers:RemoveTimer("timer_start_round")
-  Timers:RemoveTimer("ten_second_message")
-
-  -- Start round after `round_start_delay` seconds
-  local args = {
-    endTime = round_start_delay,
-    callback = StartRound
-  }
-  Timers:CreateTimer("timer_start_round", args)
-
-  -- Alert players to there being ten seconds left before the round starts
-  local args_msg = {
-    endTime = round_start_delay - 10.0,
-    callback = function()
-      PrintRoundStartMessage(10.0)
-    end
-  }
-  Timers:CreateTimer("ten_second_message", args_msg)
-
-  -- Clear arena (with some delay to prevent heroes like storm spirit from staying in the arena and getting removed)
-  local clear_arena_delay = 15.0
-  Timers:CreateTimer(clear_arena_delay, ClearArena)
+  -- Respawn all players (necessary because the barebones respawn time setting doesn't apply to deaths to neutrals)
+  RespawnPlayers()
 
   -- To catch heroes like storm spirit when they are invulnerable, call ResetPlayers 15
   -- times with 1 second between each call
+  ResetPlayers(true)
+  local resets = 15
   local reset_delay = 1.0
-  local resets = clear_arena_delay
 
-  Timers:CreateTimer(
-    function()
-      -- Only center the camera the first time (if a player dodges the first teleport, the camera won't be centered at the base,
-      -- but this should rarely happen)
-      local center_camera = resets == clear_arena_delay
-      ResetPlayers(center_camera)
+  local reset = function()
+    ResetPlayers(false)
 
-      resets = resets - 1
+    resets = resets - 1
 
-      if resets == 0 then
-        reset_delay = nil
-      end
-
-      return reset_delay
+    if resets == 0 then
+      return nil
     end
-  )
+
+    return reset_delay
+  end
+
+  local args = {
+    endTime = i,
+    callback = reset
+  }
+  
+  Timers:CreateTimer("reset_players", args)
 end
 
 
@@ -110,6 +102,16 @@ function ResetPlayers(center_camera)
     ClearBuffs(player_entity)
     -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
     ResetPosition(player_entity, center_camera)
+  end
+end
+
+
+-- Forces all players to respawn
+function RespawnPlayers()
+  for i, playerID in pairs(GetPlayerIDs()) do
+    local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+
+    player_entity:SetTimeUntilRespawn(1.0)
   end
 end
 
@@ -232,10 +234,4 @@ function ClearBuffs(entity)
       entity:AddNewModifier(entity, entity:GetAbilityByIndex(ability_origin), name, {})
     end
   end
-end
-
-
--- Spawns neutrals at their neutral camps
-function ResetNeutrals()
-  SendToServerConsole("dota_spawn_neutrals")
 end

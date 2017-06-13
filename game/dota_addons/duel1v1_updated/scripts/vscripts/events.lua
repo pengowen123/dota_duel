@@ -1,5 +1,3 @@
-require('utils')
-
 -- This file contains all barebones-registered events and has already set up the passed-in parameters for your use.
 
 -- Cleanup a player when they leave

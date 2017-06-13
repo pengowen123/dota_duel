@@ -1,0 +1,136 @@
+// Root panel
+.Root
+{
+	width: 25%;
+	height: 25%;
+
+	horizontal-align: left;
+	vertical-align: center;
+
+	background-color: transparent;
+}
+
+// Main panel (root is just a dummy so we can specify ID on this one)
+.Ready
+{
+	width: fill-parent-flow(1.0);
+}
+
+// Label at the top of the root panel
+#ReadyLabel
+{
+	horizontal-align: center;
+
+	color: white;
+	font-size: 26px;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+}
+
+// Shows player name and whether they are ready
+.PlayerReady
+{
+	width: fill-parent-flow(1.0);
+	height: 100px;
+}
+
+// Shows player name
+.PlayerReadyLeft
+{
+	horizontal-align: left;
+	vertical-align: center;
+
+	width: 150px;
+	height: 30px;
+
+	text-overflow: ellipsis;
+}
+
+// Shows whether the player is ready
+.PlayerReadyRight
+{
+	horizontal-align: right;
+	vertical-align: center;
+
+	width: 100px;
+	height: 100px;
+}
+
+// Holds all PlayerReady elements
+#Players
+{
+	margin-top: 25px;
+	width: 250px;
+
+	flow-children: down;
+}
+
+// Player name panel
+.LeftSide
+{
+	text-align: center;
+	vertical-align: center;
+
+	width: 50%;
+}
+
+// Player name
+#PlayerName
+{
+	vertical-align: center;
+
+	color: white;
+	font-size: 18px;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+}
+
+// Holds one ReadyImage
+.RightSide
+{
+	horizontal-align: right;
+	vertical-align: center;
+}
+
+// Shows whether the player is ready
+.ReadyImage
+{
+	background-color: black;
+	opacity: 0.5;
+	width: 65px;
+	height: 65px;
+
+	horizontal-align: right;
+	vertical-align: center;
+}
+
+// The actual checkmark
+#ReadyImage
+{
+	width: 55px;
+	height: 55px;
+
+	horizontal-align: center;
+	vertical-align: center;
+
+	opacity: 2;
+}
+
+// Click to ready up
+.ReadyButton
+{
+	margin-top: 25px;
+	
+	background-color: grey;
+	width: 150px;
+	height: 65px;
+}
+
+// Text on the ReadyButton
+#ReadyButtonLabel
+{
+	horizontal-align: center;
+	vertical-align: center;
+
+	font-size: 24px;
+	color: white;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+}

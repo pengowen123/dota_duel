@@ -1,6 +1,6 @@
-make custom print functions that have different text based on the player's selected language
+translate everything in the game the other languages:
+	- spanish
+	- filipino
+	- russian
 
-Test the gamemode:
-	- Test the balance:
-		- slark and void and other strong heroes in the original duel 1v1
-		- invis heroes like riki, bounty hunter and broodmother that are harder to counter with wards
+change IsMatchEnded to use GameRules:Get_State for more robust checking

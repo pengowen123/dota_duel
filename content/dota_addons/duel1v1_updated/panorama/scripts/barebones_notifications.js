@@ -92,7 +92,7 @@ function AddNotification(msg, panel) {
   } else{
     notification.html = true;
     var text = msg.text || "No Text provided";
-    notification.text = $.Localize(text)
+    notification.text = localize_with_vars(text, msg.vars);
     notification.hittest = false;
     notification.AddClass('TitleText');
   }
@@ -108,6 +108,26 @@ function AddNotification(msg, panel) {
       notification.style[key] = value;
     }
   }
+}
+
+// A modification to this library to allow localization tokens to contain variables to be replaced
+// when a notification is created (these variables are formatted like `{var_name}`)
+// Notfication data also contains a `vars` field that contains variables to substitute in
+function localize_with_vars(text, vars)
+{
+  text = $.Localize(text);
+
+  for (var field in vars)
+  {
+    if (vars.hasOwnProperty(field))
+    {
+      var value = $.Localize(vars[field]);
+
+      text = text.replace("{" + field + "}", value);
+    }
+  }
+
+  return text;
 }
 
 
