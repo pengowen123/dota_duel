@@ -173,13 +173,5 @@ end
 
 -- Returns whether the match has ended
 function IsMatchEnded()
-  for i, player_id in pairs(GetPlayerIDs()) do
-    local team = PlayerResource:GetTeam(player_id)
-
-    if PlayerResource:GetTeamKills(team) >= 5 then
-      return true
-    end
-  end
-
-  return false
+  return GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME
 end

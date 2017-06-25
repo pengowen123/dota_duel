@@ -159,7 +159,13 @@ function MakePlayerLose(playerID, text)
   local opposite_team_name = GetOppositeTeamName(team)
 
   -- Make the disconnected player lose
-  -- GameRules:MakeTeamLose(team)
+  -- Has a delay to let players see the notification
+  local end_game = function()
+    GameRules:MakeTeamLose(team)
+  end
+  local end_game_delay = 3.0
+
+  Timers:CreateTimer(end_game_delay, end_game)
   
   -- Send a notification
 

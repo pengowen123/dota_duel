@@ -9,14 +9,26 @@ function modifier_stun:CheckState()
 
 	local parent = self:GetParent()
 
-	-- Silence ancient apparition in base to prevent an exploit where he ults the enemy spawn
-	-- in the arena before the round starts
-	-- Also silence lone druid's spirit bear to prevent it teleporting to base to heal, then returning to
-	-- lone druid in the arena
 	if parent ~= nil then
 		local name = parent:GetName()
 
-		if name == "npc_dota_hero_ancient_apparition" or name == "npc_dota_lone_druid_bear" then
+		-- Certain heroes must be silenced while in base to prevent exploits
+		local heroes_to_silence = {
+			["npc_dota_hero_ancient_apparition"] = true,
+			["npc_dota_lone_druid_bear"] = true,
+			["npc_dota_hero_lycan"] = true,
+			["npc_dota_hero_weaver"] = true,
+			["npc_dota_hero_puck"] = true,
+			["npc_dota_hero_ember_spirit"] = true,
+			["npc_dota_hero_morphling"] = true,
+			["npc_dota_hero_spectre"] = true,
+			["npc_dota_hero_furion"] = true,
+			["npc_dota_hero_meepo"] = true,
+			["npc_dota_hero_broodmother"] = true,
+			["npc_dota_hero_rubick"] = true,
+		}
+
+		if heroes_to_silence[name] then
 			states[MODIFIER_STATE_SILENCED] = true
 		end
 	end

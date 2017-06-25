@@ -1,0 +1,62 @@
+"lang"
+{
+	"Language"		"russian"
+	"Tokens"
+	{		
+		"DOTA_GameMode_15"		        "Duel 1v1 Updated"
+		"addon_game_name"			"Duel 1v1 Updated"
+		
+		
+		//------------------------
+		// Items
+		//------------------------
+
+0		"DOTA_Tooltip_ability_item_bloodstone_no_deny"                                          "Bloodstone"
+1                "DOTA_Tooltip_ability_item_bloodstone_no_deny_Description"                              "Does not have charges. Instead grants 12 Mana Regeneration."
+2                "DOTA_Tooltip_ability_item_bloodstone_no_deny_Lore"                                     "Ярко-рубиновый цвет Bloodstone ни с чем не спутать. Похоже, владелец этого артефакта способен иметь безграничные жизненные и духовные силы."
+3                "DOTA_Tooltip_ability_item_bloodstone_no_deny_health"		                        "+$health"
+4                "DOTA_Tooltip_ability_item_bloodstone_no_deny_mana"			                "+$mana"
+5                "DOTA_Tooltip_ability_item_bloodstone_no_deny_hp_regen"			                "+$hp_regen"
+6                "DOTA_Tooltip_ability_item_bloodstone_no_deny_mana_regen_pct"                        	"%+$mana_regen"
+7                "DOTA_Tooltip_ability_item_bloodstone_no_deny_mana_regen"	                        "+$mana_regen"
+                
+
+                //------------------------
+                // Modifiers
+                //------------------------
+
+8               "DOTA_Tooltip_modifier_stun"                                                            "Disabled"
+9               "DOTA_Tooltip_modifier_stun_Description"                                                "Disabled until the round starts. Use this time to buy or change your items."
+
+10               "DOTA_Tooltip_leave_arena_modifier"                                                     "Outside the arena"
+11               "DOTA_Tooltip_leave_arena_modifier_Description"                                         "You will be killed in 8 seconds unless you enter the arena."
+
+12               "DOTA_Tooltip_pudge_flesh_heap_stacks_custom"                                           "Flesh Heap"
+13               "DOTA_Tooltip_pudge_flesh_heap_stacks_custom_Description"                               "Gives Pudge %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%% additional resistance to spells"
+
+
+                //------------------------
+                // Abilities
+                //------------------------
+
+14                "DOTA_Tooltip_ability_night_stalker_darkness_custom"                                    "Darkness"
+15                "DOTA_Tooltip_ability_night_stalker_darkness_custom_Description"                        "Night Stalker подавляет солнечный свет, создавая непроглядную тьму, в которой он раскрывает свои силы в полной мере. При использовании снижает радиус обзора вражеских героев, юнитов, вардов и зданий до 675.\n\nУлучшается с Aghanim's Scepter."
+16                "DOTA_Tooltip_ability_night_stalker_darkness_custom_aghanim_description"                "Дает неограниченный обзор ночью. Этот бонус активируется любой ночью, а не только той, которая была создана заклинанием Darkness."
+17                "DOTA_Tooltip_ability_night_stalker_darkness_custom_duration"                           "ДЛИТЕЛЬНОСТЬ:"
+
+18                "DOTA_Tooltip_ability_pudge_flesh_heap_custom"                                          "Flesh Heap"
+19                "DOTA_Tooltip_ability_pudge_flesh_heap_custom_Description"                              "Gives Pudge resistance to magic damage. Does not grant bonus strength."
+20                "DOTA_Tooltip_ability_pudge_flesh_heap_custom_spell_resist"                             "%СОПРОТИВЛЕНИЕ МАГИИ:"
+
+
+                //------------------------
+                // Text
+                //------------------------
+
+21                "duel_player_lose"                                                                       "{reason}, awarding victory to {team}"
+22                "duel_no_selected_hero"                                                                  "A player did not pick a hero"
+23                "duel_disconnect"                                                                        "A player has disconnected"
+24                "duel_time_remaining"                                                                    "Starting next round in: {d:seconds} seconds"
+25                "duel_ready_up"                                                                          "Ready up"
+        }
+}

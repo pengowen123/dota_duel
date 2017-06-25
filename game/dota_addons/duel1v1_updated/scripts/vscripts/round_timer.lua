@@ -33,7 +33,10 @@ function SetRoundStartTimer(seconds)
 	-- Otherwise the countdown could happen before the first second passes and the timer becomes inaccurate
 	InitRoundStartTimer()
 	SendTimerUpdateEvent()
-	round_start_timer = seconds
+	-- Minus one second because there is a one second delay between the round starting and players getting teleported
+	-- to the arena. This will make the round start one second earlier, essentially removing that delay from the perspective
+	-- of players
+	round_start_timer = seconds - 1
 end
 
 
@@ -44,7 +47,7 @@ function CountDownTimer()
 		round_start_timer = round_start_timer - 1
 
 		-- When the timer reaches zero, start the round
-		if round_start_timer == 0 then
+		if round_start_timer <= 0 then
 			StartRound()
 		end
 	end
@@ -55,7 +58,8 @@ end
 -- to show how many seconds are left before the round starts
 function SendTimerUpdateEvent()
 	local data = {}
-	data.timer = round_start_timer
+	-- SetRoundStartTimer sets the timer to one lower than the requested value, this is to make up for that
+	data.timer = round_start_timer + 1
 
 	CustomGameEventManager:Send_ServerToAllClients("timer_update", data)
 end

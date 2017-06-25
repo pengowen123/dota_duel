@@ -2,5 +2,3 @@ translate everything in the game the other languages:
 	- spanish
 	- filipino
 	- russian
-
-change IsMatchEnded to use GameRules:Get_State for more robust checking

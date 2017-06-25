@@ -12,7 +12,8 @@ function OnStartTouch(keys)
 		-- because the camps still count as populated
 		UTIL_Remove(activator)
 	else
-		activator:Kill(nil, nil)
+		-- Make the entity commit suicide
+		activator:Kill(nil, activator)
 	end
 end
 

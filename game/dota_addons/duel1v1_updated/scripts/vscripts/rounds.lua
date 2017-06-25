@@ -33,27 +33,42 @@ function StartRound()
   Timers:RemoveTimer("reset_players")
 
   ClearArena()
-  CustomGameEventManager:Send_ServerToAllClients("start_round", nil)
 
   Timers:CreateTimer(0.5, SpawnAllNeutrals)
 
-  local clear_base_delay = 0.1
-  Timers:CreateTimer(clear_base_delay, ClearBases)
+  local teleport_players = function()
+    local player_entities = GetPlayerEntities()
 
-  local player_entities = GetPlayerEntities()
-
-  for i, player_entity in pairs(player_entities) do
-    ResetCooldowns(player_entity)
-    ClearBuffs(player_entity)
-    -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
-    TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
+    for i, player_entity in pairs(player_entities) do
+      ResetCooldowns(player_entity)
+      ClearBuffs(player_entity)
+      -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
+      TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
+    end
   end
+
+  -- Only teleport the players after the clear_arena trigger has been disabled
+  local teleport_delay = 1.0
+  Timers:CreateTimer(teleport_delay, teleport_players)
+
+
+  local hide_ui = function()
+    CustomGameEventManager:Send_ServerToAllClients("start_round", nil)
+  end
+
+  -- Only hide the ready-up UI after players get teleported, to make the round start a smoother transition
+  Timers:CreateTimer(teleport_delay, hide_ui)
+
+  -- Wait for players to be teleported to the arena before clearing the bases
+  local clear_base_delay = teleport_delay + 0.1
+  Timers:CreateTimer(clear_base_delay, ClearBases)
 end
 
 
 -- Performs all end of round actions, such as resetting cooldowns
 function EndRound()
   CustomGameEventManager:Send_ServerToAllClients("end_round", nil)
+  InitReadyUpData()
 
   -- Start the round after 30 seconds
   local round_start_delay = 30
@@ -116,9 +131,7 @@ function RespawnPlayers()
 end
 
 
--- Removes all entities in the arena
--- NOTE: This can cause problems if a player gets removed, but if they are able to get into the arena when it is cleared,
---		   that is a bug
+-- Kills all entities in the arena
 function ClearArena()
   local trigger = Entities:FindByName(nil, "trigger_clear_arena")
 
