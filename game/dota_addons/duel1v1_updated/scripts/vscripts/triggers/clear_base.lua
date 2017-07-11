@@ -3,7 +3,11 @@ function OnStartTouch(keys)
 	local name = activator:GetName()
 	local classname = activator:GetClassname()
 
-	if string.find(name, "npc_dota_hero") and name ~= "npc_dota_hero_arc_warden" then
+	if classname == "dota_death_prophet_exorcism_spirit" then
+		return
+	end
+
+	if string.find(name, "npc_dota_hero") and name ~= "npc_dota_hero_arc_warden" and not activator:IsIllusion() then
 		return
 	elseif classname == "dota_item_drop" then
 		activator:Kill()

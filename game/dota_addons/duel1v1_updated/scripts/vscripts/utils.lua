@@ -125,6 +125,7 @@ function IsSafeToRemove(modifier)
     ["modifier_life_stealer_infest"] = true,
     ["modifier_night_stalker_darkness"] = true,
     ["modifier_pudge_flesh_heap"] = true,
+    ["modifier_death_prophet_exorcism"] = true,
   }
 
   local unsafe = {
@@ -144,6 +145,7 @@ function ShouldBeReadded(modifier_name)
   local modifiers = {
     ["modifier_troll_warlord_fervor"] = 3,
     ["modifier_slark_essence_shift"] = 2,
+    ["modifier_lina_fiery_soul"] = 2,
   }
 
   return modifiers[modifier_name]

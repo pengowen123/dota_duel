@@ -234,6 +234,8 @@ function ClearBuffs(entity)
   for i, modifier in pairs(modifiers) do
     local name = modifier:GetName()
 
+    print("modifier name: " .. name)
+
     -- Don't remove modifiers such as ones that represent abiltiies
     if IsSafeToRemove(modifier) then
       modifier:Destroy()
