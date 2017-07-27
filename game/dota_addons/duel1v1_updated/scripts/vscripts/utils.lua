@@ -146,6 +146,7 @@ function ShouldBeReadded(modifier_name)
     ["modifier_troll_warlord_fervor"] = 3,
     ["modifier_slark_essence_shift"] = 2,
     ["modifier_lina_fiery_soul"] = 2,
+    ["modifier_bristleback_warpath"] = 3,
   }
 
   return modifiers[modifier_name]
