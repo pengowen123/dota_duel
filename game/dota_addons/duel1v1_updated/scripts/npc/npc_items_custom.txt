@@ -69,14 +69,14 @@
     }
   }
 
-  // Bloodstone that does not have any abilities and always has 12 charges
+  // Bloodstone that does not have any abilities and always has 14 charges
   "item_bloodstone_no_deny"
   {
     "ID"                    "3003"
     "BaseClass"             "item_datadriven"
     "AbilityTextureName"    "item_bloodstone_no_deny"
 
-    "ItemCost"              "4850"
+    "ItemCost"              "4900"
     "ItemShopTags"          "blood;stone"
     "ItemQuality"           "epic"
     "ItemAliases"           "blood;stone"
@@ -104,19 +104,13 @@
         "03"
         {
             "var_type"        "FIELD_INTEGER"
-            "hp_regen"        "9"
+            "hp_regen"        "7"
         }
 
         "04"
         {
-            "var_type"        "FIELD_INTEGER"
-            "mana_regen_pct"  "200"
-        }
-
-        "05"
-        {
-            "var_type"        "FIELD_INTEGER"
-            "mana_regen"      "12"
+            "var_type"        "FIELD_FLOAT"
+            "mana_regen"      "5.6"
         }
     }
 
@@ -145,14 +139,14 @@
     "BaseClass"             "item_datadriven"
     "AbilityTextureName"    "item_recipe_bloodstone_no_deny"
 
-    "ItemCost"              "900"
+    "ItemCost"              "0"
     "ItemShopTags"          ""
     "ItemRecipe"            "1"
     "ItemResult"            "item_bloodstone_no_deny"
 
     "ItemRequirements"
     {
-      "01"                  "item_soul_booster;item_soul_ring"
+      "01"                  "item_soul_booster;item_pers"
     }
   }
 
@@ -171,6 +165,13 @@
   }
 
   "item_gem"
+  {
+    "ItemStockMax"          "1" 
+    "ItemStockTime"         "1"
+    "ItemStockInitial"      "1"
+  }
+
+  "item_infused_raindrop"
   {
     "ItemStockMax"          "1" 
     "ItemStockTime"         "1"

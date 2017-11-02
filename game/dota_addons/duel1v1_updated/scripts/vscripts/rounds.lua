@@ -9,6 +9,11 @@ require('round_timer')
 function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
+  -- For debugging in production
+  if entity:IsRealHero() then
+    print("Entity reincarnating: " .. tostring(entity:IsReincarnating()))
+  end
+
   -- Only end the round if the entity is a hero and won't reincarnate
   if entity:IsRealHero() and not entity:IsReincarnating() then
     -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
@@ -44,6 +49,11 @@ function StartRound()
       ClearBuffs(player_entity)
       -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
       TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
+    end
+
+    -- Kill spirit bears so lone druid can't cheat
+    for i, bear in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
+      bear:Kill(nil, nil)
     end
   end
 
@@ -84,6 +94,7 @@ function EndRound()
   -- To catch heroes like storm spirit when they are invulnerable, call ResetPlayers 15
   -- times with 1 second between each call
   ResetPlayers(true)
+
   local resets = 15
   local reset_delay = 1.0
 
@@ -115,6 +126,7 @@ function ResetPlayers(center_camera)
   for i, player_entity in pairs(player_entities) do
     ResetCooldowns(player_entity)
     ClearBuffs(player_entity)
+    
     -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
     ResetPosition(player_entity, center_camera)
   end
@@ -190,9 +202,15 @@ function ResetCooldowns(entity)
     local item = entity:GetItemInSlot(i)
 
     -- Don't refresh the cooldown of observer wards because it causes them to disappear
-    if item and ShouldResetItemCooldown(item:GetAbilityName()) then
+    if item and ShouldResetItemCooldown(item:GetAbilityName()) then  
       -- Reset charges on items like drums of endurance
       local max_charges = item:GetInitialCharges()
+
+      -- Give Urn and Spirit Vessel
+      if item:GetName() == "item_urn_of_shadows" or item:GetName() == "item_spirit_vessel" then
+        max_charges = 100
+      end
+
       item:SetCurrentCharges(max_charges)
 
       item:EndCooldown()
@@ -209,6 +227,17 @@ end
 function ResetCharges(entity)
   for i, modifier in pairs(entity:FindAllModifiers()) do
     local name = modifier:GetName()
+
+    -- Set the charge counter in a way that still works when the maximum charge count is changed, for example with one of Sniper's talent
+    if name == "modifier_sniper_shrapnel_charge_counter" then
+      local increment_shrapnel_counter = function()
+        modifier:StartIntervalThink(0.01)
+      end
+
+      for delay=0,10 do
+        Timers:CreateTimer(delay * 0.05, increment_shrapnel_counter)
+      end
+    end
 
     local max_charges = modifier_max_charges[name]
 
@@ -234,11 +263,19 @@ function ClearBuffs(entity)
   for i, modifier in pairs(modifiers) do
     local name = modifier:GetName()
 
-    print("modifier name: " .. name)
+    -- For debugging in production
+    if entity:GetName() == "npc_dota_hero_skeleton_king" then
+      print("Removing modifier from wraith king: " .. name)
+    end
 
     -- Don't remove modifiers such as ones that represent abiltiies
     if IsSafeToRemove(modifier) then
       modifier:Destroy()
+    end
+
+    -- Reset undying reincarnation talent cooldown
+    if name == "modifier_special_bonus_reincarnation" then
+      modifier:ForceRefresh()
     end
 
     -- Some modifiers are both the stack count and the passive, so they must be removed to reset the stack count

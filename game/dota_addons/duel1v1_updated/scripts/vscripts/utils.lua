@@ -4,12 +4,19 @@
 -- Constants
 
 modifier_max_charges = {
-  ["modifier_sniper_shrapnel_charge_counter"] = 3,
+  -- Shrapnel is handled in ResetCharges
+  --["modifier_sniper_shrapnel_charge_counter"] = 3,
   ["modifier_ember_spirit_fire_remnant_charge_counter"] = 3,
   ["modifier_earth_spirit_stone_caller_charge_counter"] = 6,
   ["modifier_shadow_demon_demonic_purge_charge_counter"] = 3,
   ["modifier_bloodseeker_rupture_charge_counter"] = 2,
-  ["modifier_broodmother_spin_web_charge_counter"] = 4
+  ["modifier_broodmother_spin_web_charge_counter"] = 8,
+  ["modifier_mirana_leap_charge_counter"] = 3,
+  ["modifier_mirana_starfall_scepter_thinker"] = 1,
+  ["modifier_tiny_toss_charge_counter"] = 3,
+  ["modifier_ancient_apparition_cold_feet_charge_counter"] = 4,
+  ["modifier_ember_spirit_sleight_of_fist_charge_counter"] = 2,
+  ["modifier_gyrocopter_homing_missile_charge_counter"] = 3,
 }
 
 
@@ -29,9 +36,15 @@ function GetPlayerEntities()
     end
   end
 
-  -- Also add all meepo clones because the above code won't find them
-  for i, entity in pairs(Entities:FindAllByName("npc_dota_hero_meepo")) do
-    if entity:IsClone() then
+  -- Also add these entities because the above code won't find them
+  local entity_names = {
+    "npc_dota_hero_meepo",
+    "npc_dota_hero_arc_warden",
+    "npc_dota_lone_druid_bear",
+  }
+
+  for i, name in pairs(entity_names) do
+    for i, entity in pairs(Entities:FindAllByName(name)) do
       table.insert(player_entities, entity)
     end
   end
@@ -126,10 +139,13 @@ function IsSafeToRemove(modifier)
     ["modifier_night_stalker_darkness"] = true,
     ["modifier_pudge_flesh_heap"] = true,
     ["modifier_death_prophet_exorcism"] = true,
+    ["modifier_mirana_leap_charge_counter"] = true,
+    ["modifier_mirana_starfall_scepter_thinker"] = true,
+    ["modifier_skeleton_king_mortal_strike"] = true,
   }
 
   local unsafe = {
-    ["modifier_fountain_aura_buff"] = true,
+    ["modifier_sniper_shrapnel_charge_counter"] = true,
   }
 
   local name = modifier:GetName()
@@ -147,6 +163,7 @@ function ShouldBeReadded(modifier_name)
     ["modifier_slark_essence_shift"] = 2,
     ["modifier_lina_fiery_soul"] = 2,
     ["modifier_bristleback_warpath"] = 3,
+    ["modifier_skeleton_king_mortal_strike"] = 2,
   }
 
   return modifiers[modifier_name]

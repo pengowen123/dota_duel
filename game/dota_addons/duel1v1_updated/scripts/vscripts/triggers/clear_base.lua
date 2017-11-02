@@ -3,7 +3,7 @@ function OnStartTouch(keys)
 	local name = activator:GetName()
 	local classname = activator:GetClassname()
 
-	if classname == "dota_death_prophet_exorcism_spirit" then
+	if classname == "dota_death_prophet_exorcism_spirit" or classname == "npc_dota_wisp_spirit" then
 		return
 	end
 
