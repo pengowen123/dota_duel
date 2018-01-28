@@ -1,4 +1,3 @@
 translate everything in the game the other languages:
 	- spanish
 	- filipino
-	- russian

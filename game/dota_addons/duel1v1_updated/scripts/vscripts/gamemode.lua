@@ -103,6 +103,7 @@ function GameMode:OnGameInProgress()
   -- Level up players with a delay because if a player picks at the last possible second
   -- they won't get levels if this is called instantly
   Timers:CreateTimer(0.1, LevelUpPlayers)
+  Timers:CreateTimer(0.1, RemoveTPScroll)
 
   -- To prevent people from spawning outside the shop area
   ResetPlayers(true)
@@ -134,14 +135,33 @@ end
 
 -- A function that tests if a player has disconnected and makes them lose the game
 -- Returns a number so it can be used in a timer
+player_timeouts = {}
 function WatchForDisconnect(keys)
   for i, playerID in pairs(GetPlayerIDs()) do
     local connection_state = PlayerResource:GetConnectionState(playerID)
 
     -- If a player disconnects, make them lose and stop watching for disconnects
     if connection_state == DOTA_CONNECTION_STATE_DISCONNECTED then
-      MakePlayerLose(playerID, "#duel_disconnect")
-      return nil
+      local c = player_timeouts[playerID]
+      if c then
+        player_timeouts[playerID] = c + 1.0
+
+        print("Player " .. tostring(playerID) .. " disconnected for " .. tostring(player_timeouts[playerID]) .. " seconds")
+
+        local timeout = 120.0
+
+        if player_timeouts[playerID] > timeout then
+          MakePlayerLose(playerID, "#duel_disconnect")
+          return nil
+        end
+      end
+    else
+      if connection_state == DOTA_CONNECTION_STATE_ABANDONED then
+        MakePlayerLose(playerID, "#duel_disconnect")
+        return nil
+      else
+        player_timeouts[playerID] = 0.0
+      end
     end
   end
 

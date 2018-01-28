@@ -1,14 +1,61 @@
-﻿Duel 1v1 Updated
+﻿"lang"
+{
+	"Language"		"Russian"
+	"Tokens"
+	{		
+		"DOTA_GameMode_15"		        "Duel 1v1 Updated"
+		"addon_game_name"			"Duel 1v1 Updated"
 		
-1   Does not have charges. Instead grants 12 Mana Regeneration.
-8   Disabled
-9   Disabled until the round starts. Use this time to buy or change your items.
-10  Outside the arena
-11  You will be killed in 8 seconds unless you enter the arena.
-13  Gives Pudge 12% additional resistance to spells
-19  Gives Pudge resistance to magic damage. Does not grant bonus strength.
-21  {reason}, awarding victory to {team}
-22  A player did not pick a hero
-23  A player has disconnected
-24  Starting next round in: {d:seconds} seconds
-25  Ready up
+		
+		//------------------------
+		// Items
+		//------------------------
+
+		        "DOTA_Tooltip_ability_item_bloodstone_no_deny"                                          "Bloodstone"
+                "DOTA_Tooltip_ability_item_bloodstone_no_deny_Description"                              "Не имеет зарядов.Вместо этого даёт 5.6 восстановления маны."
+                "DOTA_Tooltip_ability_item_bloodstone_no_deny_Lore"                                     "Ярко-рубиновый цвет Bloodstone ни с чем не спутать. Похоже, владелец этого артефакта способен иметь безграничные жизненные и духовные силы."
+                "DOTA_Tooltip_ability_item_bloodstone_no_deny_health"		                            "+$health"
+                "DOTA_Tooltip_ability_item_bloodstone_no_deny_mana"			                            "+$mana"
+                "DOTA_Tooltip_ability_item_bloodstone_no_deny_hp_regen"			                        "+$hp_regen"
+                "DOTA_Tooltip_ability_item_bloodstone_no_deny_mana_regen"	                            "+$mana_regen"
+                
+
+                //------------------------
+                // Modifiers
+                //------------------------
+
+                "DOTA_Tooltip_modifier_stun"                                                            "Оглушён"
+                "DOTA_Tooltip_modifier_stun_Description"                                                "Оглушён до начала раунда.Используйте это время для покупки или смены предметов."
+
+                "DOTA_Tooltip_leave_arena_modifier"                                                     "Вне поля боя"
+                "DOTA_Tooltip_leave_arena_modifier_Description"                                         "Вы проиграете через 8 секунд если не окажетесь на поле боя."
+  
+                "DOTA_Tooltip_pudge_flesh_heap_stacks_custom"                                           "Flesh Heap"
+                "DOTA_Tooltip_pudge_flesh_heap_stacks_custom_Description"                               "Даёт Пуджу %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%% дополнительного сопротивления магии"
+
+
+                //------------------------
+                // Abilities
+                //------------------------
+
+                "DOTA_Tooltip_ability_night_stalker_darkness_custom"                                    "Darkness"
+                "DOTA_Tooltip_ability_night_stalker_darkness_custom_Description"                        "Night Stalker подавляет солнечный свет, создавая непроглядную тьму, в которой он раскрывает свои силы в полной мере. При использовании снижает радиус обзора вражеских героев, юнитов, вардов и зданий до 675.\n\nУлучшается с Aghanim's Scepter."
+                "DOTA_Tooltip_ability_night_stalker_darkness_custom_aghanim_description"                "Дает неограниченный обзор ночью. Этот бонус активируется любой ночью, а не только той, которая была создана заклинанием Darkness."
+                "DOTA_Tooltip_ability_night_stalker_darkness_custom_duration"                           "ДЛИТЕЛЬНОСТЬ:"
+
+                "DOTA_Tooltip_ability_pudge_flesh_heap_custom"                                          "Flesh Heap"
+                "DOTA_Tooltip_ability_pudge_flesh_heap_custom_Description"                              "Даёт Пуджу сопротивление магии.Не даёт бонусную силу."
+                "DOTA_Tooltip_ability_pudge_flesh_heap_custom_spell_resist"                             "%СОПРОТИВЛЕНИЕ МАГИИ:"
+
+
+                //------------------------
+                // Text
+                //------------------------
+
+                "duel_player_lose"                                                                       "{reason}, победа присуждается {team}"
+                "duel_no_selected_hero"                                                                  "Игрок не выбрал героя"
+                "duel_disconnect"                                                                        "Игрок отключился"
+                "duel_time_remaining"                                                                    "Следющий раунд начинается черз: {d:seconds} секунд"
+                "duel_ready_up"                                                                          "Приготовтесь"
+        }
+}

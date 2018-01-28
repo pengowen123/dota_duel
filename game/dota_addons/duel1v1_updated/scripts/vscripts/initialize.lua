@@ -34,3 +34,27 @@ function LevelUpPlayers()
     end
   end
 end
+
+-- Removes Town Portal Scrolls from players' inventories
+-- One is added at the start of the game since 7.07, so this is called to delete it
+function RemoveTPScroll()
+  for i, playerID in pairs(GetPlayerIDs()) do
+    local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+
+    if player_entity then
+      for i=0,10 do
+        local item = player_entity:GetItemInSlot(i)
+
+        if item then
+          local name = item:GetName()
+          if name == "item_tpscroll" or name == "item_enchanted_mango" then
+            item:Destroy()
+          end
+        end
+      end
+    else
+      -- Make the player lose if they didn't pick a hero
+      MakePlayerLose(playerID, "#duel_no_selected_hero")
+    end
+  end
+end
