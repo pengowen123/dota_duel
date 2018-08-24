@@ -3,7 +3,7 @@
   // Black king bar that is always at the lowest duration
   "item_black_king_bar"
   {
-    "AbilityCooldown"       "55.0"
+    "AbilityCooldown"       "70.0"
     
     "AbilitySpecial"
     {
