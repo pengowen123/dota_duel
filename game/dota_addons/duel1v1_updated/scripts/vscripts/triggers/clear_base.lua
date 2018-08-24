@@ -7,6 +7,22 @@ function OnStartTouch(keys)
 		return
 	end
 
+	if name == "npc_dota_hero_arc_warden" then
+		local is_tempest_double = false
+
+		local modifiers = activator:FindAllModifiers()
+
+	  for i, modifier in pairs(modifiers) do
+	    if modifier:GetName() == "modifier_arc_warden_tempest_double" then
+	    	is_tempest_double = true
+	    end
+    end
+
+    if not is_tempest_double then
+    	return
+    end
+	end
+
 	if string.find(name, "npc_dota_hero") and name ~= "npc_dota_hero_arc_warden" and not activator:IsIllusion() then
 		return
 	elseif classname == "dota_item_drop" then
