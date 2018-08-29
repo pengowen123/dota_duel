@@ -142,10 +142,12 @@ function IsSafeToRemove(modifier)
     ["modifier_mirana_leap_charge_counter"] = true,
     ["modifier_mirana_starfall_scepter_thinker"] = true,
     ["modifier_skeleton_king_mortal_strike"] = true,
+    ["modifier_axe_battle_hunger_self"] = true,
   }
 
   local unsafe = {
     ["modifier_sniper_shrapnel_charge_counter"] = true,
+    ["modifier_bristleback_warpath"] = true,
   }
 
   local name = modifier:GetName()
@@ -162,8 +164,8 @@ function ShouldBeReadded(modifier_name)
     ["modifier_troll_warlord_fervor"] = 3,
     ["modifier_slark_essence_shift"] = 2,
     ["modifier_lina_fiery_soul"] = 2,
-    ["modifier_bristleback_warpath"] = 3,
     ["modifier_skeleton_king_mortal_strike"] = 2,
+    ["modifier_axe_battle_hunger_self"] = 1,
   }
 
   return modifiers[modifier_name]
