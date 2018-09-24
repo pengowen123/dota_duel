@@ -27,6 +27,7 @@ function modifier_stun:CheckState()
 			["npc_dota_hero_broodmother"] = true,
 			["npc_dota_hero_rubick"] = true,
 			["npc_dota_hero_gyrocopter"] = true,
+			["npc_dota_hero_techies"] = true,
 		}
 
 		if heroes_to_silence[name] then

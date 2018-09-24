@@ -10,6 +10,7 @@ function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
   -- For debugging in production
+  print("died: " .. entity:GetName())
   if entity:IsRealHero() then
     print("Entity reincarnating: " .. tostring(entity:IsReincarnating()))
   end

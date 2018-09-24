@@ -17,6 +17,7 @@ modifier_max_charges = {
   ["modifier_ancient_apparition_cold_feet_charge_counter"] = 4,
   ["modifier_ember_spirit_sleight_of_fist_charge_counter"] = 2,
   ["modifier_gyrocopter_homing_missile_charge_counter"] = 3,
+  ["modifier_morphling_waveform_charge_counter"] = 2,
 }
 
 
@@ -143,6 +144,7 @@ function IsSafeToRemove(modifier)
     ["modifier_mirana_starfall_scepter_thinker"] = true,
     ["modifier_skeleton_king_mortal_strike"] = true,
     ["modifier_axe_battle_hunger_self"] = true,
+    ["modifier_shredder_reactive_armor"] = true,
   }
 
   local unsafe = {
