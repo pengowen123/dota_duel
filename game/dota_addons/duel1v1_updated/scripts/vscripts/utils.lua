@@ -168,6 +168,7 @@ function ShouldBeReadded(modifier_name)
     ["modifier_lina_fiery_soul"] = 2,
     ["modifier_skeleton_king_mortal_strike"] = 2,
     ["modifier_axe_battle_hunger_self"] = 1,
+    ["modifier_shredder_reactive_armor"] = 2,
   }
 
   return modifiers[modifier_name]
