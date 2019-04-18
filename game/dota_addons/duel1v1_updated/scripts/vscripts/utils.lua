@@ -21,6 +21,10 @@ modifier_max_charges = {
 }
 
 
+MAX_KILLS = 1
+game_ended = false
+
+
 -- Returns a table containing handles to all player entities
 function GetPlayerEntities()
   local player_entities = {}
@@ -138,13 +142,16 @@ function IsSafeToRemove(modifier)
     ["modifier_silencer_int_steal"] = true,
     ["modifier_life_stealer_infest"] = true,
     ["modifier_night_stalker_darkness"] = true,
-    ["modifier_pudge_flesh_heap"] = true,
     ["modifier_death_prophet_exorcism"] = true,
     ["modifier_mirana_leap_charge_counter"] = true,
     ["modifier_mirana_starfall_scepter_thinker"] = true,
     ["modifier_skeleton_king_mortal_strike"] = true,
     ["modifier_axe_battle_hunger_self"] = true,
     ["modifier_shredder_reactive_armor"] = true,
+    ["modifier_slark_essence_shift_permanent_buff"] = true,
+    ["modifier_slark_essence_shift_permanent_debuff"] = true,
+    ["modifier_abyssal_underlord_atrophy_aura_hero_permanent_buff"] = true,
+    ["modifier_lion_finger_of_death_kill_counter"] = true,
   }
 
   local unsafe = {
@@ -169,6 +176,7 @@ function ShouldBeReadded(modifier_name)
     ["modifier_skeleton_king_mortal_strike"] = 2,
     ["modifier_axe_battle_hunger_self"] = 1,
     ["modifier_shredder_reactive_armor"] = 2,
+    ["modifier_lion_finger_of_death_kill_counter"] = 5,
   }
 
   return modifiers[modifier_name]

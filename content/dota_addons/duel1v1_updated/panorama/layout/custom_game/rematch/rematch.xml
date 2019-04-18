@@ -1,0 +1,67 @@
+<root>
+
+	<styles>
+		<include src="file://{resources}/styles/custom_game/rematch/rematch.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/rematch/rematch.js" />
+	</scripts>
+
+	<snippets>
+
+		<snippet name="PlayerRematch">
+
+			<Panel class="PlayerRematch">
+
+				<Panel class="PlayerRematchLeft" id="PlayerRematchLeft">
+
+					<Label id="PlayerName" text="" />
+
+				</Panel>
+
+				<Panel class="PlayerRematchRight">
+
+					<Panel class="RematchImage">
+
+						<Image id="RematchImage" />
+
+					</Panel>
+
+				</Panel>
+
+			</Panel>
+
+		</snippet>
+
+	</snippets>
+
+	<Panel class="RootRematch">
+
+		<Panel class="Rematch" id="Rematch">
+
+			<Label id="RematchLabel" text="#duel_rematch_time_remaining" />
+
+			<Panel class="LeftSide">
+
+				<Panel id="Players">
+
+				</Panel>
+
+			</Panel>
+
+			<Panel class="RightSide">
+
+				<Button class="RematchButton" id="RematchButton" onactivate="VoteRematch()">
+
+					<Label id="RematchButtonLabel" text="#duel_vote_rematch" />
+
+				</Button>
+
+			</Panel>
+
+		</Panel>
+
+	</Panel>
+
+</root>

@@ -1,6 +1,8 @@
 -- A custom timer for starting rounds, created to allow more flexible adjustment of the
 -- timer while it is running
 
+require('utils')
+
 
 -- Constants
 
@@ -42,7 +44,7 @@ end
 
 -- Counts down the timer by one second
 function CountDownTimer()	
-	if round_start_timer > 0 then
+	if round_start_timer > 0 and not game_ended then
 		-- Count down one second
 		round_start_timer = round_start_timer - 1
 

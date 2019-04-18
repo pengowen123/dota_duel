@@ -18,7 +18,8 @@ end
 -- Also checks for players who didn't pick a hero and makes them lose
 function LevelUpPlayers()
 	for i, playerID in pairs(GetPlayerIDs()) do
-    local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+    local player = PlayerResource:GetPlayer(playerID)
+    local player_entity = player:GetAssignedHero()
 
     if player_entity then
       local levelup = function()
@@ -39,7 +40,8 @@ end
 -- One is added at the start of the game since 7.07, so this is called to delete it
 function RemoveTPScroll()
   for i, playerID in pairs(GetPlayerIDs()) do
-    local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+    local player = PlayerResource:GetPlayer(playerID)
+    local player_entity = player:GetAssignedHero()
 
     if player_entity then
       for i=0,10 do
@@ -47,7 +49,12 @@ function RemoveTPScroll()
 
         if item then
           local name = item:GetName()
-          if name == "item_tpscroll" or name == "item_enchanted_mango" then
+          local items_to_remove = {
+            ["item_tpscroll"] = true,
+            ["item_enchanted_mango"] = true,
+            ["item_faerie_fire"] = true,
+          }
+          if items_to_remove[name] then
             item:Destroy()
           end
         end

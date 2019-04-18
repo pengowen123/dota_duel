@@ -71,8 +71,8 @@
     "HasScepterUpgrade"       "1"
     
     "AbilityCastPoint"        "0.3 0.3 0.3"
-    "AbilityCooldown"         "160 120 80"
-    "AbilityManaCost"         "0 0 0"
+    "AbilityCooldown"         "160 140 120"
+    "AbilityManaCost"         "125 175 225"
   
     "precache"
     {
@@ -85,7 +85,13 @@
       "01"
       {
         "var_type"            "FIELD_FLOAT"
-        "duration"            "40.0"
+        "duration"            "30.0"
+      }
+
+      "02"
+      {
+        "var_type"            "FIELD_INTEGER"
+        "bonus_damage"        "50 100 150"
       }
     }
   
@@ -110,11 +116,30 @@
         "Duration"            "%duration"
         "Target"              "CASTER"
       }
+
+      "ApplyModifier"
+      {
+        "ModifierName"        "modifier_night_stalker_dark_ascension_damage"
+        "Duration"            "%duration"
+        "Target"              "CASTER"
+      }
   
       "RunScript"
       {
         "ScriptFile"          "scripts/vscripts/abilities/darkness.lua"
         "Function"            "Darkness"
+      }
+    }
+
+    "Modifiers"
+    {
+      "modifier_night_stalker_dark_ascension_damage"
+      {
+          "IsHidden"                                  "1"
+          "Properties"
+          {
+            "MODIFIER_PROPERTY_DAMAGE_BONUS" "%bonus_damage"
+          }   
       }
     }
   }
@@ -124,13 +149,13 @@
     "BaseClass"                                       "ability_datadriven"
     "AbilityBehavior"                                 "DOTA_ABILITY_BEHAVIOR_PASSIVE"
     "AbilityTextureName"                              "pudge_flesh_heap_custom"
-      
+
     "AbilitySpecial"
     {
-      "01"
+      "02"
       {
         "var_type"                                    "FIELD_INTEGER"
-        "spell_resist"                                "8 10 12 14"
+        "hp_regen"                                    "3 6 9 12"
       }
     }
 
@@ -139,9 +164,10 @@
       "pudge_flesh_heap_stacks_custom"
       {
           "Passive"                                   "1"
+          "IsHidden"                                  "1"
           "Properties"
           {
-            "MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"   "%spell_resist"
+            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%hp_regen"
           }   
       }
     }

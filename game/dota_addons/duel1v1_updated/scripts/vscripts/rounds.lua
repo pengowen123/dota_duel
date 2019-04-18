@@ -3,6 +3,7 @@
 require('utils')
 require('neutrals')
 require('round_timer')
+--require('rematch_timer')
 
 
 -- Ends the round if a player died
@@ -17,16 +18,58 @@ function OnEntityDeath(event)
 
   -- Only end the round if the entity is a hero and won't reincarnate
   if entity:IsRealHero() and not entity:IsReincarnating() then
-    -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
-    -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
-    local first_reset_delay = 5.0
+    if not game_ended then
+      -- Is nil if no player has won yet, 0 if radiant won and 1 if dire won
+      local winner = nil
 
-    Timers:CreateTimer(
-      first_reset_delay,
-      function()
-        EndRound()
+      if PlayerResource:GetTeamKills(DOTA_TEAM_GOODGUYS) >= MAX_KILLS then
+        winner = 0
       end
-    )
+
+      if PlayerResource:GetTeamKills(DOTA_TEAM_BADGUYS) >= MAX_KILLS then
+        winner = 1
+      end
+
+      if winner then
+        local game_end_delay = 10
+        EndGameDelayed(game_end_delay, winner)
+
+        CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
+
+        text = ""
+        team = ""
+
+        if winner == 0 then
+          text = "#duel_victory"
+          team = "#DOTA_GoodGuys"
+        elseif winner == 1 then
+          text = "#duel_victory"
+          team = "#DOTA_BadGuys"
+        end
+
+        Notifications:ClearBottomFromAll()
+        Notifications:BottomToAll({
+          text = text,
+          duration = 10,
+          vars = {
+            team = team,
+          }
+        })
+
+        game_ended = true
+      end
+
+      -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
+      -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
+      local first_reset_delay = 5.0
+
+      Timers:CreateTimer(
+        first_reset_delay,
+        function()
+          EndRound()
+        end
+      )
+    end
   end
 end
 
@@ -78,13 +121,17 @@ end
 
 -- Performs all end of round actions, such as resetting cooldowns
 function EndRound()
-  CustomGameEventManager:Send_ServerToAllClients("end_round", nil)
   InitReadyUpData()
 
-  -- Start the round after 30 seconds
-  local round_start_delay = 30
-  SetRoundStartTimer(round_start_delay)
+  if not game_ended then
+    CustomGameEventManager:Send_ServerToAllClients("end_round", nil)
+
+    -- Start the round after 30 seconds
+    local round_start_delay = 30
+    SetRoundStartTimer(round_start_delay)
+  end
   
+
   -- Wait to clear the arena because certain heroes are able to dodge the teleport to base
   -- They will eventually be teleported again, so we wait until that happens to avoid killing the player
   -- accidentally
@@ -260,6 +307,7 @@ end
 -- Removes all temporary buffs on the provided entity
 function ClearBuffs(entity)
   local modifiers = entity:FindAllModifiers()
+  print("entity name: " .. entity:GetName())
 
   for i, modifier in pairs(modifiers) do
     local name = modifier:GetName()
@@ -271,7 +319,10 @@ function ClearBuffs(entity)
 
     -- Don't remove modifiers such as ones that represent abiltiies
     if IsSafeToRemove(modifier) then
+      print("removing modifier: " .. name)
       modifier:Destroy()
+    else
+      print("not removing modifier: " .. name)
     end
 
     -- Reset undying reincarnation talent cooldown

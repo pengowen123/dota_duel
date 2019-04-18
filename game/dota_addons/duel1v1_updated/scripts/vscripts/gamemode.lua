@@ -49,6 +49,8 @@ require('modifiers')
 require('initialize')
 require('ready')
 require('round_timer')
+require('rematch_timer')
+require('rematch')
 
 --[[
   This function should be used to set up Async precache calls at the beginning of the gameplay.
@@ -105,11 +107,15 @@ function GameMode:OnGameInProgress()
   Timers:CreateTimer(0.1, LevelUpPlayers)
   Timers:CreateTimer(0.1, RemoveTPScroll)
 
+  -- Hide the vote rematch UI
+  CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
+
   -- To prevent people from spawning outside the shop area
   ResetPlayers(true)
 
   InitNeutrals()
   InitReadyUpData()
+  InitVoteRematchData()
 
   -- Start the first round after 60 seconds
   local game_start_delay = 60
@@ -127,6 +133,7 @@ function GameMode:InitGameMode()
   -- Initialize listeners
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
   CustomGameEventManager:RegisterListener("player_ready_js", OnReadyUp)
+  CustomGameEventManager:RegisterListener("player_vote_rematch_js", OnVoteRematch)
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)

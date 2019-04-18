@@ -1,0 +1,138 @@
+// Root panel
+.RootRematch
+{
+	width: 25%;
+	height: 30%;
+
+	horizontal-align: center;
+	vertical-align: center;
+
+	background-color: transparent;
+}
+
+// Main panel (root is just a dummy so we can specify ID on this one)
+.Rematch
+{
+	width: fill-parent-flow(1.0);
+}
+
+// Label at the top of the root panel
+#RematchLabel
+{
+	horizontal-align: center;
+
+	color: white;
+	font-size: 30px;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+
+	opacity: 1.0;
+}
+
+// Shows player name and whether they have voted to rematch
+.PlayerRematch
+{
+	width: fill-parent-flow(1.0);
+	height: 100px;
+}
+
+// Shows player name
+.PlayerRematchLeft
+{
+	horizontal-align: left;
+	vertical-align: center;
+
+	width: 150px;
+	height: 30px;
+
+	text-overflow: ellipsis;
+}
+
+// Shows whether the player has voted to rematch
+.PlayerRematchRight
+{
+	horizontal-align: right;
+	vertical-align: center;
+
+	width: 100px;
+	height: 100px;
+}
+
+// Holds all PlayerRematch elements
+#Players
+{
+	margin-top: 25px;
+	width: 250px;
+
+	flow-children: down;
+}
+
+// Player name panel
+.LeftSide
+{
+	text-align: center;
+	vertical-align: center;
+
+	width: 50%;
+}
+
+// Player name
+#PlayerName
+{
+	vertical-align: center;
+
+	color: white;
+	font-size: 18px;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+}
+
+// Holds one RematchImage
+.RightSide
+{
+	horizontal-align: right;
+	vertical-align: center;
+}
+
+// Shows whether the player has voted to rematch
+.RematchImage
+{
+	background-color: black;
+	opacity: 0.5;
+	width: 65px;
+	height: 65px;
+
+	horizontal-align: right;
+	vertical-align: center;
+}
+
+// The actual checkmark
+#RematchImage
+{
+	width: 55px;
+	height: 55px;
+
+	horizontal-align: center;
+	vertical-align: center;
+
+	opacity: 2;
+}
+
+// Click to ready up
+.RematchButton
+{
+	margin-top: 50px;
+	
+	background-color: grey;
+	width: 170px;
+	height: 65px;
+}
+
+// Text on the RematchButton
+#RematchButtonLabel
+{
+	horizontal-align: center;
+	vertical-align: center;
+
+	font-size: 24px;
+	color: white;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+}
