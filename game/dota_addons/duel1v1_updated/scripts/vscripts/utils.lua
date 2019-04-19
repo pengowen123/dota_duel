@@ -21,7 +21,7 @@ modifier_max_charges = {
 }
 
 
-MAX_KILLS = 1
+MAX_KILLS = 5
 game_ended = false
 
 
