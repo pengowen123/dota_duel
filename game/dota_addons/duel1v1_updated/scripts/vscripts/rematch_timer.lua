@@ -53,7 +53,7 @@ function CountDownRematchTimer()
 		-- Count down one second
 		rematch_timer = rematch_timer - 1
 
-		-- When the timer reaches zero, start the round
+		-- When the timer reaches zero, end the game
 		if rematch_timer <= 0 then
 			EndGame()
 		end

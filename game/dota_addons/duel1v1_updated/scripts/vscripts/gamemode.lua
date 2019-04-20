@@ -51,6 +51,14 @@ require('ready')
 require('round_timer')
 require('rematch_timer')
 require('rematch')
+require('kills')
+require('hero_select')
+require('hero_select_timer')
+
+
+-- Constants
+game_ended = false
+
 
 --[[
   This function should be used to set up Async precache calls at the beginning of the gameplay.
@@ -102,6 +110,8 @@ end
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
 
+  Notifications:ClearBottomFromAll()
+
   -- Level up players with a delay because if a player picks at the last possible second
   -- they won't get levels if this is called instantly
   Timers:CreateTimer(0.1, LevelUpPlayers)
@@ -116,6 +126,10 @@ function GameMode:OnGameInProgress()
   InitNeutrals()
   InitReadyUpData()
   InitVoteRematchData()
+  InitKills()
+  InitHeroSelectData()
+
+  game_ended = false
 
   -- Start the first round after 60 seconds
   local game_start_delay = 60
@@ -134,6 +148,7 @@ function GameMode:InitGameMode()
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
   CustomGameEventManager:RegisterListener("player_ready_js", OnReadyUp)
   CustomGameEventManager:RegisterListener("player_vote_rematch_js", OnVoteRematch)
+  CustomGameEventManager:RegisterListener("player_select_hero_js", OnSelectHero)
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)

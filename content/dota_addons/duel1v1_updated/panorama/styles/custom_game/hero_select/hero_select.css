@@ -1,0 +1,78 @@
+// Root panel
+.RootHeroSelect
+{
+	width: 100%;
+	height: 100%;
+
+	horizontal-align: center;
+	vertical-align: center;
+
+	background-color: transparent;
+}
+
+// Main panel (root is just a dummy so we can specify ID on this one)
+.HeroSelect
+{
+	width: 85%;
+	height: 75%;
+
+	horizontal-align: center;
+	vertical-align: center;
+
+	background-color: #111111AA;
+}
+
+// Label at the top of the root panel
+#SelectLabel
+{
+	horizontal-align: center;
+
+	color: white;
+	font-size: 30px;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+
+	opacity: 1.0;
+}
+
+// Panel that holds all hero category panels
+.Heroes
+{
+	width: 100%;
+	height: 90%;
+
+	horizontal-align: center;
+	vertical-align: bottom;
+
+	flow-children: down;
+}
+
+// Panels that hold all heroes from a specific category
+.HeroesCategory
+{
+	width: 100%;
+	height: 33%;
+
+	flow-children: right-wrap;
+}
+
+// Individual hero panels
+.HeroPanel
+{
+	width: 6%;
+	height: 21.6%;
+
+	background-color: transparent;
+}
+
+// Button to select a hero
+.HeroButton
+{
+	width: 80%;
+	height: 80%;
+
+	horizontal-align: center;
+	vertical-align: center;
+
+	background-color: #BBBBBBFF;
+	border: 0px;
+}

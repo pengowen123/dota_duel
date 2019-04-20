@@ -2,6 +2,9 @@
 
 require('utils')
 require('rematch_timer')
+require('kills')
+require('hero_select_timer')
+require('round_timer')
 
 -- Constants
 
@@ -21,29 +24,21 @@ function OnVoteRematch(event_source_index, args)
 	CustomGameEventManager:Send_ServerToAllClients("player_vote_rematch_lua", data)
 
 	if AllVotedRematch() then
-		rematch_timer = 0
-		SendRematchTimerUpdateEvent()
-		-- Reset ready-up data
-		InitVoteRematchData()
-
-		-- Restart the game after after a delay (to make the transition less sudden)
-		local rematch_delay = 3
-		Timers:CreateTimer(rematch_delay, RestartGame)
-
+		CustomGameEventManager:Send_ServerToAllClients("all_voted_rematch", nil)
+		-- Hide the victory notification
     Notifications:ClearBottomFromAll()
-    Notifications:BottomToAll({
-      text = "#duel_restarting",
-      duration = 3,
-      vars = {
-        reason = text,
-        team = team,
-      }
-    })
+    -- Prevent the game from ending because a rematch will happen
+		rematch_timer = 0
+		-- Prevent new rounds from starting
+		round_start_timer = 0
+		-- Start a timer for the hero select phase
+		local game_start_delay = 30
+		SetHeroSelectTimer(game_start_delay)
 	end
 end
 
 
--- Initializes the ready up data
+-- Initializes the vote rematch data
 function InitVoteRematchData()
 	vote_rematch_data = {}
 
@@ -62,11 +57,4 @@ function AllVotedRematch()
 	end
 
 	return true
-end
-
-
--- Restarts the game
-function RestartGame()
-	-- GameRules:ResetToHeroSelection()
-	SendToServerConsole("dota_launch_custom_game duel1v1_updated duel1v1")
 end

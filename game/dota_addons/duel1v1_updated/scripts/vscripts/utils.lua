@@ -22,7 +22,6 @@ modifier_max_charges = {
 
 
 MAX_KILLS = 5
-game_ended = false
 
 
 -- Returns a table containing handles to all player entities

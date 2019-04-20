@@ -39,8 +39,8 @@ ENABLE_TOWER_BACKDOOR_PROTECTION = false-- Should we enable backdoor protection 
 REMOVE_ILLUSIONS_ON_DEATH = false       -- Should we remove all illusions if the main hero dies?
 DISABLE_GOLD_SOUNDS = false             -- Should we disable the gold sound when players get gold?
 
-END_GAME_ON_KILLS = true                -- Should the game end after a certain number of kills?
-KILLS_TO_END_GAME_FOR_TEAM = 5         -- How many kills for a team should signify an end of game?
+END_GAME_ON_KILLS = false                -- Should the game end after a certain number of kills?
+KILLS_TO_END_GAME_FOR_TEAM = 10         -- How many kills for a team should signify an end of game?
 
 USE_CUSTOM_HERO_LEVELS = false           -- Should we allow heroes to have custom levels?
 MAX_LEVEL = 25                          -- What level should we let heroes get to?

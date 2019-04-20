@@ -3,8 +3,8 @@
 require('utils')
 require('neutrals')
 require('round_timer')
---require('rematch_timer')
-
+require('rematch_timer')
+require('kills')
 
 -- Ends the round if a player died
 function OnEntityDeath(event)
@@ -22,11 +22,13 @@ function OnEntityDeath(event)
       -- Is nil if no player has won yet, 0 if radiant won and 1 if dire won
       local winner = nil
 
-      if PlayerResource:GetTeamKills(DOTA_TEAM_GOODGUYS) >= MAX_KILLS then
+      UpdateKills()
+
+      if GetRadiantKills() >= MAX_KILLS then
         winner = 0
       end
 
-      if PlayerResource:GetTeamKills(DOTA_TEAM_BADGUYS) >= MAX_KILLS then
+      if GetDireKills() >= MAX_KILLS then
         winner = 1
       end
 
@@ -307,7 +309,7 @@ end
 -- Removes all temporary buffs on the provided entity
 function ClearBuffs(entity)
   local modifiers = entity:FindAllModifiers()
-  print("entity name: " .. entity:GetName())
+  -- print("entity name: " .. entity:GetName())
 
   for i, modifier in pairs(modifiers) do
     local name = modifier:GetName()
@@ -319,10 +321,10 @@ function ClearBuffs(entity)
 
     -- Don't remove modifiers such as ones that represent abiltiies
     if IsSafeToRemove(modifier) then
-      print("removing modifier: " .. name)
+      -- print("removing modifier: " .. name)
       modifier:Destroy()
     else
-      print("not removing modifier: " .. name)
+      -- print("not removing modifier: " .. name)
     end
 
     -- Reset undying reincarnation talent cooldown

@@ -4,6 +4,12 @@
 // Initializes the rematch UI and logic
 function Initialize()
 {
+	GameEvents.Subscribe("start_game", StartGame);
+	GameEvents.Subscribe("end_game", EndGame);
+	GameEvents.Subscribe("player_vote_rematch_lua", OnVoteRematch);
+	GameEvents.Subscribe("rematch_timer_update", TimerUpdate);
+	GameEvents.Subscribe("all_voted_rematch", OnAllVotedRematch);
+
   // Create a PlayerRematch element for each player in the game
 	var maxPlayers = Players.GetMaxPlayers();
 
@@ -13,11 +19,6 @@ function Initialize()
 			AddPlayer(id);
 		}
 	}
-
-	GameEvents.Subscribe("player_vote_rematch_lua", OnVoteRematch);
-	GameEvents.Subscribe("rematch_timer_update", TimerUpdate);
-	GameEvents.Subscribe("start_game", StartGame);
-	GameEvents.Subscribe("end_game", EndGame);
 
 	// Due to the inconsistency of the `start_round` event being successfully sent at the
 	// start of the game, just hide everything here
@@ -78,13 +79,27 @@ function TimerUpdate(args)
 }
 
 
-// Called when the game starts
-// Hides the vote rematch UI
+// Called when the game or a rematch starts
+// Resets the state of the rematch UI and hides it
 function StartGame()
 {
 	EnableVoteRematchPanel(false);
+
+	var maxPlayers = Players.GetMaxPlayers()
+	for (var id = maxPlayers; id >= 0; id--) {
+		if (Players.IsValidPlayerID(id))
+		{
+			SetVoteRematchImage(id, "");
+		}
+	}
 }
 
+
+// Called when all players vote to have a rematch
+function OnAllVotedRematch()
+{
+	EnableVoteRematchPanel(false);
+}
 
 // Called when a game ends
 // Shows the vote rematch UI
