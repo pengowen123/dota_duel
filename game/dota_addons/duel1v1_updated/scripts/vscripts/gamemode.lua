@@ -126,7 +126,7 @@ function GameMode:OnGameInProgress()
   InitNeutrals()
   InitReadyUpData()
   InitVoteRematchData()
-  InitKills()
+  ResetKills()
   InitHeroSelectData()
 
   game_ended = false
@@ -149,6 +149,7 @@ function GameMode:InitGameMode()
   CustomGameEventManager:RegisterListener("player_ready_js", OnReadyUp)
   CustomGameEventManager:RegisterListener("player_vote_rematch_js", OnVoteRematch)
   CustomGameEventManager:RegisterListener("player_select_hero_js", OnSelectHero)
+  InitKills()
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)

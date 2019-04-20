@@ -67,12 +67,6 @@ end
 
 -- Restarts the game
 function RestartGame()
-  Notifications:ClearBottomFromAll()
-  Notifications:BottomToAll({
-    text = "#duel_loading_heroes",
-    duration = 100,
-  })
-
 	-- Hide the rematch UI and show the ready-up UI
 	-- The former is done later in `OnGameInProgress`, but if it is immediately after replacing the
 	-- heroes, it does not work
@@ -88,16 +82,31 @@ function RestartGame()
 		end
 	end
 
+	local no_new_heroes = true
+
 	for i, playerID in pairs(GetPlayerIDs()) do
 		local hero_name = hero_select_data[playerID]
 
 		if hero_name then
+			no_new_heroes = false
+
 			PrecacheUnitByNameAsync(hero_name, function()
 				PlayerResource:ReplaceHeroWith(playerID, hero_name, 99999, 99999)
 
 				TryOnGameInProgress(playerID)
 			end)
 		end
+	end
+
+	-- If no new heroes were selected, start the game immediately
+	if no_new_heroes then
+		GameMode:OnGameInProgress()
+	else
+	  Notifications:ClearBottomFromAll()
+	  Notifications:BottomToAll({
+	    text = "#duel_loading_heroes",
+	    duration = 100,
+	  })
 	end
 end
 
