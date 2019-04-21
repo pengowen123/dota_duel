@@ -207,3 +207,22 @@ end
 function IsMatchEnded()
   return GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME
 end
+
+
+-- Clears all players' inventories and stashes
+function ClearInventories()
+  for i, playerID in pairs(GetPlayerIDs()) do
+    local player = PlayerResource:GetPlayer(playerID)
+    local player_entity = player:GetAssignedHero()
+
+    if player_entity then
+      for i=0,20 do
+        local item = player_entity:GetItemInSlot(i)
+
+        if item then
+          item:Destroy()
+        end
+      end
+    end
+  end
+end

@@ -5,6 +5,7 @@ require('neutrals')
 require('round_timer')
 require('rematch_timer')
 require('kills')
+require('hero_select')
 
 -- Ends the round if a player died
 function OnEntityDeath(event)
@@ -118,6 +119,9 @@ function StartRound()
   -- Wait for players to be teleported to the arena before clearing the bases
   local clear_base_delay = teleport_delay + 0.1
   Timers:CreateTimer(clear_base_delay, ClearBases)
+
+  -- The hero select data gets reset randomly, this fixes it
+  InitHeroSelectData()
 end
 
 

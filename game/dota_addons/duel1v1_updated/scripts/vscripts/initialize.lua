@@ -5,12 +5,19 @@ require('neutrals')
 
 -- Initializes the custom neutrals system
 function InitNeutrals()
+  Timers:RemoveTimer("neutrals_timer")
+
   local spawn_neutrals = function()
     SpawnAllNeutrals()
     return 60.0
   end
 
-  Timers:CreateTimer(spawn_neutrals)
+  local args = {
+    endTime = 0.5,
+    callback = spawn_neutrals
+  }
+
+  Timers:CreateTimer("neutrals_timer", args)
 end
 
 

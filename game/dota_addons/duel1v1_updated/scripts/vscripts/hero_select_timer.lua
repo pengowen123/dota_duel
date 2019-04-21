@@ -73,6 +73,9 @@ function RestartGame()
 	CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
 	CustomGameEventManager:Send_ServerToAllClients("end_round", nil)
 
+	-- To prevent reaching the item purchased limit
+	ClearInventories()
+
 	hero_load_state = {}
 	for i, playerID in pairs(GetPlayerIDs()) do
 		if hero_select_data[playerID] then

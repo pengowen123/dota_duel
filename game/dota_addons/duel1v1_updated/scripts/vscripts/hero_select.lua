@@ -28,7 +28,7 @@ function InitHeroSelectData()
 	hero_select_data = {}
 
 	for i, id in pairs(GetPlayerIDs()) do
-		hero_select_data[id] = nil
+		hero_select_data[id] = false
 	end
 end
 
