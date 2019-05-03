@@ -7,6 +7,13 @@ require('rematch_timer')
 require('kills')
 require('hero_select')
 
+
+-- Tracks how many players are dead on each team
+dead_players = {
+  [DOTA_TEAM_GOODGUYS] = 0,
+  [DOTA_TEAM_BADGUYS] = 0,
+}
+
 -- Ends the round if a player died
 function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
@@ -17,61 +24,74 @@ function OnEntityDeath(event)
     print("Entity reincarnating: " .. tostring(entity:IsReincarnating()))
   end
 
-  -- Only end the round if the entity is a hero and won't reincarnate
+  -- Only count the death if the entity is a hero and won't reincarnate
   if entity:IsRealHero() and not entity:IsReincarnating() then
     if not game_ended then
-      -- Is nil if no player has won yet, 0 if radiant won and 1 if dire won
-      local winner = nil
+      local team = entity:GetTeam()
+      dead_players[team] = dead_players[team] + 1
 
-      UpdateKills()
+      -- End the round if all players on a team have died
+      if dead_players[team] >= PlayerResource:GetPlayerCountForTeam(team) then
+        dead_players[DOTA_TEAM_GOODGUYS] = 0
+        dead_players[DOTA_TEAM_BADGUYS] = 0
 
-      if GetRadiantKills() >= MAX_KILLS then
-        winner = 0
-      end
+        -- Is nil if no player has won yet, 0 if radiant won and 1 if dire won
+        local winner = nil
 
-      if GetDireKills() >= MAX_KILLS then
-        winner = 1
-      end
-
-      if winner then
-        local game_end_delay = 10
-        EndGameDelayed(game_end_delay, winner)
-
-        CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
-
-        text = ""
-        team = ""
-
-        if winner == 0 then
-          text = "#duel_victory"
-          team = "#DOTA_GoodGuys"
-        elseif winner == 1 then
-          text = "#duel_victory"
-          team = "#DOTA_BadGuys"
+        if team == DOTA_TEAM_GOODGUYS then
+          AwardDireKill()
+        elseif team == DOTA_TEAM_BADGUYS then
+          AwardRadiantKill()
         end
 
-        Notifications:ClearBottomFromAll()
-        Notifications:BottomToAll({
-          text = text,
-          duration = 10,
-          vars = {
-            team = team,
-          }
-        })
-
-        game_ended = true
-      end
-
-      -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
-      -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
-      local first_reset_delay = 5.0
-
-      Timers:CreateTimer(
-        first_reset_delay,
-        function()
-          EndRound()
+        if GetRadiantKills() >= MAX_KILLS then
+          winner = 0
         end
-      )
+
+        if GetDireKills() >= MAX_KILLS then
+          winner = 1
+        end
+
+        if winner then
+          local game_end_delay = 10
+          EndGameDelayed(game_end_delay, winner)
+
+          CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
+
+          text = ""
+          team = ""
+
+          if winner == 0 then
+            text = "#duel_victory"
+            team = "#DOTA_GoodGuys"
+          elseif winner == 1 then
+            text = "#duel_victory"
+            team = "#DOTA_BadGuys"
+          end
+
+          Notifications:ClearBottomFromAll()
+          Notifications:BottomToAll({
+            text = text,
+            duration = 10,
+            vars = {
+              team = team,
+            }
+          })
+
+          game_ended = true
+        end
+
+        -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
+        -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
+        local first_reset_delay = 5.0
+
+        Timers:CreateTimer(
+          first_reset_delay,
+          function()
+            EndRound()
+          end
+        )
+      end
     end
   end
 end
@@ -94,6 +114,15 @@ function StartRound()
     for i, player_entity in pairs(player_entities) do
       ResetCooldowns(player_entity)
       ClearBuffs(player_entity)
+
+      for i, modifier in pairs(player_entity:FindAllModifiers()) do
+        local name = modifier:GetName()
+
+        if name == "modifier_stun" then
+          modifier:Destroy()
+        end
+      end
+
       -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
       TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
     end
@@ -122,6 +151,9 @@ function StartRound()
 
   -- The hero select data gets reset randomly, this fixes it
   InitHeroSelectData()
+
+  -- Makes rounds balanced for heroes like timbersaw
+  RegrowAllTrees()
 end
 
 
@@ -142,7 +174,7 @@ function EndRound()
   -- They will eventually be teleported again, so we wait until that happens to avoid killing the player
   -- accidentally
 
-  -- Respawn all players (necessary because the barebones respawn time setting doesn't apply to deaths to neutrals)
+  -- Respawn all players
   RespawnPlayers()
 
   -- To catch heroes like storm spirit when they are invulnerable, call ResetPlayers 15
@@ -180,6 +212,14 @@ function ResetPlayers(center_camera)
   for i, player_entity in pairs(player_entities) do
     ResetCooldowns(player_entity)
     ClearBuffs(player_entity)
+
+    for i, modifier in pairs(player_entity:FindAllModifiers()) do
+      local name = modifier:GetName()
+
+      if name == "leave_arena_modifier" then
+        modifier:Destroy()
+      end
+    end
     
     -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
     ResetPosition(player_entity, center_camera)
@@ -192,7 +232,7 @@ function RespawnPlayers()
   for i, playerID in pairs(GetPlayerIDs()) do
     local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
 
-    player_entity:SetTimeUntilRespawn(1.0)
+    player_entity:RespawnUnit()
   end
 end
 
@@ -343,5 +383,13 @@ function ClearBuffs(entity)
     if ability_origin then
       entity:AddNewModifier(entity, entity:GetAbilityByIndex(ability_origin), name, {})
     end
+  end
+end
+
+
+-- Regrows all trees on the map
+function RegrowAllTrees()
+  for i, tree in pairs(Entities:FindAllByClassname("ent_dota_tree")) do
+    tree:GrowBack()
   end
 end

@@ -156,6 +156,8 @@ function IsSafeToRemove(modifier)
   local unsafe = {
     ["modifier_sniper_shrapnel_charge_counter"] = true,
     ["modifier_bristleback_warpath"] = true,
+    ["modifier_stun"] = true,
+    ["leave_arena_modifier"] = true,
   }
 
   local name = modifier:GetName()

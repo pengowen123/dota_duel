@@ -5,4 +5,8 @@
 	{
 		"MaxPlayers"		"2"
 	}
+	"duel2v2"
+	{
+		"MaxPlayers"		"4"
+	}
 }

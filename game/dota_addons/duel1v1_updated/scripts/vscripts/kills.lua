@@ -1,15 +1,11 @@
 -- Handling of the custom scoreboard system
 
 kills = {}
--- For tracking changes to the builtin scoreboard in order to properly update the custom one
-dota_kills = {}
 
 
 -- Initializes the custom scoreboard
 function InitKills()
 	ResetKills()
-	dota_kills.radiant = 0
-	dota_kills.dire = 0
 end
 
 
@@ -34,19 +30,17 @@ function GetDireKills()
 end
 
 
--- Updates the custom scoreboard and its UI
-function UpdateKills()
-	local radiant_kills = PlayerResource:GetTeamKills(DOTA_TEAM_GOODGUYS)
-	local dire_kills = PlayerResource:GetTeamKills(DOTA_TEAM_BADGUYS)
+-- Gives one kill to radiant
+function AwardRadiantKill()
+	kills.radiant = kills.radiant + 1
 
-	local new_radiant_kills = radiant_kills - dota_kills.radiant
-	local new_dire_kills = dire_kills - dota_kills.dire
+	CustomGameEventManager:Send_ServerToAllClients("score_update", kills)
+end
 
-	kills.radiant = kills.radiant + new_radiant_kills
-	kills.dire = kills.dire + new_dire_kills
 
-	dota_kills.radiant = radiant_kills
-	dota_kills.dire = dire_kills
+-- Gives on kill to dire
+function AwardDireKill()
+	kills.dire = kills.dire + 1
 
 	CustomGameEventManager:Send_ServerToAllClients("score_update", kills)
 end

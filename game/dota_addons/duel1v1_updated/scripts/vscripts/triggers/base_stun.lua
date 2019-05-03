@@ -14,11 +14,4 @@ function OnStartTouch(trigger)
 end
 
 function OnEndTouch(trigger)
-	local activator = trigger.activator
-
-	if activator == nil or unsafe_classnames[activator:GetClassname()] ~= nil then
-		return
-	end
-
-	activator:RemoveModifierByName("modifier_stun")
 end

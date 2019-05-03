@@ -2,10 +2,12 @@
 .RootRematch
 {
 	width: 25%;
-	height: 30%;
+	height: 50%;
+
+	margin-top: 20%;
 
 	horizontal-align: center;
-	vertical-align: center;
+	vertical-align: top;
 
 	background-color: transparent;
 }
@@ -32,7 +34,7 @@
 .PlayerRematch
 {
 	width: fill-parent-flow(1.0);
-	height: 100px;
+	height: 80px;
 }
 
 // Shows player name
@@ -42,7 +44,7 @@
 	vertical-align: center;
 
 	width: 150px;
-	height: 30px;
+	height: 24px;
 
 	text-overflow: ellipsis;
 }
@@ -54,7 +56,7 @@
 	vertical-align: center;
 
 	width: 100px;
-	height: 100px;
+	height: 80px;
 }
 
 // Holds all PlayerRematch elements
@@ -97,8 +99,8 @@
 {
 	background-color: black;
 	opacity: 0.5;
-	width: 65px;
-	height: 65px;
+	width: 52px;
+	height: 52px;
 
 	horizontal-align: right;
 	vertical-align: center;
@@ -107,8 +109,8 @@
 // The actual checkmark
 #RematchImage
 {
-	width: 55px;
-	height: 55px;
+	width: 44px;
+	height: 44px;
 
 	horizontal-align: center;
 	vertical-align: center;

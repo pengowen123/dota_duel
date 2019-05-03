@@ -7,6 +7,10 @@ function OnStartTouch(keys)
 		return
 	end
 
+	if name == "ent_dota_shop" then
+		return
+	end
+
 	if name == "npc_dota_hero_arc_warden" then
 		local is_tempest_double = false
 

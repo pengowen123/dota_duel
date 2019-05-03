@@ -28,6 +28,15 @@ function modifier_stun:CheckState()
 			["npc_dota_hero_rubick"] = true,
 			["npc_dota_hero_gyrocopter"] = true,
 			["npc_dota_hero_techies"] = true,
+			["npc_dota_hero_abyssal_underlord"] = true,
+			["npc_dota_hero_treant"] = true,
+			["npc_dota_hero_zuus"] = true,
+			["npc_dota_hero_invoker"] = true,
+			["npc_dota_hero_furion"] = true,
+			["npc_dota_hero_spirit_breaker"] = true,
+			["npc_dota_hero_skywrath_mage"] = true,
+			["npc_dota_hero_sniper"] = true,
+			["npc_dota_hero_life_stealer"] = true,
 		}
 
 		if heroes_to_silence[name] then

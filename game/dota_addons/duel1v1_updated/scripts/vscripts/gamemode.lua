@@ -153,14 +153,26 @@ function GameMode:InitGameMode()
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)
+
+  -- Cause infinite respawn time
+  GameRules:SetHeroRespawnEnabled(false)
 end
 
 
 -- A function that tests if a player has disconnected and makes them lose the game
 -- Returns a number so it can be used in a timer
 player_timeouts = {}
+leavers = {
+  [DOTA_TEAM_GOODGUYS] = 0,
+  [DOTA_TEAM_BADGUYS] = 0,
+}
+leaver_ids = {}
 function WatchForDisconnect(keys)
+  local timeout = 120.0
+
   for i, playerID in pairs(GetPlayerIDs()) do
+    local team = PlayerResource:GetTeam(playerID)
+
     local connection_state = PlayerResource:GetConnectionState(playerID)
 
     -- If a player disconnects, make them lose and stop watching for disconnects
@@ -171,19 +183,34 @@ function WatchForDisconnect(keys)
 
         print("Player " .. tostring(playerID) .. " disconnected for " .. tostring(player_timeouts[playerID]) .. " seconds")
 
-        local timeout = 120.0
-
-        if player_timeouts[playerID] > timeout then
-          MakePlayerLose(playerID, "#duel_disconnect")
-          return nil
+        if player_timeouts[playerID] > timeout and leaver_ids[playerID] == nil then
+          leavers[team] = leavers[team] + 1
+          leaver_ids[playerID] = true
         end
       end
     else
-      if connection_state == DOTA_CONNECTION_STATE_ABANDONED then
-        MakePlayerLose(playerID, "#duel_disconnect")
-        return nil
+      if connection_state == DOTA_CONNECTION_STATE_ABANDONED and leaver_ids[playerID] == nil then
+        leavers[team] = leavers[team] + 1
+        leaver_ids[playerID] = true
       else
         player_timeouts[playerID] = 0.0
+
+        -- Allows reconnecting after the timeout if a teammate is still in the game
+        if player_timeouts[playerID] > timeout then
+          leavers[team] = leavers[team] - 1
+          leaver_ids[playerID] = nil
+        end
+      end
+    end
+  end
+
+  for team, leaver_count in pairs(leavers) do
+    -- So the game doesn't end when playing solo (such as when testing)
+    if leaver_count > 0 then
+      -- Make the team lose if all of its players have left
+      if leaver_count >= PlayerResource:GetPlayerCountForTeam(team) then
+        MakeTeamLose(team, "#duel_disconnect")
+        return nil
       end
     end
   end
@@ -191,13 +218,20 @@ function WatchForDisconnect(keys)
   return 1.0
 end
 
+
 -- Makes the provided player lose, and sends a notification to all players with the provided text
 function MakePlayerLose(playerID, text)
+  local team = PlayerResource:GetTeam(playerID)
+
+  MakeTeamLose(team, text)
+end
+
+
+-- Makes the provided team lose, and sends a notification to all players with the provided text
+function MakeTeamLose(team, text)
   if IsMatchEnded() then
     return
   end
-  
-  local team = PlayerResource:GetTeam(playerID)
 
   local opposite_team_name = GetOppositeTeamName(team)
 
