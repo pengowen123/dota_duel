@@ -168,7 +168,6 @@ function EndRound()
     local round_start_delay = 30
     SetRoundStartTimer(round_start_delay)
   end
-  
 
   -- Wait to clear the arena because certain heroes are able to dodge the teleport to base
   -- They will eventually be teleported again, so we wait until that happens to avoid killing the player
@@ -197,7 +196,7 @@ function EndRound()
   end
 
   local args = {
-    endTime = i,
+    endTime = 0.5,
     callback = reset
   }
   
@@ -232,7 +231,9 @@ function RespawnPlayers()
   for i, playerID in pairs(GetPlayerIDs()) do
     local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
 
-    player_entity:RespawnUnit()
+    if player_entity then
+      player_entity:RespawnHero(false, false)
+    end
   end
 end
 

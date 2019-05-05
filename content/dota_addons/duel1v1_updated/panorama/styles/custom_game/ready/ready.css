@@ -2,7 +2,7 @@
 .Root
 {
 	width: 25%;
-	height: 25%;
+	height: 50%;
 
 	horizontal-align: left;
 	vertical-align: center;
@@ -117,7 +117,8 @@
 // Click to ready up
 .ReadyButton
 {
-	margin-top: 25px;
+	horizontal-align: center;
+	vertical-align: center;
 	
 	background-color: grey;
 	width: 150px;

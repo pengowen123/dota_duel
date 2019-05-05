@@ -121,7 +121,8 @@
 // Click to ready up
 .RematchButton
 {
-	margin-top: 50px;
+	horizontal-align: center;
+	vertical-align: center;
 	
 	background-color: grey;
 	width: 170px;
