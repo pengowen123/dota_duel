@@ -18,6 +18,8 @@ modifier_max_charges = {
   ["modifier_ember_spirit_sleight_of_fist_charge_counter"] = 2,
   ["modifier_gyrocopter_homing_missile_charge_counter"] = 3,
   ["modifier_morphling_waveform_charge_counter"] = 2,
+  ["modifier_windrunner_windrun_charge_counter"] = 2,
+  ["modifier_shadow_demon_disruption_charge_counter"] = 2,
 }
 
 

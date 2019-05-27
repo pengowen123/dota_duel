@@ -10,6 +10,22 @@ function OnStartTouch(trigger)
 		return
 	end
 
+	if activator:GetName() == "npc_dota_hero_monkey_king" then
+		for i, modifier in pairs(activator:FindAllModifiers()) do
+			local name = modifier:GetName()
+
+			local monkey_clone_modifiers = {
+				["modifier_monkey_king_fur_army_soldier"] = true,
+				["modifier_monkey_king_fur_army_soldier_hidden"] = true,
+				["modifier_monkey_king_fur_army_soldier_active"] = true,
+			}
+
+			if monkey_clone_modifiers[name] then
+				return
+			end
+		end
+	end
+
 	activator:AddNewModifier(activator, nil, "modifier_stun", {})
 end
 

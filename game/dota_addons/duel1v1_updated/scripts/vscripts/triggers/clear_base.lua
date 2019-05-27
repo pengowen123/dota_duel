@@ -3,6 +3,20 @@ function OnStartTouch(keys)
 	local name = activator:GetName()
 	local classname = activator:GetClassname()
 
+	if classname == "npc_dota_thinker" then
+		for i, modifier in pairs(activator:FindAllModifiers()) do
+			if modifier:GetName() == "modifier_arc_warden_scepter" then
+				modifier:StartIntervalThink(1.0)
+				return
+			end
+
+			if modifier:GetName() == "modifier_slardar_puddle_thinker" then
+				modifier:Destroy()
+				return
+			end
+		end
+	end
+
 	if classname == "dota_death_prophet_exorcism_spirit" or classname == "npc_dota_wisp_spirit" then
 		return
 	end
