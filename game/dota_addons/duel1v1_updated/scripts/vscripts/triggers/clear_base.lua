@@ -5,12 +5,24 @@ function OnStartTouch(keys)
 
 	if classname == "npc_dota_thinker" then
 		for i, modifier in pairs(activator:FindAllModifiers()) do
-			if modifier:GetName() == "modifier_arc_warden_scepter" then
+			local modifier_name = modifier:GetName()
+
+			if modifier_name == "modifier_arc_warden_scepter" then
 				modifier:StartIntervalThink(1.0)
 				return
 			end
 
-			if modifier:GetName() == "modifier_slardar_puddle_thinker" then
+			if modifier_name == "modifier_slardar_puddle_thinker" then
+				modifier:Destroy()
+				return
+			end
+		end
+	end
+
+	if name == "npc_dota_hero_monkey_king" then
+		for i, modifier in pairs(activator:FindAllModifiers()) do
+			local modifier_name = modifier:GetName()
+			if modifier_name == "modifier_monkey_king_fur_army_soldier" or modifier_name == "modifier_monkey_king_fur_army_soldier_active" then
 				modifier:Destroy()
 				return
 			end
