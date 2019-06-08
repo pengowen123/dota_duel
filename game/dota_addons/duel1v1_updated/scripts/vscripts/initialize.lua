@@ -33,6 +33,20 @@ function LevelUpPlayers()
         player_entity:AddExperience(99999.0, 0, false, false)
       end
 
+      for i=0,25 do
+        local ability = player_entity:GetAbilityByIndex(i)
+
+        if ability then
+          -- Only talents require higher levels than 6, which must not be upgraded here
+          if ability:GetHeroLevelRequiredToUpgrade() <= 6 then
+            -- Lua ranges are inclusive so this starts at 1 to compensate
+            for i=1,ability:GetMaxLevel() - ability:GetLevel() do
+              player_entity:UpgradeAbility(ability)
+            end
+          end
+        end
+      end
+
       local levelup_delay = 0.5
 
       Timers:CreateTimer(levelup_delay, levelup)
@@ -42,6 +56,7 @@ function LevelUpPlayers()
     end
   end
 end
+
 
 -- Removes Town Portal Scrolls from players' inventories
 -- One is added at the start of the game since 7.07, so this is called to delete it
