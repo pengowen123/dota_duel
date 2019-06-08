@@ -230,3 +230,25 @@ function ClearInventories()
     end
   end
 end
+
+
+-- Get all the items of each player
+function GetInventoryItems()
+  all_inventories = {}
+  for i, playerID in pairs(GetPlayerIDs()) do
+    local player_inventory = {}
+    local player_hero_handle = PlayerResource:GetSelectedHeroEntity(playerID)
+
+    if player_hero_handle then
+      for i=0,20 do
+        local item = player_hero_handle:GetItemInSlot(i)
+
+        if item then
+          player_inventory[i] = item
+        end
+      end
+    end
+    all_inventories[playerID] = player_inventory
+  end
+  return all_inventories
+end

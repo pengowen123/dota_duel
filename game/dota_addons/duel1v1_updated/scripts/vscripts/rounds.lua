@@ -201,6 +201,12 @@ function EndRound()
   }
   
   Timers:CreateTimer("reset_players", args)
+
+  -- To prevent reaching the item purchaes limit because of items dropped on the ground
+  ClearBases()
+
+  -- Reset talents so players can try new ones
+  ResetTalents()
 end
 
 
@@ -214,12 +220,11 @@ function ResetPlayers(center_camera)
 
     for i, modifier in pairs(player_entity:FindAllModifiers()) do
       local name = modifier:GetName()
-
       if name == "leave_arena_modifier" then
         modifier:Destroy()
       end
     end
-    
+
     -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
     ResetPosition(player_entity, center_camera)
   end
@@ -392,5 +397,76 @@ end
 function RegrowAllTrees()
   for i, tree in pairs(Entities:FindAllByClassname("ent_dota_tree")) do
     tree:GrowBack()
+  end
+end
+
+
+-- Resets the talents of all players
+function ResetTalents()
+  local player_IDs = GetPlayerIDs()
+  local player_items = GetInventoryItems()
+
+  -- Reset hero and copy over all the modifiers
+  for i, playerID in pairs(player_IDs) do
+    -- Get the hero name and the selected hero's entities
+    local hero_name = PlayerResource:GetSelectedHeroName(playerID)
+    local hero_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+
+    local has_moon_shard = hero_entity:HasModifier("modifier_item_moon_shard_consumed")
+    local has_scepter = hero_entity:HasModifier("modifier_item_ultimate_scepter_consumed")
+
+    -- Replace the hero with a dummy
+    local temp_hero_name = "npc_dota_hero_invoker"
+    if temp_hero_name == hero_name then
+      temp_hero_name = "npc_dota_hero_abaddon"
+    end
+    local dummy_hero = PlayerResource:ReplaceHeroWith(playerID, temp_hero_name, 99999, 99999)
+
+    -- Clear the dummy hero's inventory
+    -- It starts with a town portal scroll and if it is not destroyed, the items purchased limit
+    -- is reduced by 1 every round
+    for i=0,20 do
+      local item = dummy_hero:GetItemInSlot(i)
+
+      if item then
+        item:Destroy()
+      end
+    end
+
+    -- Replace dummy with the original hero
+    local new_hero = PlayerResource:ReplaceHeroWith(playerID, hero_name, 99999, 99999)
+
+    -- Re-add aghanim's scepter and moon shard buffs
+    if has_moon_shard then
+      local moon_shard = new_hero:AddItemByName("item_moon_shard")
+      -- Not sure what this is for, but setting it to 0 seems to work
+      local player_index = 0
+      new_hero:CastAbilityOnTarget(new_hero, moon_shard, player_index)
+    end
+
+    if has_scepter then
+      new_hero:AddItemByName("item_ultimate_scepter_2")
+    end
+
+    local re_add_items = function()
+      local player_inventory = player_items[playerID]
+      for i = 20,0,-1 do
+        local item = player_inventory[i]
+
+        if item then
+          if item:GetAbilityName() == "item_tpscroll" then
+            item:Destroy()
+          else
+            new_hero:AddItem(item)
+            new_hero:SwapItems(0, i)
+          end
+        end
+      end
+    end
+
+    -- Re-add items from inventory half a second after replacing the hero
+    Timers:CreateTimer(0.5, re_add_items)
+
+    LevelUpPlayers()
   end
 end

@@ -56,6 +56,12 @@ function OnStartTouch(keys)
 	if string.find(name, "npc_dota_hero") and name ~= "npc_dota_hero_arc_warden" and not activator:IsIllusion() then
 		return
 	elseif classname == "dota_item_drop" then
+		-- To prevent reaching the items purchased limit
+		local item = activator:GetContainedItem()
+
+		if item then
+			item:Destroy()
+		end
 		activator:Kill()
 	elseif name == "npc_dota_creep_neutral" then
 		-- Neutral creeps must be removed instead of killed, or new neutrals will not spawn
