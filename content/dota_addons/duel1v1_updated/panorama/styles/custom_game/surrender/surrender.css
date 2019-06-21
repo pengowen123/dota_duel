@@ -1,0 +1,55 @@
+.BaseHud
+{
+	width: 100%;
+	height: 100%;
+	flow-children: down;
+}
+
+#surrender
+{
+	width: 2%;
+	height: 3%;
+	margin-left: 48.88%;
+	margin-top: 4%;
+}
+
+.MessagePanel {
+	position: 0px 57.0px 0.0px;
+}
+
+.buttonchoices {
+	position: 0px 90.0px 0.0px;
+}
+
+#b0 {
+	position: 208px 0px 0.0px;
+}
+
+#PopUpHolder
+{
+	flow-children:down;
+	margin-top: 50%;
+	margin-left: 50%;
+}
+
+// Click to surrender
+.SurrenderButton
+{
+	horizontal-align: center;
+	vertical-align: center;
+
+	background-color: white;
+	width: 150px;
+	height: 65px;
+}
+
+// Text on the SurrenderButton
+#SurrenderButtonLabel
+{
+	horizontal-align: center;
+	vertical-align: center;
+
+	font-size: 24px;
+	color: black;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+}

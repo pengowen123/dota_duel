@@ -54,6 +54,7 @@ require('rematch')
 require('kills')
 require('hero_select')
 require('hero_select_timer')
+require('surrender')
 
 
 -- Constants
@@ -146,6 +147,7 @@ function GameMode:InitGameMode()
 
   -- Initialize listeners
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
+  CustomGameEventManager:RegisterListener("player_surrender_js", OnSurrender)
   CustomGameEventManager:RegisterListener("player_ready_js", OnReadyUp)
   CustomGameEventManager:RegisterListener("player_vote_rematch_js", OnVoteRematch)
   CustomGameEventManager:RegisterListener("player_select_hero_js", OnSelectHero)

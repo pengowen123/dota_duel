@@ -4,10 +4,10 @@
 -- Constants
 
 modifier_max_charges = {
-  -- Shrapnel is handled in ResetCharges
-  --["modifier_sniper_shrapnel_charge_counter"] = 3,
-  ["modifier_ember_spirit_fire_remnant_charge_counter"] = 3,
-  ["modifier_earth_spirit_stone_caller_charge_counter"] = 6,
+  -- Shrapnel and fire remnant are handled in ResetCharges
+  -- ["modifier_sniper_shrapnel_charge_counter"] = 3,
+  -- ["modifier_ember_spirit_fire_remnant_charge_counter"] = 3,
+  ["modifier_earth_spirit_stone_caller_charge_counter"] = 7,
   ["modifier_shadow_demon_demonic_purge_charge_counter"] = 3,
   ["modifier_bloodseeker_rupture_charge_counter"] = 2,
   ["modifier_broodmother_spin_web_charge_counter"] = 8,

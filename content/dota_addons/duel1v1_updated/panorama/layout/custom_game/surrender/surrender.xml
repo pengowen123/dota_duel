@@ -1,0 +1,31 @@
+<root>
+  <styles>
+    <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+    <include src="file://{resources}/styles/custom_game/surrender/surrender.css" />
+  </styles>
+  <scripts>
+    <include src="file://{resources}/scripts/custom_game/surrender/surrender.js" />
+  </scripts>
+  <!-- This is the popup for the surrender button -->
+  <Panel hittest="false" class ="BaseHud">
+      <Button id ="surrender" onactivate="ShowPopUp()">
+        <Image id="flag" src = "file://{resources}/images/custom_game/surrender/give_up.jpg" />
+      </Button>
+      <!-- This is the panel for the popup -->
+       <Panel class="RootPopup" hittest="false">
+         <Panel class="PopUpHolder" id="PopUpHolder">
+          <Panel id="mess" class="MessagePanel">
+            <Label id="LabeledMessage" text="Do you wish to forfeit this duel?"/>
+          </Panel>
+          <Panel id="buttonchoices" class="PopupButtonRow">
+           <Button id="b0" class="PopupButton isAutoConfirm" onactivate="GiveUp()">
+            <Label text="#duel_surrender_yes"/>
+            </Button>
+           <Button id="b1" class="PopupButton isAutoCancel" onactivate="CleanUp()">
+             <Label text="#duel_surrender_no"/>
+            </Button>
+            </Panel>
+          </Panel>
+        </Panel>
+  </Panel>
+</root>

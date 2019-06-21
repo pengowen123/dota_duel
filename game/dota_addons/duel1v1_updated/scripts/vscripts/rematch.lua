@@ -15,7 +15,6 @@ vote_rematch_data = {}
 -- A listener for when a player votes to rematch
 function OnVoteRematch(event_source_index, args)
 	local id = args["id"]
-
 	vote_rematch_data[id] = true
 
 	local data = {}

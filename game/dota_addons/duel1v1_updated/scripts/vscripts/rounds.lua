@@ -329,7 +329,7 @@ function ResetCharges(entity)
     local name = modifier:GetName()
 
     -- Set the charge counter in a way that still works when the maximum charge count is changed, for example with one of Sniper's talent
-    if name == "modifier_sniper_shrapnel_charge_counter" then
+    if name == "modifier_sniper_shrapnel_charge_counter" or name == "modifier_ember_spirit_fire_remnant_charge_counter" then
       local increment_shrapnel_counter = function()
         modifier:StartIntervalThink(0.01)
       end
