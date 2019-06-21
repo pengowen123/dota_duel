@@ -24,6 +24,7 @@ modifier_max_charges = {
 
 
 MAX_KILLS = 5
+STRENGTH_MAGIC_RESISTANCE = 0.08
 
 
 -- Returns a table containing handles to all player entities
@@ -73,7 +74,7 @@ function GetPlayerIDs()
 end
 
 
--- Teleports `entity` to the entity with the name `target_entity`, and centers the camer on the player's hero
+-- Teleports `entity` to the entity with the name `target_entity`
 function TeleportEntity(entity, target_entity_name)
   local point = Entities:FindByName(nil, target_entity_name):GetAbsOrigin()
 
@@ -84,7 +85,7 @@ end
 
 -- Teleports `entity` to the entity named `radiant_target_name` if `entity` is on the radiant team, or
 -- to the entity named `dire_target_name` otherwise
-function TeleportEntityByTeam(entity, radiant_target_name, dire_target_name, center_camera)
+function TeleportEntityByTeam(entity, radiant_target_name, dire_target_name)
   local team = entity:GetTeam()
 
   if team == DOTA_TEAM_GOODGUYS then
@@ -93,10 +94,6 @@ function TeleportEntityByTeam(entity, radiant_target_name, dire_target_name, cen
 
   if team == DOTA_TEAM_BADGUYS then
     TeleportEntity(entity, dire_target_name)
-  end
-
-  if center_camera then
-      SendToConsole("dota_camera_center")
   end
 end
 
@@ -251,4 +248,25 @@ function GetInventoryItems()
     all_inventories[playerID] = player_inventory
   end
   return all_inventories
+end
+
+
+-- Returns whether the player with the provided ID is a bot
+function IsBot(id)
+  return tostring(PlayerResource:GetSteamID(id)) == "0"
+end
+
+
+-- Sets the add bot button's enabled state to the provided value
+function EnableAddBotButton(enabled)
+  local data = {}
+  data.enabled = enabled
+
+  CustomGameEventManager:Send_ServerToAllClients("enable_add_bot_button", data)
+end
+
+
+-- Returns the multiplier for physical damage taken given an armor value
+function GetPhysicalDamageMultiplier(armor_value)
+  return 1 - ((0.052 * armor_value) / (0.9 + 0.048 * math.abs(armor_value)))
 end

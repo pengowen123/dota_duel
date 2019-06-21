@@ -44,6 +44,11 @@ function InitVoteRematchData()
 
 	for i, id in pairs(GetPlayerIDs()) do
 		vote_rematch_data[id] = false
+
+		-- Make bots always vote to rematch (the UI update happens in rounds.lua)
+		if IsBot(id) then
+			vote_rematch_data[id] = true
+		end
 	end
 end
 

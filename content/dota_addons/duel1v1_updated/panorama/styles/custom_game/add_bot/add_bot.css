@@ -1,0 +1,35 @@
+// Root panel
+.Root
+{
+	width: 150px;
+	height: 65px;
+
+	horizontal-align: left;
+	vertical-align: top;
+
+	margin-top: 150px;
+
+	background-color: transparent;
+}
+
+// Click to add a bot
+.AddBotButton
+{
+	horizontal-align: center;
+	vertical-align: center;
+
+	background-color: grey;
+	width: 150px;
+	height: 65px;
+}
+
+// Text on the ReadyButton
+#AddBotButtonLabel
+{
+	horizontal-align: center;
+	vertical-align: center;
+
+	font-size: 24px;
+	color: white;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+}
