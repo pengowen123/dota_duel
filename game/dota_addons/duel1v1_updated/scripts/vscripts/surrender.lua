@@ -5,13 +5,22 @@ function OnSurrender(event_source_index, args)
 	local player_id = args["player_id"]
 	-- This makes the entire team of the player lose
 	local team = PlayerResource:GetTeam(player_id)
-	local team_winner = 0
+	local team_winner = GetOppositeTeam(team)
 
-	if team == 2 then
-		team_winner = 1
-	end
+	EndGameDelayed(team_winner)
 
-	EndGameDelayed(10, team_winner)
-	game_ended = true
-	CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
+  text = "#duel_player_lose"
+  losing_team_name = GetLocalizationTeamName(team)
+  winning_team_name = GetLocalizationTeamName(team_winner)
+
+  Notifications:ClearBottomFromAll()
+  Notifications:BottomToAll({
+    text = text,
+    duration = 10,
+    vars = {
+      reason = "#duel_surrender_notification",
+      team = winning_team_name,
+      losing_team = losing_team_name,
+    },
+  })
 end

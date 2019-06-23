@@ -70,8 +70,14 @@ function RestartGame()
 	-- Hide the rematch UI and show the ready-up UI
 	-- The former is done later in `OnGameInProgress`, but if it is immediately after replacing the
 	-- heroes, it does not work
+	-- Also set a flag to not show the surrender UI so that players can't surrender while heroes are
+	-- loading
 	CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
-	CustomGameEventManager:Send_ServerToAllClients("end_round", nil)
+
+	local data = {}
+	data.enable_surrender = false
+
+	CustomGameEventManager:Send_ServerToAllClients("end_round", data)
 
 	-- To prevent reaching the item purchased limit
 	ClearInventories()

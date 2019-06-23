@@ -152,8 +152,6 @@ function OnSelectHero(hero_id)
  	var id = "#hero_" + hero_id.toString();
  	var selected_button = $(id);
  	selected_button.style.border = "5px";
-
- 	$.Msg('selected hero: ' + hero_name_table[hero_id])
 }
 
 

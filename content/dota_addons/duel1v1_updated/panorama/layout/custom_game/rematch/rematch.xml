@@ -40,7 +40,11 @@
 
 		<Panel class="Rematch" id="Rematch">
 
-			<Label id="RematchLabel" text="#duel_rematch_time_remaining" />
+			<Panel class="RematchTop">
+
+				<Label id="RematchLabel" text="#duel_rematch_time_remaining" />
+
+			</Panel>
 
 			<Panel class="LeftSide">
 

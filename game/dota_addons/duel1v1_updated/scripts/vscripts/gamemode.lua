@@ -120,6 +120,8 @@ function GameMode:OnGameInProgress()
 
   -- Hide the vote rematch UI
   CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
+  -- Show the surrender UI
+  CustomGameEventManager:Send_ServerToAllClients("enable_surrender", nil)
 
   -- To prevent people from spawning outside the shop area
   ResetPlayers(true)
@@ -235,7 +237,8 @@ function MakeTeamLose(team, text)
     return
   end
 
-  local opposite_team_name = GetOppositeTeamName(team)
+  local opposite_team = GetOppositeTeam(team)
+  local opposite_team_name = GetLocalizationTeamName(opposite_team)
 
   -- Make the disconnected player lose
   -- Has a delay to let players see the notification

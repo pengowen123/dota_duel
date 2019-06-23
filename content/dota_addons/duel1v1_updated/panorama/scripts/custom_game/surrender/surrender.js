@@ -2,47 +2,89 @@
 
 function Initialize()
 {
-	ToggleForfeitFlag(true);
-	ToggleForfeitScreen(false);
-	$.Msg("Trying to initialize");
+	ToggleForfeitPopup(false);
+
+	GameEvents.Subscribe("enable_surrender", ResetForfeitUI);
+	GameEvents.Subscribe("start_round", StartRound);
+	GameEvents.Subscribe("end_round", EndRound);
+	GameEvents.Subscribe("end_game", EndGame);
 }
 
-function CleanUp(){
-	ToggleForfeitScreen(false);
-	ToggleForfeitFlag(true);
+
+function ResetForfeitUI()
+{
+	ToggleForfeitPopup(false);
+	ToggleForfeitButton(true);
 }
 
-function ShowPopUp(){
-	ToggleForfeitScreen(true);
-	ToggleForfeitFlag(false);
+
+// Disables the entire forfeit UI
+function HideForfeitUI()
+{
+	ToggleForfeitPopup(false);
+	ToggleForfeitButton(false);
 }
 
-function GiveUp(){
+
+function ShowPopup()
+{
+	ToggleForfeitPopup(true);
+	ToggleForfeitButton(false);
+}
+
+
+function Surrender()
+{
 	var player_id = Players.GetLocalPlayer();
-	var data = {"player_id" : player_id};
-	$.Msg("Invoking lua for surrendering with data: "+ data["player_id"])
+	var data = { "player_id": player_id };
 	GameEvents.SendCustomGameEventToServer("player_surrender_js", data);
-	CleanUp();
+	HideForfeitUI();
 }
+
+
+function StartRound()
+{
+	HideForfeitUI();
+}
+
+
+function EndRound(args)
+{
+	if (args.enable_surrender)
+	{
+		ResetForfeitUI();
+	}
+}
+
+
+function EndGame()
+{
+	HideForfeitUI();
+}
+
 
 // Sets the forfeit flag on the top
-function ToggleForfeitFlag(state){
-	var panel = $("#surrender");
+function ToggleForfeitButton(state)
+{
+	var panel = $("#Surrender");
 	ToggleElement(panel, state);
 }
 
+
 // Sets the forfeit pop-up on the screen
-function ToggleForfeitScreen(state) {
-	var panel = $("#PopUpHolder");
+function ToggleForfeitPopup(state)
+{
+	var panel = $("#PopupHolder");
 	ToggleElement(panel, state);
 }
+
 
 // Sets the element's enabled and visible properties to the provided value
 function ToggleElement(element, enabled)
 {
-	$.Msg("enabled: " + enabled.toString())
 	element.enabled = enabled;
 	element.visible = enabled;
 }
+
 
 Initialize();

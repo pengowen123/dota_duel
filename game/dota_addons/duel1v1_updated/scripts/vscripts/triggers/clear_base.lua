@@ -16,6 +16,11 @@ function OnStartTouch(keys)
 				modifier:Destroy()
 				return
 			end
+
+			if modifier_name == "modifier_item_gem_of_true_sight" then
+				modifier:Destroy()
+				return
+			end
 		end
 	end
 
@@ -27,6 +32,12 @@ function OnStartTouch(keys)
 				return
 			end
 		end
+	end
+
+	-- Spirit bears are useless in base because they are silenced and rooted, so the player is forced
+	-- to resummon them even if they are not killed
+	if name == "npc_dota_lone_druid_bear" then
+		return
 	end
 
 	if classname == "dota_death_prophet_exorcism_spirit" or classname == "npc_dota_wisp_spirit" then
@@ -62,6 +73,7 @@ function OnStartTouch(keys)
 		if item then
 			item:Destroy()
 		end
+
 		activator:Kill()
 	elseif name == "npc_dota_creep_neutral" then
 		-- Neutral creeps must be removed instead of killed, or new neutrals will not spawn

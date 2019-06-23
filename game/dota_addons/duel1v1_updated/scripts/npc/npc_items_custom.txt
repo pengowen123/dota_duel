@@ -71,9 +71,16 @@
 
   "item_ward_observer"
   {
-    "ItemStockMax"          "4" 
+    "ItemStockMax"          "4"
     "ItemStockTime"         "1"
     "ItemStockInitial"      "4"
+  }
+
+  "item_ward_sentry"
+  {
+    "ItemStockMax"          "10"
+    "ItemStockTime"         "1"
+    "ItemStockInitial"      "10"
   }
 
   "item_smoke_of_deceit"

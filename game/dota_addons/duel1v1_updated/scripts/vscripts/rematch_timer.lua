@@ -27,23 +27,19 @@ function InitRematchTimer()
 end
 
 
--- Ends the game after the provided delay (in seconds)
--- `winner` should be 0 for radiant and 1 for dire
-function EndGameDelayed(delay, winner)
+-- Ends the game after a delay and shows the rematch UI
+-- `winner` should be either DOTA_TEAM_GOODGUYS or DOTA_TEAM_BADGUYS
+function EndGameDelayed(winner)
 	-- This is called again here so the countdown only starts after one second has passed
 	-- Otherwise the countdown could happen before the first second passes and the timer becomes inaccurate
 	InitRematchTimer()
 	SendRematchTimerUpdateEvent()
 
-	rematch_timer = delay
-	
-  if winner == 0 then
-    game_result = DOTA_TEAM_GOODGUYS
-  end
+	rematch_timer = 10
+	game_result = winner
+	game_ended = true
 
-  if winner == 1 then
-    game_result = DOTA_TEAM_BADGUYS
-  end
+	CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
 end
 
 

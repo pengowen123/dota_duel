@@ -5,51 +5,74 @@
 	flow-children: down;
 }
 
-#surrender
-{
-	width: 2%;
-	height: 3%;
-	margin-left: 48.88%;
-	margin-top: 4%;
-}
-
-.MessagePanel {
-	position: 0px 57.0px 0.0px;
-}
-
-.buttonchoices {
-	position: 0px 90.0px 0.0px;
-}
-
-#b0 {
-	position: 208px 0px 0.0px;
-}
-
-#PopUpHolder
-{
-	flow-children:down;
-	margin-top: 50%;
-	margin-left: 50%;
-}
-
-// Click to surrender
-.SurrenderButton
+#Surrender
 {
 	horizontal-align: center;
 	vertical-align: center;
 
-	background-color: white;
-	width: 150px;
-	height: 65px;
+	width: 10%;
+	height: 5%;
+
+	margin-top: 4%;
 }
 
-// Text on the SurrenderButton
-#SurrenderButtonLabel
-{
+.MessagePanelTop {
+	horizontal-align: center;
+
+	width: 100%;
+	height: 35%;
+}
+
+.MessagePanelMiddle {
+	horizontal-align: center;
+	width: 100%;
+	height: 20%;
+}
+
+.MessageHeader {
+	horizontal-align: center;
+	vertical-align: center;
+
+	font-size: 30px;
+}
+
+.MessageBody {
 	horizontal-align: center;
 	vertical-align: center;
 
 	font-size: 24px;
-	color: black;
-	text-shadow: 1px 1px 1px 3.0 #33333333;
+	color: white;
+}
+
+.ButtonChoices {
+	horizontal-align: center;
+	height: 45%;
+	width: 100%;
+}
+
+#ButtonYes {
+	horizontal-align: left;
+	vertical-align: center;
+	margin-left: 12.5%;
+}
+
+#ButtonNo {
+	horizontal-align: right;
+	vertical-align: center;
+	margin-right: 12.5%;
+}
+
+.PopupHolder
+{
+	horizontal-align: center;
+	vertical-align: center;
+	flow-children: down;
+
+	width: 28.5%;
+	height: 23%;
+
+	background-color: #232829EE;
+	border: 1px;
+	border-style: solid;
+	border-color: #444444;
 }

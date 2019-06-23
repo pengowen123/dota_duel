@@ -13,7 +13,8 @@
 // Main panel (root is just a dummy so we can specify ID on this one)
 .Ready
 {
-	width: fill-parent-flow(1.0);
+	width: 100%;
+	height: 100%;
 }
 
 // Label at the top of the root panel
@@ -31,6 +32,13 @@
 {
 	width: fill-parent-flow(1.0);
 	height: 100px;
+}
+
+// Top of the ready-up UI
+.ReadyTop
+{
+	width: 100%;
+	height: 20%;
 }
 
 // Shows player name
@@ -64,13 +72,14 @@
 	flow-children: down;
 }
 
-// Player name panel
+// Left side of the ready-up UI
 .LeftSide
 {
 	text-align: center;
 	vertical-align: center;
 
 	width: 50%;
+	height: 80%;
 }
 
 // Player name
@@ -83,11 +92,14 @@
 	text-shadow: 1px 1px 1px 3.0 #33333333;
 }
 
-// Holds one ReadyImage
+// Right side of the ready-up UI, holds the ready-up button
 .RightSide
 {
 	horizontal-align: right;
 	vertical-align: center;
+
+	width: 50%;
+	height: 80%;
 }
 
 // Shows whether the player is ready
@@ -118,7 +130,9 @@
 .ReadyButton
 {
 	horizontal-align: center;
-	vertical-align: center;
+	vertical-align: top;
+
+	margin-top: 25px;
 	
 	background-color: grey;
 	width: 150px;

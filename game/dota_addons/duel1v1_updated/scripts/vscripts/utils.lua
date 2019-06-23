@@ -101,15 +101,13 @@ function TeleportEntityByTeam(entity, radiant_target_name, dire_target_name, cen
 end
 
 
--- Returns the name ("Radiant" or "Dire") of the enemy team of the provided one
-function GetOppositeTeamName(team)
-  local opposite_team_name = "#DOTA_GoodGuys"
-
+-- Returns the team that is the enemy of the provided one
+function GetOppositeTeam(team)
   if team == DOTA_TEAM_GOODGUYS then
-    opposite_team_name = "#DOTA_BadGuys"
+    return DOTA_TEAM_BADGUYS
+  elseif team == DOTA_TEAM_BADGUYS then
+    return DOTA_TEAM_GOODGUYS
   end
-
-  return opposite_team_name
 end
 
 
@@ -233,6 +231,8 @@ end
 
 
 -- Get all the items of each player
+-- If an item is a gem, instead of a handle the value will be "item_gem". This is because gems are
+-- destroyed when heroes are replaced and cannot be reused.
 function GetInventoryItems()
   all_inventories = {}
   for i, playerID in pairs(GetPlayerIDs()) do
@@ -244,11 +244,53 @@ function GetInventoryItems()
         local item = player_hero_handle:GetItemInSlot(i)
 
         if item then
-          player_inventory[i] = item
+          if item:GetAbilityName() == "item_gem" then
+            player_inventory[i] = "item_gem"
+            item:Destroy()
+          else
+            player_inventory[i] = item
+          end
         end
       end
     end
     all_inventories[playerID] = player_inventory
   end
   return all_inventories
+end
+
+
+-- Returns the correct localization string for the name of the provided team
+-- `winner` should be either DOTA_TEAM_GOODGUYS or DOTA_TEAM_BADGUYS
+function GetLocalizationTeamName(team)
+  if team == DOTA_TEAM_GOODGUYS then
+    return "#DOTA_GoodGuys"
+  elseif team == DOTA_TEAM_BADGUYS then
+    return "#DOTA_BadGuys"
+  end
+end
+
+
+-- Removes all old hero entities
+-- Do not call unless players will be given new heroes immediately after, otherwise clone-based
+-- abilities like monkey king soldiers and tempest double will crash the server when used
+function RemoveOldHeroes()
+  local hero_names = {}
+  local hero_entities = {}
+
+  for i, id in pairs(GetPlayerIDs()) do
+    local hero = PlayerResource:GetSelectedHeroEntity(id)
+
+    if hero then
+      hero_names[hero:GetName()] = true
+      hero_entities[hero] = true
+    end
+  end
+
+  for hero_name, i in pairs(hero_names) do
+    for i, entity in pairs(Entities:FindAllByName(hero_name)) do
+      if not hero_entities[entity] then
+        UTIL_Remove(entity)
+      end
+    end
+  end
 end

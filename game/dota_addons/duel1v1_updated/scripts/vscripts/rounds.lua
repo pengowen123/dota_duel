@@ -45,29 +45,18 @@ function OnEntityDeath(event)
         end
 
         if GetRadiantKills() >= MAX_KILLS then
-          winner = 0
+          winner = DOTA_TEAM_GOODGUYS
         end
 
         if GetDireKills() >= MAX_KILLS then
-          winner = 1
+          winner = DOTA_TEAM_BADGUYS
         end
 
         if winner then
-          local game_end_delay = 10
-          EndGameDelayed(game_end_delay, winner)
+          EndGameDelayed(winner)
 
-          CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
-
-          text = ""
-          team = ""
-
-          if winner == 0 then
-            text = "#duel_victory"
-            team = "#DOTA_GoodGuys"
-          elseif winner == 1 then
-            text = "#duel_victory"
-            team = "#DOTA_BadGuys"
-          end
+          text = "#duel_victory"
+          team = GetLocalizationTeamName(winner)
 
           Notifications:ClearBottomFromAll()
           Notifications:BottomToAll({
@@ -77,8 +66,6 @@ function OnEntityDeath(event)
               team = team,
             }
           })
-
-          game_ended = true
         end
 
         -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
@@ -109,6 +96,14 @@ function StartRound()
   Timers:CreateTimer(0.5, SpawnAllNeutrals)
 
   local teleport_players = function()
+    -- If the game ends between the timer for this function being created and this function being
+    -- called, the round will start even if the game ended.
+    -- This can only happen when a player surrenders at the right moment, but it can still happen
+    -- so this check is here to prevent that
+    if game_ended then
+      return
+    end
+
     local player_entities = GetPlayerEntities()
 
     for i, player_entity in pairs(player_entities) do
@@ -123,13 +118,17 @@ function StartRound()
         end
       end
 
-      -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
-      TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
-    end
+      -- Keep spirit bears disabled and away from the shop so lone druid can't cheat
+      if player_entity:GetName() == "npc_dota_lone_druid_bear" then
+        player_entity:AddNewModifier(player_entity, nil, "modifier_bear_disable", {})
 
-    -- Kill spirit bears so lone druid can't cheat
-    for i, bear in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
-      bear:Kill(nil, nil)
+        local point = Vector(12000, 12000, 0)
+
+        FindClearSpaceForUnit(player_entity, point, false)
+      else
+        -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
+        TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
+      end
     end
   end
 
@@ -162,7 +161,9 @@ function EndRound()
   InitReadyUpData()
 
   if not game_ended then
-    CustomGameEventManager:Send_ServerToAllClients("end_round", nil)
+    local data = {}
+    data.enable_surrender = true
+    CustomGameEventManager:Send_ServerToAllClients("end_round", data)
 
     -- Start the round after 30 seconds
     local round_start_delay = 30
@@ -256,6 +257,11 @@ function ClearArena()
   local delay = 0.1
 
   Timers:CreateTimer(delay, disable)
+
+  -- Remove temporary vision sources such as from dropped gems of true sight or spark wraiths
+  for i, entity in pairs(Entities:FindAllByClassname("dota_fogofwartempviewers")) do
+    entity:Kill()
+  end
 end
 
 
@@ -331,7 +337,9 @@ function ResetCharges(entity)
     -- Set the charge counter in a way that still works when the maximum charge count is changed, for example with one of Sniper's talent
     if name == "modifier_sniper_shrapnel_charge_counter" or name == "modifier_ember_spirit_fire_remnant_charge_counter" then
       local increment_shrapnel_counter = function()
-        modifier:StartIntervalThink(0.01)
+        if not modifier:IsNull() then
+          modifier:StartIntervalThink(0.01)
+        end
       end
 
       for delay=0,10 do
@@ -405,6 +413,12 @@ end
 function ResetTalents()
   local player_IDs = GetPlayerIDs()
   local player_items = GetInventoryItems()
+  local bear_items = {}
+  local bear_moon_shards = {}
+
+  -- Remove old hero entities
+  -- Otherwise, they keep building up every round, eventually causing lag
+  RemoveOldHeroes()
 
   -- Reset hero and copy over all the modifiers
   for i, playerID in pairs(player_IDs) do
@@ -414,6 +428,24 @@ function ResetTalents()
 
     local has_moon_shard = hero_entity:HasModifier("modifier_item_moon_shard_consumed")
     local has_scepter = hero_entity:HasModifier("modifier_item_ultimate_scepter_consumed")
+
+    -- Collect modifiers and items for the spirit bear of this hero if it has one
+    for i, entity in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
+      if entity:GetOwnerEntity() == hero_entity then
+        bear_moon_shards[playerID] = entity:HasModifier("modifier_item_moon_shard_consumed")
+        bear_items[playerID] = {}
+
+        for i=0,20 do
+          local item = entity:GetItemInSlot(i)
+
+          if item then
+            -- The actual item can't be copied over because it seems to be destroyed by DOTA when
+            -- the hero is replaced
+            bear_items[playerID][i] = item:GetAbilityName()
+          end
+        end
+      end
+    end
 
     -- Replace the hero with a dummy
     local temp_hero_name = "npc_dota_hero_invoker"
@@ -454,11 +486,48 @@ function ResetTalents()
         local item = player_inventory[i]
 
         if item then
+          -- Gems are lost when the hero is replaced, so a new one is created here
+          if item == "item_gem" then
+            item = CreateItem(item, new_hero, new_hero)
+          end
+
           if item:GetAbilityName() == "item_tpscroll" then
             item:Destroy()
           else
             new_hero:AddItem(item)
             new_hero:SwapItems(0, i)
+          end
+        end
+      end
+
+      local bear_inventory = bear_items[playerID]
+
+      if bear_inventory ~= nil then
+        -- Summon a new bear automatically, otherwise the items and modifiers can't be added back
+        new_hero:GetAbilityByIndex(0):CastAbility()
+
+        for i, entity in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
+          if entity:GetOwnerEntity() == new_hero then
+            -- Re-add moon shard buff
+            if bear_moon_shards[playerID] then
+              local moon_shard = entity:AddItemByName("item_moon_shard")
+              local player_index = 0
+              entity:CastAbilityOnTarget(entity, moon_shard, player_index)
+            end
+
+            local re_add_bear_items = function()
+              for i = 20,0,-1 do
+                local item = bear_inventory[i]
+
+                if item then
+                  entity:AddItemByName(item)
+                  entity:SwapItems(0, i)
+                end
+              end
+            end
+
+            -- Re-add items from the bear's inventory half a second after summoning it
+            Timers:CreateTimer(0.5, re_add_bear_items)
           end
         end
       end

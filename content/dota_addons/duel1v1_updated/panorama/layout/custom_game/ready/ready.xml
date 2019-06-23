@@ -40,7 +40,11 @@
 
 		<Panel class="Ready" id="Ready">
 
-			<Label id="ReadyLabel" text="#duel_time_remaining" />
+			<Panel class="ReadyTop">
+
+				<Label id="ReadyLabel" text="#duel_time_remaining" />
+
+			</Panel>
 
 			<Panel class="LeftSide">
 

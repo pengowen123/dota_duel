@@ -1,18 +1,21 @@
 function OnStartTouch(trigger)
 	local activator = trigger.activator
 	
-	if activator == nil then
+	-- Only run on NPCs
+	if activator == nil or not activator.GetItemInSlot then
 		return
 	end
 
 	activator:RemoveModifierByName("leave_arena_modifier")
+	activator:RemoveModifierByName("modifier_bear_disable")
 end
 
 
 function OnEndTouch(trigger)
 	local activator = trigger.activator
 
-	if activator == nil then
+	-- Only run on NPCs
+	if activator == nil or not activator.GetItemInSlot then
 		return
 	end
 
