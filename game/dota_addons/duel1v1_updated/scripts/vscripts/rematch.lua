@@ -43,12 +43,18 @@ function InitVoteRematchData()
 
 	for i, id in pairs(GetPlayerIDs()) do
 		vote_rematch_data[id] = false
-
-		-- Make bots always vote to rematch (the UI update happens in rounds.lua)
-		if IsBot(id) then
-			vote_rematch_data[id] = true
-		end
 	end
+end
+
+
+-- Votes to rematch for the player with the provided ID
+function ForceVoteRematch(id)
+	vote_rematch_data[id] = true
+
+	local data = {}
+	data.id = id
+
+	CustomGameEventManager:Send_ServerToAllClients("player_vote_rematch_lua", data)
 end
 
 

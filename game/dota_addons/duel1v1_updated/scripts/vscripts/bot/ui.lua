@@ -40,6 +40,7 @@ function OnAddBot(event_source_index, args)
 		end
 
 		ForceReadyUp(bot_id)
+		ForceVoteRematch(bot_id)
 
 		-- This may not be necessary, but it doesn't hurt
 		PlayerResource:SetUnitShareMaskForPlayer(bot_id, player_id, 1, false)

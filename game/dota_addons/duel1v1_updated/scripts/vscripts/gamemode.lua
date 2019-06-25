@@ -54,11 +54,8 @@ require('rematch')
 require('kills')
 require('hero_select')
 require('hero_select_timer')
-<<<<<<< HEAD
 require('surrender')
-=======
 require('bot/bot')
->>>>>>> bot
 
 
 -- Constants

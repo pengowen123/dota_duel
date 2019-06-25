@@ -7,7 +7,7 @@ ESCAPE_POINTS = {
 	-- Bottom left
 	Vector(275, 219, 384),
 	-- Bottom right
-	Vector(1252, -93, 384),
+	Vector(1777, -93, 384),
 	-- Top left
 	Vector(296, 1284, 384),
 	-- Top right
@@ -20,7 +20,7 @@ IDLE_POINTS = {
 	-- Bottom left
 	Vector(275, 219, 384),
 	-- Bottom right
-	Vector(1252, -93, 384),
+	Vector(1777, -93, 384),
 	-- Top left
 	Vector(296, 1284, 384),
 	-- Top right

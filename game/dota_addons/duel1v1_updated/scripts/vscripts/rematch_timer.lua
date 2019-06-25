@@ -40,6 +40,13 @@ function EndGameDelayed(winner)
 	game_ended = true
 
 	CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
+
+	-- Make bots always vote to rematch
+	for i, id in pairs(GetPlayerIDs()) do
+		if IsBot(id) then
+		  ForceVoteRematch(id)
+		end
+	end
 end
 
 

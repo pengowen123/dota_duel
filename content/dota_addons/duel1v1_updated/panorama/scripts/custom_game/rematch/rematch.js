@@ -63,17 +63,17 @@ function OnVoteRematch(args)
 // Sets the image source of the vote rematch image for the player with the given id
 function SetVoteRematchImage(id, src)
 {
-	var player_panel = $("#" + id.toString());
+	var selector = "#" + id.toString();
+	var player_panel = $(selector);
 
-	if (player_panel)
-	{
-		var image = player_panel.GetChild(1).GetChild(0).GetChild(0);
-		image.SetImage(src);
-	}
-	else
+	if (!player_panel)
 	{
 		AddPlayer(id);
+		player_panel = $(selector);
 	}
+
+	var image = player_panel.GetChild(1).GetChild(0).GetChild(0);
+	image.SetImage(src);
 }
 
 

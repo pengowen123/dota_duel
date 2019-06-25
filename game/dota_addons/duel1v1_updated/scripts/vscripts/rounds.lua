@@ -55,18 +55,6 @@ function OnEntityDeath(event)
         if winner then
           EndGameDelayed(winner)
 
-          CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
-
-          for i, id in pairs(GetPlayerIDs()) do
-            -- Make bots always vote to rematch (this is the UI part, the actual vote happens in rematch.lua)
-            if IsBot(id) then
-              local data = {}
-              data.id = id
-
-              CustomGameEventManager:Send_ServerToAllClients("player_vote_rematch_lua", data)
-            end
-          end
-
           text = "#duel_victory"
           team = GetLocalizationTeamName(winner)
 
