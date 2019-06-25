@@ -54,7 +54,11 @@ require('rematch')
 require('kills')
 require('hero_select')
 require('hero_select_timer')
+<<<<<<< HEAD
 require('surrender')
+=======
+require('bot/bot')
+>>>>>>> bot
 
 
 -- Constants
@@ -137,6 +141,28 @@ function GameMode:OnGameInProgress()
   -- Start the first round after 60 seconds
   local game_start_delay = 60
   SetRoundStartTimer(game_start_delay)
+
+  -- Enable the add bot button if there is only one player and they are on the 1v1 map
+  if GetMapName() == "duel1v1" then
+    local total_players = 0
+    total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
+    total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
+
+    if total_players == 1 then
+      local enable_button = function()
+        EnableAddBotButton(true)
+      end
+
+      local disable_button = function()
+        EnableAddBotButton(false)
+      end
+
+      -- There must be a delay for events to be properly sent at the time this function is called
+      Timers:CreateTimer(2.0, enable_button)
+      -- Disable the button after 50 seconds if it was not pressed already
+      Timers:CreateTimer(50.0, disable_button)
+    end
+  end
 end
 
 -- This function initializes the game mode and is called before anyone loads into the game
@@ -153,6 +179,7 @@ function GameMode:InitGameMode()
   CustomGameEventManager:RegisterListener("player_ready_js", OnReadyUp)
   CustomGameEventManager:RegisterListener("player_vote_rematch_js", OnVoteRematch)
   CustomGameEventManager:RegisterListener("player_select_hero_js", OnSelectHero)
+  CustomGameEventManager:RegisterListener("add_bot", OnAddBot)
   InitKills()
 
   -- Watch for player disconnect

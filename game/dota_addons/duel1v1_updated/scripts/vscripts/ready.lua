@@ -20,6 +20,7 @@ function OnReadyUp(event_source_index, args)
 	CustomGameEventManager:Send_ServerToAllClients("player_ready_lua", data)
 
 	if AllReady() then
+		EnableAddBotButton(false)
 		StartRoundEarly()
 		SendTimerUpdateEvent()
 		-- Reset ready-up data
@@ -34,7 +35,23 @@ function InitReadyUpData()
 
 	for i, id in pairs(GetPlayerIDs()) do
 		ready_up_data[id] = false
+
+		-- Make bots always ready up
+		if IsBot(id) then
+			ForceReadyUp(id)
+		end
 	end
+end
+
+
+-- Readies up for the player with the provided ID
+function ForceReadyUp(id)
+	ready_up_data[id] = true
+
+	local data = {}
+	data.id = id
+
+	CustomGameEventManager:Send_ServerToAllClients("player_ready_lua", data)
 end
 
 

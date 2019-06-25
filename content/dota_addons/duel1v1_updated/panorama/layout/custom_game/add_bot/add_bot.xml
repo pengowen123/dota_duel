@@ -1,0 +1,21 @@
+<root>
+
+	<styles>
+		<include src="file://{resources}/styles/custom_game/add_bot/add_bot.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/add_bot/add_bot.js" />
+	</scripts>
+
+	<Panel class="Root">
+
+		<Button class="AddBotButton" id="AddBotButton" onactivate="AddBot()">
+
+			<Label id="AddBotButtonLabel" text="#duel_add_bot" />
+
+		</Button>
+
+	</Panel>
+
+</root>

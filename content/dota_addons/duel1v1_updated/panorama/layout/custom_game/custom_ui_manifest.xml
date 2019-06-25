@@ -54,6 +54,7 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/score/score.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/hero_select/hero_select.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/surrender/surrender.xml" />
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/add_bot/add_bot.xml" />
 
     <!-- From Overthrow.
 

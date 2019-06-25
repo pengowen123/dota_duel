@@ -19,7 +19,7 @@ function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
   -- For debugging in production
-  print("died: " .. entity:GetName())
+  print("died: " .. entity:GetName() .. ", classname: " .. entity:GetClassname())
   if entity:IsRealHero() then
     print("Entity reincarnating: " .. tostring(entity:IsReincarnating()))
   end
@@ -54,6 +54,18 @@ function OnEntityDeath(event)
 
         if winner then
           EndGameDelayed(winner)
+
+          CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
+
+          for i, id in pairs(GetPlayerIDs()) do
+            -- Make bots always vote to rematch (this is the UI part, the actual vote happens in rematch.lua)
+            if IsBot(id) then
+              local data = {}
+              data.id = id
+
+              CustomGameEventManager:Send_ServerToAllClients("player_vote_rematch_lua", data)
+            end
+          end
 
           text = "#duel_victory"
           team = GetLocalizationTeamName(winner)
@@ -203,7 +215,7 @@ function EndRound()
   
   Timers:CreateTimer("reset_players", args)
 
-  -- To prevent reaching the item purchaes limit because of items dropped on the ground
+  -- To prevent reaching the item purchased limit because of items dropped on the ground
   ClearBases()
 
   -- Reset talents so players can try new ones
@@ -212,7 +224,7 @@ end
 
 
 -- Resets the position, cooldowns and buffs of all players
-function ResetPlayers(center_camera)
+function ResetPlayers()
   local player_entities = GetPlayerEntities()
 
   for i, player_entity in pairs(player_entities) do
@@ -227,7 +239,7 @@ function ResetPlayers(center_camera)
     end
 
     -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
-    ResetPosition(player_entity, center_camera)
+    ResetPosition(player_entity)
   end
 end
 
@@ -287,10 +299,10 @@ end
 
 
 -- Teleports an entity to its base and disjoints incoming projectiles
-function ResetPosition(entity, center_camera)
+function ResetPosition(entity)
   ProjectileManager:ProjectileDodge(entity)
 
-  TeleportEntityByTeam(entity, "base_teleport_radiant", "base_teleport_dire", center_camera)
+  TeleportEntityByTeam(entity, "base_teleport_radiant", "base_teleport_dire")
 end
 
 
@@ -374,7 +386,7 @@ function ClearBuffs(entity)
 
     -- For debugging in production
     if entity:GetName() == "npc_dota_hero_skeleton_king" then
-      print("Removing modifier from wraith king: " .. name)
+      -- print("Removing modifier from wraith king: " .. name)
     end
 
     -- Don't remove modifiers such as ones that represent abiltiies

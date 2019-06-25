@@ -131,4 +131,9 @@ function TryOnGameInProgress(playerID)
 	end
 
 	GameMode:OnGameInProgress()
+
+	-- Reset the bot if it exists
+	if global_bot_controller then
+		global_bot_controller:Reset()
+	end
 end

@@ -64,8 +64,16 @@ function OnVoteRematch(args)
 function SetVoteRematchImage(id, src)
 {
 	var player_panel = $("#" + id.toString());
-	var image = player_panel.GetChild(1).GetChild(0).GetChild(0);
-	image.SetImage(src);
+
+	if (player_panel)
+	{
+		var image = player_panel.GetChild(1).GetChild(0).GetChild(0);
+		image.SetImage(src);
+	}
+	else
+	{
+		AddPlayer(id);
+	}
 }
 
 
