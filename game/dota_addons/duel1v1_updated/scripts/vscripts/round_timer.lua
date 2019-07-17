@@ -5,6 +5,7 @@ require('utils')
 
 
 -- Constants
+ROUND_START_DELAY = 4
 
 round_start_timer = 0
 
@@ -31,14 +32,15 @@ end
 
 -- Sets the round start timer to the provided value (in seconds)
 function SetRoundStartTimer(seconds)
+	if seconds <= ROUND_START_DELAY then
+		PrepareNextRound()
+	end
+
 	-- This is called again here so the countdown only starts after one second has passed
 	-- Otherwise the countdown could happen before the first second passes and the timer becomes inaccurate
 	InitRoundStartTimer()
 	SendTimerUpdateEvent()
-	-- Minus one second because there is a one second delay between the round starting and players getting teleported
-	-- to the arena. This will make the round start one second earlier, essentially removing that delay from the perspective
-	-- of players
-	round_start_timer = seconds - 1
+	round_start_timer = seconds
 end
 
 
@@ -48,6 +50,10 @@ function CountDownTimer()
 		-- Count down one second
 		round_start_timer = round_start_timer - 1
 
+		if round_start_timer == ROUND_START_DELAY then
+			PrepareNextRound()
+		end
+
 		-- When the timer reaches zero, start the round
 		if round_start_timer <= 0 then
 			StartRound()
@@ -56,12 +62,11 @@ function CountDownTimer()
 end
 
 
--- Tell JS to update the number on the ready-up UI
--- to show how many seconds are left before the round starts
+-- Tell JS to update the number on the ready-up UI to show how many seconds are left before the
+-- round starts
 function SendTimerUpdateEvent()
 	local data = {}
-	-- SetRoundStartTimer sets the timer to one lower than the requested value, this is to make up for that
-	data.timer = round_start_timer + 1
+	data.timer = round_start_timer
 
 	CustomGameEventManager:Send_ServerToAllClients("timer_update", data)
 end

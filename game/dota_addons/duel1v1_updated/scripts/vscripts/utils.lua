@@ -52,7 +52,9 @@ function GetPlayerEntities()
 
   for i, name in pairs(entity_names) do
     for i, entity in pairs(Entities:FindAllByName(name)) do
-      table.insert(player_entities, entity)
+      if not IsDummyHero(entity) then
+        table.insert(player_entities, entity)
+      end
     end
   end
 
@@ -148,6 +150,7 @@ function IsSafeToRemove(modifier)
     ["modifier_slark_essence_shift_permanent_debuff"] = true,
     ["modifier_abyssal_underlord_atrophy_aura_hero_permanent_buff"] = true,
     ["modifier_lion_finger_of_death_kill_counter"] = true,
+    ["modifier_item_shadow_amulet_fade"] = true,
   }
 
   local unsafe = {
@@ -285,7 +288,7 @@ function RemoveOldHeroes()
 
   for hero_name, i in pairs(hero_names) do
     for i, entity in pairs(Entities:FindAllByName(hero_name)) do
-      if not hero_entities[entity] then
+      if not IsDummyHero(entity) and not hero_entities[entity] then
         UTIL_Remove(entity)
       end
     end
@@ -311,4 +314,73 @@ end
 -- Returns the multiplier for physical damage taken given an armor value
 function GetPhysicalDamageMultiplier(armor_value)
   return 1 - ((0.052 * armor_value) / (0.9 + 0.048 * math.abs(armor_value)))
+end
+
+
+-- Returns whether the provided entity has any item in the table
+-- Ignores backpack and stash
+function HasAnyItem(entity, items)
+  for i=0,5 do
+    local item = entity:GetItemInSlot(i)
+
+    if item and items[item:GetAbilityName()] then
+      return true
+    end
+  end
+
+  return false
+end
+
+
+-- Returns the dummy hero
+function GetDummyHero()
+  return Entities:FindByNameWithin(nil, DUMMY_HERO_NAME, DUMMY_HERO_POSITION, 250.0)
+end
+
+
+-- Returns whether the provided entity is the dummy hero
+function IsDummyHero(entity)
+  return entity:GetName() == DUMMY_HERO_NAME
+    and (entity:GetAbsOrigin() - DUMMY_HERO_POSITION):Length2D() < 250.0
+end
+
+
+-- Returns whether the provided entity is taunted
+function IsTaunted(entity)
+  local taunt_modifiers = {
+    ["modifier_axe_berserkers_call"] = true,
+    ["modifier_troll_warlord_battle_trance"] = true,
+    ["modifier_winter_wyvern_winters_curse"] = true,
+  }
+
+  for i,modifier in pairs(entity:FindAllModifiers()) do
+    local modifier_name = modifier:GetName()
+
+    if taunt_modifiers[modifier_name] then
+      return true
+    end
+  end
+
+  return false
+end
+
+
+-- Returns whether the provided entity is feared
+function IsFeared(entity)
+  local fear_modifiers = {
+    ["modifier_dark_willow_debuff_fear"] = true,
+    ["modifier_lone_druid_savage_roar"] = true,
+    ["modifier_queenofpain_scream_of_pain_fear"] = true,
+    ["modifier_terrorblade_fear"] = true,
+  }
+
+  for i,modifier in pairs(entity:FindAllModifiers()) do
+    local modifier_name = modifier:GetName()
+
+    if fear_modifiers[modifier_name] then
+      return true
+    end
+  end
+
+  return false
 end

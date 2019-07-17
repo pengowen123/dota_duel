@@ -4,6 +4,7 @@ function BotController:ThinkShop()
 	local player_hero = PlayerResource:GetSelectedHeroEntity(self.player_id)
 	local player_hero_name = player_hero:GetName()
 	local is_player_ranged = player_hero:IsRangedAttacker()
+	local inverse_bot_evasion = 1
 
 	local predictions = self:GetPredictedObservations()
 
@@ -63,11 +64,11 @@ function BotController:ThinkShop()
 
 	-- Heroes that have troublesome units can't be effectively disabled, therefore focus on
 	-- defensive active items
-	if player_hero_name == "npc_dota_hero_phantom_lancer"
-		or player_hero_name == "npc_dota_hero_lone_druid"
+	if illusion_heroes[player_hero_name]
 		or player_hero_name == "npc_dota_hero_arc_warden"
-		or player_hero_name == "npc_dota_hero_meepo"
-		or player_hero_name == "npc_dota_hero_chaos_knight" then
+		or player_hero_name == "npc_dota_hero_phantom_lancer"
+		or player_hero_name == "npc_dota_hero_life_stealer"
+		or player_hero_name == "npc_dota_hero_antimage" then
 		strategy = ITEM_BUILD_STRATEGY_DEFENSIVE_ACTIVE
 	end
 
@@ -82,7 +83,7 @@ function BotController:ThinkShop()
 		needs_status_resistance = true
 	end
 
-	if predictions["mana_burn"] then
+	if predictions["mana_burn"] or player_hero_name == "npc_dota_hero_riki" then
 		strategy = ITEM_BUILD_STRATEGY_DEFENSIVE_PASSIVE
 	end
 
@@ -122,8 +123,8 @@ function BotController:ThinkShop()
 	-- Blademail is effectively a 4.5 second disable versus heroes that can't attack during it
 	if predictions["high_burst_damage"]
 		and not predictions["satanic"]
-		and not (player_hero_name == "npc_dota_hero_chaos_knight")
-		and not (player_hero_name == "npc_dota_hero_phantom_lancer") then
+		and not illusion_heroes[player_hero_name]
+		and not (player_hero_name == "npc_dota_hero_life_stealer") then
 		item_5 = "item_blade_mail"
 	end
 
@@ -137,10 +138,16 @@ function BotController:ThinkShop()
 		-- suboptimal
 		-- and not predictions["high_pure_damage"]
 		and (not (player_hero_name == "npc_dota_hero_ember_spirit"))
-		and (not (player_hero_name == "npc_dota_hero_mars")) then
-			print("buying butterflies")
+		and (not (player_hero_name == "npc_dota_hero_mars"))
+		and (not (player_hero_name == "npc_dota_hero_riki")) then
 		item_2 = "item_butterfly"
 		item_3 = "item_butterfly"
+
+		inverse_bot_evasion = inverse_bot_evasion * INVERSE_BUTTERFLY_EVASION * INVERSE_BUTTERFLY_EVASION
+	end
+
+	if predictions["disruptor_cheat"] and player_hero_name == "npc_dota_hero_disruptor" then
+		item_3 = "item_black_king_bar"
 	end
 
 	table.insert(items, item_1)
@@ -162,6 +169,8 @@ function BotController:ThinkShop()
 			bot_hero:AddItemByName(item)
 		end
 	end
+
+	self.bot_evasion = 1 - inverse_bot_evasion
 
 	-- Do it after a delay so the eaten moonshard doesn't interfere with item positions
 	Timers:CreateTimer(0.5, buy_items)

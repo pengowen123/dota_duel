@@ -25,62 +25,79 @@ function OnEntityDeath(event)
   end
 
   -- Only count the death if the entity is a hero and won't reincarnate
-  if entity:IsRealHero() and not entity:IsReincarnating() then
-    if not game_ended then
-      local team = entity:GetTeam()
-      dead_players[team] = dead_players[team] + 1
-
-      -- End the round if all players on a team have died
-      if dead_players[team] >= PlayerResource:GetPlayerCountForTeam(team) then
-        dead_players[DOTA_TEAM_GOODGUYS] = 0
-        dead_players[DOTA_TEAM_BADGUYS] = 0
-
-        -- Is nil if no player has won yet, 0 if radiant won and 1 if dire won
-        local winner = nil
-
-        if team == DOTA_TEAM_GOODGUYS then
-          AwardDireKill()
-        elseif team == DOTA_TEAM_BADGUYS then
-          AwardRadiantKill()
-        end
-
-        if GetRadiantKills() >= MAX_KILLS then
-          winner = DOTA_TEAM_GOODGUYS
-        end
-
-        if GetDireKills() >= MAX_KILLS then
-          winner = DOTA_TEAM_BADGUYS
-        end
-
-        if winner then
-          EndGameDelayed(winner)
-
-          text = "#duel_victory"
-          team = GetLocalizationTeamName(winner)
-
-          Notifications:ClearBottomFromAll()
-          Notifications:BottomToAll({
-            text = text,
-            duration = 10,
-            vars = {
-              team = team,
-            }
-          })
-        end
-
-        -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
-        -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
-        local first_reset_delay = 5.0
-
-        Timers:CreateTimer(
-          first_reset_delay,
-          function()
-            EndRound()
+  if entity:IsRealHero() then
+    if entity:IsReincarnating() then
+      if global_bot_controller then
+        if entity:GetName() == "npc_dota_hero_skeleton_king" then
+          if entity:GetTeam() == DOTA_TEAM_BADGUYS then
+            global_bot_controller:OnReincarnate()
           end
-        )
+        end
+      end
+    else
+      if not game_ended then
+        local team = entity:GetTeam()
+        dead_players[team] = dead_players[team] + 1
+
+        -- End the round if all players on a team have died
+        if dead_players[team] >= PlayerResource:GetPlayerCountForTeam(team) then
+          dead_players[DOTA_TEAM_GOODGUYS] = 0
+          dead_players[DOTA_TEAM_BADGUYS] = 0
+
+          -- Is nil if no player has won yet, 0 if radiant won and 1 if dire won
+          local winner = nil
+
+          if team == DOTA_TEAM_GOODGUYS then
+            AwardDireKill()
+          elseif team == DOTA_TEAM_BADGUYS then
+            AwardRadiantKill()
+          end
+
+          if GetRadiantKills() >= MAX_KILLS then
+            winner = DOTA_TEAM_GOODGUYS
+          end
+
+          if GetDireKills() >= MAX_KILLS then
+            winner = DOTA_TEAM_BADGUYS
+          end
+
+          if winner then
+            EndGameDelayed(winner)
+
+            text = "#duel_victory"
+            team = GetLocalizationTeamName(winner)
+
+            Notifications:ClearBottomFromAll()
+            Notifications:BottomToAll({
+              text = text,
+              duration = 10,
+              vars = {
+                team = team,
+              }
+            })
+          end
+
+          -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
+          -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
+          local first_reset_delay = 5.0
+
+          Timers:CreateTimer(
+            first_reset_delay,
+            function()
+              EndRound()
+            end
+          )
+        end
       end
     end
   end
+end
+
+
+-- Prepares for a new round, clearing the arena and performing any other necessary cleanup
+function PrepareNextRound()
+  DestroyDroppedGems()
+  ClearArena()
 end
 
 
@@ -91,61 +108,43 @@ function StartRound()
   -- Also remove the timer that kills everything in the arena
   Timers:RemoveTimer("reset_players")
 
-  ClearArena()
+  SpawnAllNeutrals()
 
-  Timers:CreateTimer(0.5, SpawnAllNeutrals)
+  if game_ended then
+    return
+  end
 
-  local teleport_players = function()
-    -- If the game ends between the timer for this function being created and this function being
-    -- called, the round will start even if the game ended.
-    -- This can only happen when a player surrenders at the right moment, but it can still happen
-    -- so this check is here to prevent that
-    if game_ended then
-      return
+  local player_entities = GetPlayerEntities()
+
+  for i, player_entity in pairs(player_entities) do
+    ResetCooldowns(player_entity)
+    ClearBuffs(player_entity)
+
+    for i, modifier in pairs(player_entity:FindAllModifiers()) do
+      local name = modifier:GetName()
+
+      if name == "modifier_stun" then
+        modifier:Destroy()
+      end
     end
 
-    local player_entities = GetPlayerEntities()
+    -- Keep spirit bears disabled and away from the shop so lone druid can't cheat
+    if player_entity:GetName() == "npc_dota_lone_druid_bear" then
+      player_entity:AddNewModifier(player_entity, nil, "modifier_bear_disable", {})
 
-    for i, player_entity in pairs(player_entities) do
-      ResetCooldowns(player_entity)
-      ClearBuffs(player_entity)
+      local point = Vector(12000, 12000, 0)
 
-      for i, modifier in pairs(player_entity:FindAllModifiers()) do
-        local name = modifier:GetName()
-
-        if name == "modifier_stun" then
-          modifier:Destroy()
-        end
-      end
-
-      -- Keep spirit bears disabled and away from the shop so lone druid can't cheat
-      if player_entity:GetName() == "npc_dota_lone_druid_bear" then
-        player_entity:AddNewModifier(player_entity, nil, "modifier_bear_disable", {})
-
-        local point = Vector(12000, 12000, 0)
-
-        FindClearSpaceForUnit(player_entity, point, false)
-      else
-        -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
-        TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
-      end
+      FindClearSpaceForUnit(player_entity, point, false)
+    else
+      -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
+      TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
     end
   end
 
-  -- Only teleport the players after the clear_arena trigger has been disabled
-  local teleport_delay = 1.0
-  Timers:CreateTimer(teleport_delay, teleport_players)
-
-
-  local hide_ui = function()
-    CustomGameEventManager:Send_ServerToAllClients("start_round", nil)
-  end
-
-  -- Only hide the ready-up UI after players get teleported, to make the round start a smoother transition
-  Timers:CreateTimer(teleport_delay, hide_ui)
+  CustomGameEventManager:Send_ServerToAllClients("start_round", nil)
 
   -- Wait for players to be teleported to the arena before clearing the bases
-  local clear_base_delay = teleport_delay + 0.1
+  local clear_base_delay = 0.1
   Timers:CreateTimer(clear_base_delay, ClearBases)
 
   -- The hero select data gets reset randomly, this fixes it
@@ -158,6 +157,10 @@ end
 
 -- Performs all end of round actions, such as resetting cooldowns
 function EndRound()
+  if round_start_timer > 0 then
+    return
+  end
+
   InitReadyUpData()
 
   if not game_ended then
@@ -257,11 +260,6 @@ function ClearArena()
   local delay = 0.1
 
   Timers:CreateTimer(delay, disable)
-
-  -- Remove temporary vision sources such as from dropped gems of true sight or spark wraiths
-  for i, entity in pairs(Entities:FindAllByClassname("dota_fogofwartempviewers")) do
-    entity:Kill()
-  end
 end
 
 
@@ -482,6 +480,14 @@ function ResetTalents()
 
     local re_add_items = function()
       local player_inventory = player_items[playerID]
+      -- Remove items the player purchases before their old items are added back to avoid bugs
+      for i = 0,20 do
+        local item = new_hero:GetItemInSlot(i)
+
+        if item then
+          item:Destroy()
+        end
+      end
       for i = 20,0,-1 do
         local item = player_inventory[i]
 
@@ -537,5 +543,35 @@ function ResetTalents()
     Timers:CreateTimer(0.5, re_add_items)
 
     LevelUpPlayers()
+  end
+end
+
+
+-- Destroys all dropped gems of true sight
+function DestroyDroppedGems()
+  local collector = GetDummyHero()
+  local gem_count = 0
+  for i,entity in pairs(Entities:FindAllByClassname("dota_item_drop")) do
+    gem_count = gem_count + 1
+    local item = entity:GetContainedItem()
+
+    if item and item:GetAbilityName() == "item_gem" then
+      local pickup = function()
+        FindClearSpaceForUnit(entity, collector:GetAbsOrigin(), false)
+        Timers:CreateTimer(0.1, function()
+          -- print("item pos: ", entity:GetAbsOrigin())
+        end)
+        collector:PickupDroppedItem(entity)
+
+        local destroy_item = function()
+          item:Destroy()
+        end
+
+        -- The gems must be destroyed after a delay or the vision doesn't get removed
+        Timers:CreateTimer(0.1, destroy_item)
+      end
+
+      Timers:CreateTimer(gem_count * 0.1, pickup)
+    end
   end
 end

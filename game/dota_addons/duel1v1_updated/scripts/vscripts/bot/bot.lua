@@ -11,13 +11,14 @@ BotController.__index = BotController
 require('bot/ui')
 require('bot/shop')
 require('bot/think')
+require('bot/hero_data')
 
 
 -- Globals
 global_bot_controller = nil
 
 -- Constants
-THINK_INTERVAL = 0.5
+THINK_INTERVAL = 0.25
 DEAD_THINK_INTERVAL = 0.1
 
 MODE_RUN = 1
@@ -29,6 +30,9 @@ MODE_FIGHT = 2
 -- bot with silly strategies
 OBSERVATION_LEARN_RATE = 0.66
 
+-- The time to wait between casting abilities and items
+GLOBAL_ABILITY_COOLDOWN = 1.15
+
 -- Active items that disable the enemy, like sheepstick and abyssal blade active
 ITEM_BUILD_STRATEGY_OFFENSIVE = 1
 -- Active items that protect the bot, like ethereal blade and eul's scepter
@@ -38,20 +42,60 @@ ITEM_BUILD_STRATEGY_DEFENSIVE_PASSIVE = 3
 
 HIGH_STATUS_RESISTANCE_THRESHOLD = 0.33
 HIGH_EVASION_THRESHOLD = 0.4
-HIGH_DISABLE_PERCENT_THRESHOLD = 0.5
+HIGH_DISABLE_PERCENT_THRESHOLD = 0.66
 HIGH_DISABLE_SINGLE_THRESHOLD = 5.0
 
 INVERSE_SATANIC_STATUS_RESISTANCE = 0.7
+INVERSE_DAEDALUS_CRIT_CHANCE = 0.7
+DAEDALUS_CRIT_MULTIPLIER = 2.35
+INVERSE_CRYSTALYS_CRIT_CHANCE = 0.8
+CRYSTALYS_CRIT_MULTIPLIER = 1.7
+INVERSE_BUTTERFLY_EVASION = 0.65
 -- Raw HP plus HP from strength
 HEART_HEALTH = 400 + (20 * 45)
 -- Base is 40, minus 10 from octarine, minus 7 from aghanim's scepter, minus 3 from reincarnation
 -- time
 EFFECTIVE_REINCARNATION_ULT_COOLDOWN = 20
+-- Time spent in wraith form after death
+REINCARNATION_AGHANIM_DURATION = 7
 -- The amount of time spent taking very high amounts of damage to be considered high damage burst
 BURST_DURATION_THRESHOLD = 3.0
 -- The multiplier for DPS required to kill the bot that should be considered a very high amount of
 -- damage
 VERY_HIGH_DAMAGE_THRESHOLD = 2.0
+
+-- The amount to interpolate between old and new position goals
+POSITION_GOAL_INTERPOLATION_AMOUNT = 0.8
+-- The amount of randomness to add to the position goal
+POSITION_GOAL_RANDOMNESS = 250.0
+-- The radius within which to consider a position goal achieved
+POSITION_GOAL_RADIUS = 300.0
+
+-- The amount of time since taking significant damage to reset the bot's fighting state (not mode)
+FIGHTING_RESET_TIMER = 3.0
+-- The minimum amount of time to run away after taking very high damage
+MINIMUM_RUN_TIME = 4.0
+-- The amount of health lost required before the bot considers fighting neutrals
+FIGHT_NEUTRALS_HP_THRESHOLD = 100
+-- The threshold within which to consider two DPS values to be similar
+SIMILAR_DPS_THRESHOLD = 80
+-- The ratio above which to consider a DPS value to be higher than another
+GREATER_DPS_THRESHOLD = 1.1
+-- The health percentage below which to consider activating satanic
+SATANIC_USE_THRESHOLD = 0.5
+-- The amount of time to give the enemy to react to blade mail
+BLADE_MAIL_REACTION_TIME = 1.25
+
+-- This is the effective range even though the actual value is 150
+MELEE_ATTACK_RANGE = 200
+
+-- Heroes with illusions or clones that are worth killing
+illusion_heroes = {
+	["npc_dota_hero_terrorblade"] = true,
+	["npc_dota_hero_chaos_knight"] = true,
+	["npc_dota_hero_naga_siren"] = true,
+	["npc_dota_hero_meepo"] = true,
+}
 
 
 -- Bot implementation
@@ -101,7 +145,27 @@ function BotController:New(bot_id, player_id, settings)
 		["heavens_halberd"]          = { 0.5, false },
 		["monkey_king_bar"]          = { 0.5, false },
 		["satanic"]                  = { 0.5, false },
+		-- Strategies
+		-- For disruptor cheating with glimpse to instantly kill the bot
+		["disruptor_cheat"]          = { 0.5, false },
 	}
+
+	-- Use hero-specific observation predictions where available
+	local player_hero_name = PlayerResource:GetSelectedHeroEntity(controller.player_id):GetName()
+
+	local predictions = HERO_OBSERVATION_DATA[player_hero_name]
+	if predictions then
+		for k,v in pairs(predictions) do
+			controller.observations[k][1] = v
+		end
+	end
+
+	-- Tracks the global ability cooldown (see GLOBAL_ABILITY_COOLDOWN)
+	controller.global_ability_cooldown = 0
+	-- Tracks the cast point of the currently casting ability
+	controller.cast_point = 0
+	-- Tracks whether the current ability target is disabled
+	controller.is_enemy_disabled = false
 	-- Counts how many seconds the bot has been disabled for during the current round
 	controller.seconds_disabled = 0
 	-- Counts how many seconds the longest disable lasted on the bot during the current round
@@ -111,6 +175,10 @@ function BotController:New(bot_id, player_id, settings)
 	-- Whether significant damage is being taken (defined as the damage per second needed to kill the
 	-- bot in the time reincarnation is currently on cooldown)
 	controller.fighting = false
+	-- The timer for resetting `fighting` to false after it is set to true, to avoid constant fluctuation
+	controller.fighting_timer = 0
+	-- The minimum time to be spent in the running mode (will not switch away until this many seconds pass)
+	controller.minimum_run_time = 0
 	-- Whether a very high amount of damage is being taken (defined by multiple factors)
 	controller.taking_very_high_damage = false
 	-- The current amount of time a very high amount of damage has been taken for
@@ -129,6 +197,19 @@ function BotController:New(bot_id, player_id, settings)
 	controller.position_goal = nil
 	-- Whether to lock the position goal until unlocked when something new happens
 	controller.lock_position_goal = false
+	-- Whether a thinker has caused the position goal to be set this Think call
+	controller.position_goal_from_thinker = false
+	-- The target the entity is attacking
+	controller.attack_target = nil
+	-- If true, always stay in the fight mode
+	controller.always_fight = false
+	-- If true, don't move
+	controller.hold_position = false
+	-- If true, only use self-cast abilities
+	controller.use_only_self_cast = false
+	-- Tracks how much evasion the bot has
+	-- Calculated each time new items are purchased
+	controller.bot_evasion = 0
 
   local args = {
     endTime = 0.1,
@@ -151,6 +232,7 @@ end
 -- Updates the chances for each observation
 function BotController:UpdateObservationChances()
 	local bot_hero = PlayerResource:GetSelectedHeroEntity(self.bot_id)
+	local player_hero_name = PlayerResource:GetSelectedHeroEntity(self.player_id):GetName()
 
 	-- Calculate whether the high_disable_amount flag should be set
 	local disable_ratio = 0
@@ -165,6 +247,11 @@ function BotController:UpdateObservationChances()
 	-- Calculate whether the high_consecutive_disable flag should be set
 	if self.longest_disable > HIGH_DISABLE_SINGLE_THRESHOLD then
 		self.observations["high_consecutive_disable"][2] = true
+	end
+
+	-- Check for disruptor cheating with glimpse
+	if player_hero_name == "npc_dota_hero_disruptor" and self.time_spent_fighting < 5 then
+		self.observations["disruptor_cheat"][2] = true
 	end
 
 	-- Calculate usefulness of various types of EHP-giving stats
@@ -257,7 +344,7 @@ end
 -- Resets the flags that control the observation chance updates
 function BotController:ResetObservationFlags()
 	for name,o in pairs(self.observations) do
-		print("observation '" .. name .. "': " .. tostring(o[1]) .. ", " .. tostring(o[2]))
+		-- print("observation '" .. name .. "': " .. tostring(o[1]) .. ", " .. tostring(o[2]))
 		self.observations[name][2] = false
 	end
 end
@@ -305,6 +392,10 @@ function BotController:GatherEnemyInfo()
 					-- inverse_evasion = inverse_evasion * 0.2
 				elseif player_hero_name == "npc_dota_hero_tinker" then
 					inverse_evasion = 0
+				elseif player_hero_name == "npc_dota_hero_broodmother" then
+					inverse_evasion = inverse_evasion * 0.4
+				elseif player_hero_name == "npc_dota_hero_troll_warlord" then
+					inverse_evasion = inverse_evasion * 0.4
 				end
 
 				for i=0,5 do
@@ -369,8 +460,6 @@ function BotController:GatherEnemyInfo()
 
 						elseif item_name == "item_satanic" then
 							self.observations["satanic"][2] = true
-
-						elseif item_name == "item_satanic" then
 							inverse_status_resistance = inverse_status_resistance * INVERSE_SATANIC_STATUS_RESISTANCE
 
 						elseif item_name == "item_sange" then
@@ -427,4 +516,10 @@ function BotController:GetStatusDurationMultiplier()
 	end
 
 	return multiplier
+end
+
+
+-- Triggered when the bot reincarnates
+function BotController:OnReincarnate()
+	self:ResetDamageCounts()
 end

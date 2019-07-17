@@ -5,6 +5,8 @@ function modifier_stun:CheckState()
 		[MODIFIER_STATE_ROOTED] = true,
 		[MODIFIER_STATE_ATTACK_IMMUNE] = true,
 		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
+		[MODIFIER_STATE_TRUESIGHT_IMMUNE] = true,
+		[MODIFIER_STATE_INVISIBLE] = true,
 	}
 
 	local parent = self:GetParent()
@@ -41,6 +43,10 @@ function modifier_stun:CheckState()
 
 		if heroes_to_silence[name] then
 			states[MODIFIER_STATE_SILENCED] = true
+		end
+
+		if IsDummyHero and IsDummyHero(parent) then
+			states[MODIFIER_STATE_UNSELECTABLE] = true
 		end
 	end
 

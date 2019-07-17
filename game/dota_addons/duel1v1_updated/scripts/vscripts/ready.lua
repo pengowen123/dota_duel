@@ -67,9 +67,10 @@ function AllReady()
 end
 
 
--- Starts the round after 3 seconds (to make the transition to the round less sudden)
+-- Starts the round after ROUND_START_DELAY seconds (to make the transition to the round less
+-- sudden)
 function StartRoundEarly()
-	if round_start_timer > 3 then
-		SetRoundStartTimer(3)
+	if round_start_timer > ROUND_START_DELAY then
+		SetRoundStartTimer(ROUND_START_DELAY)
 	end
 end

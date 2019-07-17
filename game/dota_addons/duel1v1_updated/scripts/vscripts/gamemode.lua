@@ -59,6 +59,8 @@ require('bot/bot')
 
 
 -- Constants
+DUMMY_HERO_POSITION = Vector(5000, -5000, 128)
+DUMMY_HERO_NAME = "npc_dota_hero_lina"
 game_ended = false
 
 
@@ -116,13 +118,18 @@ function GameMode:OnGameInProgress()
 
   -- Level up players with a delay because if a player picks at the last possible second
   -- they won't get levels if this is called instantly
-  Timers:CreateTimer(0.1, LevelUpPlayers)
-  Timers:CreateTimer(0.1, RemoveTPScroll)
+  Timers:CreateTimer(0.5, LevelUpPlayers)
+  Timers:CreateTimer(0.5, RemoveTPScroll)
 
   -- Hide the vote rematch UI
   CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
   -- Show the surrender UI
   CustomGameEventManager:Send_ServerToAllClients("enable_surrender", nil)
+  -- Reset the ready-up UI (necessary because players can ready-up while heroes are loading,
+  -- preventing them from readying up again after the ready-up data is reset here)
+  local data = {}
+  data.enable_surrender = false
+  CustomGameEventManager:Send_ServerToAllClients("end_round", data)
 
   -- To prevent people from spawning outside the shop area
   ResetPlayers(true)
@@ -184,6 +191,19 @@ function GameMode:InitGameMode()
 
   -- Cause infinite respawn time
   GameRules:SetHeroRespawnEnabled(false)
+
+  -- Create a dummy hero used in DestroyDroppedGems
+  local dummy = CreateUnitByName(
+    DUMMY_HERO_NAME,
+    DUMMY_HERO_POSITION,
+    false,
+    nil,
+    nil,
+    DOTA_TEAM_CUSTOM_3
+  )
+  local data = {}
+  -- Make the dummy unable to affect gameplay
+  dummy:AddNewModifier(dummy, nil, "modifier_stun", data)
 end
 
 
