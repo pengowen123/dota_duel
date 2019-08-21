@@ -77,7 +77,9 @@ function RemoveTPScroll()
         if item then
           local name = item:GetName()
           local items_to_remove = {
-            ["item_tpscroll"] = true,
+            -- No longer necessary to remove because TP scrolls don't take up an inventory slot
+            -- anymore
+            -- ["item_tpscroll"] = true,
             ["item_enchanted_mango"] = true,
             ["item_faerie_fire"] = true,
           }

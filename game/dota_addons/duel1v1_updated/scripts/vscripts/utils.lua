@@ -244,12 +244,8 @@ function GetInventoryItems()
         local item = player_hero_handle:GetItemInSlot(i)
 
         if item then
-          if item:GetAbilityName() == "item_gem" then
-            player_inventory[i] = "item_gem"
-            item:Destroy()
-          else
-            player_inventory[i] = item
-          end
+          player_inventory[i] = item:GetAbilityName()
+          item:Destroy()
         end
       end
     end

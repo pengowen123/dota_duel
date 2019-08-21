@@ -489,20 +489,12 @@ function ResetTalents()
         end
       end
       for i = 20,0,-1 do
-        local item = player_inventory[i]
+        local item_name = player_inventory[i]
 
-        if item then
-          -- Gems are lost when the hero is replaced, so a new one is created here
-          if item == "item_gem" then
-            item = CreateItem(item, new_hero, new_hero)
-          end
-
-          if item:GetAbilityName() == "item_tpscroll" then
-            item:Destroy()
-          else
-            new_hero:AddItem(item)
-            new_hero:SwapItems(0, i)
-          end
+        if item_name then
+          local item = CreateItem(item_name, new_hero, new_hero)
+          new_hero:AddItem(item)
+          new_hero:SwapItems(0, i)
         end
       end
 
