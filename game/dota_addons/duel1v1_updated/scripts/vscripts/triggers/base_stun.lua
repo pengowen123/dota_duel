@@ -10,7 +10,9 @@ function OnStartTouch(trigger)
 		return
 	end
 
-	if activator:GetName() == "npc_dota_hero_monkey_king" then
+	local name = activator:GetName()
+
+	if name == "npc_dota_hero_monkey_king" then
 		for i, modifier in pairs(activator:FindAllModifiers()) do
 			local name = modifier:GetName()
 
@@ -24,6 +26,12 @@ function OnStartTouch(trigger)
 				return
 			end
 		end
+	elseif name == "npc_dota_hero_lone_druid" then
+		Timers:CreateTimer(2.0, function()
+			-- Lone Druid is silenced in the fountain to prevent bugs with the transformation period of his
+			-- ultimate, so this summons the bear automatically
+			activator:GetAbilityByIndex(0):CastAbility()
+		end)
 	end
 
 	activator:AddNewModifier(activator, nil, "modifier_stun", {})

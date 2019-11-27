@@ -155,7 +155,7 @@
       "02"
       {
         "var_type"                                    "FIELD_INTEGER"
-        "hp_regen"                                    "6 9 12 15"
+        "hp_regen"                                    "4 7 10 13"
       }
     }
 

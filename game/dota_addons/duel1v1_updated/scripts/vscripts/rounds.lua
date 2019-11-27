@@ -363,6 +363,7 @@ end
 
 
 -- Removes all temporary buffs on the provided entity
+-- NOTE: Probably made redundant by ResetTalents but kept around just in case
 function ClearBuffs(entity)
   local modifiers = entity:FindAllModifiers()
   -- print("entity name: " .. entity:GetName())
@@ -408,6 +409,7 @@ end
 
 
 -- Resets the talents of all players
+-- NOTE: Since 7.23, this is redundant but is kept around just in case ClearBuffs doesn't catch everything
 function ResetTalents()
   local player_IDs = GetPlayerIDs()
   local player_items = GetInventoryItems()

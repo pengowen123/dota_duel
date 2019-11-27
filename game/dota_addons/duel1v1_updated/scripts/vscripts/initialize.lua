@@ -33,7 +33,7 @@ function LevelUpPlayers()
         player_entity:AddExperience(99999.0, 0, false, false)
       end
 
-      for i=0,25 do
+      for i=0,30 do
         local ability = player_entity:GetAbilityByIndex(i)
 
         if ability then
