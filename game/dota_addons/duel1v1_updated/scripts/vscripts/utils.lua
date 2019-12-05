@@ -151,6 +151,7 @@ function IsSafeToRemove(modifier)
     ["modifier_abyssal_underlord_atrophy_aura_hero_permanent_buff"] = true,
     ["modifier_lion_finger_of_death_kill_counter"] = true,
     ["modifier_item_shadow_amulet_fade"] = true,
+    ["modifier_templar_assassin_meld"] = true,
   }
 
   local unsafe = {
