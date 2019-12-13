@@ -42,6 +42,7 @@ function modifier_stun:CheckState()
 			["npc_dota_hero_pudge"] = true,
 			["npc_dota_hero_lone_druid"] = true,
 			["npc_dota_hero_templar_assassin"] = true,
+			["npc_dota_hero_snapfire"] = true,
 		}
 
 		if heroes_to_silence[name] then
