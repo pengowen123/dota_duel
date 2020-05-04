@@ -7,7 +7,7 @@
 
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_TIMEOFDAY, false );      //Time of day (clock).
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_HEROES, false );     //Heroes and team score at the top of the HUD.
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_FLYOUT_SCOREBOARD, false );      //Lefthand flyout scoreboard.
+    //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_FLYOUT_SCOREBOARD, false );      //Lefthand flyout scoreboard.
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_PANEL, false );     //Hero actions UI.
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_MINIMAP, false );     //Minimap.
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_PANEL, false );      //Entire Inventory UI
@@ -55,6 +55,7 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/hero_select/hero_select.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/surrender/surrender.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/add_bot/add_bot.xml" />
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/bot_chat/bot_chat.xml" />
 
     <!-- From Overthrow.
 

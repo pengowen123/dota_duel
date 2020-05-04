@@ -1,16 +1,26 @@
 "use strict";
 
 
+var client_team = Players.GetTeam(Players.GetLocalPlayer());
+var is_spectator_client = !(client_team === DOTATeam_t.DOTA_TEAM_GOODGUYS ||
+													  client_team === DOTATeam_t.DOTA_TEAM_BADGUYS);
+
+
 // Initializes the ready-up UI and logic
 function Initialize()
 {
 	// Create a PlayerReady element for each player in the game
 	var maxPlayers = Players.GetMaxPlayers();
 
-	for (var id = maxPlayers; id >= 0; id--) {
+	for (var id = maxPlayers; id >= 0; id--)
+	{
 		if (Players.IsValidPlayerID(id))
 		{
-			AddPlayer(id);
+			var team = Players.GetTeam(id);
+			if (team === DOTATeam_t.DOTA_TEAM_GOODGUYS || team === DOTATeam_t.DOTA_TEAM_BADGUYS)
+			{
+				AddPlayer(id);
+			}
 		}
 	}
 
@@ -18,6 +28,11 @@ function Initialize()
 	GameEvents.Subscribe("timer_update", TimerUpdate);
 	GameEvents.Subscribe("start_round", StartRound);
 	GameEvents.Subscribe("end_round", EndRound);
+
+	if (is_spectator_client)
+	{
+		EnableReadyUpButton(false);
+	}
 }
 
 
@@ -98,12 +113,20 @@ function EndRound()
 	for (var id = maxPlayers; id >= 0; id--) {
 		if (Players.IsValidPlayerID(id))
 		{
-			SetReadyUpImage(id, "");
+			var team = Players.GetTeam(id);
+			if (team === DOTATeam_t.DOTA_TEAM_GOODGUYS || team === DOTATeam_t.DOTA_TEAM_BADGUYS)
+			{
+				SetReadyUpImage(id, "");
+			}
 		}
 	}
 
 	EnableReadyUpPanel(true);
-	EnableReadyUpButton(true);
+
+	if (!is_spectator_client)
+	{
+		EnableReadyUpButton(true);
+	}
 }
 
 

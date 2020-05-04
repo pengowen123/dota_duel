@@ -1,0 +1,11 @@
+<root>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/bot_chat/bot_chat.js" />
+	</scripts>
+
+	<Panel>
+
+	</Panel>
+
+</root>

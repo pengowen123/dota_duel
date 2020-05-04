@@ -184,6 +184,7 @@ function GameMode:InitGameMode()
   CustomGameEventManager:RegisterListener("player_vote_rematch_js", OnVoteRematch)
   CustomGameEventManager:RegisterListener("player_select_hero_js", OnSelectHero)
   CustomGameEventManager:RegisterListener("add_bot", OnAddBot)
+  CustomGameEventManager:RegisterListener("bot_message_localized", OnBotSayAllChat)
   InitKills()
 
   -- Watch for player disconnect

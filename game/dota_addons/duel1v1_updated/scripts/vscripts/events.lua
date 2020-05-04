@@ -107,8 +107,9 @@ function GameMode:OnPlayerLevelUp(keys)
 end
 
 -- A player last hit a creep, a tower, or a hero
-function GameMode:OnLastHit(keys)
-end
+-- Disabled in internal/gamemode.lua
+-- function GameMode:OnLastHit(keys)
+-- end
 
 -- A tree was cut down by tango, quelling blade, etc
 function GameMode:OnTreeCut(keys)

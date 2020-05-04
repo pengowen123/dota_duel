@@ -9,10 +9,10 @@ BotController = {}
 BotController.__index = BotController
 
 require('bot/ui')
-require('bot/shop')
-require('bot/think')
+require('bot/think/think')
 require('bot/hero_data')
-
+require('bot/hero_pick')
+require('bot/say')
 
 -- Globals
 global_bot_controller = nil
@@ -32,13 +32,6 @@ OBSERVATION_LEARN_RATE = 0.66
 
 -- The time to wait between casting abilities and items
 GLOBAL_ABILITY_COOLDOWN = 1.15
-
--- Active items that disable the enemy, like sheepstick and abyssal blade active
-ITEM_BUILD_STRATEGY_OFFENSIVE = 1
--- Active items that protect the bot, like ethereal blade and eul's scepter
-ITEM_BUILD_STRATEGY_DEFENSIVE_ACTIVE = 2
--- Passive items that protect the bot, like satanic and abyssal blade passive
-ITEM_BUILD_STRATEGY_DEFENSIVE_PASSIVE = 3
 
 HIGH_STATUS_RESISTANCE_THRESHOLD = 0.33
 HIGH_EVASION_THRESHOLD = 0.4
@@ -127,6 +120,7 @@ function BotController:New(bot_id, player_id, settings)
 		["high_magic_damage"]        = { 0.5, false },
 		["high_pure_damage"]         = { 0.5, false },
 		["high_burst_damage"]        = { 0.5, false },
+		["strong_invisibility"]      = { 0.5, false },
 		-- Items
 		["scythe_of_vyse"] 				   = { 0.5, false },
 		["bloodthorn"] 				       = { 0.5, false },
@@ -145,6 +139,7 @@ function BotController:New(bot_id, player_id, settings)
 		["heavens_halberd"]          = { 0.5, false },
 		["monkey_king_bar"]          = { 0.5, false },
 		["satanic"]                  = { 0.5, false },
+		["aeon_disk"]                = { 0.5, false },
 		-- Strategies
 		-- For disruptor cheating with glimpse to instantly kill the bot
 		["disruptor_cheat"]          = { 0.5, false },
@@ -210,12 +205,24 @@ function BotController:New(bot_id, player_id, settings)
 	-- Tracks how much evasion the bot has
 	-- Calculated each time new items are purchased
 	controller.bot_evasion = 0
+	-- Strategy used during the round
+	-- Not used by all bot heroes
+	controller.strategy = nil
+	-- Necronomicon unit handles (may be nil/dead)
+	controller.necronomicon_archer = nil
+	controller.necronomicon_warrior = nil
 
   local args = {
     endTime = 0.1,
     callback = controller.Think,
   }
 	Timers:CreateTimer("bot_think", args, controller)
+
+	local glhf = function()
+		controller:SayAllChat("#duel_bot_glhf")
+	end
+
+	Timers:CreateTimer(3.0, glhf)
 
 	return controller
 end
@@ -226,6 +233,15 @@ function BotController:Reset()
 	-- Remove the previous think timer
 	Timers:RemoveTimer("bot_think")
 	self = BotController:New(self.bot_id, self.player_id, self.settings)
+end
+
+
+function BotController:SayAllChat(message)
+	-- Instead of saying the message directly, send it to the Panorama UI to get localized first
+	-- The localized message is then said in bot/say.lua
+	local data = {}
+	data.message = message
+	CustomGameEventManager:Send_ServerToAllClients("bot_message_raw", data)
 end
 
 
@@ -252,6 +268,18 @@ function BotController:UpdateObservationChances()
 	-- Check for disruptor cheating with glimpse
 	if player_hero_name == "npc_dota_hero_disruptor" and self.time_spent_fighting < 5 then
 		self.observations["disruptor_cheat"][2] = true
+	end
+
+	-- Heroes with invisibility that can't be ignored
+	local invis_heroes = {
+		["npc_dota_hero_riki"] = true,
+		["npc_dota_hero_bounty_hunter"] = true,
+		["npc_dota_hero_clinkz"] = true,
+		["npc_dota_hero_templar_assassin"] = true,
+		["npc_dota_hero_windrunner"] = true,
+	}
+	if invis_heroes[player_hero_name] then
+		self.observations["strong_invisibility"][2] = true
 	end
 
 	-- Calculate usefulness of various types of EHP-giving stats
@@ -443,9 +471,12 @@ function BotController:GatherEnemyInfo()
 						elseif item_name == "item_sphere" then
 							self.observations["linkens_sphere"][2] = true
 
+						elseif item_name == "item_aeon_disk" then
+							self.observations["aeon_disk"][2] = true
+
 						elseif item_name == "item_heavens_halberd" then
 							self.observations["heavens_halberd"][2] = true
-							inverse_status_resistance = inverse_status_resistance * 0.86
+							inverse_status_resistance = inverse_status_resistance * 0.8
 							inverse_evasion = inverse_evasion * 0.75
 
 						elseif item_name == "item_dagon"
@@ -463,16 +494,19 @@ function BotController:GatherEnemyInfo()
 							inverse_status_resistance = inverse_status_resistance * INVERSE_SATANIC_STATUS_RESISTANCE
 
 						elseif item_name == "item_sange" then
-							inverse_status_resistance = inverse_status_resistance * 0.88
+							inverse_status_resistance = inverse_status_resistance * 0.86
 
 						elseif item_name == "item_sange_and_yasha" or item_name == "item_kaya_and_sange" then
-							inverse_status_resistance = inverse_status_resistance * 0.84
+							inverse_status_resistance = inverse_status_resistance * 0.8
 
 						elseif item_name == "item_butterfly" then
 							inverse_evasion = inverse_evasion * 0.65
 
 						elseif item_name == "item_talisman_of_evasion" then
 							inverse_evasion = inverse_evasion * 0.85
+
+						elseif (item_name == "item_silver_edge") or (item_name == "item_invis_sword") then
+							self.observations["strong_invisibility"][2] = true
 						end
 					end
 				end

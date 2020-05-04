@@ -50,7 +50,7 @@ function CountDownTimer()
 		-- Count down one second
 		round_start_timer = round_start_timer - 1
 
-		if round_start_timer == ROUND_START_DELAY then
+		if round_start_timer == 15 or round_start_timer == ROUND_START_DELAY then
 			PrepareNextRound()
 		end
 

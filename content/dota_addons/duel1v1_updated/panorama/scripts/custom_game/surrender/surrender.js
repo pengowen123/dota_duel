@@ -1,5 +1,11 @@
 "use strict";
 
+
+var client_team = Players.GetTeam(Players.GetLocalPlayer());
+var is_spectator_client = !(client_team === DOTATeam_t.DOTA_TEAM_GOODGUYS ||
+													  client_team === DOTATeam_t.DOTA_TEAM_BADGUYS);
+
+
 function Initialize()
 {
 	ToggleForfeitPopup(false);
@@ -8,13 +14,21 @@ function Initialize()
 	GameEvents.Subscribe("start_round", StartRound);
 	GameEvents.Subscribe("end_round", EndRound);
 	GameEvents.Subscribe("end_game", EndGame);
+
+	if (is_spectator_client)
+	{
+		ToggleForfeitButton(false);
+	}
 }
 
 
 function ResetForfeitUI()
 {
 	ToggleForfeitPopup(false);
-	ToggleForfeitButton(true);
+	if (!is_spectator_client)
+	{
+		ToggleForfeitButton(true);
+	}
 }
 
 

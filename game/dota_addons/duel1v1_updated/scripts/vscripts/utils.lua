@@ -2,27 +2,6 @@
 
 
 -- Constants
-
-modifier_max_charges = {
-  -- Shrapnel and fire remnant are handled in ResetCharges
-  -- ["modifier_sniper_shrapnel_charge_counter"] = 3,
-  -- ["modifier_ember_spirit_fire_remnant_charge_counter"] = 3,
-  ["modifier_earth_spirit_stone_caller_charge_counter"] = 7,
-  ["modifier_shadow_demon_demonic_purge_charge_counter"] = 3,
-  ["modifier_bloodseeker_rupture_charge_counter"] = 2,
-  ["modifier_broodmother_spin_web_charge_counter"] = 8,
-  ["modifier_mirana_leap_charge_counter"] = 3,
-  ["modifier_mirana_starfall_scepter_thinker"] = 1,
-  ["modifier_tiny_toss_charge_counter"] = 3,
-  ["modifier_ancient_apparition_cold_feet_charge_counter"] = 4,
-  ["modifier_ember_spirit_sleight_of_fist_charge_counter"] = 2,
-  ["modifier_gyrocopter_homing_missile_charge_counter"] = 3,
-  ["modifier_morphling_waveform_charge_counter"] = 2,
-  ["modifier_windrunner_windrun_charge_counter"] = 2,
-  ["modifier_shadow_demon_disruption_charge_counter"] = 2,
-}
-
-
 MAX_KILLS = 5
 STRENGTH_MAGIC_RESISTANCE = 0.08
 
@@ -62,13 +41,16 @@ function GetPlayerEntities()
 end
 
 
--- Returns a table containing all player IDs
+-- Returns a table containing all non-spectator player IDs
 function GetPlayerIDs()
   local players = {}
 
   for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
     if PlayerResource:IsValidPlayerID(playerID) then
-      table.insert(players, playerID)
+      local team = PlayerResource:GetTeam(playerID)
+      if (team == DOTA_TEAM_GOODGUYS) or (team == DOTA_TEAM_BADGUYS) then
+        table.insert(players, playerID)
+      end
     end
   end
 
@@ -164,7 +146,6 @@ function IsSafeToRemove(modifier)
   local name = modifier:GetName()
 
   return (is_temporary or additional_modifiers[name])
-    and modifier_max_charges[name] == nil
     and unsafe[name] == nil
 end
 
@@ -245,7 +226,9 @@ function GetInventoryItems()
         local item = player_hero_handle:GetItemInSlot(i)
 
         if item then
-          player_inventory[i] = item:GetAbilityName()
+          if not (item:GetAbilityName() == "item_tpscroll") then
+            player_inventory[i] = item:GetAbilityName()
+          end
           item:Destroy()
         end
       end
@@ -348,6 +331,8 @@ function IsTaunted(entity)
     ["modifier_axe_berserkers_call"] = true,
     ["modifier_troll_warlord_battle_trance"] = true,
     ["modifier_winter_wyvern_winters_curse"] = true,
+    ["modifier_huskar_life_break_taunt"] = true,
+    ["modifier_aether_remnant_pull"] = true,
   }
 
   for i,modifier in pairs(entity:FindAllModifiers()) do
@@ -369,6 +354,8 @@ function IsFeared(entity)
     ["modifier_lone_druid_savage_roar"] = true,
     ["modifier_queenofpain_scream_of_pain_fear"] = true,
     ["modifier_terrorblade_fear"] = true,
+    ["modifier_nevermore_requiem_fear"] = true,
+    ["modifier_vengeful_spirit_wave_of_terror_fear"] = true,
   }
 
   for i,modifier in pairs(entity:FindAllModifiers()) do

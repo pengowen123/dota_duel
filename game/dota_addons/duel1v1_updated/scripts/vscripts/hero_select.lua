@@ -32,7 +32,7 @@ function InitHeroSelectData()
 
 		if IsBot(id) then
 			-- Select a new hero for bots
-			hero_select_data[id] = PlayerResource:GetSelectedHeroEntity(id):GetName()
+			hero_select_data[id] = MakeBotHeroChoice()
 		end
 	end
 end

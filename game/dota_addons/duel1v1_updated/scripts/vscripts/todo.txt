@@ -1,3 +1,9 @@
 translate everything in the game the other languages:
 	- spanish
 	- filipino
+
+fix game breaking if someone disconnects during rematch phase (probably just pause the rematch timer)
+fix neutral items not purchasable directly
+fix recipe neutral items not purchasable
+fix passive gold income not working
+make neutral items more discoverable

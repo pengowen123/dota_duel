@@ -293,12 +293,14 @@ end
 
 
 -- Resets the cooldowns of the entity's abilities
+-- Also resets charges of charge-based abilities
 function ResetCooldowns(entity)
   for i = 0, entity:GetAbilityCount() - 1 do
     local ability = entity:GetAbilityByIndex(i)
 
     if ability then
       ability:EndCooldown()
+      ability:RefreshCharges()
     end
   end
 
@@ -310,53 +312,37 @@ function ResetCooldowns(entity)
       -- Reset charges on items like drums of endurance
       local max_charges = item:GetInitialCharges()
 
-      -- Give Urn and Spirit Vessel
+      -- Give Urn and Spirit Vessel 100 charges
       if item:GetName() == "item_urn_of_shadows" or item:GetName() == "item_spirit_vessel" then
         max_charges = 100
       end
 
-      item:SetCurrentCharges(max_charges)
+      -- Don't set TP scroll charges so players can buy more
+      if not (item:GetName() == "item_tpscroll") then
+        item:SetCurrentCharges(max_charges)
+      end
 
       item:EndCooldown()
     end
   end
 
-  ResetCharges(entity)
+  ResetNecromastery(entity)
 end
 
 
--- Sets the charges on all charge-based abilities from the entity to the maximum value
--- Also sets shadow fiend's souls to 36
--- To prevent abuse, this will not give shadow fiend 46 souls if he has aghanim's scepter
-function ResetCharges(entity)
-  for i, modifier in pairs(entity:FindAllModifiers()) do
-    local name = modifier:GetName()
-
-    -- Set the charge counter in a way that still works when the maximum charge count is changed, for example with one of Sniper's talent
-    if name == "modifier_sniper_shrapnel_charge_counter" or name == "modifier_ember_spirit_fire_remnant_charge_counter" then
-      local increment_shrapnel_counter = function()
-        if not modifier:IsNull() then
-          modifier:StartIntervalThink(0.01)
-        end
-      end
-
-      for delay=0,10 do
-        Timers:CreateTimer(delay * 0.05, increment_shrapnel_counter)
-      end
-    end
-
-    local max_charges = modifier_max_charges[name]
-
-    if max_charges ~= nil then
-      modifier:SetStackCount(max_charges)
-    end
-  end
-
+-- Sets shadow fiend's souls to maximum
+function ResetNecromastery(entity)
   if entity:GetName() == "npc_dota_hero_nevermore" then
     local necromastery = entity:FindModifierByName("modifier_nevermore_necromastery")
 
     if necromastery ~= nil then
-      necromastery:SetStackCount(36)
+      max = 36
+
+      if entity:HasScepter() then
+        max = 46
+      end
+
+      necromastery:SetStackCount(max)
     end
   end
 end
@@ -370,11 +356,7 @@ function ClearBuffs(entity)
 
   for i, modifier in pairs(modifiers) do
     local name = modifier:GetName()
-
-    -- For debugging in production
-    if entity:GetName() == "npc_dota_hero_skeleton_king" then
-      -- print("Removing modifier from wraith king: " .. name)
-    end
+    -- print("modifier: " .. name)
 
     -- Don't remove modifiers such as ones that represent abiltiies
     if IsSafeToRemove(modifier) then
@@ -496,9 +478,15 @@ function ResetTalents()
         if item_name then
           local item = CreateItem(item_name, new_hero, new_hero)
           new_hero:AddItem(item)
+          print("adding item: " .. item_name)
           new_hero:SwapItems(0, i)
         end
       end
+
+      -- Add starting tp scrolls for surrendering rounds with
+      local tp_scroll = CreateItem("item_tpscroll", new_hero, new_hero)
+      tp_scroll:SetCurrentCharges(3)
+      new_hero:AddItem(tp_scroll)
 
       local bear_inventory = bear_items[playerID]
 

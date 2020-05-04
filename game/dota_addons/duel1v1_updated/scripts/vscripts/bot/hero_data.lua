@@ -292,6 +292,16 @@ HERO_OBSERVATION_DATA = {
 		["high_burst_damage"]        = 0.3,
 		["mana_burn"]                = 0.1,
 	},
+	["npc_dota_hero_snapfire"] = {
+		["high_status_resistance"]   = 0.1,
+		["high_evasion"]             = 0.5,
+		["high_disable_amount"]      = 0.3,
+		["high_consecutive_disable"] = 0.3,
+		["high_magic_damage"]        = 0.5,
+		["high_pure_damage"]         = 0.1,
+		["high_burst_damage"]        = 0.5,
+		["mana_burn"]                = 0.1,
+	},
 	["npc_dota_hero_spirit_breaker"] = {
 		["high_status_resistance"]   = 0.4,
 		["high_evasion"]             = 0.5,
@@ -431,6 +441,7 @@ HERO_OBSERVATION_DATA = {
 		["high_pure_damage"]         = 0.1,
 		["high_burst_damage"]        = 0.3,
 		["mana_burn"]                = 0.1,
+		["strong_invisibility"]      = 1.0,
 	},
 	["npc_dota_hero_broodmother"] = {
 		["high_status_resistance"]   = 0.1,
@@ -451,6 +462,7 @@ HERO_OBSERVATION_DATA = {
 		["high_pure_damage"]         = 0.1,
 		["high_burst_damage"]        = 0.4,
 		["mana_burn"]                = 0.1,
+		["strong_invisibility"]      = 1.0,
 	},
 	["npc_dota_hero_drow_ranger"] = {
 		["high_status_resistance"]   = 0.1,
@@ -641,6 +653,7 @@ HERO_OBSERVATION_DATA = {
 		["high_pure_damage"]         = 0.1,
 		["high_burst_damage"]        = 0.1,
 		["mana_burn"]                = 0.1,
+		["strong_invisibility"]      = 1.0,
 	},
 	["npc_dota_hero_nevermore"] = {
 		["high_status_resistance"]   = 0.1,
@@ -691,6 +704,7 @@ HERO_OBSERVATION_DATA = {
 		["high_pure_damage"]         = 0.1,
 		["high_burst_damage"]        = 0.3,
 		["mana_burn"]                = 0.1,
+		["strong_invisibility"]      = 1.0,
 	},
 	["npc_dota_hero_terrorblade"] = {
 		["high_status_resistance"]   = 0.1,
@@ -1122,6 +1136,16 @@ HERO_OBSERVATION_DATA = {
 		["high_burst_damage"]        = 0.3,
 		["mana_burn"]                = 0.1,
 	},
+	["npc_dota_hero_void_spirit"] = {
+		["high_status_resistance"]   = 0.1,
+		["high_evasion"]             = 0.5,
+		["high_disable_amount"]      = 0.4,
+		["high_consecutive_disable"] = 0.4,
+		["high_magic_damage"]        = 0.2,
+		["high_pure_damage"]         = 0.1,
+		["high_burst_damage"]        = 0.3,
+		["mana_burn"]                = 0.1,
+	},
 	["npc_dota_hero_warlock"] = {
 		["high_status_resistance"]   = 0.1,
 		["high_evasion"]             = 0.5,
@@ -1141,6 +1165,7 @@ HERO_OBSERVATION_DATA = {
 		["high_pure_damage"]         = 0.1,
 		["high_burst_damage"]        = 0.3,
 		["mana_burn"]                = 0.1,
+		["strong_invisibility"]      = 1.0,
 	},
 	["npc_dota_hero_winter_wyvern"] = {
 		["high_status_resistance"]   = 0.1,

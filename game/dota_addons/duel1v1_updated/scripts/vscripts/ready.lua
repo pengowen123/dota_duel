@@ -12,19 +12,22 @@ ready_up_data = {}
 function OnReadyUp(event_source_index, args)
 	local id = args["id"]
 
-	ready_up_data[id] = true
+	local team = PlayerResource:GetTeam(id)
+	if (team == DOTA_TEAM_GOODGUYS) or (team == DOTA_TEAM_BADGUYS) then
+		ready_up_data[id] = true
 
-	local data = {}
-	data.id = id
+		local data = {}
+		data.id = id
 
-	CustomGameEventManager:Send_ServerToAllClients("player_ready_lua", data)
+		CustomGameEventManager:Send_ServerToAllClients("player_ready_lua", data)
 
-	if AllReady() then
-		EnableAddBotButton(false)
-		StartRoundEarly()
-		SendTimerUpdateEvent()
-		-- Reset ready-up data
-		InitReadyUpData()
+		if AllReady() then
+			EnableAddBotButton(false)
+			StartRoundEarly()
+			SendTimerUpdateEvent()
+			-- Reset ready-up data
+			InitReadyUpData()
+		end
 	end
 end
 

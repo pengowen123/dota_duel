@@ -103,4 +103,12 @@
     "ItemStockTime"         "1"
     "ItemStockInitial"      "1"
   }
+
+  //"item_woodland_striders"
+  //{
+  //  "ItemCost"  "1"
+  //  "ItemPurchasable" "1"
+  //  "ItemShopTags"          "woodland"
+  //  "ItemSellable"     "1"
+  //}
 }

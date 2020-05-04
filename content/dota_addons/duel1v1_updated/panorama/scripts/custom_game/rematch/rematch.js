@@ -1,6 +1,11 @@
 "use strict";
 
 
+var client_team = Players.GetTeam(Players.GetLocalPlayer());
+var is_spectator_client = !(client_team === DOTATeam_t.DOTA_TEAM_GOODGUYS ||
+													  client_team === DOTATeam_t.DOTA_TEAM_BADGUYS);
+
+
 // Initializes the rematch UI and logic
 function Initialize()
 {
@@ -13,16 +18,22 @@ function Initialize()
   // Create a PlayerRematch element for each player in the game
 	var maxPlayers = Players.GetMaxPlayers();
 
-	for (var id = maxPlayers; id >= 0; id--) {
+	for (var id = maxPlayers; id >= 0; id--)
+	{
 		if (Players.IsValidPlayerID(id))
 		{
-			AddPlayer(id);
+			var team = Players.GetTeam(id);
+			if (team === DOTATeam_t.DOTA_TEAM_GOODGUYS || team === DOTATeam_t.DOTA_TEAM_BADGUYS)
+			{
+				AddPlayer(id);
+			}
 		}
 	}
 
 	// Due to the inconsistency of the `start_round` event being successfully sent at the
 	// start of the game, just hide everything here
-	EnableVoteRematchPanel(false)
+	EnableVoteRematchPanel(false);
+	EnableVoteRematchButton(false);
 }
 
 
@@ -97,7 +108,11 @@ function StartGame()
 	for (var id = maxPlayers; id >= 0; id--) {
 		if (Players.IsValidPlayerID(id))
 		{
-			SetVoteRematchImage(id, "");
+			var team = Players.GetTeam(id);
+			if (team === DOTATeam_t.DOTA_TEAM_GOODGUYS || team === DOTATeam_t.DOTA_TEAM_BADGUYS)
+			{
+				SetVoteRematchImage(id, "");
+			}
 		}
 	}
 }
@@ -114,7 +129,11 @@ function OnAllVotedRematch()
 function EndGame(args)
 {
 	EnableVoteRematchPanel(true);
-	EnableVoteRematchButton(true);
+
+	if (!is_spectator_client)
+	{
+		EnableVoteRematchButton(true);
+	}
 }
 
 
