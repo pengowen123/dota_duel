@@ -46,12 +46,17 @@ end
 
 -- Counts down the timer by one second
 function CountDownTimer()	
-	if round_start_timer > 0 and not game_ended then
+	if round_start_timer > 0 and game_state == GAME_STATE_BUY then
 		-- Count down one second
 		round_start_timer = round_start_timer - 1
 
 		if round_start_timer == 15 or round_start_timer == ROUND_START_DELAY then
 			PrepareNextRound()
+		end
+
+		-- Disable add bot button so it can't be added during or right before a round
+		if round_start_timer <= 10 then
+			EnableAddBotButton(false)
 		end
 
 		-- When the timer reaches zero, start the round

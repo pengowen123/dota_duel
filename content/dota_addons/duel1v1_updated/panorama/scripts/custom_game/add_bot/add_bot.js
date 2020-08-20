@@ -10,6 +10,7 @@ var is_spectator_client = !(client_team === DOTATeam_t.DOTA_TEAM_GOODGUYS ||
 function Initialize()
 {
   GameEvents.Subscribe("enable_add_bot_button", EnableAddBotButton);
+  GameEvents.Subscribe("start_round", OnStartRound);
 
   EnableAddBotButton({ "enabled": false });
 }
@@ -35,6 +36,14 @@ function EnableAddBotButton(args)
   {
     EnableElement(button, false);
   }
+}
+
+
+// Called when a round starts
+// Hides the add bot button
+function OnStartRound()
+{
+  EnableAddBotButton({ "enabled": false });
 }
 
 

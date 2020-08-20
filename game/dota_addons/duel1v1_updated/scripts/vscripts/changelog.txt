@@ -1,0 +1,6 @@
+Fix crash with Wisp
+Fix players not having infinite gold
+Fix issues with player disconnections
+Fix Nightstalker tooltip
+
+Fix more UI issues with players disconnecting

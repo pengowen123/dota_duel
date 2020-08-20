@@ -10,6 +10,11 @@ ready_up_data = {}
 
 -- A listener for when a player readies up
 function OnReadyUp(event_source_index, args)
+	-- Don't allow readying up except during the buy phase
+	if game_state ~= GAME_STATE_BUY then
+		return
+	end
+
 	local id = args["id"]
 
 	local team = PlayerResource:GetTeam(id)

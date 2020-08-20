@@ -27,12 +27,12 @@ function Initialize()
 	GameEvents.Subscribe("player_ready_lua", OnReadyUp);
 	GameEvents.Subscribe("timer_update", TimerUpdate);
 	GameEvents.Subscribe("start_round", StartRound);
+	GameEvents.Subscribe("start_game", EndRound);
 	GameEvents.Subscribe("end_round", EndRound);
+	GameEvents.Subscribe("end_game", EndGame);
+	GameEvents.Subscribe("all_voted_rematch", AllVotedRematch);
 
-	if (is_spectator_client)
-	{
-		EnableReadyUpButton(false);
-	}
+	EnableReadyUpPanel(false);
 }
 
 
@@ -127,6 +127,21 @@ function EndRound()
 	{
 		EnableReadyUpButton(true);
 	}
+}
+
+
+// Called when the game ends
+// Hides the ready-up UI
+function EndGame()
+{
+	EnableReadyUpPanel(false);
+}
+
+
+// Called when all players vote to rematch
+function AllVotedRematch()
+{
+	EnableReadyUpPanel(false);
 }
 
 

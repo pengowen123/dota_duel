@@ -8,17 +8,14 @@ var is_spectator_client = !(client_team === DOTATeam_t.DOTA_TEAM_GOODGUYS ||
 
 function Initialize()
 {
-	ToggleForfeitPopup(false);
-
 	GameEvents.Subscribe("enable_surrender", ResetForfeitUI);
+	GameEvents.Subscribe("start_game", ResetForfeitUI);
 	GameEvents.Subscribe("start_round", StartRound);
 	GameEvents.Subscribe("end_round", EndRound);
 	GameEvents.Subscribe("end_game", EndGame);
+	GameEvents.Subscribe("all_voted_rematch", AllVotedRematch);
 
-	if (is_spectator_client)
-	{
-		ToggleForfeitButton(false);
-	}
+	HideForfeitUI();
 }
 
 
@@ -68,10 +65,21 @@ function EndRound(args)
 	{
 		ResetForfeitUI();
 	}
+	else
+	{
+		HideForfeitUI();
+	}
 }
 
 
 function EndGame()
+{
+	HideForfeitUI();
+}
+
+
+// Called when all players vote to rematch
+function AllVotedRematch()
 {
 	HideForfeitUI();
 }

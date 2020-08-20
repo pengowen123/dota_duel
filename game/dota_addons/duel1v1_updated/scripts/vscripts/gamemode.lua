@@ -55,13 +55,52 @@ require('kills')
 require('hero_select')
 require('hero_select_timer')
 require('surrender')
+require('ui')
 require('bot/bot')
 
 
 -- Constants
 DUMMY_HERO_POSITION = Vector(5000, -5000, 128)
 DUMMY_HERO_NAME = "npc_dota_hero_lina"
-game_ended = false
+-- When players are purchasing items before rounds
+GAME_STATE_BUY = 1
+-- When players are fighting in the arena
+GAME_STATE_FIGHT = 2
+-- When players are voting whether to rematch
+GAME_STATE_REMATCH = 3
+-- When players are selecting new heroes in between games
+GAME_STATE_HERO_SELECT = 4
+-- When heroes are being loaded for a rematch
+GAME_STATE_HERO_LOAD = 5
+-- When a team has won and a rematch was not voted for
+GAME_STATE_END = 6
+
+game_state = GAME_STATE_BUY
+all_players_connected = true
+
+
+
+-- Sets the game state
+function SetGameState(new_state)
+  new_state_str = tostring(new_state)
+
+  if new_state == GAME_STATE_BUY then
+    new_state_str = "GAME_STATE_BUY"
+  elseif new_state == GAME_STATE_FIGHT then
+    new_state_str = "GAME_STATE_FIGHT"
+  elseif new_state == GAME_STATE_REMATCH then
+    new_state_str = "GAME_STATE_REMATCH"
+  elseif new_state == GAME_STATE_HERO_SELECT then
+    new_state_str = "GAME_STATE_HERO_SELECT"
+  elseif new_state == GAME_STATE_HERO_LOAD then
+    new_state_str = "GAME_STATE_HERO_LOAD"
+  elseif new_state == GAME_STATE_END then
+    new_state_str = "GAME_STATE_END"
+  end
+
+  print("SetGameState(" .. new_state_str .. ")")
+  game_state = new_state
+end
 
 
 --[[
@@ -116,19 +155,19 @@ function GameMode:OnGameInProgress()
 
   Notifications:ClearBottomFromAll()
 
+  SetGameState(GAME_STATE_BUY)
+
   -- Level up players with a delay because if a player picks at the last possible second
   -- they won't get levels if this is called instantly
   Timers:CreateTimer(0.5, LevelUpPlayers)
   Timers:CreateTimer(0.5, RemoveTPScroll)
 
-  -- Hide the vote rematch UI
+  -- Hide the vote rematch UI and show the surrender UI
   CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
-  -- Show the surrender UI
-  CustomGameEventManager:Send_ServerToAllClients("enable_surrender", nil)
   -- Reset the ready-up UI (necessary because players can ready-up while heroes are loading,
   -- preventing them from readying up again after the ready-up data is reset here)
   local data = {}
-  data.enable_surrender = false
+  data.enable_surrender = true
   CustomGameEventManager:Send_ServerToAllClients("end_round", data)
 
   -- To prevent people from spawning outside the shop area
@@ -139,8 +178,6 @@ function GameMode:OnGameInProgress()
   InitVoteRematchData()
   ResetKills()
   InitHeroSelectData()
-
-  game_ended = false
 
   -- Start the first round after 60 seconds
   local game_start_delay = 60
@@ -157,14 +194,8 @@ function GameMode:OnGameInProgress()
         EnableAddBotButton(true)
       end
 
-      local disable_button = function()
-        EnableAddBotButton(false)
-      end
-
       -- There must be a delay for events to be properly sent at the time this function is called
       Timers:CreateTimer(2.0, enable_button)
-      -- Disable the button after 50 seconds if it was not pressed already
-      Timers:CreateTimer(50.0, disable_button)
     end
   end
 end
@@ -185,7 +216,11 @@ function GameMode:InitGameMode()
   CustomGameEventManager:RegisterListener("player_select_hero_js", OnSelectHero)
   CustomGameEventManager:RegisterListener("add_bot", OnAddBot)
   CustomGameEventManager:RegisterListener("bot_message_localized", OnBotSayAllChat)
+  CustomGameEventManager:RegisterListener("player_ui_loaded", SetupUI)
   InitKills()
+
+  -- Give infinite gold
+  Timers:CreateTimer(GivePassiveGold)
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)
@@ -208,6 +243,16 @@ function GameMode:InitGameMode()
 end
 
 
+-- Gives 99999 gold to all players
+function GivePassiveGold()
+  for i, playerID in pairs(GetPlayerIDs()) do
+    PlayerResource:ModifyGold(playerID, 99999, true, DOTA_ModifyGold_GameTick)
+  end
+
+  return 1.0
+end
+
+
 -- A function that tests if a player has disconnected and makes them lose the game
 -- Returns a number so it can be used in a timer
 player_timeouts = {}
@@ -219,13 +264,17 @@ leaver_ids = {}
 function WatchForDisconnect(keys)
   local timeout = 120.0
 
+  all_players_connected = true
+
   for i, playerID in pairs(GetPlayerIDs()) do
     local team = PlayerResource:GetTeam(playerID)
 
     local connection_state = PlayerResource:GetConnectionState(playerID)
 
-    -- If a player disconnects, make them lose and stop watching for disconnects
+    -- If a player disconnects for too long or abandons, make them lose and stop watching for disconnects
     if connection_state == DOTA_CONNECTION_STATE_DISCONNECTED then
+      all_players_connected = false
+
       local c = player_timeouts[playerID]
       if c then
         player_timeouts[playerID] = c + 1.0

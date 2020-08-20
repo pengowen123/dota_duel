@@ -1,0 +1,16 @@
+<root>
+
+	<styles>
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/ui_loaded_detector/ui_loaded_detector.js" />
+	</scripts>
+
+	<snippets>
+	</snippets>
+
+	<Panel class="Root">
+	</Panel>
+
+</root>

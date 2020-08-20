@@ -14,6 +14,11 @@ vote_rematch_data = {}
 
 -- A listener for when a player votes to rematch
 function OnVoteRematch(event_source_index, args)
+	-- Don't allow voting to rematch except during the rematch phase
+	if game_state ~= GAME_STATE_REMATCH then
+		return
+	end
+
 	local id = args["id"]
 	vote_rematch_data[id] = true
 
@@ -23,6 +28,7 @@ function OnVoteRematch(event_source_index, args)
 	CustomGameEventManager:Send_ServerToAllClients("player_vote_rematch_lua", data)
 
 	if AllVotedRematch() then
+		SetGameState(GAME_STATE_HERO_SELECT)
 		CustomGameEventManager:Send_ServerToAllClients("all_voted_rematch", nil)
 		-- Hide the victory notification
     Notifications:ClearBottomFromAll()

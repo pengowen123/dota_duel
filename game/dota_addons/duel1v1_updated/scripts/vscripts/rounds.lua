@@ -35,7 +35,7 @@ function OnEntityDeath(event)
         end
       end
     else
-      if not game_ended then
+      if game_state == GAME_STATE_FIGHT then
         local team = entity:GetTeam()
         dead_players[team] = dead_players[team] + 1
 
@@ -108,11 +108,13 @@ function StartRound()
   -- Also remove the timer that kills everything in the arena
   Timers:RemoveTimer("reset_players")
 
-  SpawnAllNeutrals()
-
-  if game_ended then
+  if not (game_state == GAME_STATE_BUY) then
     return
   end
+
+  SetGameState(GAME_STATE_FIGHT)
+
+  SpawnAllNeutrals()
 
   local player_entities = GetPlayerEntities()
 
@@ -157,13 +159,16 @@ end
 
 -- Performs all end of round actions, such as resetting cooldowns
 function EndRound()
-  if round_start_timer > 0 then
+  if game_state == GAME_STATE_BUY then
     return
   end
 
   InitReadyUpData()
 
-  if not game_ended then
+  -- If a player has reached 5 kills, game_state will be GAME_STATE_REMATCH/GAME_STATE_HERO_SELECT
+  if game_state == GAME_STATE_FIGHT then
+    SetGameState(GAME_STATE_BUY)
+
     local data = {}
     data.enable_surrender = true
     CustomGameEventManager:Send_ServerToAllClients("end_round", data)
@@ -172,10 +177,6 @@ function EndRound()
     local round_start_delay = 30
     SetRoundStartTimer(round_start_delay)
   end
-
-  -- Wait to clear the arena because certain heroes are able to dodge the teleport to base
-  -- They will eventually be teleported again, so we wait until that happens to avoid killing the player
-  -- accidentally
 
   -- Respawn all players
   RespawnPlayers()

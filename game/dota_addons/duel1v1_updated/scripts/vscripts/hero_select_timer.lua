@@ -43,7 +43,7 @@ end
 
 -- Counts down the timer by one second
 function CountDownHeroSelectTimer()
-	if hero_select_timer > 0 then
+	if all_players_connected and (hero_select_timer > 0) then
 		-- Count down one second
 		hero_select_timer = hero_select_timer - 1
 
@@ -98,6 +98,8 @@ function RestartGame()
 
 		if hero_name then
 			no_new_heroes = false
+
+			SetGameState(GAME_STATE_HERO_LOAD)
 
 			PrecacheUnitByNameAsync(hero_name, function()
 				PlayerResource:ReplaceHeroWith(playerID, hero_name, 99999, 99999)

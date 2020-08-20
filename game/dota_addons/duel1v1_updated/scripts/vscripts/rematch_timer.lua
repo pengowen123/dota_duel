@@ -37,7 +37,7 @@ function EndGameDelayed(winner)
 
 	rematch_timer = 10
 	game_result = winner
-	game_ended = true
+	SetGameState(GAME_STATE_REMATCH)
 
 	CustomGameEventManager:Send_ServerToAllClients("end_game", nil)
 
@@ -64,9 +64,9 @@ function EndGameDelayed(winner)
 end
 
 
--- Counts down the timer by one second
+-- Counts down the timer by one second if all players are connected
 function CountDownRematchTimer()
-	if rematch_timer > 0 then
+	if all_players_connected and (rematch_timer > 0) then
 		-- Count down one second
 		rematch_timer = rematch_timer - 1
 
@@ -80,6 +80,7 @@ end
 
 -- Ends the game, awarding victory to the team stored in `game_result`
 function EndGame()
+	SetGameState(GAME_STATE_END)
 	GameRules:SetGameWinner(game_result)
 end
 

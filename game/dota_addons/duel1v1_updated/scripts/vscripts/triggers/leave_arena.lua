@@ -101,7 +101,9 @@ function OnEndTouch(trigger)
 	local activator = trigger.activator
 
 	-- Only run on NPCs
-	if activator == nil or not activator.GetItemInSlot then
+	if activator == nil
+		or not ((activator.IsSummoned and activator:IsSummoned())
+						 or (activator.IsHero and activator:IsHero())) then
 		return
 	end
 

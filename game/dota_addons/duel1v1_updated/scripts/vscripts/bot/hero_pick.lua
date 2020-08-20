@@ -35,6 +35,7 @@ function MakeBotHeroChoice()
 		"npc_dota_hero_arc_warden"
 	}
 	local choice_index = RandomInt(1, #hero_pool)
-	-- return hero_pool[choice_index]
-  return hero_pool[1]
+
+	return hero_pool[1]
+  -- return hero_pool[choice_index]
 end
