@@ -69,8 +69,10 @@ function OnStartTouch(trigger)
 	local activator = trigger.activator
 	
 	-- Only run on NPCs
-	if not ((activator.IsSummoned and activator:IsSummoned())
-						 or (activator.IsHero and activator:IsHero())) then
+	if activator == nil
+		or not ((activator.IsSummoned and activator:IsSummoned())
+						 or (activator.IsHero and activator:IsHero())
+						 or (activator.IsConsideredHero and activator:IsConsideredHero())) then
 		return
 	end
 
@@ -85,7 +87,8 @@ function OnEndTouch(trigger)
 	-- Only run on NPCs
 	if activator == nil
 		or not ((activator.IsSummoned and activator:IsSummoned())
-						 or (activator.IsHero and activator:IsHero())) then
+						 or (activator.IsHero and activator:IsHero())
+						 or (activator.IsConsideredHero and activator:IsConsideredHero())) then
 		return
 	end
 

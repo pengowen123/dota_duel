@@ -32,10 +32,14 @@ function OnStartTouch(trigger)
 			end
 		end
 	elseif name == "npc_dota_hero_lone_druid" then
-		Timers:CreateTimer(2.0, function()
-			-- Lone Druid is silenced in the fountain to prevent bugs with the transformation period of his
-			-- ultimate, so this summons the bear automatically
-			activator:GetAbilityByIndex(0):CastAbility()
+		Timers:CreateTimer(0.5, function()
+			if activator:GetAbilityByIndex(0):GetLevel() >= 3 then
+				-- Lone Druid is silenced in the fountain to prevent bugs with the transformation period of his
+				-- ultimate, so this summons the bear automatically
+				activator:GetAbilityByIndex(0):CastAbility()
+			else
+				return 0.5
+			end
 		end)
 	end
 
