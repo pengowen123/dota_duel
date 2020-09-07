@@ -12,8 +12,8 @@ function Initialize()
 	{
 		var id = Players.GetLocalPlayer();
 		var data = { "id": id };
-	
-	 	GameEvents.SendCustomGameEventToServer("player_ui_loaded", data);
+
+		GameEvents.SendCustomGameEventToServer("player_ui_loaded", data);
 	}
 }
 

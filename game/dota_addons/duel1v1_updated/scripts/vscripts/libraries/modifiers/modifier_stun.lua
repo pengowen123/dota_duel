@@ -44,6 +44,7 @@ function modifier_stun:CheckState()
 			["npc_dota_hero_templar_assassin"] = true,
 			["npc_dota_hero_snapfire"] = true,
 			["npc_dota_hero_wisp"] = true,
+			["npc_dota_hero_arc_warden"] = true,
 		}
 
 		if heroes_to_silence[name] then

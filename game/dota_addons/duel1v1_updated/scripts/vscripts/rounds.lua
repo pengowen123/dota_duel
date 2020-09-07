@@ -134,7 +134,12 @@ function StartRound()
     if player_entity:GetName() == "npc_dota_lone_druid_bear" then
       player_entity:AddNewModifier(player_entity, nil, "modifier_bear_disable", {})
 
-      local point = Vector(12000, 12000, 0)
+      local point = Vector(-12000, 12000, 0)
+
+      -- Keep bears from separate teams in different places so they don't get vision of each other
+      if player_entity:GetTeam() == DOTA_TEAM_BADGUYS then
+        point = Vector(12000, 12000, 0)
+      end
 
       FindClearSpaceForUnit(player_entity, point, false)
     else
@@ -154,6 +159,10 @@ function StartRound()
 
   -- Makes rounds balanced for heroes like timbersaw
   RegrowAllTrees()
+
+  -- Remove old hero entities
+  -- Otherwise, they keep building up every round, eventually causing lag
+  RemoveOldHeroes()
 end
 
 
@@ -206,6 +215,7 @@ function EndRound()
   }
   
   Timers:CreateTimer("reset_players", args)
+
 
   -- To prevent reaching the item purchased limit because of items dropped on the ground
   ClearBases()
@@ -318,8 +328,8 @@ function ResetCooldowns(entity)
         max_charges = 100
       end
 
-      -- Don't set TP scroll charges so players can buy more
-      if not (item:GetName() == "item_tpscroll") then
+      -- Don't set charges on consumables so players can buy more
+      if item:IsPermanent() then
         item:SetCurrentCharges(max_charges)
       end
 
@@ -399,15 +409,14 @@ function ResetTalents()
   local bear_items = {}
   local bear_moon_shards = {}
 
-  -- Remove old hero entities
-  -- Otherwise, they keep building up every round, eventually causing lag
-  RemoveOldHeroes()
-
   -- Reset hero and copy over all the modifiers
   for i, playerID in pairs(player_IDs) do
     -- Get the hero name and the selected hero's entities
     local hero_name = PlayerResource:GetSelectedHeroName(playerID)
     local hero_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+
+    -- Cancel TP scrolls
+    hero_entity:Interrupt()
 
     local has_moon_shard = hero_entity:HasModifier("modifier_item_moon_shard_consumed")
     local has_scepter = hero_entity:HasModifier("modifier_item_ultimate_scepter_consumed")
@@ -418,13 +427,20 @@ function ResetTalents()
         bear_moon_shards[playerID] = entity:HasModifier("modifier_item_moon_shard_consumed")
         bear_items[playerID] = {}
 
+        -- Cancel TP scrolls
+        entity:Interrupt()
+
         for i=0,20 do
           local item = entity:GetItemInSlot(i)
 
           if item then
             -- The actual item can't be copied over because it seems to be destroyed by DOTA when
             -- the hero is replaced
-            bear_items[playerID][i] = item:GetAbilityName()
+            bear_items[playerID][i] = {
+              [1] = item:GetAbilityName(),
+              [2] = item:GetCurrentCharges(),
+              [3] = item:GetSecondaryCharges(),
+            }
           end
         end
       end
@@ -474,12 +490,20 @@ function ResetTalents()
         end
       end
       for i = 20,0,-1 do
-        local item_name = player_inventory[i]
+        local item_info = player_inventory[i]
 
-        if item_name then
-          local item = CreateItem(item_name, new_hero, new_hero)
+        if item_info then
+          local item = CreateItem(item_info[1], new_hero, new_hero)
+
+          if item_info[2] then
+            item:SetCurrentCharges(item_info[2])
+          end
+
+          if item_info[3] then
+            item:SetSecondaryCharges(item_info[3])
+          end
+
           new_hero:AddItem(item)
-          print("adding item: " .. item_name)
           new_hero:SwapItems(0, i)
         end
       end
@@ -505,11 +529,25 @@ function ResetTalents()
             end
 
             local re_add_bear_items = function()
-              for i = 20,0,-1 do
-                local item = bear_inventory[i]
+              local tp_scroll = CreateItem("item_tpscroll", new_hero, new_hero)
+              tp_scroll:SetCurrentCharges(3)
+              entity:AddItem(tp_scroll)
 
-                if item then
-                  entity:AddItemByName(item)
+              for i = 20,0,-1 do
+                local item_info = bear_inventory[i]
+
+                if item_info then
+                  local item = CreateItem(item_info[1], new_hero, new_hero)
+
+                  if item_info[2] then
+                    item:SetCurrentCharges(item_info[2])
+                  end
+
+                  if item_info[3] then
+                    item:SetSecondaryCharges(item_info[3])
+                  end
+
+                  entity:AddItem(item)
                   entity:SwapItems(0, i)
                 end
               end

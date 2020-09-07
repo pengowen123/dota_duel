@@ -4,5 +4,4 @@ translate everything in the game the other languages:
 
 fix neutral items not purchasable directly
 fix recipe neutral items not purchasable
-fix passive gold income not working
 make neutral items more discoverable

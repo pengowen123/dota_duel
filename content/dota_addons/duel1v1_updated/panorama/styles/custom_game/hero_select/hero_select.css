@@ -13,11 +13,12 @@
 // Main panel (root is just a dummy so we can specify ID on this one)
 .HeroSelect
 {
-	width: 85%;
-	height: 75%;
+	width: 80%;
+	height: 55%;
 
 	horizontal-align: center;
-	vertical-align: center;
+	vertical-align: top;
+	margin-top: 5%;
 
 	background-color: #111111AA;
 }
@@ -38,19 +39,19 @@
 .Heroes
 {
 	width: 100%;
-	height: 90%;
+	height: 95%;
 
 	horizontal-align: center;
 	vertical-align: bottom;
 
-	flow-children: down;
+	flow-children: up;
 }
 
 // Panels that hold all heroes from a specific category
 .HeroesCategory
 {
 	width: 100%;
-	height: 33%;
+	height: 30%;
 
 	flow-children: right-wrap;
 }
@@ -58,8 +59,8 @@
 // Individual hero panels
 .HeroPanel
 {
-	width: 6%;
-	height: 21.6%;
+	width: 6.25%;
+	height: 30%;
 
 	background-color: transparent;
 }
@@ -67,8 +68,8 @@
 // Button to select a hero
 .HeroButton
 {
-	width: 80%;
-	height: 80%;
+	width: 71px;
+	height: 40px;
 
 	horizontal-align: center;
 	vertical-align: center;

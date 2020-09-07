@@ -36,7 +36,7 @@
 
 	</snippets>
 
-	<Panel class="RootRematch">
+	<Panel class="RootRematch" hittest="false">
 
 		<Panel class="Rematch" id="Rematch">
 

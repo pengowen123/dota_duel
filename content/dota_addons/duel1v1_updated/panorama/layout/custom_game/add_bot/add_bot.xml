@@ -8,7 +8,7 @@
 		<include src="file://{resources}/scripts/custom_game/add_bot/add_bot.js" />
 	</scripts>
 
-	<Panel class="Root">
+	<Panel class="Root" hittest="false">
 
 		<Button class="AddBotButton" id="AddBotButton" onactivate="AddBot()">
 

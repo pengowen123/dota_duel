@@ -171,6 +171,7 @@ end
 function ShouldResetItemCooldown(item_name)
   local unsafe_items = {
     ["item_ward_observer"] = true,
+    ["item_ward_sentry"] = true,
     ["item_ward_dispenser"] = true,
     ["item_smoke_of_deceit"] = true,
   }
@@ -213,8 +214,8 @@ end
 
 
 -- Get all the items of each player
--- If an item is a gem, instead of a handle the value will be "item_gem". This is because gems are
--- destroyed when heroes are replaced and cannot be reused.
+-- Returns a table with items of the form [item_name, item_charges, item_secondary_charges]
+-- Ignores TP scrolls
 function GetInventoryItems()
   all_inventories = {}
   for i, playerID in pairs(GetPlayerIDs()) do
@@ -227,7 +228,11 @@ function GetInventoryItems()
 
         if item then
           if not (item:GetAbilityName() == "item_tpscroll") then
-            player_inventory[i] = item:GetAbilityName()
+            player_inventory[i] = {
+              [1] = item:GetAbilityName(),
+              [2] = item:GetCurrentCharges(),
+              [3] = item:GetSecondaryCharges(),
+            }
           end
           item:Destroy()
         end
@@ -250,9 +255,8 @@ function GetLocalizationTeamName(team)
 end
 
 
--- Removes all old hero entities
--- Do not call unless players will be given new heroes immediately after, otherwise clone-based
--- abilities like monkey king soldiers and tempest double will crash the server when used
+-- Removes all old hero entities, such as those left behind when giving players new heroes
+-- NOTE: Do not call this until all spark wraiths have been removed or they will get stuck
 function RemoveOldHeroes()
   local hero_names = {}
   local hero_entities = {}
@@ -266,12 +270,17 @@ function RemoveOldHeroes()
     end
   end
 
-  for hero_name, i in pairs(hero_names) do
-    for i, entity in pairs(Entities:FindAllByName(hero_name)) do
+  local entity = Entities:First()
+  while entity do
+    if entity.IsHero and entity:IsHero() then
       if not IsDummyHero(entity) and not hero_entities[entity] then
-        UTIL_Remove(entity)
+        if not IsClone(entity) or not hero_entities[entity:GetCloneSource()] then
+          UTIL_Remove(entity)
+        end
       end
     end
+
+    entity = Entities:Next(entity)
   end
 end
 
@@ -367,4 +376,12 @@ function IsFeared(entity)
   end
 
   return false
+end
+
+
+-- Returns whether the provided entity is a clone
+function IsClone(entity)
+  return entity:IsClone()
+    or IsMonkeyKingClone(entity)
+    or entity:FindModifierByName("modifier_arc_warden_tempest_double")
 end

@@ -8,7 +8,14 @@
 
   "npc_dota_hero_pudge_custom"
   {
-    "override_hero"       "npc_dota_hero_pudge"
-    "Ability3"            "pudge_flesh_heap_custom"
+    // Unnecessary now because new heroes are created each round
+    //"override_hero"       "npc_dota_hero_pudge"
+    //"Ability3"            "pudge_flesh_heap_custom"
+  }
+
+  "npc_dota_hero_arc_warden_custom"
+  {
+    "override_hero"       "npc_dota_hero_arc_warden"
+    //"Ability3"            "arc_warden_spark_wraith_custom"
   }
 }

@@ -10,6 +10,11 @@ function OnStartTouch(trigger)
 		return
 	end
 
+	if not ((activator.IsSummoned and activator:IsSummoned())
+						 or (activator.IsHero and activator:IsHero())) then
+		return
+	end
+
 	local name = activator:GetName()
 
 	if name == "npc_dota_hero_monkey_king" then

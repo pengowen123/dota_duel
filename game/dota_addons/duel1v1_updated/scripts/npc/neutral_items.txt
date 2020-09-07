@@ -52,7 +52,7 @@
     }
   }
   "4"
-  { 
+  {
     "items"
     {
       "item_witless_shako"        "1"

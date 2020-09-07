@@ -31,8 +31,12 @@ function InitHeroSelectData()
 		hero_select_data[id] = false
 
 		if IsBot(id) then
-			-- Select a new hero for bots
-			hero_select_data[id] = MakeBotHeroChoice()
+			if global_bot_controller then
+				-- Select a new hero for bots
+				hero_select_data[id] = MakeBotHeroChoice()
+			else
+				hero_select_data[id] = PlayerResource:GetSelectedHeroEntity(id):GetName()
+			end
 		end
 	end
 end

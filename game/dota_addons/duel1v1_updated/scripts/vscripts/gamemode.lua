@@ -208,6 +208,10 @@ function GameMode:InitGameMode()
   -- Skip strategy time to save players time (it's useless in this gamemode)
   GameRules:SetStrategyTime(0.5)
 
+  -- Disable scan (the only alternative is resetting it every round, however that would affect the
+  -- game balance too much)
+  GameRules:GetGameModeEntity():SetCustomScanCooldown(999999999.0)
+
   -- Initialize listeners
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
   CustomGameEventManager:RegisterListener("player_surrender_js", OnSurrender)

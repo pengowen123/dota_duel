@@ -1,12 +1,12 @@
 
-// Dota Abilities Override File
+// Dota Abilities Override 
 "DOTAAbilities"
 {
   "Version"   "1"
 
   "containers_lua_targeting"
   {
-    // General
+    // 
     //-------------------------------------------------------------------------------------------------------------
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_HIDDEN"
     "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_BOTH"
@@ -19,7 +19,7 @@
     "MaxLevel"            "1"
     "IsCastableWhileHidden" "1"
     
-    // Casting
+    // 
     //-------------------------------------------------------------------------------------------------------------
     "AbilityCastRange"        "0"
     "AbilityCastPoint"        "0.0"
@@ -28,14 +28,14 @@
     //-------------------------------------------------------------------------------------------------------------
     "AbilityCooldown"       "0"
 
-    // Cost
+    // 
     //-------------------------------------------------------------------------------------------------------------
     "AbilityManaCost"       "0 0 0 0"
   }
 
   "containers_lua_targeting_tree"
   {
-    // General
+    // 
     //-------------------------------------------------------------------------------------------------------------
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_HIDDEN"
     "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_BOTH"
@@ -48,7 +48,7 @@
     "MaxLevel"            "1"
     "IsCastableWhileHidden" "1"
     
-    // Casting
+    // 
     //-------------------------------------------------------------------------------------------------------------
     "AbilityCastRange"        "0"
     "AbilityCastPoint"        "0.0"
@@ -57,7 +57,7 @@
     //-------------------------------------------------------------------------------------------------------------
     "AbilityCooldown"       "0"
 
-    // Cost
+    // 
     //-------------------------------------------------------------------------------------------------------------
     "AbilityManaCost"       "0 0 0 0"
   }
@@ -173,8 +173,114 @@
     }
   }
 
+
+  "arc_warden_spark_wraith_custom"
+  {
+    "AbilityName"   "arc_warden_spark_wraith_custom"
+    "BaseClass"           "ability_datadriven"
+
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+    "AbilityUnitDamageType"     "DAMAGE_TYPE_MAGICAL"
+    "SpellImmunityType"       "SPELL_IMMUNITY_ENEMIES_NO"
+    "AbilityCooldown"       "4.0 4.0 4.0 4.0"
+    "AbilityManaCost"       "80"
+    "AbilityCastRange"        "2000"
+    "AbilityCastPoint"        "0.3"
+    "AOERadius" "%radius"
+
+    "FightRecapLevel"       "1"
+    "AbilityTextureName"  "arc_warden_spark_wraith_custom"
+    "AbilitySound"          "Hero_ArcWarden.SparkWraith.Activate"
+    "AbilityCastAnimation"    "ACT_DOTA_CAST_ABILITY_3"
+
+
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"            "FIELD_INTEGER"
+        "radius"            "375"
+      }
+      "02"
+      {
+        "var_type"            "FIELD_FLOAT"
+        "activation_delay"        "2.0"
+      }
+      "03"
+      {
+        "var_type"            "FIELD_FLOAT"
+        "duration"            "45"
+      }
+      "04"
+      {
+        "var_type"            "FIELD_INTEGER"
+        "wraith_speed"          "400"
+      }
+      "05"
+      {
+        "var_type"            "FIELD_INTEGER"
+        "spark_damage"          "100 170 240 310"
+        "LinkedSpecialBonus"      "special_bonus_unique_arc_warden"
+      }
+      "06"
+      {
+        "var_type"            "FIELD_FLOAT"
+        "think_interval"        "0.2"
+      }
+      "07"
+      {
+        "var_type"            "FIELD_INTEGER"
+        "wraith_vision_radius"          "300"
+      }
+      "08"
+      {
+        "var_type"            "FIELD_FLOAT"
+        "wraith_vision_duration"        "3.34"
+      }
+      "09"
+      {
+        "var_type"            "FIELD_FLOAT"
+        "ministun_duration"       "0.4 0.5 0.6 0.7"
+      }
+      "10"
+      {
+        "var_type"            "FIELD_INTEGER"
+        "move_speed_slow_pct"       "100"
+      }
+    }
+
+    "OnSpellStart"
+    {
+      "FireSound"
+      {
+        "EffectName"          "Hero_ArcWarden.SparkWraith.Cast"
+        "Target"              "CASTER"
+      }
+
+      "AttachEffect"
+      {
+        "EffectName"          "particles/units/heroes/hero_arc_warden/arc_warden_wraith_cast.vpcf"
+        "EffectAttachType"    "follow_origin"
+        "Target"              "CASTER"
+      }
+
+      "RunScript"
+      {
+        "ScriptFile"          "scripts/vscripts/abilities/spark_wraith.lua"
+        "Function"            "SparkWraith"
+        "Target"              "POINT"
+      }
+    }
+
+    "precache"
+    {
+      "particle"    "particles/units/heroes/hero_arc_warden/arc_warden_wraith_cast.vpcf"
+      "particle"    "particles/units/heroes/hero_arc_warden/arc_warden_wraith.vpcf"
+    }
+  }
+
 //-------------------
-// Dummy stuff
+// Dummy 
 //-------------------
   
   "dummy_unit"
@@ -203,7 +309,7 @@
   
   "barebones_empty1"
   {
-    // General
+    // 
     //-------------------------------------------------------------------------------------------------------------
     //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
@@ -214,7 +320,7 @@
   
   "barebones_empty2"
   {
-    // General
+    // 
     //-------------------------------------------------------------------------------------------------------------
     //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
@@ -225,7 +331,7 @@
   
   "barebones_empty3"
   {
-    // General
+    // 
     //-------------------------------------------------------------------------------------------------------------
     //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
@@ -236,7 +342,7 @@
   
   "barebones_empty4"
   {
-    // General
+    // 
     //-------------------------------------------------------------------------------------------------------------
     //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
@@ -247,7 +353,7 @@
   
   "barebones_empty5"
   {
-    // General
+    // 
     //-------------------------------------------------------------------------------------------------------------
     //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
@@ -258,7 +364,7 @@
   
   "barebones_empty6"
   {
-    // General
+    // 
     //-------------------------------------------------------------------------------------------------------------
     //"ID"              "5343"                            // unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"

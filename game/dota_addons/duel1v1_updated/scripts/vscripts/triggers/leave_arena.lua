@@ -67,28 +67,10 @@ neutral_items = {
 
 function OnStartTouch(trigger)
 	local activator = trigger.activator
-
-	if activator.GetClassname then
-		if activator:GetClassname() == "dota_item_drop" then
-			local item = activator:GetContainedItem()
-
-			if item then
-				local name = item:GetAbilityName()
-
-				print("item name: " .. name)
-
-				-- Making neutral items available in a balanced way is really difficult and might not even
-				-- be desirable, so they are destroyed instantly upon being created
-				if neutral_items[name] then
-					item:Destroy()
-					activator:Kill()
-				end
-			end
-		end
-	end
 	
 	-- Only run on NPCs
-	if activator == nil or not activator.GetItemInSlot then
+	if not ((activator.IsSummoned and activator:IsSummoned())
+						 or (activator.IsHero and activator:IsHero())) then
 		return
 	end
 

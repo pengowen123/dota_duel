@@ -36,7 +36,7 @@
 
 	</snippets>
 
-	<Panel class="Root">
+	<Panel class="Root" hittest="false">
 
 		<Panel class="Ready" id="Ready">
 

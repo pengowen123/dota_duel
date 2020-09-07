@@ -17,34 +17,20 @@ function OnStartTouch(keys)
 				modifier:Destroy()
 				return
 			elseif modifier_name == "modifier_arc_warden_spark_wraith_thinker" then
-				local enemy_team = DOTA_TEAM_GOODGUYS
+				modifier:StartIntervalThink(0.1)
 
-				if activator:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
-					enemy_team = DOTA_TEAM_BADGUYS
-				end
+				local creep = CreateUnitByName(
+					"npc_dota_creep_badguys_melee",
+					activator:GetAbsOrigin() + Vector(1, 1, 0),
+					false,
+					nil,
+					nil,
+					DOTA_TEAM_NEUTRALS)
 
-				local owner = nil
-
-				for playerID = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
-			    if PlayerResource:IsValidPlayerID(playerID) then
-			      owner = PlayerResource:GetSelectedHeroEntity(playerID)
-			    end
-			  end
-
-			  if owner then
-					local creep = CreateUnitByName(
-						"npc_dota_creep_badguys_melee",
-						activator:GetAbsOrigin() + Vector(15, 15, 15),
-						false,
-						owner,
-						owner,
-						enemy_team)
-
-					Timers:CreateTimer(0.25, function()
-						creep:Kill(nil, creep)
-					end)
-					return
-				end
+				Timers:CreateTimer(0.25, function()
+					creep:Kill(nil, creep)
+				end)
+				return
 			end
 		end
 	end
