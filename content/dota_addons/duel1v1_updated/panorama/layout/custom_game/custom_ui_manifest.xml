@@ -49,5 +49,8 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/add_bot/add_bot.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/bot_chat/bot_chat.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ui_loaded_detector/ui_loaded_detector.xml" />
+
+    <!-- Barebones -->
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/barebones_notifications.xml" />
   </Panel>
 </root>
