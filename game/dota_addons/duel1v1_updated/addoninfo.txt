@@ -1,6 +1,8 @@
 "AddonInfo"
 {
 	"TeamCount"		"2"
+	"CheckAFKPlayers"	"0"
+	"PenaltiesEnabled"	"0"
 	"duel1v1"
 	{
 		"MaxPlayers"		"2"

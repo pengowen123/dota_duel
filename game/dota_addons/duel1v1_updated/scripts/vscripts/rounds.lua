@@ -98,6 +98,7 @@ end
 function PrepareNextRound()
   DestroyDroppedGems()
   ClearArena()
+  DestroyAllTrees()
 end
 
 
@@ -159,6 +160,9 @@ function StartRound()
 
   -- Makes rounds balanced for heroes like timbersaw
   RegrowAllTrees()
+
+  -- Prevent broodmother from reusing webs between rounds
+  DestroyWebs()
 
   -- Remove old hero entities
   -- Otherwise, they keep building up every round, eventually causing lag
@@ -401,6 +405,26 @@ function RegrowAllTrees()
 end
 
 
+-- Destroys all trees on the map
+function DestroyAllTrees()
+  for i, tree in pairs(Entities:FindAllByClassname("ent_dota_tree")) do
+    tree:CutDown(-1)
+  end
+
+  for i, tree in pairs(Entities:FindAllByClassname("dota_temp_tree")) do
+    tree:Kill()
+  end
+end
+
+
+-- Destroys all webs from Spin Web
+function DestroyWebs()
+  for i, web in pairs(Entities:FindAllByClassname("npc_dota_broodmother_web")) do
+    web:Kill(nil, web)
+  end
+end
+
+
 -- Resets the talents of all players
 -- NOTE: Since 7.23, this is redundant but is kept around just in case ClearBuffs doesn't catch everything
 function ResetTalents()
@@ -434,13 +458,15 @@ function ResetTalents()
           local item = entity:GetItemInSlot(i)
 
           if item then
-            -- The actual item can't be copied over because it seems to be destroyed by DOTA when
-            -- the hero is replaced
-            bear_items[playerID][i] = {
-              [1] = item:GetAbilityName(),
-              [2] = item:GetCurrentCharges(),
-              [3] = item:GetSecondaryCharges(),
-            }
+            if not (item:GetAbilityName() == "item_tpscroll") then
+              -- The actual item can't be copied over because it seems to be destroyed by DOTA when
+              -- the hero is replaced
+              bear_items[playerID][i] = {
+                [1] = item:GetAbilityName(),
+                [2] = item:GetCurrentCharges(),
+                [3] = item:GetSecondaryCharges(),
+              }
+            end
           end
         end
       end

@@ -11,7 +11,8 @@ function OnStartTouch(trigger)
 	end
 
 	if not ((activator.IsSummoned and activator:IsSummoned())
-						 or (activator.IsHero and activator:IsHero())) then
+						 or (activator.IsHero and activator:IsHero())
+						 or (activator.IsConsideredHero and activator:IsConsideredHero())) then
 		return
 	end
 
@@ -37,6 +38,14 @@ function OnStartTouch(trigger)
 				-- Lone Druid is silenced in the fountain to prevent bugs with the transformation period of his
 				-- ultimate, so this summons the bear automatically
 				activator:GetAbilityByIndex(0):CastAbility()
+
+				for i, bear in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
+					if bear:GetOwner() == activator then
+						local tp_scroll = CreateItem("item_tpscroll", activator, activator)
+	          tp_scroll:SetCurrentCharges(3)
+	          bear:AddItem(tp_scroll)
+	        end
+				end
 			else
 				return 0.5
 			end

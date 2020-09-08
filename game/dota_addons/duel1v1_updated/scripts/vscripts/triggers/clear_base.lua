@@ -31,6 +31,9 @@ function OnStartTouch(keys)
 					creep:Kill(nil, creep)
 				end)
 				return
+			elseif modifier_name == "modifier_tinker_march_thinker" then
+				modifier:Destroy()
+				return
 			end
 		end
 	end
