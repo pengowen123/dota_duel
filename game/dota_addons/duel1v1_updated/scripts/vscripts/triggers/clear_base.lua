@@ -59,6 +59,17 @@ function OnStartTouch(keys)
 		return
 	end
 
+	-- ET spirit must not be destroyed or the ability will not work anymore
+	if classname == "npc_dota_elder_titan_ancestral_spirit" then
+		local owner = activator:GetOwner()
+
+		if owner then
+			FindClearSpaceForUnit(activator, owner:GetAbsOrigin(), false)
+		end
+
+		return
+	end
+
 	-- Classnames of entities that must not be removed
 	local unsafe_classnames = {
 		["npc_dota_companion"] = true,

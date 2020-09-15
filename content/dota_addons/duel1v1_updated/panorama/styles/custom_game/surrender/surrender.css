@@ -51,12 +51,18 @@
 }
 
 #ButtonYes {
+	height: 40%;
+	width: 35%;
+
 	horizontal-align: left;
 	vertical-align: center;
 	margin-left: 12.5%;
 }
 
 #ButtonNo {
+	height: 40%;
+	width: 35%;
+
 	horizontal-align: right;
 	vertical-align: center;
 	margin-right: 12.5%;

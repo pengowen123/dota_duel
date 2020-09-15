@@ -72,6 +72,7 @@ function CountDownRematchTimer()
 
 		-- When the timer reaches zero, end the game
 		if rematch_timer <= 0 then
+			CustomGameEventManager:Send_ServerToAllClients("end_game_no_rematch", nil)
 			EndGame()
 		end
 	end

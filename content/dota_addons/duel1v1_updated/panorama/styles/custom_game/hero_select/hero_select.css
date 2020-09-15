@@ -14,18 +14,21 @@
 .HeroSelect
 {
 	width: 80%;
-	height: 55%;
+	height: 70%;
 
 	horizontal-align: center;
 	vertical-align: top;
 	margin-top: 5%;
 
 	background-color: #111111AA;
+
+	flow-children: down;
 }
 
 // Label at the top of the root panel
 #SelectLabel
 {
+	height: 5%;
 	horizontal-align: center;
 
 	color: white;
@@ -39,7 +42,7 @@
 .Heroes
 {
 	width: 100%;
-	height: 95%;
+	height: 75%;
 
 	horizontal-align: center;
 	vertical-align: bottom;
@@ -76,4 +79,21 @@
 
 	background-color: #BBBBBBFF;
 	border: 0px;
+}
+
+// Panel at the bottom of the root panel
+.BottomPanel
+{
+	width: 100%;
+	height: 20%;
+}
+
+// Random hero button
+#RandomHero
+{
+	vertical-align: center;
+	horizontal-align: center;
+
+	width: 15%;
+	height: 35%;
 }

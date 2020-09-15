@@ -1,6 +1,7 @@
-translate everything in the game the other languages:
-	- spanish
-	- filipino
+translate everything in the game to other languages:
+  - spanish
+  - tagalog
+  - russian
 
 fix neutral items not purchasable directly
 fix recipe neutral items not purchasable

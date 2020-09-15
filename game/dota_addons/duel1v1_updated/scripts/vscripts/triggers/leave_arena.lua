@@ -65,6 +65,10 @@ neutral_items = {
 	["item_phoenix_ash"] = true,
 }
 
+local unsafe_classnames = {
+	["npc_dota_elder_titan_ancestral_spirit"] = true,
+}
+
 function OnStartTouch(trigger)
 	local activator = trigger.activator
 	
@@ -86,6 +90,7 @@ function OnEndTouch(trigger)
 
 	-- Only run on NPCs
 	if activator == nil
+		or unsafe_classnames[activator:GetClassname()]
 		or not ((activator.IsSummoned and activator:IsSummoned())
 						 or (activator.IsHero and activator:IsHero())
 						 or (activator.IsConsideredHero and activator:IsConsideredHero())) then

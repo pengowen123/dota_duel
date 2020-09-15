@@ -172,4 +172,15 @@ end
 
 -- This function is called whenever any player sends a chat message to team or All
 function GameMode:OnPlayerChat(keys)
+	-- local entity = Entities:First()
+
+	-- local i = 0
+	-- while entity do
+	-- 	if entity:GetClassname() == "npc_dota_elder_titan_ancestral_spirit" then
+	-- 		i = i + 1
+	-- 	end
+
+	-- 	entity = Entities:Next(entity)
+	-- end
+	-- print(i, "entities")
 end

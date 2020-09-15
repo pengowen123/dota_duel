@@ -106,6 +106,12 @@ function RestartGame()
 
 				TryOnGameInProgress(playerID)
 			end)
+		else
+			-- Add TP scrolls if the player wasn't given a new hero
+			local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+			local tp_scroll = CreateItem("item_tpscroll", hero, hero)
+			tp_scroll:SetCurrentCharges(3)
+			hero:AddItem(tp_scroll)
 		end
 	end
 

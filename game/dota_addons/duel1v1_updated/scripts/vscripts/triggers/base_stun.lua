@@ -1,6 +1,7 @@
 unsafe_classnames = {
 	["dota_death_prophet_exorcism_spirit"] = true,
 	["dota_item_drop"] = true,
+	["npc_dota_elder_titan_ancestral_spirit"] = true,
 }
 
 function OnStartTouch(trigger)
