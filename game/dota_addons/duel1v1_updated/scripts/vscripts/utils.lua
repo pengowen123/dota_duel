@@ -3,7 +3,79 @@
 
 -- Constants
 MAX_KILLS = 5
-STRENGTH_MAGIC_RESISTANCE = 0.08
+STRENGTH_MAGIC_RESISTANCE = 0.00
+NEUTRAL_ITEM_SLOT = 16
+
+
+neutral_items = {
+  ["item_keen_optic"] = true,
+  ["item_royal_jelly"] = true,
+  ["item_poor_mans_shield"] = true,
+  ["item_ocean_heart"] = true,
+  ["item_iron_talon"] = true,
+  ["item_mango_tree"] = true,
+  ["item_arcane_ring"] = true,
+  -- sic
+  ["item_elixer"] = true,
+  ["item_elixir"] = true,
+  ["item_broom_handle"] = true,
+  ["item_ironwood_tree"] = true,
+  ["item_trusty_shovel"] = true,
+  ["item_faded_broach"] = true,
+  ["item_grove_bow"] = true,
+  ["item_vampire_fangs"] = true,
+  ["item_ring_of_aquila"] = true,
+  ["item_repair_kit"] = true,
+  ["item_pupils_gift"] = true,
+  ["item_helm_of_the_undying"] = true,
+  ["item_imp_claw"] = true,
+  ["item_philosophers_stone"] = true,
+  ["item_dragon_scale"] = true,
+  ["item_essence_ring"] = true,
+  ["item_nether_shawl"] = true,
+  ["item_tome_of_aghanim"] = true,
+  ["item_craggy_coat"] = true,
+  ["item_greater_faerie_fire"] = true,
+  ["item_quickening_charm"] = true,
+  ["item_mind_breaker"] = true,
+  ["item_third_eye"] = true,
+  ["item_spider_legs"] = true,
+  ["item_vambrace"] = true,
+  ["item_clumsy_net"] = true,
+  ["item_enchanted_quiver"] = true,
+  ["item_paladin_sword"] = true,
+  ["item_orb_of_destruction"] = true,
+  ["item_titan_sliver"] = true,
+  ["item_witless_shako"] = true,
+  ["item_timeless_relic"] = true,
+  ["item_spell_prism"] = true,
+  ["item_princes_knife"] = true,
+  ["item_flicker"] = true,
+  ["item_spy_gadget"] = true,
+  ["item_ninja_gear"] = true,
+  -- sic
+  ["item_illusionsts_cape"] = true,
+  ["item_illusionists_cape"] = true,
+  ["item_havoc_hammer"] = true,
+  ["item_panic_button"] = true,
+  ["item_the_leveller"] = true,
+  ["item_minotaur_horn"] = true,
+  ["item_force_boots"] = true,
+  ["item_seer_stone"] = true,
+  ["item_mirror_shield"] = true,
+  ["item_fallen_sky"] = true,
+  ["item_fusion_rune"] = true,
+  ["item_apex"] = true,
+  ["item_ballista"] = true,
+  ["item_woodland_striders"] = true,
+  ["item_recipe_trident"] = true,
+  ["item_trident"] = true,
+  ["item_demonicon"] = true,
+  ["item_pirate_hat"] = true,
+  ["item_ex_machina"] = true,
+  ["item_desolator_2"] = true,
+  ["item_phoenix_ash"] = true,
+}
 
 
 -- Returns a table containing handles to all player entities
@@ -92,7 +164,7 @@ function GetOppositeTeam(team)
 end
 
 
--- Returns the player entity of the player that is on the opposite team of the provided one
+-- Returns the player entity of a player that is on the opposite team of the provided one
 function GetEnemyPlayer(team)
   local player_entities = GetPlayerEntities()
 
@@ -200,47 +272,145 @@ function ClearInventories()
     local player = PlayerResource:GetPlayer(playerID)
     local player_entity = player:GetAssignedHero()
 
-    if player_entity then
-      for i=0,20 do
-        local item = player_entity:GetItemInSlot(i)
+    ClearInventory(player_entity)
+  end
+end
 
-        if item then
-          item:Destroy()
-        end
+
+-- Clears the inventory and stash of the entity
+function ClearInventory(entity)
+  if entity and entity.GetItemInSlot then
+    for i=0,20 do
+      local item = entity:GetItemInSlot(i)
+
+      if item then
+        item:Destroy()
       end
     end
   end
 end
 
 
--- Get all the items of each player
--- Returns a table with items of the form [item_name, item_charges, item_secondary_charges]
--- Ignores TP scrolls
-function GetInventoryItems()
+-- Returns the inventories of every player
+-- Returns a list of tables, each with the same format as those returned by GetInventoryOfEntity
+function GetPlayerInventories()
   all_inventories = {}
   for i, playerID in pairs(GetPlayerIDs()) do
-    local player_inventory = {}
     local player_hero_handle = PlayerResource:GetSelectedHeroEntity(playerID)
 
-    if player_hero_handle then
-      for i=0,20 do
-        local item = player_hero_handle:GetItemInSlot(i)
-
-        if item then
-          if not (item:GetAbilityName() == "item_tpscroll") then
-            player_inventory[i] = {
-              [1] = item:GetAbilityName(),
-              [2] = item:GetCurrentCharges(),
-              [3] = item:GetSecondaryCharges(),
-            }
-          end
-          item:Destroy()
-        end
-      end
-    end
-    all_inventories[playerID] = player_inventory
+    all_inventories[playerID] = GetInventoryOfEntity(player_hero_handle)
   end
   return all_inventories
+end
+
+
+-- Gets the inventory of the entity
+-- Returns a table with items of the form [item_name, item_charges, item_secondary_charges]
+-- The items are ordered by their index in the inventory
+-- Ignores TP scrolls
+function GetInventoryOfEntity(entity)
+  local inventory = {}
+
+  for i=0,20 do
+    local item = entity:GetItemInSlot(i)
+
+    if item then
+      if not (item:GetAbilityName() == "item_tpscroll") then
+        inventory[i] = {
+          [1] = item:GetAbilityName(),
+          [2] = item:GetCurrentCharges(),
+          [3] = item:GetSecondaryCharges(),
+        }
+      end
+    end
+  end
+
+  return inventory
+end
+
+
+-- Sets the entity's inventory state to the provided table and adds 3 TP scrolls
+-- All created items are owned by item_owner
+-- The table should be in the format returned by GetInventoryItems
+-- Clears the entity's inventory before adding items
+function SetupInventory(entity, item_owner, inventory)
+  ClearInventory(entity)
+
+  -- Add TP scrolls
+  local tp_scroll = CreateItem("item_tpscroll", item_owner, item_owner)
+  tp_scroll:SetCurrentCharges(3)
+  entity:AddItem(tp_scroll)
+
+  -- Occupies the neutral item slot while other neutral items are added
+  local dummy_neutral_item = entity:AddItemByName("item_apex")
+
+  -- Add neutral items
+  for i=20,0,-1 do
+    if i ~= NEUTRAL_ITEM_SLOT then
+      local item_info = inventory[i]
+
+      if item_info and IsNeutralItem(item_info[1]) then
+        local item = CreateItem(item_info[1], item_owner, item_owner)
+
+        item:SetPurchaser(item_owner)
+
+        entity:AddItem(item)
+        entity:SwapItems(6, i)
+      end
+    end
+  end
+
+  -- Add the real item to the neutral item slot
+  dummy_neutral_item:Destroy()
+
+  local real_neutral_item = inventory[NEUTRAL_ITEM_SLOT]
+
+  if real_neutral_item then
+    local item = CreateItem(real_neutral_item[1], item_owner, item_owner)
+
+    -- This makes neutral items sellable
+    item:SetPurchaser(item_owner)
+
+    entity:AddItem(item)
+  end
+
+  -- Add normal items
+  for i = 20,0,-1 do
+    local item = entity:GetItemInSlot(i)
+
+    local item_info = inventory[i]
+
+    -- Neutral items are handled separately
+    if item_info and not IsNeutralItem(item_info[1]) then
+      local item = CreateItem(item_info[1], item_owner, item_owner)
+
+      if item_info[2] then
+        item:SetCurrentCharges(item_info[2])
+      end
+
+      if item_info[3] then
+        item:SetSecondaryCharges(item_info[3])
+      end
+
+      -- This makes neutral items sellable
+      item:SetPurchaser(item_owner)
+
+      entity:AddItem(item)
+      entity:SwapItems(0, i)
+    end
+  end
+end
+
+
+-- Clears the inventory of the entity
+function ClearInventory(entity)
+  for i=0,20 do
+    local item = entity:GetItemInSlot(i)
+
+    if item then
+      item:Destroy()
+    end
+  end
 end
 
 
@@ -384,4 +554,57 @@ function IsClone(entity)
   return entity:IsClone()
     or IsMonkeyKingClone(entity)
     or entity:FindModifierByName("modifier_arc_warden_tempest_double")
+end
+
+
+-- Returns whether a bot can be added (only on 1v1 map and if playing solo)
+function CanAddBot()
+  local total_players = 0
+    total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
+    total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
+
+  return (GetMapName() == "duel1v1") and total_players == 1
+end
+
+
+-- Sets whether players can purchase neutral items
+function EnableNeutralItemPurchase(enabled)
+  if enabled then
+    SendToServerConsole("dota_easybuy 1")
+  else
+    SendToServerConsole("dota_easybuy 0")
+  end
+end
+
+
+-- Returns whether the item is a neutral item
+function IsNeutralItem(item_name)
+  return neutral_items[item_name] ~= nil
+end
+
+
+-- Calls `fn` with all items in the player's inventory and their bear's inventory
+-- fn should be of type function(entity, item)
+function MapInventoryItems(player_id, fn)
+  local hero = PlayerResource:GetSelectedHeroEntity(player_id)
+
+  for i=0,20 do
+    local item = hero:GetItemInSlot(i)
+
+    if item then
+      fn(hero, item)
+    end
+  end
+
+  for j, entity in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
+    if entity:GetOwnerEntity() == hero then
+      for i=0,20 do
+        local item = entity:GetItemInSlot(i)
+
+        if item then
+          fn(entity, item)
+        end
+      end
+    end
+  end
 end

@@ -342,7 +342,7 @@ function BotController:UpdatePositionGoal()
 		num_enemies = num_enemies + 1
 
 		-- Don't consider neutral positions when running away
-		if not enemy:GetClassname() == "npc_dota_creep_neutral" then
+		if enemy:GetClassname() ~= "npc_dota_creep_neutral" then
 			enemy_positions[i] = enemy:GetAbsOrigin()
 		end
 	end
@@ -483,6 +483,14 @@ end
 
 
 -- Returns a list of visible enemies that should be considered targets to attack
+local dont_attack_classnames = {
+	["player"] = true,
+	["npc_dota_hero_announcer"] = true,
+	["npc_dota_hero_announcer_killing_spree"] = true,
+}
+local dont_attack_names = {
+	["ent_dota_shop"] = true,
+}
 function BotController:GetPotentialAttackTargets(include_neutrals)
 	local bot_hero = PlayerResource:GetSelectedHeroEntity(self.bot_id)
 	local enemies = {}
@@ -490,14 +498,17 @@ function BotController:GetPotentialAttackTargets(include_neutrals)
 	local entity = Entities:First()
 
 	while entity do
+		local name = entity:GetName()
+		local classname = entity:GetClassname()
+
 		if entity.IsAlive and entity:IsAlive()
 			and bot_hero:CanEntityBeSeenByMyTeam(entity)
 			and entity.GetHealth
 			and entity.GetTeamNumber and (entity:GetTeamNumber() ~= bot_hero:GetTeamNumber())
 			-- To exclude the special entities like neutral camp dummies
 			and entity:GetMaxHealth() > 1
-			and entity:GetName() ~= "ent_dota_shop"
-			and entity:GetClassname() ~= "player" then
+			and dont_attack_names[name] == nil
+			and dont_attack_classnames[classname] == nil then
 			if entity:GetClassname() == "npc_dota_creep_neutral" then
 				if include_neutrals then
 					table.insert(enemies, entity)

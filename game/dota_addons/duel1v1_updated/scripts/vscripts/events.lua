@@ -71,6 +71,7 @@ end
 
 -- An item was picked up off the ground
 function GameMode:OnItemPickedUp(keys)
+	self:OnItemPurchased(keys)
 end
 
 -- A player has reconnected to the game.  This function can be used to repaint Player-based particles or change
@@ -79,7 +80,36 @@ function GameMode:OnPlayerReconnect(keys)
 end
 
 -- An item was purchased by a player
-function GameMode:OnItemPurchased( keys )
+function GameMode:OnItemPurchased(keys)
+	local player_id = keys.PlayerID
+	local hero = PlayerResource:GetSelectedHeroEntity(player_id)
+
+	local recipe_neutral_items = {
+		["item_recipe_trident"] = true,
+	}
+	-- Replace recipe neutral items
+	if recipe_neutral_items[keys.itemname] then
+		local replace_recipe = function(entity, item)
+			if item:GetAbilityName() == keys.itemname then
+				item:Destroy()
+
+				local item_name = keys.itemname:gsub("recipe_", "")
+
+				local item = entity:AddItemByName(item_name)
+				-- Set purchaser (enables selling of neutral items)
+				item:SetPurchaser(hero)
+			end
+		end
+
+		MapInventoryItems(player_id, replace_recipe)
+	else
+		-- Set purchaser (enables selling of neutral items)
+		local set_purchaser = function(entity, item)
+			item:SetPurchaser(hero)
+		end
+
+		MapInventoryItems(player_id, set_purchaser)
+	end
 end
 
 -- An ability was used by a player
@@ -95,7 +125,17 @@ function GameMode:OnPlayerChangedName(keys)
 end
 
 -- A player leveled up an ability
-function GameMode:OnPlayerLearnedAbility( keys)
+function GameMode:OnPlayerLearnedAbility(keys)
+	-- Add a modifier representing the ice vortex cooldown talent so that it is available in the client
+	if keys.abilityname == "special_bonus_unique_ancient_apparition_3" then
+		local player_id = keys.PlayerID
+		local hero = PlayerResource:GetSelectedHeroEntity(player_id)
+		local ability = hero:FindAbilityByName(keys.abilityname)
+
+		local data = { duration = -1 }
+		local modifier = hero:AddNewModifier(hero, nil, "modifier_special_bonus_unique_ancient_apparition_3", data)
+		modifier:SetStackCount(ability:GetSpecialValueFor("value"))
+	end
 end
 
 -- A channelled ability finished by either completing or being interrupted
@@ -176,11 +216,27 @@ function GameMode:OnPlayerChat(keys)
 
 	-- local i = 0
 	-- while entity do
-	-- 	if entity:GetClassname() == "npc_dota_elder_titan_ancestral_spirit" then
+	-- 	if entity:GetClassname() == "dota_item_rune" then
 	-- 		i = i + 1
+	-- 	end
+
+	-- 	local classname = entity:GetClassname()
+
+	-- 	if classname ~= "ent_dota_tree" then
+	-- 		print(classname)
 	-- 	end
 
 	-- 	entity = Entities:Next(entity)
 	-- end
 	-- print(i, "entities")
+
+	-- local hero = PlayerResource:GetSelectedHeroEntity(0)
+
+	-- for i=0,25 do
+	-- 	local item = hero:GetItemInSlot(i)
+
+	-- 	if item then
+	-- 		print(i, item:GetAbilityName())
+	-- 	end
+	-- end
 end

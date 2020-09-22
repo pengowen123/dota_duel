@@ -31,7 +31,6 @@
 
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom"                                    "Darkness"
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom_Description"                        "Night Stalker подавляет солнечный свет, создавая непроглядную тьму, в которой он раскрывает свои силы в полной мере. При использовании снижает радиус обзора вражеских героев, юнитов, вардов и зданий до 675"
-                "DOTA_Tooltip_ability_night_stalker_darkness_custom_aghanim_description"                "Дает неограниченный обзор ночью. Этот бонус активируется любой ночью, а не только той, которая была создана заклинанием Darkness."
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom_duration"                           "ДЛИТЕЛЬНОСТЬ:"
 
                 "DOTA_Tooltip_ability_pudge_flesh_heap_custom"                                          "Flesh Heap"

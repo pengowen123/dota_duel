@@ -79,9 +79,6 @@ function RestartGame()
 
 	CustomGameEventManager:Send_ServerToAllClients("end_round", data)
 
-	-- To prevent reaching the item purchased limit
-	ClearInventories()
-
 	hero_load_state = {}
 	for i, playerID in pairs(GetPlayerIDs()) do
 		if hero_select_data[playerID] then
@@ -102,6 +99,10 @@ function RestartGame()
 			SetGameState(GAME_STATE_HERO_LOAD)
 
 			PrecacheUnitByNameAsync(hero_name, function()
+				-- Clear inventory to prevent reaching the items purchased limit
+				local old_hero = PlayerResource:GetSelectedHeroEntity(playerID)
+				ClearInventory(old_hero)
+
 				PlayerResource:ReplaceHeroWith(playerID, hero_name, 99999, 99999)
 
 				TryOnGameInProgress(playerID)

@@ -158,7 +158,7 @@ function BotController:ThinkShopWraithKing()
 	table.insert(items, item_3)
 	table.insert(items, item_4)
 	table.insert(items, item_5)
-	-- items[7] = item_neutral
+	table.insert(items, item_neutral)
 
 	-- Buy items from the list
 	local buy_items = function()

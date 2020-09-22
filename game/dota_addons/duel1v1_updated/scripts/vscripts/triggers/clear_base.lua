@@ -3,6 +3,16 @@ function OnStartTouch(keys)
 	local name = activator:GetName()
 	local classname = activator:GetClassname()
 
+	local announcer_classnames = {
+		["npc_dota_hero_announcer"] = true,
+		["npc_dota_hero_announcer_killing_spree"] = true,
+	}
+
+	-- Killing announcer entities breaks the announcer
+	if announcer_classnames[classname] then
+		return
+	end
+
 	if classname == "npc_dota_thinker" then
 		for i, modifier in pairs(activator:FindAllModifiers()) do
 			local modifier_name = modifier:GetName()
@@ -32,6 +42,9 @@ function OnStartTouch(keys)
 				end)
 				return
 			elseif modifier_name == "modifier_tinker_march_thinker" then
+				modifier:Destroy()
+				return
+			elseif modifier_name == "modifier_ancient_apparition_ice_vortex_custom_thinker" then
 				modifier:Destroy()
 				return
 			end

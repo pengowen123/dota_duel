@@ -17,6 +17,13 @@ function OnStartTouch(trigger)
 		return
 	end
 
+	-- Instantly kill players who TP to base (functions as a surrender)
+	-- leave_arena_modifier would cause death 8 seconds later anyways but this makes it faster
+	if game_state == GAME_STATE_FIGHT then
+		activator:Kill(nil, activator)
+		return
+	end
+
 	local name = activator:GetName()
 
 	if name == "npc_dota_hero_monkey_king" then

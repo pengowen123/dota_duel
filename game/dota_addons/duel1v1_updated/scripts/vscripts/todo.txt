@@ -3,6 +3,5 @@ translate everything in the game to other languages:
   - tagalog
   - russian
 
-fix neutral items not purchasable directly
-fix recipe neutral items not purchasable
-make neutral items more discoverable
+make neutral items as discoverable as possible
+add intro screen to help new players

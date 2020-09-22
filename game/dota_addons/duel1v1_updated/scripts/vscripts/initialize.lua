@@ -30,7 +30,7 @@ function LevelUpPlayers()
 
     if player_entity then
       local levelup = function()
-        player_entity:AddExperience(99999.0, 0, false, false)
+        player_entity:AddExperience(99000.0, 0, false, false)
       end
 
       for i=0,30 do

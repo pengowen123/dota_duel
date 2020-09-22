@@ -18,12 +18,6 @@ dead_players = {
 function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
-  -- For debugging in production
-  print("died: " .. entity:GetName() .. ", classname: " .. entity:GetClassname())
-  if entity:IsRealHero() then
-    print("Entity reincarnating: " .. tostring(entity:IsReincarnating()))
-  end
-
   -- Only count the death if the entity is a hero and won't reincarnate
   if entity:IsRealHero() then
     if entity:IsReincarnating() then
@@ -105,6 +99,8 @@ end
 -- Starts the next round, resetting all player entities and teleporting them to the arena
 -- Also removes nightstalker's darkness and hides the ready-up UI
 function StartRound()
+  EnableNeutralItemPurchase(false)
+
   -- Prevent the end round timer from teleporting players back to their base after the round starts
   -- Also remove the timer that kills everything in the arena
   Timers:RemoveTimer("reset_players")
@@ -149,6 +145,9 @@ function StartRound()
     end
   end
 
+  -- Center players' cameras for convenience and to avoid confusion
+  CenterPlayerCameras()
+
   CustomGameEventManager:Send_ServerToAllClients("start_round", nil)
 
   -- Wait for players to be teleported to the arena before clearing the bases
@@ -161,8 +160,13 @@ function StartRound()
   -- Makes rounds balanced for heroes like timbersaw
   RegrowAllTrees()
 
+  DestroyRunes()
+
   -- Prevent broodmother from reusing webs between rounds
   DestroyWebs()
+
+  -- Prevent the items purchased limit from being reached
+  DestroyDroppedItems()
 
   -- Remove old hero entities
   -- Otherwise, they keep building up every round, eventually causing lag
@@ -175,6 +179,8 @@ function EndRound()
   if game_state == GAME_STATE_BUY then
     return
   end
+
+  EnableNeutralItemPurchase(true)
 
   InitReadyUpData()
 
@@ -220,12 +226,14 @@ function EndRound()
   
   Timers:CreateTimer("reset_players", args)
 
-
   -- To prevent reaching the item purchased limit because of items dropped on the ground
   ClearBases()
+  DestroyDroppedItems()
 
-  -- Reset talents so players can try new ones
-  ResetTalents()
+  if game_state == GAME_STATE_BUY then
+    -- Reset talents so players can try new ones
+    ResetTalents()
+  end
 end
 
 
@@ -319,7 +327,7 @@ function ResetCooldowns(entity)
     end
   end
 
-  for i = 0, 15 do
+  for i = 0, 25 do
     local item = entity:GetItemInSlot(i)
 
     -- Don't refresh the cooldown of observer wards because it causes them to disappear
@@ -425,11 +433,37 @@ function DestroyWebs()
 end
 
 
+-- Destroys all dropped items
+function DestroyDroppedItems()
+  for i, entity in pairs(Entities:FindAllByClassname("dota_item_drop")) do
+    local item = entity:GetContainedItem()
+
+    if item then
+      -- Don't destroy gems (they are handles by DestroyDroppedGems)
+      if item:GetAbilityName() ~= "item_gem" then
+        item:Destroy()
+        entity:Kill()
+      end
+    else
+      entity:Kill()
+    end
+  end
+end
+
+
+-- Destroys all runes
+function DestroyRunes()
+  for i, rune in pairs(Entities:FindAllByClassname("dota_item_rune")) do
+    rune:Kill()
+  end
+end
+
+
 -- Resets the talents of all players
 -- NOTE: Since 7.23, this is redundant but is kept around just in case ClearBuffs doesn't catch everything
 function ResetTalents()
   local player_IDs = GetPlayerIDs()
-  local player_items = GetInventoryItems()
+  local player_items = GetPlayerInventories()
   local bear_items = {}
   local bear_moon_shards = {}
 
@@ -449,26 +483,11 @@ function ResetTalents()
     for i, entity in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
       if entity:GetOwnerEntity() == hero_entity then
         bear_moon_shards[playerID] = entity:HasModifier("modifier_item_moon_shard_consumed")
-        bear_items[playerID] = {}
+        bear_items[playerID] = GetInventoryOfEntity(entity)
+        ClearInventory(entity)
 
         -- Cancel TP scrolls
         entity:Interrupt()
-
-        for i=0,20 do
-          local item = entity:GetItemInSlot(i)
-
-          if item then
-            if not (item:GetAbilityName() == "item_tpscroll") then
-              -- The actual item can't be copied over because it seems to be destroyed by DOTA when
-              -- the hero is replaced
-              bear_items[playerID][i] = {
-                [1] = item:GetAbilityName(),
-                [2] = item:GetCurrentCharges(),
-                [3] = item:GetSecondaryCharges(),
-              }
-            end
-          end
-        end
       end
     end
 
@@ -482,13 +501,7 @@ function ResetTalents()
     -- Clear the dummy hero's inventory
     -- It starts with a town portal scroll and if it is not destroyed, the items purchased limit
     -- is reduced by 1 every round
-    for i=0,20 do
-      local item = dummy_hero:GetItemInSlot(i)
-
-      if item then
-        item:Destroy()
-      end
-    end
+    ClearInventory(dummy_hero)
 
     -- Replace dummy with the original hero
     local new_hero = PlayerResource:ReplaceHeroWith(playerID, hero_name, 99999, 99999)
@@ -508,36 +521,9 @@ function ResetTalents()
     local re_add_items = function()
       local player_inventory = player_items[playerID]
       -- Remove items the player purchases before their old items are added back to avoid bugs
-      for i = 0,20 do
-        local item = new_hero:GetItemInSlot(i)
+      ClearInventory(new_hero)
 
-        if item then
-          item:Destroy()
-        end
-      end
-      for i = 20,0,-1 do
-        local item_info = player_inventory[i]
-
-        if item_info then
-          local item = CreateItem(item_info[1], new_hero, new_hero)
-
-          if item_info[2] then
-            item:SetCurrentCharges(item_info[2])
-          end
-
-          if item_info[3] then
-            item:SetSecondaryCharges(item_info[3])
-          end
-
-          new_hero:AddItem(item)
-          new_hero:SwapItems(0, i)
-        end
-      end
-
-      -- Add starting tp scrolls for surrendering rounds with
-      local tp_scroll = CreateItem("item_tpscroll", new_hero, new_hero)
-      tp_scroll:SetCurrentCharges(3)
-      new_hero:AddItem(tp_scroll)
+      SetupInventory(new_hero, new_hero, player_inventory)
 
       local bear_inventory = bear_items[playerID]
 
@@ -555,28 +541,7 @@ function ResetTalents()
             end
 
             local re_add_bear_items = function()
-              local tp_scroll = CreateItem("item_tpscroll", new_hero, new_hero)
-              tp_scroll:SetCurrentCharges(3)
-              entity:AddItem(tp_scroll)
-
-              for i = 20,0,-1 do
-                local item_info = bear_inventory[i]
-
-                if item_info then
-                  local item = CreateItem(item_info[1], new_hero, new_hero)
-
-                  if item_info[2] then
-                    item:SetCurrentCharges(item_info[2])
-                  end
-
-                  if item_info[3] then
-                    item:SetSecondaryCharges(item_info[3])
-                  end
-
-                  entity:AddItem(item)
-                  entity:SwapItems(0, i)
-                end
-              end
+              SetupInventory(entity, new_hero, bear_inventory)
             end
 
             -- Re-add items from the bear's inventory half a second after summoning it
@@ -605,9 +570,7 @@ function DestroyDroppedGems()
     if item and item:GetAbilityName() == "item_gem" then
       local pickup = function()
         FindClearSpaceForUnit(entity, collector:GetAbsOrigin(), false)
-        Timers:CreateTimer(0.1, function()
-          -- print("item pos: ", entity:GetAbsOrigin())
-        end)
+
         collector:PickupDroppedItem(entity)
 
         local destroy_item = function()
@@ -621,4 +584,12 @@ function DestroyDroppedGems()
       Timers:CreateTimer(gem_count * 0.1, pickup)
     end
   end
+end
+
+
+-- Centers the camera on each player's hero
+function CenterPlayerCameras()
+  local player_id = Entities:GetLocalPlayer():GetPlayerID()
+  local pos = PlayerResource:GetSelectedHeroEntity(player_id):GetAbsOrigin()
+  SendToConsole("dota_camera_set_lookatpos " .. tostring(pos.x) .. " " .. tostring(pos.y))
 end

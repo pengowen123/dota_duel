@@ -30,6 +30,10 @@ end
 -- Ends the game after a delay and shows the rematch UI
 -- `winner` should be either DOTA_TEAM_GOODGUYS or DOTA_TEAM_BADGUYS
 function EndGameDelayed(winner)
+	if IsMatchEnded() or (game_state == GAME_STATE_REMATCH) then
+		return
+	end
+
 	-- This is called again here so the countdown only starts after one second has passed
 	-- Otherwise the countdown could happen before the first second passes and the timer becomes inaccurate
 	InitRematchTimer()
@@ -72,7 +76,6 @@ function CountDownRematchTimer()
 
 		-- When the timer reaches zero, end the game
 		if rematch_timer <= 0 then
-			CustomGameEventManager:Send_ServerToAllClients("end_game_no_rematch", nil)
 			EndGame()
 		end
 	end
@@ -81,6 +84,7 @@ end
 
 -- Ends the game, awarding victory to the team stored in `game_result`
 function EndGame()
+	CustomGameEventManager:Send_ServerToAllClients("end_game_no_rematch", nil)
 	SetGameState(GAME_STATE_END)
 	GameRules:SetGameWinner(game_result)
 end

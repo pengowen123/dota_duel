@@ -2,6 +2,10 @@
 function OnAddBot(event_source_index, args)
   EnableAddBotButton(false)
 
+  if not CanAddBot() then
+    return
+  end
+
   -- Create the bot and make a dummy hero for it (will be replaced)
   Tutorial:AddBot("npc_dota_hero_abaddon", "", "", false)
 

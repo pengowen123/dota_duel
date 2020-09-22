@@ -157,6 +157,8 @@ function GameMode:OnGameInProgress()
 
   SetGameState(GAME_STATE_BUY)
 
+  EnableNeutralItemPurchase(true)
+
   -- Level up players with a delay because if a player picks at the last possible second
   -- they won't get levels if this is called instantly
   Timers:CreateTimer(0.5, LevelUpPlayers)
@@ -184,19 +186,13 @@ function GameMode:OnGameInProgress()
   SetRoundStartTimer(game_start_delay)
 
   -- Enable the add bot button if there is only one player and they are on the 1v1 map
-  if GetMapName() == "duel1v1" then
-    local total_players = 0
-    total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
-    total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
-
-    if total_players == 1 then
-      local enable_button = function()
-        EnableAddBotButton(true)
-      end
-
-      -- There must be a delay for events to be properly sent at the time this function is called
-      Timers:CreateTimer(2.0, enable_button)
+  if CanAddBot() then
+    local enable_button = function()
+      EnableAddBotButton(true)
     end
+
+    -- There must be a delay for events to be properly sent at the time this function is called
+    Timers:CreateTimer(2.0, enable_button)
   end
 end
 
@@ -335,13 +331,16 @@ function MakeTeamLose(team, text)
     return
   end
 
+  SetGameState(GAME_STATE_END)
+
   local opposite_team = GetOppositeTeam(team)
   local opposite_team_name = GetLocalizationTeamName(opposite_team)
 
   -- Make the disconnected player lose
   -- Has a delay to let players see the notification
   local end_game = function()
-    GameRules:MakeTeamLose(team)
+    game_result = opposite_team
+    EndGame()
   end
   local end_game_delay = 3.0
 
