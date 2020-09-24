@@ -143,9 +143,6 @@ function StartRound()
     end
   end
 
-  -- Center players' cameras for convenience and to avoid confusion
-  CenterPlayerCameras()
-
   CustomGameEventManager:Send_ServerToAllClients("start_round", nil)
 
   -- Wait for players to be teleported to the arena before clearing the bases
@@ -580,12 +577,4 @@ function DestroyDroppedGems()
       Timers:CreateTimer(gem_count * 0.1, pickup)
     end
   end
-end
-
-
--- Centers the camera on each player's hero
-function CenterPlayerCameras()
-  local player_id = Entities:GetLocalPlayer():GetPlayerID()
-  local pos = PlayerResource:GetSelectedHeroEntity(player_id):GetAbsOrigin()
-  SendToConsole("dota_camera_set_lookatpos " .. tostring(pos.x) .. " " .. tostring(pos.y))
 end
