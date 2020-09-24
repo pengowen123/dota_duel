@@ -262,7 +262,7 @@ end
 
 -- Returns whether the match has ended
 function IsMatchEnded()
-  return GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME
+  return (GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME) or (game_state == GAME_STATE_END)
 end
 
 
@@ -564,7 +564,7 @@ function CanAddBot()
     total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
     total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
 
-  return (GetMapName() == "duel1v1") and total_players == 1
+  return (GetMapName() == "duel1v1") and (total_players == 1) and not IsMatchEnded()
 end
 
 

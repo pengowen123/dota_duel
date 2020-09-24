@@ -193,7 +193,9 @@ function GameMode:OnPlayerChat(keys)
 	-- 	local classname = entity:GetClassname()
 
 	-- 	if classname ~= "ent_dota_tree" then
-	-- 		print(classname)
+	-- 		if entity.IsItem and entity:IsItem() then
+	-- 			print(classname, entity:GetParent())
+	-- 		end
 	-- 	end
 
 	-- 	entity = Entities:Next(entity)

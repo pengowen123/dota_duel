@@ -143,6 +143,10 @@ function StartRound()
     end
   end
 
+  -- Center players' cameras for convenience and to avoid confusion
+  -- Must be done after a delay so it isn't done before players are teleported
+  Timers:CreateTimer(0.1, CenterPlayerCameras)
+
   CustomGameEventManager:Send_ServerToAllClients("start_round", nil)
 
   -- Wait for players to be teleported to the arena before clearing the bases
@@ -441,6 +445,20 @@ function DestroyDroppedItems()
       entity:Kill()
     end
   end
+
+  -- Clear neutral stashes as well
+  local dummy_hero = GetDummyHero()
+  local entity = Entities:First()
+
+  while entity do
+    if entity.IsItem and entity:IsItem() and not entity:GetParent() then
+      -- Items from the neutral stash must be picked up before being destroyed or the game crashes
+      dummy_hero:AddItem(entity)
+      entity:Destroy()
+    end
+
+    entity = Entities:Next(entity)
+  end
 end
 
 
@@ -577,4 +595,9 @@ function DestroyDroppedGems()
       Timers:CreateTimer(gem_count * 0.1, pickup)
     end
   end
+end
+
+
+function CenterPlayerCameras()
+  CustomGameEventManager:Send_ServerToAllClients("center_camera", nil)
 end

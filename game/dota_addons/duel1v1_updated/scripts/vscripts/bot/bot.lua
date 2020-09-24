@@ -146,12 +146,16 @@ function BotController:New(bot_id, player_id, settings)
 	}
 
 	-- Use hero-specific observation predictions where available
-	local player_hero_name = PlayerResource:GetSelectedHeroEntity(controller.player_id):GetName()
+	local player_hero = PlayerResource:GetSelectedHeroEntity(controller.player_id)
 
-	local predictions = HERO_OBSERVATION_DATA[player_hero_name]
-	if predictions then
-		for k,v in pairs(predictions) do
-			controller.observations[k][1] = v
+	if player_hero then
+		local player_hero_name = player_hero:GetName()
+
+		local predictions = HERO_OBSERVATION_DATA[player_hero_name]
+		if predictions then
+			for k,v in pairs(predictions) do
+				controller.observations[k][1] = v
+			end
 		end
 	end
 

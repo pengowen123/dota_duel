@@ -2,6 +2,10 @@
 
 -- A listener for the forfeit button
 function OnSurrender(event_source_index, args)
+  if IsMatchEnded() or (game_state == GAME_STATE_REMATCH) then
+    return
+  end
+
   local player_id = args["player_id"]
 
   local team = PlayerResource:GetTeam(player_id)

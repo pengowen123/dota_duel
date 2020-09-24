@@ -1,0 +1,13 @@
+<root>
+
+	<styles>
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/center_camera/center_camera.js" />
+	</scripts>
+
+	<Panel hittest="false">
+	</Panel>
+
+</root>

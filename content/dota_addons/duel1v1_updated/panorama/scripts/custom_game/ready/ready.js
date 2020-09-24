@@ -101,14 +101,6 @@ function TimerUpdate(args)
 // Hides the ready-up UI and centers the camera on the hero
 function StartRound()
 {
-	var player = Players.GetLocalPlayer();
-	var player_hero = Players.GetPlayerHeroEntityIndex(player);
-
-	if (player_hero !== -1)
-	{
-		GameUI.MoveCameraToEntity(player_hero);
-	}
-
 	EnableReadyUpPanel(false);
 }
 
