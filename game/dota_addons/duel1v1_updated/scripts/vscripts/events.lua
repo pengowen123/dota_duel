@@ -71,7 +71,6 @@ end
 
 -- An item was picked up off the ground
 function GameMode:OnItemPickedUp(keys)
-	self:OnItemPurchased(keys)
 end
 
 -- A player has reconnected to the game.  This function can be used to repaint Player-based particles or change
@@ -81,35 +80,6 @@ end
 
 -- An item was purchased by a player
 function GameMode:OnItemPurchased(keys)
-	local player_id = keys.PlayerID
-	local hero = PlayerResource:GetSelectedHeroEntity(player_id)
-
-	local recipe_neutral_items = {
-		["item_recipe_trident"] = true,
-	}
-	-- Replace recipe neutral items
-	if recipe_neutral_items[keys.itemname] then
-		local replace_recipe = function(entity, item)
-			if item:GetAbilityName() == keys.itemname then
-				item:Destroy()
-
-				local item_name = keys.itemname:gsub("recipe_", "")
-
-				local item = entity:AddItemByName(item_name)
-				-- Set purchaser (enables selling of neutral items)
-				item:SetPurchaser(hero)
-			end
-		end
-
-		MapInventoryItems(player_id, replace_recipe)
-	else
-		-- Set purchaser (enables selling of neutral items)
-		local set_purchaser = function(entity, item)
-			item:SetPurchaser(hero)
-		end
-
-		MapInventoryItems(player_id, set_purchaser)
-	end
 end
 
 -- An ability was used by a player
@@ -232,11 +202,15 @@ function GameMode:OnPlayerChat(keys)
 
 	-- local hero = PlayerResource:GetSelectedHeroEntity(0)
 
+	-- local item_count = 0
 	-- for i=0,25 do
 	-- 	local item = hero:GetItemInSlot(i)
 
 	-- 	if item then
 	-- 		print(i, item:GetAbilityName())
+	-- 		item_count = item_count + 1
 	-- 	end
 	-- end
+
+	-- print(item_count)
 end

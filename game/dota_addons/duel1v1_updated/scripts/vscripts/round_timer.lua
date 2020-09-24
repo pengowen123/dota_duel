@@ -39,8 +39,8 @@ function SetRoundStartTimer(seconds)
 	-- This is called again here so the countdown only starts after one second has passed
 	-- Otherwise the countdown could happen before the first second passes and the timer becomes inaccurate
 	InitRoundStartTimer()
-	SendTimerUpdateEvent()
 	round_start_timer = seconds
+	SendTimerUpdateEvent()
 end
 
 

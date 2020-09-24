@@ -1,0 +1,409 @@
+<root>
+
+  <styles>
+    <include src="file://{resources}/styles/custom_game/neutral_item_shop/neutral_item_shop.css" />
+  </styles>
+
+  <scripts>
+    <include src="file://{resources}/scripts/custom_game/neutral_item_shop/neutral_item_shop.js" />
+  </scripts>
+
+  <Panel hittest="false">
+
+    <Panel hittest="false" id="Root">
+
+      <Panel id="Shop">
+
+        <Panel class="Tier" id="Tier1">
+
+          <Label class="TierTitle" id="TierTitle1" text="#duel_neutral_item_tier_1" />
+
+          <Panel class="ItemList">
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_keen_optic')">
+
+              <DOTAItemImage itemname="item_keen_optic" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_poor_mans_shield')">
+
+              <DOTAItemImage itemname="item_poor_mans_shield" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_iron_talon')">
+
+              <DOTAItemImage itemname="item_iron_talon" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_ironwood_tree')">
+
+              <DOTAItemImage itemname="item_ironwood_tree" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_royal_jelly')">
+
+              <DOTAItemImage itemname="item_royal_jelly" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_mango_tree')">
+
+              <DOTAItemImage itemname="item_mango_tree" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_ocean_heart')">
+
+              <DOTAItemImage itemname="item_ocean_heart" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_broom_handle')">
+
+              <DOTAItemImage itemname="item_broom_handle" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_trusty_shovel')">
+
+              <DOTAItemImage itemname="item_trusty_shovel" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_faded_broach')">
+
+              <DOTAItemImage itemname="item_faded_broach" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_arcane_ring')">
+
+              <DOTAItemImage itemname="item_arcane_ring" />
+
+            </Button>
+
+          </Panel>
+
+        </Panel>
+
+        <Panel class="Tier" id="Tier2">
+
+          <Label class="TierTitle" id="TierTitle2" text="#duel_neutral_item_tier_2" />
+
+          <Panel class="ItemList">
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_grove_bow')">
+
+              <DOTAItemImage itemname="item_grove_bow" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_vampire_fangs')">
+
+              <DOTAItemImage itemname="item_vampire_fangs" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_ring_of_aquila')">
+
+              <DOTAItemImage itemname="item_ring_of_aquila" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_pupils_gift')">
+
+              <DOTAItemImage itemname="item_pupils_gift" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_imp_claw')">
+
+              <DOTAItemImage itemname="item_imp_claw" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_philosophers_stone')">
+
+              <DOTAItemImage itemname="item_philosophers_stone" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_nether_shawl')">
+
+              <DOTAItemImage itemname="item_nether_shawl" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_dragon_scale')">
+
+              <DOTAItemImage itemname="item_dragon_scale" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_essence_ring')">
+
+              <DOTAItemImage itemname="item_essence_ring" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_vambrace')">
+
+              <DOTAItemImage itemname="item_vambrace" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_clumsy_net')">
+
+              <DOTAItemImage itemname="item_clumsy_net" />
+
+            </Button>
+
+          </Panel>
+
+        </Panel>
+
+        <Panel class="Tier" id="Tier3">
+
+          <Label class="TierTitle" id="TierTitle3" text="#duel_neutral_item_tier_3" />
+
+          <Panel class="ItemList">
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_repair_kit')">
+
+              <DOTAItemImage itemname="item_repair_kit" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_craggy_coat')">
+
+              <DOTAItemImage itemname="item_craggy_coat" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_greater_faerie_fire')">
+
+              <DOTAItemImage itemname="item_greater_faerie_fire" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_quickening_charm')">
+
+              <DOTAItemImage itemname="item_quickening_charm" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_spider_legs')">
+
+              <DOTAItemImage itemname="item_spider_legs" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_enchanted_quiver')">
+
+              <DOTAItemImage itemname="item_enchanted_quiver" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_paladin_sword')">
+
+              <DOTAItemImage itemname="item_paladin_sword" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_orb_of_destruction')">
+
+              <DOTAItemImage itemname="item_orb_of_destruction" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_titan_sliver')">
+
+              <DOTAItemImage itemname="item_titan_sliver" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_spy_gadget')">
+
+              <DOTAItemImage itemname="item_spy_gadget" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_mind_breaker')">
+
+              <DOTAItemImage itemname="item_mind_breaker" />
+
+            </Button>
+
+          </Panel>
+
+        </Panel>
+
+        <Panel class="Tier" id="Tier4">
+
+          <Label class="TierTitle" id="TierTitle4" text="#duel_neutral_item_tier_4" />
+
+          <Panel class="ItemList">
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_witless_shako')">
+
+              <DOTAItemImage itemname="item_witless_shako" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_timeless_relic')">
+
+              <DOTAItemImage itemname="item_timeless_relic" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_spell_prism')">
+
+              <DOTAItemImage itemname="item_spell_prism" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_princes_knife')">
+
+              <DOTAItemImage itemname="item_princes_knife" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_flicker')">
+
+              <DOTAItemImage itemname="item_flicker" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_ninja_gear')">
+
+              <DOTAItemImage itemname="item_ninja_gear" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_illusionsts_cape')">
+
+              <DOTAItemImage itemname="item_illusionsts_cape" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_havoc_hammer')">
+
+              <DOTAItemImage itemname="item_havoc_hammer" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_panic_button')">
+
+              <DOTAItemImage itemname="item_panic_button" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_the_leveller')">
+
+              <DOTAItemImage itemname="item_the_leveller" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_minotaur_horn')">
+
+              <DOTAItemImage itemname="item_minotaur_horn" />
+
+            </Button>
+
+          </Panel>
+
+        </Panel>
+
+        <Panel class="Tier" id="Tier5">
+
+          <Label class="TierTitle" id="TierTitle5" text="#duel_neutral_item_tier_5" />
+
+          <Panel class="ItemList">
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_force_boots')">
+
+              <DOTAItemImage itemname="item_force_boots" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_desolator_2')">
+
+              <DOTAItemImage itemname="item_desolator_2" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_seer_stone')">
+
+              <DOTAItemImage itemname="item_seer_stone" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_mirror_shield')">
+
+              <DOTAItemImage itemname="item_mirror_shield" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_apex')">
+
+              <DOTAItemImage itemname="item_apex" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_ballista')">
+
+              <DOTAItemImage itemname="item_ballista" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_woodland_striders')">
+
+              <DOTAItemImage itemname="item_woodland_striders" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_trident')">
+
+              <DOTAItemImage itemname="item_trident" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_demonicon')">
+
+              <DOTAItemImage itemname="item_demonicon" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_fallen_sky')">
+
+              <DOTAItemImage itemname="item_fallen_sky" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_pirate_hat')">
+
+              <DOTAItemImage itemname="item_pirate_hat" />
+
+            </Button>
+
+            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_ex_machina')">
+
+              <DOTAItemImage itemname="item_ex_machina" />
+
+            </Button>
+
+          </Panel>
+
+        </Panel>
+
+      </Panel>
+
+    </Panel>
+
+  </Panel>
+
+</root>

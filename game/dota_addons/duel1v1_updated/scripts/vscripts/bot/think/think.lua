@@ -487,6 +487,7 @@ local dont_attack_classnames = {
 	["player"] = true,
 	["npc_dota_hero_announcer"] = true,
 	["npc_dota_hero_announcer_killing_spree"] = true,
+	["ent_dota_neutral_item_stash"] = true,
 }
 local dont_attack_names = {
 	["ent_dota_shop"] = true,
@@ -659,7 +660,12 @@ function BotController:GetAttackTarget()
 
 		if entity.IsAlive and entity:IsAlive() and bot_hero:CanEntityBeSeenByMyTeam(entity) then
 			if entity:GetClassname() == "dota_item_drop" then
-				return entity
+				local contained_item = entity:GetContainedItem()
+
+				-- Don't attack neutral items (they aren't attackable)
+				if contained_item and not IsNeutralItem(contained_item:GetAbilityName()) then
+					return entity
+				end
 			end
 
 			local distance = (entity:GetAbsOrigin() - bot_hero:GetAbsOrigin()):Length2D()

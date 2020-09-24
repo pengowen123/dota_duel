@@ -14,6 +14,11 @@
   "item_recipe_rapier"
   {
     "ItemPurchasable" "0"
+
+    "ItemRequirements"
+    {
+        "01" "item_dummy_unpurchasable;item_dummy_unpurchasable"
+    }
   }
   "item_rapier"
   {

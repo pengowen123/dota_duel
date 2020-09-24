@@ -99,8 +99,6 @@ end
 -- Starts the next round, resetting all player entities and teleporting them to the arena
 -- Also removes nightstalker's darkness and hides the ready-up UI
 function StartRound()
-  EnableNeutralItemPurchase(false)
-
   -- Prevent the end round timer from teleporting players back to their base after the round starts
   -- Also remove the timer that kills everything in the arena
   Timers:RemoveTimer("reset_players")
@@ -179,8 +177,6 @@ function EndRound()
   if game_state == GAME_STATE_BUY then
     return
   end
-
-  EnableNeutralItemPurchase(true)
 
   InitReadyUpData()
 

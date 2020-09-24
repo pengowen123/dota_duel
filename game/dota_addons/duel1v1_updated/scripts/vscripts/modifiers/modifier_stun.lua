@@ -56,6 +56,8 @@ function modifier_stun:CheckState()
 
 		if IsDummyHero and IsDummyHero(parent) then
 			states[MODIFIER_STATE_UNSELECTABLE] = true
+			states[MODIFIER_STATE_INVISIBLE] = true
+			states[MODIFIER_STATE_TRUESIGHT_IMMUNE] = true
 		end
 	end
 

@@ -3,5 +3,10 @@ translate everything in the game to other languages:
   - tagalog
   - russian
 
-make neutral items as discoverable as possible
 add intro screen to help new players
+
+clear neutral stash each round
+investigate music changes during fight
+autoshuffle
+customize top bar
+fix custom ice vortex not playing voice lines (check imba)

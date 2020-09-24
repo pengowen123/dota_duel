@@ -42,8 +42,8 @@ function modifier_ancient_apparition_ice_vortex_custom_thinker:OnCreated()
     local caster = self:GetCaster()
     local ability = caster:FindAbilityByName("ancient_apparition_ice_vortex_custom")
 
-    thinker:EmitSound("Hero_Ancient_Apparition.IceVortexCast")
-    thinker:EmitSound("Hero_Ancient_Apparition.IceVortex.lp")
+    caster:EmitSound("Hero_Ancient_Apparition.IceVortexCast")
+    caster:EmitSound("Hero_Ancient_Apparition.IceVortex.lp")
 
     -- Get ability values
     local level = ability:GetLevel() - 1
@@ -83,7 +83,7 @@ function modifier_ancient_apparition_ice_vortex_custom_thinker:OnIntervalThink()
 
   if (not self.destroy_time) and (time_to_expire <= 0) then
     if IsServer() then
-      self:GetParent():StopSound("Hero_Ancient_Apparition.IceVortex.lp")
+      self:GetCaster():StopSound("Hero_Ancient_Apparition.IceVortex.lp")
 
       if self.particle then
         ParticleManager:DestroyParticle(self.particle, false)

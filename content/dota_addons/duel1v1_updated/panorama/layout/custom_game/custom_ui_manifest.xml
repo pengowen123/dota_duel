@@ -25,6 +25,15 @@
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ENDGAME, false );      //Endgame scoreboard.    
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_BAR_BACKGROUND, false );     //Top-left menu buttons in the HUD.
 
+    var guide_flyout = $.GetContextPanel()
+        .GetParent()
+        .GetParent()
+        .GetParent()
+        .FindChildTraverse("GuideFlyout");
+
+    guide_flyout.enabled = false;
+    guide_flyout.visible = false;
+
     // These lines set up the panorama colors used by each team (for game select/setup, etc)
     GameUI.CustomUIConfig().team_colors = {}
     GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_GOODGUYS] = "#3dd296;";
@@ -49,6 +58,7 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/add_bot/add_bot.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/bot_chat/bot_chat.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ui_loaded_detector/ui_loaded_detector.xml" />
+    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/neutral_item_shop/neutral_item_shop.xml" />
 
     <!-- Barebones -->
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/barebones_notifications.xml" />

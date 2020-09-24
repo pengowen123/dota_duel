@@ -37,9 +37,9 @@ function EndGameDelayed(winner)
 	-- This is called again here so the countdown only starts after one second has passed
 	-- Otherwise the countdown could happen before the first second passes and the timer becomes inaccurate
 	InitRematchTimer()
+	rematch_timer = 10
 	SendRematchTimerUpdateEvent()
 
-	rematch_timer = 10
 	game_result = winner
 	SetGameState(GAME_STATE_REMATCH)
 

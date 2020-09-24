@@ -355,6 +355,7 @@ function SetupInventory(entity, item_owner, inventory)
         item:SetPurchaser(item_owner)
 
         entity:AddItem(item)
+        -- Swap with first backpack slot (it's where neutral items go if the neutral slot is filled)
         entity:SwapItems(6, i)
       end
     end
@@ -564,16 +565,6 @@ function CanAddBot()
     total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
 
   return (GetMapName() == "duel1v1") and total_players == 1
-end
-
-
--- Sets whether players can purchase neutral items
-function EnableNeutralItemPurchase(enabled)
-  if enabled then
-    SendToServerConsole("dota_easybuy 1")
-  else
-    SendToServerConsole("dota_easybuy 0")
-  end
 end
 
 

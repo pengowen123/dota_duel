@@ -56,6 +56,7 @@ require('hero_select')
 require('hero_select_timer')
 require('surrender')
 require('ui')
+require('neutral_item_shop')
 require('bot/bot')
 
 
@@ -157,8 +158,6 @@ function GameMode:OnGameInProgress()
 
   SetGameState(GAME_STATE_BUY)
 
-  EnableNeutralItemPurchase(true)
-
   -- Level up players with a delay because if a player picks at the last possible second
   -- they won't get levels if this is called instantly
   Timers:CreateTimer(0.5, LevelUpPlayers)
@@ -204,6 +203,15 @@ function GameMode:InitGameMode()
   -- Skip strategy time to save players time (it's useless in this gamemode)
   GameRules:SetStrategyTime(0.5)
 
+  -- Make hero selection fast
+  GameRules:SetHeroSelectPenaltyTime(0)
+  GameRules:SetHeroSelectionTime(15)
+
+  -- So picking is feasible with host_timescale at 10
+  if IsInToolsMode() then
+    GameRules:SetHeroSelectionTime(60)
+  end
+
   -- Disable scan (the only alternative is resetting it every round, however that would affect the
   -- game balance too much)
   GameRules:GetGameModeEntity():SetCustomScanCooldown(999999999.0)
@@ -217,6 +225,7 @@ function GameMode:InitGameMode()
   CustomGameEventManager:RegisterListener("add_bot", OnAddBot)
   CustomGameEventManager:RegisterListener("bot_message_localized", OnBotSayAllChat)
   CustomGameEventManager:RegisterListener("player_ui_loaded", SetupUI)
+  CustomGameEventManager:RegisterListener("player_purchase_neutral_item", OnPlayerPurchaseNeutralItem)
   InitKills()
 
   -- Give infinite gold

@@ -94,7 +94,7 @@ function OnStartTouch(keys)
 		return
 	end
 
-	if name == "ent_dota_shop" then
+	if (name == "ent_dota_shop") or (classname == "ent_dota_neutral_item_stash") then
 		return
 	end
 

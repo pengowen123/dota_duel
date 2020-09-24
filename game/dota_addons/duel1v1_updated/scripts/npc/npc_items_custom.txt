@@ -111,6 +111,14 @@
     "ItemStockInitial"      "3"
   }
 
+  "item_dummy_unpurchasable"
+  {
+    "ID"                "9999"
+    "ItemCost"          "1"
+    "ItemPurchasable"   "0"
+    "ItemSellable"      "1"
+  }
+
   // Neutral items
   // All of them must be made sellable (and the cost is set to 2 so selling them plays the gold sound)
   "item_arcane_ring"
