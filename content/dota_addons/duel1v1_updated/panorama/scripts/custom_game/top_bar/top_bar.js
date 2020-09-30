@@ -125,7 +125,7 @@ function UpdateHeroLists()
       if (is_dead)
       {
         // Make hero image gray-scale, darken it, and display respawn timer
-        EnableUIElement(respawn_timer_panel, true);
+        respawn_timer_panel.style.visibility = "visible";
 
         // Use a fixed string in this case instead of displaying large numbers
         if (respawn_timer > 5)
@@ -140,7 +140,7 @@ function UpdateHeroLists()
       else
       {
         respawn_timer_label = "0";
-        EnableUIElement(respawn_timer_panel, false);
+        respawn_timer_panel.style.visibility = "collapse";
       }
 
       // Dark hero image and display disconnect indicator if the player is disconnected
