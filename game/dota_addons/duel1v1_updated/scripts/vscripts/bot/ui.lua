@@ -7,7 +7,8 @@ function OnAddBot(event_source_index, args)
   end
 
   -- Create the bot and make a dummy hero for it (will be replaced)
-  Tutorial:AddBot("npc_dota_hero_abaddon", "", "", false)
+  local radiant_team = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS) == 0
+  Tutorial:AddBot("npc_dota_hero_abaddon", "", "", radiant_team)
 
   local bot_hero_name = MakeBotHeroChoice()
 
@@ -30,8 +31,6 @@ function OnAddBot(event_source_index, args)
     PlayerResource:SetUnitShareMaskForPlayer(bot_id, player_id, 1, false)
     PlayerResource:SetUnitShareMaskForPlayer(bot_id, player_id, 2, false)
     PlayerResource:SetUnitShareMaskForPlayer(bot_id, player_id, 4, false)
-
-    LevelUpPlayers()
 
     local settings = {}
 

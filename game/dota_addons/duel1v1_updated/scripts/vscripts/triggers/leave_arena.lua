@@ -30,7 +30,10 @@ function OnEndTouch(trigger)
 		return
 	end
 
-	local data = { duration = 8.0 }
+	-- Only run during fight phase
+	if game_state == GAME_STATE_FIGHT then
+		local data = { duration = 8.0 }
 
-	activator:AddNewModifier(trigger.activator, nil, "leave_arena_modifier", data)
+		activator:AddNewModifier(trigger.activator, nil, "leave_arena_modifier", data)
+	end
 end

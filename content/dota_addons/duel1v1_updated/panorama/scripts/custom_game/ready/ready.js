@@ -1,6 +1,7 @@
 "use strict";
 
 
+var READY_UP_IMAGE_URL = "file://{resources}/images/custom_game/ready/checkmark.png";
 var client_team = Players.GetTeam(Players.GetLocalPlayer());
 var is_spectator_client = !(client_team === DOTATeam_t.DOTA_TEAM_GOODGUYS ||
 													  client_team === DOTATeam_t.DOTA_TEAM_BADGUYS);
@@ -29,6 +30,7 @@ function Initialize()
 	GameEvents.Subscribe("start_round", StartRound);
 	GameEvents.Subscribe("start_game", EndRound);
 	GameEvents.Subscribe("end_round", EndRound);
+	GameEvents.Subscribe("end_game", EndGame);
 	GameEvents.Subscribe("end_game", EndGame);
 	GameEvents.Subscribe("all_voted_rematch", AllVotedRematch);
 
@@ -67,7 +69,7 @@ function ReadyUp()
 function OnReadyUp(args)
 {
 	var id = args.id;
-	SetReadyUpImage(id, "file://{resources}/images/custom_game/ready/checkmark.png");
+	SetReadyUpImage(id, READY_UP_IMAGE_URL);
 }
 
 
@@ -83,6 +85,7 @@ function SetReadyUpImage(id, src)
 	}
 	else {
 		AddPlayer(id);
+		SetReadyUpImage(id, src);
 	}
 }
 

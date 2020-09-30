@@ -1,14 +1,41 @@
 -- This file contains all barebones-registered events and has already set up the passed-in parameters for your use.
 
--- Cleanup a player when they leave
 function GameMode:OnDisconnect(keys)
+	Timers:CreateTimer(0.1, function()
+	  CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
+	end)
 end
--- The overall game state has changed
+
 function GameMode:OnGameRulesStateChange(keys)
 end
 
 -- An NPC has spawned somewhere in game.  This includes heroes
 function GameMode:OnNPCSpawned(keys)
+	Timers:CreateTimer(0.1, function()
+		local entity = EntIndexToHScript(keys.entindex)
+
+		-- Repeatedly check for entity if it hasn't been created yet
+		if not entity then
+			print("checking entity")
+			return 0.3
+		end
+
+		if entity:IsRealHero() and not IsClone(entity) then
+			LevelEntityToMax(entity)
+			ClearInventory(entity)
+
+		  local tp_scroll = CreateItem("item_tpscroll", entity, entity)
+		  tp_scroll:SetCurrentCharges(3)
+		  entity:AddItem(tp_scroll)
+
+		  CustomGameEventManager:Send_ServerToAllClients("rebuild_hero_lists", {})
+		end
+	end)
+
+	-- In case players don't have assigned heroes when rebuild_hero_lists is sent
+	Timers:CreateTimer(0.5, function()
+		CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
+	end)
 end
 
 -- An entity somewhere has been hurt.  This event fires very often with many units so don't do too many expensive
@@ -73,9 +100,10 @@ end
 function GameMode:OnItemPickedUp(keys)
 end
 
--- A player has reconnected to the game.  This function can be used to repaint Player-based particles or change
--- state as necessary
 function GameMode:OnPlayerReconnect(keys)
+	Timers:CreateTimer(0.1, function()
+	  CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
+	end)
 end
 
 -- An item was purchased by a player
@@ -201,18 +229,4 @@ function GameMode:OnPlayerChat(keys)
 	-- 	entity = Entities:Next(entity)
 	-- end
 	-- print(i, "entities")
-
-	-- local hero = PlayerResource:GetSelectedHeroEntity(0)
-
-	-- local item_count = 0
-	-- for i=0,25 do
-	-- 	local item = hero:GetItemInSlot(i)
-
-	-- 	if item then
-	-- 		print(i, item:GetAbilityName())
-	-- 		item_count = item_count + 1
-	-- 	end
-	-- end
-
-	-- print(item_count)
 end

@@ -14,7 +14,7 @@
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_SHOP, false );     //Shop portion of the Inventory. 
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_ITEMS, false );      //Player items.
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_QUICKBUY, false );     //Quickbuy.
-    //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_COURIER, false );      //Courier controls.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_COURIER, false );      //Courier controls.
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_PROTECT, false );      //Glyph.
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_GOLD, false );     //Gold display.
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_SHOP_SUGGESTEDITEMS, false );      //Suggested items shop panel.
@@ -25,6 +25,7 @@
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ENDGAME, false );      //Endgame scoreboard.    
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_BAR_BACKGROUND, false );     //Top-left menu buttons in the HUD.
 
+    // Hide item guide panel
     var guide_flyout = $.GetContextPanel()
         .GetParent()
         .GetParent()
@@ -33,6 +34,16 @@
 
     guide_flyout.enabled = false;
     guide_flyout.visible = false;
+
+    // Hide glyph/scan UI
+    var glyph_scan_container = $.GetContextPanel()
+        .GetParent()
+        .GetParent()
+        .GetParent()
+        .FindChildTraverse("GlyphScanContainer");
+
+    glyph_scan_container.visible = false;
+    glyph_scan_container.enabled = false;
 
     // These lines set up the panorama colors used by each team (for game select/setup, etc)
     GameUI.CustomUIConfig().team_colors = {}
@@ -46,13 +57,12 @@
     GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_6] = "#1bc0d8;";
     GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_7] = "#c7e40d;";
     GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_8] = "#8c2af4;";
-
   </script> 
 
   <Panel>
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ready/ready.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/rematch/rematch.xml" />
-    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/score/score.xml" />
+    <CustomUIElement type="HudTopBar" layoutfile="file://{resources}/layout/custom_game/top_bar/top_bar.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/hero_select/hero_select.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/surrender/surrender.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/add_bot/add_bot.xml" />
@@ -60,6 +70,7 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ui_loaded_detector/ui_loaded_detector.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/neutral_item_shop/neutral_item_shop.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/center_camera/center_camera.xml" />
+    <CustomUIElement type="HeroSelection" layoutfile="file://{resources}/layout/custom_game/pregame_hero_select/pregame_hero_select.xml" />
 
     <!-- Barebones -->
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/barebones_notifications.xml" />

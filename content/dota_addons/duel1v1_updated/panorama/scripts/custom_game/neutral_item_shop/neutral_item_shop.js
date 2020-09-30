@@ -9,6 +9,14 @@ var is_spectator_client = !(client_team === DOTATeam_t.DOTA_TEAM_GOODGUYS ||
 function Initialize()
 {
 	// Disable default neutral items tab and replace it with a custom one
+	var root = $("#Root");
+
+	// Don't do it more than once
+	if (root === null)
+	{
+		return;
+	}
+
 	var neutral_shop_tab = $.GetContextPanel()
 		.GetParent()
 		.GetParent()
@@ -23,7 +31,6 @@ function Initialize()
 		style.height = "0%";
 	}
 
-	var root = $("#Root");
 	root.SetParent(neutral_shop_tab);
 }
 

@@ -34,6 +34,8 @@ function EndGameDelayed(winner)
 		return
 	end
 
+	SetMusicStatus(DOTA_MUSIC_STATUS_NONE, 0.0)
+
 	-- This is called again here so the countdown only starts after one second has passed
 	-- Otherwise the countdown could happen before the first second passes and the timer becomes inaccurate
 	InitRematchTimer()
@@ -70,7 +72,7 @@ end
 
 -- Counts down the timer by one second if all players are connected
 function CountDownRematchTimer()
-	if all_players_connected and (rematch_timer > 0) then
+	if rematch_timer > 0 then
 		-- Count down one second
 		rematch_timer = rematch_timer - 1
 
@@ -85,6 +87,8 @@ end
 -- Ends the game, awarding victory to the team stored in `game_result`
 function EndGame()
 	CustomGameEventManager:Send_ServerToAllClients("end_game_no_rematch", nil)
+	-- Display total kills across all matches
+	CustomGameEventManager:Send_ServerToAllClients("score_update", total_kills)
 	SetGameState(GAME_STATE_END)
 	GameRules:SetGameWinner(game_result)
 end

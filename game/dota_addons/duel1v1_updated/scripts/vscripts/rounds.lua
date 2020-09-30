@@ -23,7 +23,7 @@ function OnEntityDeath(event)
     if entity:IsReincarnating() then
       if global_bot_controller then
         if entity:GetName() == "npc_dota_hero_skeleton_king" then
-          if entity:GetTeam() == DOTA_TEAM_BADGUYS then
+          if entity:GetTeam() == PlayerResource:GetTeam(global_bot_controller.bot_id) then
             global_bot_controller:OnReincarnate()
           end
         end
@@ -32,6 +32,34 @@ function OnEntityDeath(event)
       if game_state == GAME_STATE_FIGHT then
         local team = entity:GetTeam()
         dead_players[team] = dead_players[team] + 1
+
+        -- Fix respawn time to prevent respawns without calling SetHeroRespawnEnabled
+        local set_respawn_time = function()
+          SetRespawnTimes(999.0)
+          return 1.0
+        end
+
+        local player_id = entity:GetPlayerOwnerID()
+
+        -- Update respawn timer
+        local update_respawn_timer = function()
+          CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
+
+          local hero = PlayerResource:GetSelectedHeroEntity(player_id)
+
+          if hero and not hero:IsAlive() then
+            return 1.0
+          end
+        end
+
+        Timers:CreateTimer(0.1, update_respawn_timer)
+
+        local args = {
+          endTime = 0.0,
+          callback = set_respawn_time
+        }
+
+        Timers:CreateTimer("set_respawn_time", args)
 
         -- End the round if all players on a team have died
         if dead_players[team] >= PlayerResource:GetPlayerCountForTeam(team) then
@@ -75,6 +103,9 @@ function OnEntityDeath(event)
           -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
           local first_reset_delay = 5.0
 
+          Timers:RemoveTimer("set_respawn_time")
+          SetRespawnTimes(first_reset_delay)
+
           Timers:CreateTimer(
             first_reset_delay,
             function()
@@ -114,8 +145,10 @@ function StartRound()
   local player_entities = GetPlayerEntities()
 
   for i, player_entity in pairs(player_entities) do
-    ResetCooldowns(player_entity)
+    -- Buffs are cleared before cooldowns reset so tiny doesn't start the round with tree grab on
+    -- cooldown if he used it in the fountain
     ClearBuffs(player_entity)
+    ResetCooldowns(player_entity)
 
     for i, modifier in pairs(player_entity:FindAllModifiers()) do
       local name = modifier:GetName()
@@ -195,7 +228,7 @@ function EndRound()
   end
 
   -- Respawn all players
-  RespawnPlayers()
+  -- RespawnPlayers()
 
   -- To catch heroes like storm spirit when they are invulnerable, call ResetPlayers 15
   -- times with 1 second between each call
@@ -226,6 +259,10 @@ function EndRound()
   -- To prevent reaching the item purchased limit because of items dropped on the ground
   ClearBases()
   DestroyDroppedItems()
+  DestroyAllTrees()
+
+  -- Stop the death music, otherwise it plays for a long time
+  SetMusicStatus(DOTA_MUSIC_STATUS_PRE_GAME_EXPLORATION, 5.0)
 
   if game_state == GAME_STATE_BUY then
     -- Reset talents so players can try new ones
@@ -256,12 +293,25 @@ end
 
 
 -- Forces all players to respawn
-function RespawnPlayers()
-  for i, playerID in pairs(GetPlayerIDs()) do
-    local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+-- NOTE: Calling this causes the dead music to play permanently
+-- function RespawnPlayers()
+--   for i, playerID in pairs(GetPlayerIDs()) do
+--     local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
 
-    if player_entity then
-      player_entity:RespawnHero(false, false)
+--     if player_entity then
+--       player_entity:RespawnHero(false, false)
+--     end
+--   end
+-- end
+
+
+-- Sets the respawn time remaining for all dead players
+function SetRespawnTimes(time)
+  for i, player_id in pairs(GetPlayerIDs()) do
+    local player_entity = PlayerResource:GetSelectedHeroEntity(player_id)
+
+    if player_entity and not player_entity:IsAlive() then
+      player_entity:SetTimeUntilRespawn(time)
     end
   end
 end
@@ -412,13 +462,7 @@ end
 
 -- Destroys all trees on the map
 function DestroyAllTrees()
-  for i, tree in pairs(Entities:FindAllByClassname("ent_dota_tree")) do
-    tree:CutDown(-1)
-  end
-
-  for i, tree in pairs(Entities:FindAllByClassname("dota_temp_tree")) do
-    tree:Kill()
-  end
+  GridNav:DestroyTreesAroundPoint(Vector(0, 0, 0), 32000.0, false)
 end
 
 
@@ -564,8 +608,6 @@ function ResetTalents()
 
     -- Re-add items from inventory half a second after replacing the hero
     Timers:CreateTimer(0.5, re_add_items)
-
-    LevelUpPlayers()
   end
 end
 

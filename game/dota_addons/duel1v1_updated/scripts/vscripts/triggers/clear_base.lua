@@ -47,6 +47,12 @@ function OnStartTouch(keys)
 			elseif modifier_name == "modifier_ancient_apparition_ice_vortex_custom_thinker" then
 				modifier:Destroy()
 				return
+			elseif modifier_name == "modifier_kunkka_ghost_ship_fleet" then
+				modifier:Destroy()
+				return
+			elseif modifier_name == "modifier_kunkka_torrent_thinker" then
+				modifier:Destroy()
+				return
 			end
 		end
 	end

@@ -1,0 +1,81 @@
+<root>
+
+	<styles>
+		<include src="file://{resources}/styles/custom_game/top_bar/top_bar.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/top_bar/top_bar.js" />
+	</scripts>
+
+	<snippets>
+
+		<snippet name="HeroSlot">
+
+			<Panel class="HeroSlot">
+
+				<Button class="HeroButton" hittest="true">
+
+					<Panel class="PlayerColor" />
+
+					<DOTAHeroImage class="HeroImage" heroname="none" />
+
+					<Panel class="DeathColorChanger" />
+
+					<Image class="DisconnectIndicator" src="file://{resources}/images/custom_game/top_bar/icon_disconnect.png" />
+
+				</Button>
+
+				<Panel class="RespawnIndicator">
+
+					<Label class="RespawnTimer" text="999" />
+
+				</Panel>
+
+			</Panel>
+
+		</snippet>
+
+	</snippets>
+
+	<Panel class="Root" hittest="false">
+
+		<Panel class="TopBar" hittest="false">
+
+			<Panel class="TopBarTeam" id="TopBarRadiant" hittest="false">
+
+				<Panel class="HeroList" id="HeroListRadiant" hittest="false">
+
+				</Panel>
+
+			</Panel>
+
+			<Panel class="TopBarTeam" id="TopBarDire" hittest="false">
+
+				<Panel class="HeroList" id="HeroListDire" hittest="false">
+
+				</Panel>
+
+			</Panel>
+
+			<Panel class="TopBarCenter" hittest="false">
+
+				<Panel class="Score" id="ScoreLeft">
+
+					<Label class="ScoreLabel" id="ScoreRadiant" text="0"/>
+
+				</Panel>
+
+				<Panel class="Score" id="ScoreRight">
+
+					<Label class="ScoreLabel" id="ScoreDire" text="0"/>
+
+				</Panel>
+
+			</Panel>
+
+		</Panel>
+
+	</Panel>
+
+</root>

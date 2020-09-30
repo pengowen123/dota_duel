@@ -82,15 +82,32 @@ all_players_connected = true
 
 
 -- Sets the game state
+-- Also sets the music status
 function SetGameState(new_state)
+  Timers:RemoveTimer("set_music")
+
   new_state_str = tostring(new_state)
 
   if new_state == GAME_STATE_BUY then
+    local set_music = function()
+      -- NOTE: This doesn't work for some reason
+      SetMusicStatus(DOTA_MUSIC_STATUS_EXPLORATION, 5.0)
+    end
+
+    local args = {
+      endTime = 5.0,
+      callback = set_music,
+    }
+
+    Timers:CreateTimer("set_music", args)
+
     new_state_str = "GAME_STATE_BUY"
   elseif new_state == GAME_STATE_FIGHT then
     new_state_str = "GAME_STATE_FIGHT"
+    SetMusicStatus(DOTA_MUSIC_STATUS_BATTLE, 0.1)
   elseif new_state == GAME_STATE_REMATCH then
     new_state_str = "GAME_STATE_REMATCH"
+    SetMusicStatus(DOTA_MUSIC_STATUS_NONE, 0.0)
   elseif new_state == GAME_STATE_HERO_SELECT then
     new_state_str = "GAME_STATE_HERO_SELECT"
   elseif new_state == GAME_STATE_HERO_LOAD then
@@ -134,6 +151,9 @@ end
   It can be used to initialize non-hero player state or adjust the hero selection (i.e. force random etc)
 ]]
 function GameMode:OnAllPlayersLoaded()
+  if IsOneVsOneMap() then
+    ShuffleTeams()
+  end
 end
 
 --[[
@@ -158,19 +178,6 @@ function GameMode:OnGameInProgress()
 
   SetGameState(GAME_STATE_BUY)
 
-  -- Level up players with a delay because if a player picks at the last possible second
-  -- they won't get levels if this is called instantly
-  Timers:CreateTimer(0.5, LevelUpPlayers)
-  Timers:CreateTimer(0.5, RemoveTPScroll)
-
-  -- Hide the vote rematch UI and show the surrender UI
-  CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
-  -- Reset the ready-up UI (necessary because players can ready-up while heroes are loading,
-  -- preventing them from readying up again after the ready-up data is reset here)
-  local data = {}
-  data.enable_surrender = true
-  CustomGameEventManager:Send_ServerToAllClients("end_round", data)
-
   -- To prevent people from spawning outside the shop area
   ResetPlayers(true)
 
@@ -179,6 +186,23 @@ function GameMode:OnGameInProgress()
   InitVoteRematchData()
   ResetKills()
   InitHeroSelectData()
+  SetMusicStatus(DOTA_MUSIC_STATUS_NONE, 0.0)
+
+  for i, player_id in pairs(GetPlayerIDs()) do
+    -- Make the player lose if they didn't pick a hero
+    if PlayerResource:GetSelectedHeroName(player_id) == "" then
+      MakePlayerLose(player_id, "#duel_no_selected_hero")
+      return
+    end
+  end
+
+  -- Hide the vote rematch UI and show the surrender UI
+  CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
+  -- Reset the ready-up UI (necessary because players can ready-up while heroes are loading,
+  -- preventing them from readying up again after the ready-up data is reset here)
+  local data = {}
+  data.enable_surrender = true
+  CustomGameEventManager:Send_ServerToAllClients("end_round", data)
 
   -- Start the first round after 60 seconds
   local game_start_delay = 60
@@ -200,12 +224,20 @@ end
 function GameMode:InitGameMode()
   GameMode = self
 
+  -- Disable default music
+  GameRules:SetCustomGameAllowBattleMusic(false)
+  GameRules:SetCustomGameAllowHeroPickMusic(true)
+  GameRules:SetCustomGameAllowMusicAtGameStart(false)
+
   -- Skip strategy time to save players time (it's useless in this gamemode)
   GameRules:SetStrategyTime(0.5)
 
+  -- Disable pregame time for accurate match duration
+  GameRules:SetPreGameTime(0.0)
+
   -- Make hero selection fast
   GameRules:SetHeroSelectPenaltyTime(0)
-  GameRules:SetHeroSelectionTime(15)
+  GameRules:SetHeroSelectionTime(30)
 
   -- So picking is feasible with host_timescale at 10
   if IsInToolsMode() then
@@ -226,6 +258,7 @@ function GameMode:InitGameMode()
   CustomGameEventManager:RegisterListener("bot_message_localized", OnBotSayAllChat)
   CustomGameEventManager:RegisterListener("player_ui_loaded", SetupUI)
   CustomGameEventManager:RegisterListener("player_purchase_neutral_item", OnPlayerPurchaseNeutralItem)
+
   InitKills()
 
   -- Give infinite gold
@@ -233,9 +266,6 @@ function GameMode:InitGameMode()
 
   -- Watch for player disconnect
   Timers:CreateTimer(WatchForDisconnect)
-
-  -- Cause infinite respawn time
-  GameRules:SetHeroRespawnEnabled(false)
 
   -- Create a dummy hero used in DestroyDroppedGems
   local dummy = CreateUnitByName(
@@ -249,6 +279,10 @@ function GameMode:InitGameMode()
   local data = {}
   -- Make the dummy unable to affect gameplay
   dummy:AddNewModifier(dummy, nil, "modifier_stun", data)
+
+  for i, entity in pairs(Entities:FindAllByName("ent_dota_shop")) do
+    entity:SetShopType(0)
+  end
 end
 
 
@@ -340,23 +374,10 @@ function MakeTeamLose(team, text)
     return
   end
 
-  SetGameState(GAME_STATE_END)
-
   local opposite_team = GetOppositeTeam(team)
   local opposite_team_name = GetLocalizationTeamName(opposite_team)
 
-  -- Make the disconnected player lose
-  -- Has a delay to let players see the notification
-  local end_game = function()
-    game_result = opposite_team
-    EndGame()
-  end
-  local end_game_delay = 3.0
-
-  Timers:CreateTimer(end_game_delay, end_game)
-  
   -- Send a notification
-
   Notifications:ClearBottomFromAll()
   Notifications:BottomToAll({
     text = "#duel_player_lose",
@@ -366,4 +387,26 @@ function MakeTeamLose(team, text)
       team = opposite_team_name,
     }
   })
+
+  -- Make the disconnected player lose
+  game_result = opposite_team
+
+  EndGameDelayed(game_result)
+end
+
+
+-- Shuffles all teams
+function ShuffleTeams()
+  local player_ids = GetPlayerIDs()
+
+  -- Unassign all players
+  for i, player_id in pairs(player_ids) do
+    PlayerResource:SetCustomTeamAssignment(player_id, DOTA_TEAM_NOTEAM)
+  end
+
+  -- Set random teams
+  for i, player_id in pairs(player_ids) do
+    local random_team = RandomInt(DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS)
+    PlayerResource:SetCustomTeamAssignment(player_id, random_team)
+  end
 end

@@ -1,0 +1,193 @@
+// Root panel
+.Root
+{
+	width: 100%;
+	height: 100%;
+
+	background-color: transparent;
+}
+
+// Entire top bar
+.TopBar
+{
+	width: 100%;
+	height: 5.5%;
+
+	horizontal-align: center;
+	vertical-align: top;
+
+	background-color: transparent;
+}
+
+// Team panel
+.TopBarTeam
+{
+	width: 50%;
+	height: 100%;
+}
+
+// Radiant team
+#TopBarRadiant
+{
+	x: -98px;
+
+	horizontal-align: left;
+	flow-children: left;
+}
+
+// Dire team
+#TopBarDire
+{
+	x: 98px;
+
+	horizontal-align: right;
+	flow-children: right;
+}
+
+// Hero lists
+.HeroList
+{
+	width: 100%;
+	height: 100%;
+}
+
+// Radiant hero list
+#HeroListRadiant
+{
+	flow-children: left;
+}
+
+// Dire hero list
+#HeroListDire
+{
+	flow-children: right;
+}
+
+// Individual hero slot
+.HeroSlot
+{
+	width: 62px;
+	height: 100%;
+
+	flow-children: down;
+}
+
+// Hero buttons
+.HeroButton
+{
+	width: 100%;
+	height: 40px;
+}
+
+// Player color indicators
+.PlayerColor
+{
+	width: 100%;
+	height: 5px;
+
+	vertical-align: top;
+
+	background-color: #DDDDDDFF;
+}
+
+// Hero images
+.HeroImage
+{
+	width: 100%;
+	height: 35px;
+
+	y: 5px;
+
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#3E3E3EFF), to(#090909FF));
+}
+
+// Hero icon color changers
+.DeathColorChanger
+{
+	width: 100%;
+	height: 35px;
+
+	y: 5px;
+
+	opacity: 0;
+
+	background-color: gradient(radial, 50% 50%, 0% 0%, 100% 100%, from(#222222FF), to(#000000FF));
+}
+
+// Disconnect indicators
+.DisconnectIndicator
+{
+	width: 100%;
+	height: 18px;
+
+	y: 13.5px;
+}
+
+// Respawn indicators
+.RespawnIndicator
+{
+	width: 100%;
+	height: 20px;
+
+	opacity: 0;
+
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
+
+	/*background-color: #1F252AFF;*/
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#191C1EFF), to(#22292FFF));
+}
+
+// Respawn timers
+.RespawnTimer
+{
+	horizontal-align: center;
+	vertical-align: center;
+
+	color: #EEEEEEFF;
+
+	font-size: 15px;
+	font-family: Radiance;
+	font-weight: bold;
+}
+
+// Center of top bar, holds scores
+.TopBarCenter
+{
+	width: 196px;
+	height: 40px;
+
+	horizontal-align: center;
+}
+
+// Score panels
+.Score
+{
+	width: 60px;
+	height: 100%;
+
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#0C0C0CFF), to(#191B1FFF));
+}
+
+// Score value text
+.ScoreLabel
+{
+	font-size: 26px;
+	font-family: Radiance;
+
+	horizontal-align: center;
+	vertical-align: center;
+
+	color: white;
+	text-shadow: 4px 4px 4px black;
+}
+
+#ScoreLeft
+{
+	horizontal-align: left;
+}
+
+#ScoreRight
+{
+	horizontal-align: right;
+}

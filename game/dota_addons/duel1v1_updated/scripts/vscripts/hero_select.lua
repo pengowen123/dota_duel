@@ -35,7 +35,7 @@ function InitHeroSelectData()
 				-- Select a new hero for bots
 				hero_select_data[id] = MakeBotHeroChoice()
 			else
-				hero_select_data[id] = PlayerResource:GetSelectedHeroEntity(id):GetName()
+				hero_select_data[id] = PlayerResource:GetSelectedHeroName(id)
 			end
 		end
 	end

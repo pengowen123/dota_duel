@@ -1,11 +1,20 @@
 -- Handling of the custom scoreboard system
 
+-- Kills for the current match
 kills = {}
+-- Total kills of all matches
+total_kills = {}
 
 
 -- Initializes the custom scoreboard
 function InitKills()
-	ResetKills()
+	total_kills.radiant = 0
+	total_kills.dire = 0
+
+	kills.radiant = 0
+	kills.dire = 0
+
+	CustomGameEventManager:Send_ServerToAllClients("score_update", kills)
 end
 
 
@@ -33,6 +42,7 @@ end
 -- Gives one kill to radiant
 function AwardRadiantKill()
 	kills.radiant = kills.radiant + 1
+	total_kills.radiant = total_kills.radiant + 1
 
 	CustomGameEventManager:Send_ServerToAllClients("score_update", kills)
 end
@@ -41,6 +51,7 @@ end
 -- Gives on kill to dire
 function AwardDireKill()
 	kills.dire = kills.dire + 1
+	total_kills.dire = total_kills.dire + 1
 
 	CustomGameEventManager:Send_ServerToAllClients("score_update", kills)
 end

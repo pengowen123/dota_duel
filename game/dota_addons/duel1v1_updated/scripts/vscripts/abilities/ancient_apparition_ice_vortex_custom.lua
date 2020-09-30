@@ -8,6 +8,30 @@ function ancient_apparition_ice_vortex_custom:OnSpellStart()
   local point = self:GetCursorPosition()
   local team_id = caster:GetTeam()
 
+  -- Response code taken from DOTA Imba https://github.com/EarthSalamander42/dota_imba/
+  -- Licensed under http://www.apache.org/licenses/LICENSE-2.0
+  if caster:GetName() == "npc_dota_hero_ancient_apparition" then
+    if not self.responses then
+      self.responses =
+      {
+        ["ancient_apparition_appa_ability_vortex_01"] = 0,
+        ["ancient_apparition_appa_ability_vortex_02"] = 0,
+        ["ancient_apparition_appa_ability_vortex_03"] = 0,
+        ["ancient_apparition_appa_ability_vortex_04"] = 0,
+        ["ancient_apparition_appa_ability_vortex_05"] = 0,
+        ["ancient_apparition_appa_ability_vortex_06"] = 0
+      }
+    end
+
+    for response, timer in pairs(self.responses) do
+      if GameRules:GetDOTATime(true, true) - timer >= 60 then
+        self:GetCaster():EmitSound(response)
+        self.responses[response] = GameRules:GetDOTATime(true, true)
+        break
+      end
+    end
+  end
+
   CreateModifierThinker(caster, self, "modifier_ancient_apparition_ice_vortex_custom_thinker", {}, point, team_id, false)
 end
 
@@ -112,6 +136,10 @@ end
 
 function modifier_ancient_apparition_ice_vortex_custom_thinker:OnDestroy()
   self.destroy_time = nil
+
+  if self.particle then
+    ParticleManager:DestroyParticle(self.particle, false)
+  end
 end
 
 

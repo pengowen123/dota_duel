@@ -1,0 +1,15 @@
+<root>
+
+  <styles>
+    <include src="file://{resources}/styles/custom_game/pregame_hero_select/pregame_hero_select.css" />
+  </styles>
+
+  <scripts>
+    <include src="file://{resources}/scripts/custom_game/pregame_hero_select/pregame_hero_select.js" />
+  </scripts>
+
+  <Panel class="Root" hittest="false">
+
+  </Panel>
+
+</root>

@@ -21,76 +21,28 @@ function InitNeutrals()
 end
 
 
--- Levels all players to level 25
--- Also checks for players who didn't pick a hero and makes them lose
-function LevelUpPlayers()
-	for i, playerID in pairs(GetPlayerIDs()) do
-    local player = PlayerResource:GetPlayer(playerID)
-    local player_entity = player:GetAssignedHero()
+-- Levels the entity to max level
+function LevelEntityToMax(entity)
+  if entity then
+    entity:AddExperience(99000.0, 0, false, false)
 
-    if player_entity then
-      local levelup = function()
-        player_entity:AddExperience(99000.0, 0, false, false)
-      end
+    for i=0,30 do
+      local ability = entity:GetAbilityByIndex(i)
 
-      for i=0,30 do
-        local ability = player_entity:GetAbilityByIndex(i)
-
-        if ability then
-          -- The return value of this function is undocumented, but secondary abilities like
-          -- activate fire remnant and shadow step seem to always return 4 while no other
-          -- ability does
-          if ability:CanAbilityBeUpgraded() ~= 4 then
-            -- Only talents require higher levels than 6, which must not be upgraded here
-            if ability:GetHeroLevelRequiredToUpgrade() <= 6 then
-              -- Lua ranges are inclusive so this starts at 1 to compensate
-              for i=1,ability:GetMaxLevel() - ability:GetLevel() do
-                player_entity:UpgradeAbility(ability)
-              end
+      if ability then
+        -- The return value of this function is undocumented, but secondary abilities like
+        -- activate fire remnant and shadow step seem to always return 4 while no other
+        -- ability does
+        if ability:CanAbilityBeUpgraded() ~= 4 then
+          -- Only talents require higher levels than 6, which must not be upgraded here
+          if ability:GetHeroLevelRequiredToUpgrade() <= 6 then
+            -- Lua ranges are inclusive so this starts at 1 to compensate
+            for i=1,ability:GetMaxLevel() - ability:GetLevel() do
+              entity:UpgradeAbility(ability)
             end
           end
         end
       end
-
-      local levelup_delay = 0.5
-
-      Timers:CreateTimer(levelup_delay, levelup)
-    else
-      -- Make the player lose if they didn't pick a hero
-      MakePlayerLose(playerID, "#duel_no_selected_hero")
-    end
-  end
-end
-
-
--- Removes Town Portal Scrolls from players' inventories
--- One is added at the start of the game since 7.07, so this is called to delete it
-function RemoveTPScroll()
-  for i, playerID in pairs(GetPlayerIDs()) do
-    local player = PlayerResource:GetPlayer(playerID)
-    local player_entity = player:GetAssignedHero()
-
-    if player_entity then
-      for i=0,10 do
-        local item = player_entity:GetItemInSlot(i)
-
-        if item then
-          local name = item:GetName()
-          local items_to_remove = {
-            -- No longer necessary to remove because TP scrolls don't take up an inventory slot
-            -- anymore
-            -- ["item_tpscroll"] = true,
-            ["item_enchanted_mango"] = true,
-            ["item_faerie_fire"] = true,
-          }
-          if items_to_remove[name] then
-            item:Destroy()
-          end
-        end
-      end
-    else
-      -- Make the player lose if they didn't pick a hero
-      MakePlayerLose(playerID, "#duel_no_selected_hero")
     end
   end
 end

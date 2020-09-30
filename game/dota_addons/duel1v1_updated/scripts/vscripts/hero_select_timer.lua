@@ -88,44 +88,52 @@ function RestartGame()
 		end
 	end
 
-	local no_new_heroes = true
-
 	for i, playerID in pairs(GetPlayerIDs()) do
 		local hero_name = hero_select_data[playerID]
 
-		if hero_name then
-			no_new_heroes = false
+		if hero_name == false then
+			local hero = PlayerResource:GetSelectedHeroEntity(playerID)
 
-			SetGameState(GAME_STATE_HERO_LOAD)
+			if hero then
+				hero_name = hero:GetName()
+			else
+				-- Make the player lose again if they don't select a hero
+				MakePlayerLose(playerID, "#duel_no_selected_hero")
+				return
+			end
+		end
 
-			PrecacheUnitByNameAsync(hero_name, function()
-				-- Clear inventory to prevent reaching the items purchased limit
-				local old_hero = PlayerResource:GetSelectedHeroEntity(playerID)
+		SetGameState(GAME_STATE_HERO_LOAD)
+
+		PrecacheUnitByNameAsync(hero_name, function()
+			-- Clear inventory to prevent reaching the items purchased limit
+			local old_hero = PlayerResource:GetSelectedHeroEntity(playerID)
+
+			if old_hero then
 				ClearInventory(old_hero)
 
 				PlayerResource:ReplaceHeroWith(playerID, hero_name, 99999, 99999)
+			else
+				local player = PlayerResource:GetPlayer(playerID)
+				local hero = CreateHeroForPlayer(hero_name, player)
 
-				TryOnGameInProgress(playerID)
-			end)
-		else
-			-- Add TP scrolls if the player wasn't given a new hero
-			local hero = PlayerResource:GetSelectedHeroEntity(playerID)
-			local tp_scroll = CreateItem("item_tpscroll", hero, hero)
-			tp_scroll:SetCurrentCharges(3)
-			hero:AddItem(tp_scroll)
-		end
+				hero:SetControllableByPlayer(playerID, false)
+				-- Add stun modifier manually because the trigger takes a few seconds to add it for some reason
+				hero:AddNewModifier(hero, nil, "modifier_stun", {})
+
+				player:SetSelectedHero(hero_name)
+				player:SetAssignedHeroEntity(hero)
+			end
+
+			TryOnGameInProgress(playerID)
+		end)
 	end
 
-	-- If no new heroes were selected, start the game immediately
-	if no_new_heroes then
-		GameMode:OnGameInProgress()
-	else
-	  Notifications:ClearBottomFromAll()
-	  Notifications:BottomToAll({
-	    text = "#duel_loading_heroes",
-	    duration = 100,
-	  })
-	end
+	Notifications:ClearBottomFromAll()
+	Notifications:BottomToAll({
+		text = "#duel_loading_heroes",
+		duration = 100,
+	})
 end
 
 

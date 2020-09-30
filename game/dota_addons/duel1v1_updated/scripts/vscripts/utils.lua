@@ -206,6 +206,7 @@ function IsSafeToRemove(modifier)
     ["modifier_lion_finger_of_death_kill_counter"] = true,
     ["modifier_item_shadow_amulet_fade"] = true,
     ["modifier_templar_assassin_meld"] = true,
+    ["modifier_tiny_tree_grab"] = true,
   }
 
   local unsafe = {
@@ -552,19 +553,35 @@ end
 
 -- Returns whether the provided entity is a clone
 function IsClone(entity)
-  return entity:IsClone()
-    or IsMonkeyKingClone(entity)
-    or entity:FindModifierByName("modifier_arc_warden_tempest_double")
+  local player_id = entity:GetPlayerOwnerID()
+
+  if player_id then
+    local player_hero = PlayerResource:GetSelectedHeroEntity(player_id)
+
+    if not player_hero then
+      return false
+    end
+
+    return (entity:GetName() == player_hero:GetName()) and (entity ~= player_hero) and not entity:IsIllusion()
+  else
+    return false
+  end
+end
+
+
+-- Returns whether the 1v1 map is being played
+function IsOneVsOneMap()
+  return GetMapName() == "duel1v1"
 end
 
 
 -- Returns whether a bot can be added (only on 1v1 map and if playing solo)
 function CanAddBot()
   local total_players = 0
-    total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
-    total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
+  total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
+  total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
 
-  return (GetMapName() == "duel1v1") and (total_players == 1) and not IsMatchEnded()
+  return IsOneVsOneMap() and (total_players == 1) and not IsMatchEnded()
 end
 
 
@@ -597,5 +614,14 @@ function MapInventoryItems(player_id, fn)
         end
       end
     end
+  end
+end
+
+
+-- Sets the music status for all players
+function SetMusicStatus(status, intensity)
+  for i, player_id in pairs(GetPlayerIDs()) do
+    local player = PlayerResource:GetPlayer(player_id)
+    player:SetMusicStatus(status, intensity)
   end
 end

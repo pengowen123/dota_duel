@@ -162,7 +162,7 @@ function BotController:ThinkRoundStartArcWarden()
 
 		-- Set necronomicon unit handles
 		for i, entity in pairs(Entities:FindAllByClassname("npc_dota_creep")) do
-			if entity:GetTeam() == DOTA_TEAM_BADGUYS then
+			if entity:GetTeam() == bot_hero:GetTeam() then
 				local first_ability_name = entity:GetAbilityByIndex(0):GetAbilityName()
 
 				if first_ability_name == "necronomicon_archer_purge" then

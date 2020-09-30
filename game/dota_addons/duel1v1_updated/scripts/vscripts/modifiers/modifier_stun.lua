@@ -48,6 +48,7 @@ function modifier_stun:CheckState()
 			["npc_dota_hero_arc_warden"] = true,
 			["npc_dota_hero_elder_titan"] = true,
 			["npc_dota_hero_night_stalker"] = true,
+			["npc_dota_hero_tiny"] = true,
 		}
 
 		if heroes_to_silence[name] then

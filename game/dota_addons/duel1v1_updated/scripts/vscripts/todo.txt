@@ -4,8 +4,3 @@ translate everything in the game to other languages:
   - russian
 
 add intro screen to help new players
-
-investigate music changes during fight
-autoshuffle
-customize top bar
-fix custom ice vortex not playing voice lines (check imba)
