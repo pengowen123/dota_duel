@@ -16,8 +16,12 @@ function GameMode:OnNPCSpawned(keys)
 
 		-- Repeatedly check for entity if it hasn't been created yet
 		if not entity then
-			print("checking entity")
 			return 0.3
+		end
+
+		-- Only run on newly created NPCs
+		if entity:GetLevel() > 1 then
+			return
 		end
 
 		if entity:IsRealHero() and not IsClone(entity) then
