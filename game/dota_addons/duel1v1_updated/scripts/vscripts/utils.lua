@@ -155,6 +155,7 @@ end
 
 
 -- Returns the team that is the enemy of the provided one
+-- Returns nil for teams other than DOTA_TEAM_GOODGUYS and DOTA_TEAM_BADGUYS
 function GetOppositeTeam(team)
   if team == DOTA_TEAM_GOODGUYS then
     return DOTA_TEAM_BADGUYS
@@ -207,6 +208,8 @@ function IsSafeToRemove(modifier)
     ["modifier_item_shadow_amulet_fade"] = true,
     ["modifier_templar_assassin_meld"] = true,
     ["modifier_tiny_tree_grab"] = true,
+    -- This modifier should be removed but it causes nyx to die if called as the round starts
+    -- ["modifier_nyx_assassin_burrow"] = true,
   }
 
   local unsafe = {
@@ -622,6 +625,7 @@ end
 function SetMusicStatus(status, intensity)
   for i, player_id in pairs(GetPlayerIDs()) do
     local player = PlayerResource:GetPlayer(player_id)
-    player:SetMusicStatus(status, intensity)
+    -- NOTE: Currently disabled because it is buggy
+    -- player:SetMusicStatus(status, intensity)
   end
 end

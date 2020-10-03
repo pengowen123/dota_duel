@@ -286,6 +286,9 @@ function ResetPlayers()
       end
     end
 
+    -- Add modifier_stun in case the trigger doesn't add it (it is inconsistent sometimes)
+    player_entity:AddNewModifier(player_entity, nil, "modifier_stun", {})
+
     -- This must happen after buffs are cleared to also teleport invulernable heroes such as those in Eul's Scepter
     ResetPosition(player_entity)
   end
@@ -488,20 +491,6 @@ function DestroyDroppedItems()
     else
       entity:Kill()
     end
-  end
-
-  -- Clear neutral stashes as well
-  local dummy_hero = GetDummyHero()
-  local entity = Entities:First()
-
-  while entity do
-    if entity.IsItem and entity:IsItem() and not entity:GetParent() then
-      -- Items from the neutral stash must be picked up before being destroyed or the game crashes
-      dummy_hero:AddItem(entity)
-      entity:Destroy()
-    end
-
-    entity = Entities:Next(entity)
   end
 end
 

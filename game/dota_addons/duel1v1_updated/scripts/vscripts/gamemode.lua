@@ -224,7 +224,12 @@ end
 function GameMode:InitGameMode()
   GameMode = self
 
-  -- Disable default music
+  local gamemode_entity = GameRules:GetGameModeEntity()
+
+  -- Disable neutral item stash (clearing it crashes the game so it is just disabled)
+  gamemode_entity:SetNeutralStashEnabled(false)
+
+  -- Disable default music (broken)
   GameRules:SetCustomGameAllowBattleMusic(false)
   GameRules:SetCustomGameAllowHeroPickMusic(true)
   GameRules:SetCustomGameAllowMusicAtGameStart(false)
@@ -246,7 +251,7 @@ function GameMode:InitGameMode()
 
   -- Disable scan (the only alternative is resetting it every round, however that would affect the
   -- game balance too much)
-  GameRules:GetGameModeEntity():SetCustomScanCooldown(999999999.0)
+  gamemode_entity:SetCustomScanCooldown(999999999.0)
 
   -- Initialize listeners
   ListenToGameEvent("entity_killed", OnEntityDeath, nil)
@@ -312,34 +317,36 @@ function WatchForDisconnect(keys)
   for i, playerID in pairs(GetPlayerIDs()) do
     local team = PlayerResource:GetTeam(playerID)
 
-    local connection_state = PlayerResource:GetConnectionState(playerID)
+    if (team == DOTA_TEAM_GOODGUYS) or (team == DOTA_TEAM_BADGUYS) then
+      local connection_state = PlayerResource:GetConnectionState(playerID)
 
-    -- If a player disconnects for too long or abandons, make them lose and stop watching for disconnects
-    if connection_state == DOTA_CONNECTION_STATE_DISCONNECTED then
-      all_players_connected = false
+      -- If a player disconnects for too long or abandons, make them lose and stop watching for disconnects
+      if connection_state == DOTA_CONNECTION_STATE_DISCONNECTED then
+        all_players_connected = false
 
-      local c = player_timeouts[playerID]
-      if c then
-        player_timeouts[playerID] = c + 1.0
+        local c = player_timeouts[playerID]
+        if c then
+          player_timeouts[playerID] = c + 1.0
 
-        print("Player " .. tostring(playerID) .. " disconnected for " .. tostring(player_timeouts[playerID]) .. " seconds")
+          print("Player " .. tostring(playerID) .. " disconnected for " .. tostring(player_timeouts[playerID]) .. " seconds")
 
-        if player_timeouts[playerID] > timeout and leaver_ids[playerID] == nil then
+          if player_timeouts[playerID] > timeout and leaver_ids[playerID] == nil then
+            leavers[team] = leavers[team] + 1
+            leaver_ids[playerID] = true
+          end
+        end
+      else
+        if connection_state == DOTA_CONNECTION_STATE_ABANDONED and leaver_ids[playerID] == nil then
           leavers[team] = leavers[team] + 1
           leaver_ids[playerID] = true
-        end
-      end
-    else
-      if connection_state == DOTA_CONNECTION_STATE_ABANDONED and leaver_ids[playerID] == nil then
-        leavers[team] = leavers[team] + 1
-        leaver_ids[playerID] = true
-      else
-        player_timeouts[playerID] = 0.0
+        else
+          player_timeouts[playerID] = 0.0
 
-        -- Allows reconnecting after the timeout if a teammate is still in the game
-        if player_timeouts[playerID] > timeout then
-          leavers[team] = leavers[team] - 1
-          leaver_ids[playerID] = nil
+          -- Allows reconnecting after the timeout if a teammate is still in the game
+          if player_timeouts[playerID] > timeout then
+            leavers[team] = leavers[team] - 1
+            leaver_ids[playerID] = nil
+          end
         end
       end
     end
@@ -350,7 +357,7 @@ function WatchForDisconnect(keys)
     if leaver_count > 0 then
       -- Make the team lose if all of its players have left
       if leaver_count >= PlayerResource:GetPlayerCountForTeam(team) then
-        MakeTeamLose(team, "#duel_disconnect")
+        MakeTeamLose(team, "#duel_disconnect", false)
         return nil
       end
     end
@@ -361,7 +368,8 @@ end
 
 
 -- Makes the provided player lose, and sends a notification to all players with the provided text
-function MakePlayerLose(playerID, text)
+-- If allow_rematch is false, the UI will be hidden and the game will end after a few seconds
+function MakePlayerLose(playerID, text, allow_rematch)
   local team = PlayerResource:GetTeam(playerID)
 
   MakeTeamLose(team, text)
@@ -369,12 +377,19 @@ end
 
 
 -- Makes the provided team lose, and sends a notification to all players with the provided text
-function MakeTeamLose(team, text)
+-- If allow_rematch is false, the UI will be hidden and the game will end after a few seconds
+function MakeTeamLose(team, text, allow_rematch)
   if IsMatchEnded() then
     return
   end
 
   local opposite_team = GetOppositeTeam(team)
+
+  -- Spectators don't have an opposite team
+  if not opposite_team then
+    return
+  end
+
   local opposite_team_name = GetLocalizationTeamName(opposite_team)
 
   -- Send a notification
@@ -391,7 +406,20 @@ function MakeTeamLose(team, text)
   -- Make the disconnected player lose
   game_result = opposite_team
 
-  EndGameDelayed(game_result)
+  if allow_rematch then
+    EndGameDelayed(game_result)
+  else
+    SetGameState(GAME_STATE_END)
+
+    local end_game = function()
+      EndGame()
+    end
+
+    -- Has a delay to let players see the notification
+    local end_game_delay = 3.0
+
+    Timers:CreateTimer(end_game_delay, end_game)
+  end
 end
 
 

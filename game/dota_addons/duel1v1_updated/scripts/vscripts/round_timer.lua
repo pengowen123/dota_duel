@@ -32,7 +32,7 @@ end
 
 -- Sets the round start timer to the provided value (in seconds)
 function SetRoundStartTimer(seconds)
-	if seconds <= ROUND_START_DELAY then
+	if seconds <= ROUND_START_DELAY and game_state == GAME_STATE_BUY then
 		PrepareNextRound()
 	end
 
