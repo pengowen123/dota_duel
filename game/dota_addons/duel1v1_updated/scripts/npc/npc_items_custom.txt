@@ -7,29 +7,16 @@
     
     "AbilitySpecial"
     {
-        "01"
-        {
-            "var_type"      "FIELD_INTEGER"
-            "bonus_strength"     "10"
-        }
-
-        "02"
-        {
-            "var_type"      "FIELD_INTEGER"
-            "bonus_damage"        "24"
-        }
-
-        "03"
-        {
-            "var_type"      "FIELD_INTEGER"
-            "duration"      "5"
-        }
-
-        "04"
-        {
-            "var_type"      "FIELD_INTEGER"
-            "dispel_type"   ""
-        }
+      "03"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "duration"        "5.0"
+      }
+      "04"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "max_level"       "1"
+      }
     }
 
     "OnSpellStart"

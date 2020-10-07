@@ -1,14 +1,38 @@
-"AddonInfo"
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
 {
-	"TeamCount"		"2"
-	"CheckAFKPlayers"	"0"
-	"PenaltiesEnabled"	"0"
-	"duel1v1"
+	TeamCount = 2
+	maps =
+	[
+		"duel1v1",
+		"duel2v2",
+	]
+	IsPlayable = 1
+	PenaltiesEnabled = 0
+	CheckAFKPlayers = false
+	HeroGuidesSupported = 1
+	map_options =
+	[
+		{
+			MaxPlayers = 2
+			map = "duel1v1"
+		},
+		{
+			MaxPlayers = 4
+			map = "duel2v2"
+		},
+	]
+	HideInTools = false
+	IsTemplate = false
+	DefaultMap = "duel1v1"
+	Default_Keys = []
+	DisableIK = false
+	EnablePickRules = false
+	EventGame = false
+	hero_picker =
 	{
-		"MaxPlayers"		"2"
 	}
-	"duel2v2"
-	{
-		"MaxPlayers"		"4"
-	}
+	ForceDefaultGuide = true
+	MinimalPrecache = false
+	MinPlayers = 1
+	MaxPlayers = 2
 }

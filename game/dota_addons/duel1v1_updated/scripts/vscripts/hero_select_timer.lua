@@ -98,7 +98,7 @@ function RestartGame()
 				hero_name = hero:GetName()
 			else
 				-- Make the player lose again if they don't select a hero
-				MakePlayerLose(playerID, "#duel_no_selected_hero")
+				MakePlayerLose(playerID, "#duel_no_selected_hero", true)
 				return
 			end
 		end

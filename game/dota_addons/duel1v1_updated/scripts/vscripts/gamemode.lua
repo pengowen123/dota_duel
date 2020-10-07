@@ -151,9 +151,6 @@ end
   It can be used to initialize non-hero player state or adjust the hero selection (i.e. force random etc)
 ]]
 function GameMode:OnAllPlayersLoaded()
-  if IsOneVsOneMap() then
-    ShuffleTeams()
-  end
 end
 
 --[[
@@ -191,7 +188,7 @@ function GameMode:OnGameInProgress()
   for i, player_id in pairs(GetPlayerIDs()) do
     -- Make the player lose if they didn't pick a hero
     if PlayerResource:GetSelectedHeroName(player_id) == "" then
-      MakePlayerLose(player_id, "#duel_no_selected_hero")
+      MakePlayerLose(player_id, "#duel_no_selected_hero", true)
       return
     end
   end
@@ -372,7 +369,7 @@ end
 function MakePlayerLose(playerID, text, allow_rematch)
   local team = PlayerResource:GetTeam(playerID)
 
-  MakeTeamLose(team, text)
+  MakeTeamLose(team, text, allow_rematch)
 end
 
 
@@ -425,16 +422,18 @@ end
 
 -- Shuffles all teams
 function ShuffleTeams()
-  local player_ids = GetPlayerIDs()
+  if IsServer() then
+    local player_ids = GetPlayerIDs()
 
-  -- Unassign all players
-  for i, player_id in pairs(player_ids) do
-    PlayerResource:SetCustomTeamAssignment(player_id, DOTA_TEAM_NOTEAM)
-  end
+    -- Unassign all players
+    for i, player_id in pairs(player_ids) do
+      PlayerResource:SetCustomTeamAssignment(player_id, DOTA_TEAM_NOTEAM)
+    end
 
-  -- Set random teams
-  for i, player_id in pairs(player_ids) do
-    local random_team = RandomInt(DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS)
-    PlayerResource:SetCustomTeamAssignment(player_id, random_team)
+    -- Set random teams
+    for i, player_id in pairs(player_ids) do
+      local random_team = RandomInt(DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS)
+      PlayerResource:SetCustomTeamAssignment(player_id, random_team)
+    end
   end
 end

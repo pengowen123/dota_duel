@@ -45,7 +45,7 @@
 // Shows player name and whether they have voted to rematch
 .PlayerRematch
 {
-	width: fill-parent-flow(1.0);
+	width: 100%;
 	height: 80px;
 }
 

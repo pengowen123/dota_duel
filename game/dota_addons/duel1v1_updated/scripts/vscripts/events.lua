@@ -7,6 +7,9 @@ function GameMode:OnDisconnect(keys)
 end
 
 function GameMode:OnGameRulesStateChange(keys)
+	if IsOneVsOneMap() and (GameRules:State_Get() == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP) then
+		Timers:CreateTimer(0.1, ShuffleTeams)
+	end
 end
 
 -- An NPC has spawned somewhere in game.  This includes heroes

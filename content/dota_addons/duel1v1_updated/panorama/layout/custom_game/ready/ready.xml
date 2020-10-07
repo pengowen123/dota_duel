@@ -25,6 +25,7 @@
 					<Panel class="ReadyImage">
 
 						<Image id="ReadyImage" />
+						<!-- src="file://{images}/custom_game/ready/checkmark.png" -->
 
 					</Panel>
 
