@@ -431,9 +431,34 @@ function ShuffleTeams()
     end
 
     -- Set random teams
-    for i, player_id in pairs(player_ids) do
-      local random_team = RandomInt(DOTA_TEAM_GOODGUYS, DOTA_TEAM_BADGUYS)
-      PlayerResource:SetCustomTeamAssignment(player_id, random_team)
+    -- GetPlayerIDs only includes players on radiant/dire so it can't be used here
+    for player_id = 0, DOTA_MAX_TEAM_PLAYERS - 1 do
+      if PlayerResource:IsValidPlayerID(player_id) then
+        local team = PlayerResource:GetTeam(player_id)
+
+        if team == DOTA_TEAM_NOTEAM then
+          -- Create a list of empty player slots to weight the teams properly
+          local teams = {}
+
+          for i=1,GetEmptyPlayerSlots(DOTA_TEAM_GOODGUYS) do
+            table.insert(teams, DOTA_TEAM_GOODGUYS)
+          end
+
+          for i=1,GetEmptyPlayerSlots(DOTA_TEAM_BADGUYS) do
+            table.insert(teams, DOTA_TEAM_BADGUYS)
+          end
+
+          -- Choose a random team from the list
+          local random_team = teams[RandomInt(1, #teams)]
+          PlayerResource:SetCustomTeamAssignment(player_id, random_team)
+        end
+      end
     end
   end
+end
+
+
+-- Returns the number of empty player slots on a team
+function GetEmptyPlayerSlots(team)
+  return GameRules:GetCustomGameTeamMaxPlayers(team) - PlayerResource:GetPlayerCountForTeam(team)
 end
