@@ -231,8 +231,9 @@ function GameMode:InitGameMode()
   GameRules:SetCustomGameAllowHeroPickMusic(true)
   GameRules:SetCustomGameAllowMusicAtGameStart(false)
 
-  -- Skip strategy time to save players time (it's useless in this gamemode)
-  GameRules:SetStrategyTime(0.5)
+  -- Set a small strategy time so that players don't have to wait
+  -- It is non-zero to give players time to load everything and avoid crashes on low-end machines
+  GameRules:SetStrategyTime(3.0)
 
   -- Disable pregame time for accurate match duration
   GameRules:SetPreGameTime(0.0)

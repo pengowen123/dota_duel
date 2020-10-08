@@ -83,10 +83,10 @@ neutral_camp_info = {
 	  	["npc_dota_neutral_small_thunder_lizard"] = 2,
 	  	["npc_dota_neutral_big_thunder_lizard"] = 1,
 		},
-	  [3] = {
-	  	["npc_dota_neutral_prowler_acolyte"] = 2,
-	  	["npc_dota_neutral_prowler_shaman"] = 1,
-		},
+	 --  [3] = {
+	 --  	["npc_dota_neutral_prowler_acolyte"] = 2,
+	 --  	["npc_dota_neutral_prowler_shaman"] = 1,
+		-- },
 	}
 }
 

@@ -597,6 +597,10 @@ function ResetTalents()
 
     -- Re-add items from inventory half a second after replacing the hero
     Timers:CreateTimer(0.5, re_add_items)
+
+    -- Level up hero again (it is done in OnNPCSpawned, however it fails to catch some aghanim's
+    -- scepter related abilities, such as Io spirits movement)
+    Timers:CreateTimer(0.5, function() LevelEntityToMax(new_hero) end)
   end
 end
 

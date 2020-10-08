@@ -6,4 +6,3 @@ translate everything in the game to other languages:
 add intro screen to help new players
 fix heroes not sinking into the ground
 add stat tracking
-fix wisp spirit levelling with aghs
