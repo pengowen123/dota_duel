@@ -14,7 +14,7 @@ function OnSurrender(event_source_index, args)
     local team = PlayerResource:GetTeam(player_id)
     local team_winner = GetOppositeTeam(team)
 
-    EndGameDelayed(team_winner)
+    EndGameDelayed(team_winner, VICTORY_REASON_SURRENDER)
 
     text = "#duel_player_lose"
     losing_team_name = GetLocalizationTeamName(team)

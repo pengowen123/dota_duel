@@ -84,7 +84,7 @@ function OnEntityDeath(event)
           end
 
           if winner then
-            EndGameDelayed(winner)
+            EndGameDelayed(winner, VICTORY_REASON_ROUNDS)
 
             text = "#duel_victory"
             team = GetLocalizationTeamName(winner)

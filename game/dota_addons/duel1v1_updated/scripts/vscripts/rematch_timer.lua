@@ -29,7 +29,8 @@ end
 
 -- Ends the game after a delay and shows the rematch UI
 -- `winner` should be either DOTA_TEAM_GOODGUYS or DOTA_TEAM_BADGUYS
-function EndGameDelayed(winner)
+-- Requires the reason the current game ended (see VICTORY_REASON_*)
+function EndGameDelayed(winner, victory_reason)
 	if IsMatchEnded() or (game_state == GAME_STATE_REMATCH) then
 		return
 	end
@@ -67,6 +68,9 @@ function EndGameDelayed(winner)
 		end
 		Timers:CreateTimer(2.0, say)
 	end
+
+	-- Add data for current game
+	AddCurrentGameStats(victory_reason)
 end
 
 
@@ -91,6 +95,8 @@ function EndGame()
 	CustomGameEventManager:Send_ServerToAllClients("score_update", total_kills)
 	SetGameState(GAME_STATE_END)
 	GameRules:SetGameWinner(game_result)
+
+	GatherAndSendMatchStats()
 end
 
 

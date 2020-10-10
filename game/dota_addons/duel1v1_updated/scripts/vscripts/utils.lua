@@ -629,3 +629,11 @@ function SetMusicStatus(status, intensity)
     -- player:SetMusicStatus(status, intensity)
   end
 end
+
+
+-- Sends a message to all client consoles
+function SendServerMessage(text)
+  local data = {}
+  data.text = text
+  CustomGameEventManager:Send_ServerToAllClients("server_message", data)
+end

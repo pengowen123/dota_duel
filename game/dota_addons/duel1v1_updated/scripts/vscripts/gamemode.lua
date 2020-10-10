@@ -58,6 +58,7 @@ require('surrender')
 require('ui')
 require('neutral_item_shop')
 require('bot/bot')
+require('stat_tracking')
 
 
 -- Constants
@@ -188,7 +189,7 @@ function GameMode:OnGameInProgress()
   for i, player_id in pairs(GetPlayerIDs()) do
     -- Make the player lose if they didn't pick a hero
     if PlayerResource:GetSelectedHeroName(player_id) == "" then
-      MakePlayerLose(player_id, "#duel_no_selected_hero", true)
+      MakePlayerLose(player_id, "#duel_no_selected_hero", true, VICTORY_REASON_NO_HERO)
       return
     end
   end
@@ -355,7 +356,7 @@ function WatchForDisconnect(keys)
     if leaver_count > 0 then
       -- Make the team lose if all of its players have left
       if leaver_count >= PlayerResource:GetPlayerCountForTeam(team) then
-        MakeTeamLose(team, "#duel_disconnect", false)
+        MakeTeamLose(team, "#duel_disconnect", false, VICTORY_REASON_DISCONNECT)
         return nil
       end
     end
@@ -367,16 +368,18 @@ end
 
 -- Makes the provided player lose, and sends a notification to all players with the provided text
 -- If allow_rematch is false, the UI will be hidden and the game will end after a few seconds
-function MakePlayerLose(playerID, text, allow_rematch)
+-- `victory_reason` should be one of VICTORY_REASON_*
+function MakePlayerLose(playerID, text, allow_rematch, victory_reason)
   local team = PlayerResource:GetTeam(playerID)
 
-  MakeTeamLose(team, text, allow_rematch)
+  MakeTeamLose(team, text, allow_rematch, victory_reason)
 end
 
 
 -- Makes the provided team lose, and sends a notification to all players with the provided text
 -- If allow_rematch is false, the UI will be hidden and the game will end after a few seconds
-function MakeTeamLose(team, text, allow_rematch)
+-- `victory_reason` should be one of VICTORY_REASON_*
+function MakeTeamLose(team, text, allow_rematch, victory_reason)
   if IsMatchEnded() then
     return
   end
@@ -405,11 +408,12 @@ function MakeTeamLose(team, text, allow_rematch)
   game_result = opposite_team
 
   if allow_rematch then
-    EndGameDelayed(game_result)
+    EndGameDelayed(game_result, victory_reason)
   else
     SetGameState(GAME_STATE_END)
 
     local end_game = function()
+      AddCurrentGameStats(victory_reason)
       EndGame()
     end
 

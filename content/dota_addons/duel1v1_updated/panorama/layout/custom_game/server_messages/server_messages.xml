@@ -1,0 +1,16 @@
+<root>
+
+	<styles>
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/server_messages/server_messages.js" />
+	</scripts>
+
+	<snippets>
+	</snippets>
+
+	<Panel class="Root">
+	</Panel>
+
+</root>
