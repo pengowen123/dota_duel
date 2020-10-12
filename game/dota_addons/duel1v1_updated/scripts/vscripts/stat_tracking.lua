@@ -9,8 +9,6 @@ else
 end
 STAT_SERVER = STAT_SERVER .. "/"
 
-AUTHOR_STEAM_ID = "76561198115574919"
-
 -- A team won 5 rounds
 VICTORY_REASON_ROUNDS = 0
 -- A team reached surrendered
@@ -24,7 +22,6 @@ VICTORY_REASON_NO_HERO = 3
 game_stats = {
   match_id = tostring(GameRules:GetMatchID()),
   map = GetMapName(),
-  author_in_game = false,
   player_count = 0,
   bot_player_count = 0,
   players = {},
@@ -33,7 +30,15 @@ game_stats = {
   rounds = {},
 }
 
+game_stats_short = {
+  match_id = game_stats.match_id,
+  players = {},
+}
+
+-- Player stats from current match (keys are player IDs)
 player_stats = {}
+-- Player stats from stat tracking server (keys are player IDs)
+player_stats_from_db = {}
 
 
 -- Gathers and sends the stats for the current match to the stat tracking server
@@ -45,49 +50,35 @@ function GatherAndSendMatchStats()
 
   GatherMatchStats()
 
-  -- Don't track matches played while developing the gamemode
-  if IsInToolsMode() then
-    return
-  end
-
   -- Don't track solo games (they are probably for testing, and are not worth tracking anyways)
   if game_stats.player_count <= 1 then
+    -- return
+  end
+
+  -- Don't track local lobbies or games with cheats (unless in tools mode)
+  if not IsInToolsMode() and (GameRules:IsCheatMode() or not IsDedicatedServer()) then
     return
   end
 
   -- Send data for the match
-  SendStats("POST", "matches.json", game_stats, "Failed to send match data to stat tracking server")
+  local post_error_msg = "Failed to send match data to stat tracking server"
+  SendStats("POST", "matches.json", game_stats, post_error_msg)
+  SendStats("POST", "matches_short.json", game_stats_short, post_error_msg)
 
   -- Update individual player stats
-  for i, steam_id in pairs(GetPlayerSteamIDs()) do
-    local player_url = "players/" .. tostring(steam_id) .. ".json"
-    local get_req = CreateHTTPRequestScriptVM("GET", STAT_SERVER .. player_url)
+  for player_id, steam_id in pairs(GetPlayerSteamIDs()) do
+    local get_error_msg = "Failed to send player data to stat tracking server"
 
-    local callback = function(res)
-      if res.StatusCode ~= 200 then
-        local message = "Failed to get player data from stat tracking server: " .. tostring(res.StatusCode)
-        SendServerMessage(message)
-      end
-
-      local obj, pos, err = json.decode(res.Body)
-
-      if not obj then
-        -- Initialize player stats for new players
-        obj = {
-          wins = 0,
-          losses = 0,
-        }
-      end
-
+    local callback = function(obj)
       local new_player_stats = {
-        wins = obj.wins + player_stats[steam_id].wins,
-        losses = obj.losses + player_stats[steam_id].losses,
+        wins = obj.wins + player_stats[player_id].wins,
+        losses = obj.losses + player_stats[player_id].losses,
       }
 
-      SendStats("PUT", player_url, new_player_stats, "Failed to send player data to stat tracking server")
+      SendStats("PUT", GetPlayerURL(steam_id), new_player_stats, get_error_msg)
     end
 
-    get_req:Send(callback)
+    GetPlayerStats(player_id, callback)
   end
 end
 
@@ -124,17 +115,14 @@ function GatherMatchStats()
   game_stats.player_count = 0
   game_stats.bot_player_count = 0
   game_stats.players = GetPlayerSteamIDs()
+  game_stats_short.players = game_stats.players
   game_stats.round_count = #game_stats.rounds
 
   for i, player_id in pairs(GetPlayerIDs()) do
-    local team = PlayerResource:GetTeam(player_id)
-
-    if IsActualPlayer(player_id) then
+    if ShouldTrackStatsForPlayer(player_id) then
       game_stats.player_count = game_stats.player_count + 1
 
-      if tostring(PlayerResource:GetSteamID(player_id)) == AUTHOR_STEAM_ID then
-        game_stats.author_in_game = true
-      elseif IsBot(player_id) then
+      if IsBot(player_id) then
         game_stats.bot_player_count = game_stats.bot_player_count + 1
       end
     end
@@ -151,7 +139,6 @@ function GatherMatchStats()
   message = message .. "map: " .. tostring(game_stats.map) .. "\n"
   message = message .. "duration: " .. tostring(game_stats.duration) .. "\n"
   message = message .. "players: " .. GetArrayString(game_stats.players) .. "\n"
-  message = message .. "author_in_game: " .. tostring(game_stats.author_in_game) .. "\n"
   message = message .. "player_count: " .. tostring(game_stats.player_count) .. "\n"
   message = message .. "bot_player_count: " .. tostring(game_stats.bot_player_count) .. "\n"
   message = message .. "round_count: " .. tostring(game_stats.round_count) .. "\n"
@@ -181,6 +168,48 @@ function GatherMatchStats()
 end
 
 
+-- Requests the data for the provided player from the database and calls `callback` with it
+-- Uses cached data when available
+function GetPlayerStats(player_id, callback)
+  local steam_id = tostring(PlayerResource:GetSteamID(player_id))
+  local player_url = GetPlayerURL(steam_id)
+  local get_req = CreateHTTPRequestScriptVM("GET", STAT_SERVER .. player_url)
+
+  -- Check if data has already been retrieved from the DB
+  if player_stats_from_db[player_id] then
+    callback(player_stats_from_db[player_id])
+    return
+  end
+
+  local callback_internal = function(res)
+    if res.StatusCode ~= 200 then
+      local message = "Failed to get player data from stat tracking server: " .. tostring(res.StatusCode)
+      SendServerMessage(message)
+      return
+    end
+
+    local obj, pos, err = json.decode(res.Body)
+
+    if not obj then
+      -- Initialize player stats for new players
+      obj = InitialPlayerStats()
+    end
+
+    player_stats_from_db[player_id] = obj
+
+    callback(obj)
+  end
+
+  get_req:Send(callback_internal)
+end
+
+
+-- Returns the URL of the table for the provided player relative to the address in STAT_SERVER
+function GetPlayerURL(steam_id)
+  return "players/" .. tostring(steam_id) .. ".json"
+end
+
+
 -- Adds the current game to the match stats
 -- Requires the reason why the current game ended (see VICTORY_REASON_*)
 function AddCurrentGameStats(victory_reason)
@@ -202,7 +231,7 @@ function AddCurrentGameStats(victory_reason)
   for i, player_id in pairs(GetPlayerIDs()) do
     local team = PlayerResource:GetTeam(player_id)
 
-    if IsActualPlayer(player_id) then
+    if ShouldTrackStatsForPlayer(player_id) then
       local steam_id = tostring(PlayerResource:GetSteamID(player_id))
       local hero = PlayerResource:GetSelectedHeroEntity(player_id)
       local hero_name = "none"
@@ -213,30 +242,97 @@ function AddCurrentGameStats(victory_reason)
 
       -- Add each player's hero to the appropriate team hero list
       if team == DOTA_TEAM_GOODGUYS then
-        table.insert(round.heroes_radiant, hero_name)
-        table.insert(round.players_radiant, steam_id)
+        round.heroes_radiant[player_id] = hero_name
+        round.players_radiant[player_id] = steam_id
       elseif team == DOTA_TEAM_BADGUYS then
-        table.insert(round.heroes_dire, hero_name)
-        table.insert(round.players_dire, steam_id)
+        round.heroes_dire[player_id] = hero_name
+        round.players_dire[player_id] = steam_id
       end
 
-      if not player_stats[steam_id] then
-        player_stats[steam_id] = {
-          wins = 0,
-          losses = 0,
-        }
+      -- Initialize missing stats
+      if not player_stats[player_id] then
+        player_stats[player_id] = InitialPlayerStats()
       end
 
       -- Track wins/losses for each player
       if team == round.winner then
-        player_stats[steam_id].wins = player_stats[steam_id].wins + 1
+        player_stats[player_id].wins = player_stats[player_id].wins + 1
       else
-        player_stats[steam_id].losses = player_stats[steam_id].losses + 1
+        player_stats[player_id].losses = player_stats[player_id].losses + 1
       end
     end
   end
 
   table.insert(game_stats.rounds, round)
+end
+
+
+-- Gathers stats for all players, and updates the stats UI for the provided player, or for all
+-- players if none is provided
+function UpdatePlayerStatsUI(update_ui_only_for_player)
+  -- Prevents sending unnecessary update events
+  local sent_full_update_event = false
+
+  for player_id, steam_id in pairs(GetPlayerSteamIDs()) do
+    local callback = function(obj)
+      -- Everything is finished once a full update event has been sent
+      if sent_full_update_event then
+        return
+      end
+
+      local data = {
+        players = {},
+      }
+
+      -- Whether all player data is included in the update event
+      local full_update = true
+
+      -- Collect currently available player stats to display
+      for player_id, steam_id in pairs(GetPlayerSteamIDs()) do
+        if player_stats_from_db[player_id] then
+          -- Copy player stats from cache
+          data.players[player_id] = {
+            wins = player_stats_from_db[player_id].wins,
+            losses = player_stats_from_db[player_id].losses,
+          }
+
+          -- Initialize missing stats
+          if not player_stats[player_id] then
+            player_stats[player_id] = InitialPlayerStats()
+          end
+
+          -- Display current player stats added to stats from the DB (live updates without extra DB requests)
+          data.players[player_id].wins = data.players[player_id].wins + player_stats[player_id].wins
+          data.players[player_id].losses = data.players[player_id].losses + player_stats[player_id].losses
+        else
+          -- Use new player data while waiting for real data to come in
+          full_update = false
+          data.players[player_id] = InitialPlayerStats()
+        end
+      end
+
+      if full_update then
+        sent_full_update_event = true
+      end
+
+      if update_ui_only_for_player ~= nil then
+        CustomGameEventManager:Send_ServerToPlayer(update_ui_only_for_player, "update_player_stats", data)
+      else
+        CustomGameEventManager:Send_ServerToAllClients("update_player_stats", data)
+      end
+    end
+
+    GetPlayerStats(player_id, callback)
+  end
+end
+
+
+-- Returns initial stats for a new player
+function InitialPlayerStats()
+  return {
+    wins = 0,
+    losses = 0,
+  }
 end
 
 
@@ -283,15 +379,16 @@ function GetVictoryReasonString(reason)
 end
 
 
--- Returns the 64-bit Steam ID of each player
+-- Returns pairs containing the player ID and 64-bit Steam ID of each player
+-- Only includes players that should have their stats tracked (see ShouldTrackStatsForPlayer)
 function GetPlayerSteamIDs()
   local ids = {}
 
   for i, player_id in pairs(GetPlayerIDs()) do
     local team = PlayerResource:GetTeam(player_id)
 
-    if IsActualPlayer(player_id) then
-      table.insert(ids, tostring(PlayerResource:GetSteamID(player_id)))
+    if ShouldTrackStatsForPlayer(player_id) then
+      ids[player_id] = tostring(PlayerResource:GetSteamID(player_id))
     end
   end
 
@@ -303,4 +400,23 @@ end
 function IsActualPlayer(player_id)
   local team = PlayerResource:GetTeam(player_id)
   return (team == DOTA_TEAM_GOODGUYS) or (team == DOTA_TEAM_BADGUYS)
+end
+
+
+-- Returns whether the player is a bot AI added through the add bot button
+-- Returns false for bots added with -createhero or other means
+function IsRealBot(player_id)
+  if global_bot_controller then
+    return global_bot_controller.bot_id == player_id
+  else
+    return false
+  end
+end
+
+
+-- Returns whether to track stats for the player
+function ShouldTrackStatsForPlayer(player_id)
+  return IsActualPlayer(player_id)
+    -- Only include bots added through the add bot button
+    and ((not IsBot(player_id)) or IsRealBot(player_id))
 end

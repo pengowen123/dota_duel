@@ -5,6 +5,9 @@ var DEATH_COLOR_OPACITY = 0.85;
 var DISCONNECT_COLOR_OPACITY = 0.85;
 var ABANDON_COLOR_OPACITY = 0.92;
 
+var display_player_stats = false;
+var player_stats = null;
+
 
 // Initializes the top bar UI and logic
 function Initialize()
@@ -12,6 +15,13 @@ function Initialize()
 	GameEvents.Subscribe("score_update", ScoreUpdate);
   GameEvents.Subscribe("rebuild_hero_lists", SetupHeroLists);
   GameEvents.Subscribe("update_hero_lists", UpdateHeroLists);
+  GameEvents.Subscribe("start_game", HidePlayerStats);
+  GameEvents.Subscribe("all_voted_rematch", HidePlayerStats);
+  GameEvents.Subscribe("end_game", ShowPlayerStats);
+  GameEvents.Subscribe("end_game_no_rematch", ShowPlayerStats);
+  GameEvents.Subscribe("update_player_stats", UpdatePlayerStats);
+  GameEvents.Subscribe("show_player_stats", ShowPlayerStats);
+  GameEvents.Subscribe("start_round", HidePlayerStats);
 
   // Hide the default hero lists
   var topbar = $.GetContextPanel()
@@ -26,6 +36,83 @@ function Initialize()
   EnableUIElement(topbar.FindChild("TimeUntil"), false);
 
   SetupHeroLists();
+}
+
+
+// Hides the respawn indicators and shows player stats
+function ShowPlayerStats()
+{
+  display_player_stats = true;
+  UpdateHeroLists();
+}
+
+
+// Stops hiding the respawn indicators and hides player stats
+function HidePlayerStats()
+{
+  display_player_stats = false;
+  UpdateHeroLists();
+}
+
+
+// Sets whether the player stats panels are visible
+function SetPlayerStatsVisible(visible)
+{
+  for (var id = 25; id >= 0; id--) {
+    if (Players.IsValidPlayerID(id))
+    {
+      var hero_slot = $("#" + id.toString());
+
+      if (hero_slot === null)
+      {
+        continue;
+      }
+
+      var style = hero_slot.GetChild(2).style;
+      if (visible)
+      {
+        style.visibility = "visible";
+      }
+      else
+      {
+        style.visibility = "collapse";
+      }
+    }
+  }
+}
+
+
+// Updates the player stats and the stats display panels
+// If `args` is null, uses the existing player stats and only updates the panels
+function UpdatePlayerStats(args)
+{
+  if (args !== null)
+  {
+    player_stats = args.players;
+  }
+
+  if (player_stats === null)
+  {
+    return;
+  }
+
+  SetPlayerStatsVisible(display_player_stats);
+
+  for (var id in player_stats) {
+    var player = player_stats[id];
+
+    var hero_slot = $("#" + id.toString());
+
+    if (hero_slot === null)
+    {
+      continue;
+    }
+
+    var player_stats_panel = hero_slot.GetChild(2);
+
+    player_stats_panel.GetChild(1).text = player.wins.toString();
+    player_stats_panel.GetChild(4).text = player.losses.toString();
+  }
 }
 
 
@@ -63,6 +150,7 @@ function SetupHeroLists()
   }
 
   UpdateHeroLists();
+  UpdatePlayerStats(null);
 }
 
 
@@ -93,14 +181,17 @@ function AddPlayer(parent, player_id)
 // Updates the hero lists (respawn timers, connection status, etc)
 function UpdateHeroLists()
 {
+  SetPlayerStatsVisible(display_player_stats);
+
   for (var id = 25; id >= 0; id--) {
     if (Players.IsValidPlayerID(id))
     {
       var hero_slot = $("#" + id.toString());
 
+
       if (hero_slot === null)
       {
-        return;
+        continue;
       }
 
       var player_info = Game.GetPlayerInfo(id);
@@ -122,7 +213,7 @@ function UpdateHeroLists()
 
       var is_dead = respawn_timer > 0;
 
-      if (is_dead)
+      if (is_dead && !display_player_stats)
       {
         // Make hero image gray-scale, darken it, and display respawn timer
         respawn_timer_panel.style.visibility = "visible";
@@ -139,7 +230,7 @@ function UpdateHeroLists()
       }
       else
       {
-        respawn_timer_label = "0";
+        respawn_timer_label.text = "0";
         respawn_timer_panel.style.visibility = "collapse";
       }
 

@@ -77,9 +77,12 @@ GAME_STATE_HERO_LOAD = 5
 -- When a team has won and a rematch was not voted for
 GAME_STATE_END = 6
 
+-- Global variables
 game_state = GAME_STATE_BUY
 all_players_connected = true
-
+-- Whether the current round is the first round of the first game (false for first rounds of
+-- rematches)
+first_round = true
 
 
 -- Sets the game state
@@ -164,11 +167,7 @@ end
 function GameMode:OnHeroInGame(hero)
 end
 
---[[
-  This function is called once and only once when the game completely begins (about 0:00 on the clock).  At this point,
-  gold will begin to go up in ticks if configured, creeps will spawn, towers will become damageable etc.  This function
-  is useful for starting any game logic timers/thinkers, beginning the first round, etc.
-]]
+-- Called each time a new game starts (at the start of the match and each time a rematch starts)
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
 
@@ -380,7 +379,7 @@ end
 -- If allow_rematch is false, the UI will be hidden and the game will end after a few seconds
 -- `victory_reason` should be one of VICTORY_REASON_*
 function MakeTeamLose(team, text, allow_rematch, victory_reason)
-  if IsMatchEnded() then
+  if IsMatchEnded() or game_state == GAME_STATE_REMATCH then
     return
   end
 

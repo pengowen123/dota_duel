@@ -11,7 +11,7 @@
 .TopBar
 {
 	width: 100%;
-	height: 5.5%;
+	height: 15%;
 
 	horizontal-align: center;
 	vertical-align: top;
@@ -120,6 +120,8 @@
 	width: 100%;
 	height: 18px;
 
+	visibility: collapse;
+
 	y: 13.5px;
 }
 
@@ -148,6 +150,73 @@
 	font-size: 15px;
 	font-family: Radiance;
 	font-weight: bold;
+}
+
+// Player stats panel
+.PlayerStats
+{
+	visibility: collapse;
+
+	width: 100%;
+	height: 80px;
+
+	flow-children: down;
+
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
+
+	background-color: black;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#191C1EFF), to(#22292FFF));
+}
+
+.WinLabel
+{
+	font-family: Radiance;
+	font-size: 15px;
+	color: #66BB5DFF;
+
+	horizontal-align: center;
+
+	margin-top: 2px;
+}
+
+.PlayerWins
+{
+	font-family: Radiance;
+	font-size: 16px;
+	color: #66BB5DFF;
+
+	horizontal-align: center;
+}
+
+.PlayerStatsSpacer
+{
+	width: 75%;
+	height: 3px;
+
+	border-radius: 1px;
+
+	background-color: white;
+
+	horizontal-align: center;
+}
+
+.LossesLabel
+{
+	font-family: Radiance;
+	font-size: 15px;
+	color: #FF4743FF;
+
+	horizontal-align: center;
+}
+
+.PlayerLosses
+{
+	font-family: Radiance;
+	font-size: 16px;
+	color: #FF4743FF;
+
+	horizontal-align: center;
 }
 
 // Center of top bar, holds scores

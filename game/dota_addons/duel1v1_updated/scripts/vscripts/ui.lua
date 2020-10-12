@@ -7,6 +7,18 @@ function SetupUI(event_source_index, args)
 
   if game_state == GAME_STATE_BUY then
     CustomGameEventManager:Send_ServerToPlayer(player, "start_game", nil)
+
+    -- Display player stats on first round
+    if first_round then
+      -- Delayed so that the start_game event doesn't immediately hide it
+      Timers:CreateTimer(1.0, function()
+        -- This is called once for each player (potentially up to 4), but it is mostly a no-op after
+        -- the first time, and the update event is sent only to the player for whom the UI is being
+        -- set up
+        UpdatePlayerStatsUI(player)
+        CustomGameEventManager:Send_ServerToPlayer(player, "show_player_stats", nil)
+      end)
+    end
   elseif game_state == GAME_STATE_FIGHT then
     -- Hide the ready-up and surrender UIs
     CustomGameEventManager:Send_ServerToPlayer(player, "start_round", nil)

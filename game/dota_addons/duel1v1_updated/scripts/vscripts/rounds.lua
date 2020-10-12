@@ -203,6 +203,10 @@ function StartRound()
   -- Remove old hero entities
   -- Otherwise, they keep building up every round, eventually causing lag
   RemoveOldHeroes()
+
+  if first_round then
+    first_round = false
+  end
 end
 
 

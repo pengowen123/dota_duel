@@ -35,6 +35,9 @@ function OnAddBot(event_source_index, args)
     local settings = {}
 
     global_bot_controller = BotController:New(bot_id, player_id, settings)
+
+    -- Update player stats to get bot stats when one is added
+    UpdatePlayerStatsUI()
   end
 
   -- Waits for the dummy hero to finish loading, then selects the real hero for the bot

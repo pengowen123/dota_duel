@@ -71,6 +71,8 @@ function EndGameDelayed(winner, victory_reason)
 
 	-- Add data for current game
 	AddCurrentGameStats(victory_reason)
+
+	UpdatePlayerStatsUI()
 end
 
 
@@ -89,7 +91,19 @@ end
 
 
 -- Ends the game, awarding victory to the team stored in `game_result`
+end_game_called = false
 function EndGame()
+	if not IsServer() then
+		return
+	end
+
+	-- Don't run this twice or match data gets duplicated in the DB
+	-- That should never happen but this is here as a precaution
+	if end_game_called then
+		return
+	end
+	end_game_called = true
+
 	CustomGameEventManager:Send_ServerToAllClients("end_game_no_rematch", nil)
 	-- Display total kills across all matches
 	CustomGameEventManager:Send_ServerToAllClients("score_update", total_kills)
@@ -97,6 +111,8 @@ function EndGame()
 	GameRules:SetGameWinner(game_result)
 
 	GatherAndSendMatchStats()
+
+	UpdatePlayerStatsUI()
 end
 
 

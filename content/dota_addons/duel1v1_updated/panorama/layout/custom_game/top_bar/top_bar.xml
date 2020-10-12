@@ -28,7 +28,21 @@
 
 				<Panel class="RespawnIndicator">
 
-					<Label class="RespawnTimer" text="999" />
+					<Label class="RespawnTimer" text="-" />
+
+				</Panel>
+
+				<Panel class="PlayerStats">
+
+					<Label class="WinLabel" text="#duel_wins" />
+
+					<Label class="PlayerWins" text="0" />
+
+					<Panel class="PlayerStatsSpacer" />
+
+					<Label class="LossesLabel" text="#duel_losses" />
+
+					<Label class="PlayerLosses" text="0" />
 
 				</Panel>
 
