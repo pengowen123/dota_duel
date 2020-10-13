@@ -341,9 +341,9 @@ function WatchForDisconnect(keys)
           player_timeouts[playerID] = 0.0
 
           -- Allows reconnecting after the timeout if a teammate is still in the game
-          if player_timeouts[playerID] > timeout then
-            leavers[team] = leavers[team] - 1
+          if leaver_ids[playerID] then
             leaver_ids[playerID] = nil
+            leavers[team] = leavers[team] - 1
           end
         end
       end

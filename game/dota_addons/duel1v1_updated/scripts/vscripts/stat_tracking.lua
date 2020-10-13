@@ -52,7 +52,7 @@ function GatherAndSendMatchStats()
 
   -- Don't track solo games (they are probably for testing, and are not worth tracking anyways)
   if game_stats.player_count <= 1 then
-    -- return
+    return
   end
 
   -- Don't track local lobbies or games with cheats (unless in tools mode)
