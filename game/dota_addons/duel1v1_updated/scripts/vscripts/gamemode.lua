@@ -83,6 +83,8 @@ all_players_connected = true
 -- Whether the current round is the first round of the first game (false for first rounds of
 -- rematches)
 first_round = true
+-- Whether AddCurrentGameStats was called this game (reset each rematch)
+added_current_game_stats = false
 
 
 -- Sets the game state
@@ -174,6 +176,8 @@ function GameMode:OnGameInProgress()
   Notifications:ClearBottomFromAll()
 
   SetGameState(GAME_STATE_BUY)
+
+  added_current_game_stats = false
 
   -- To prevent people from spawning outside the shop area
   ResetPlayers(true)

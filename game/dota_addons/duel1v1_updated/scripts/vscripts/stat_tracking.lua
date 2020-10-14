@@ -217,6 +217,13 @@ function AddCurrentGameStats(victory_reason)
     return
   end
 
+  -- Don't add current game stats more than once
+  if added_current_game_stats then
+    return
+  end
+
+  added_current_game_stats = true
+
   local round = {
     heroes_radiant = {},
     heroes_dire = {},
