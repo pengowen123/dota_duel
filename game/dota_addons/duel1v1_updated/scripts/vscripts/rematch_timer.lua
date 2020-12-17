@@ -56,16 +56,10 @@ function EndGameDelayed(winner, victory_reason)
 	end
 
 	if global_bot_controller then
-		local say = nil
-		if kills.radiant == 0 and kills.dire >= 4 then
-			say = function()
-				global_bot_controller:SayAllChat("#duel_bot_gg_ez")
-			end
-		else
-			say = function()
-				global_bot_controller:SayAllChat("#duel_bot_gg")
-			end
+		local say = function()
+			global_bot_controller:SayAllChat("#duel_bot_gg")
 		end
+
 		Timers:CreateTimer(2.0, say)
 	end
 

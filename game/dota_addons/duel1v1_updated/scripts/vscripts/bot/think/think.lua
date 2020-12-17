@@ -1,5 +1,6 @@
 require('bot/think/wraith_king')
 require('bot/think/arc_warden')
+require('bot/think/wisp')
 
 
 -- Points to escape to
@@ -252,6 +253,8 @@ function BotController:ThinkShop()
 		self:ThinkShopWraithKing()
 	elseif hero_name == "npc_dota_hero_arc_warden" then
 		self:ThinkShopArcWarden()
+	elseif hero_name == "npc_dota_hero_wisp" then
+		self:ThinkShopWisp()
 	end
 end
 
@@ -266,6 +269,8 @@ function BotController:ThinkAbilities()
 		return self:ThinkAbilitiesWraithKing()
 	elseif hero_name == "npc_dota_hero_arc_warden" then
 		return self:ThinkAbilitiesArcWarden()
+	elseif hero_name == "npc_dota_hero_wisp" then
+		return self:ThinkAbilitiesWisp()
 	end
 
 	return THINK_RESULT_NONE
@@ -289,6 +294,8 @@ function BotController:ThinkModeRun()
 		self:ThinkModeRunWraithKing()
 	elseif hero_name == "npc_dota_hero_arc_warden" then
 		self:ThinkModeRunArcWarden()
+	elseif hero_name == "npc_dota_hero_wisp" then
+		self:ThinkModeRunWisp()
 	end
 end
 
@@ -310,6 +317,8 @@ function BotController:ThinkModeFight()
 		self:ThinkModeFightWraithKing()
 	elseif hero_name == "npc_dota_hero_arc_warden" then
 		self:ThinkModeFightArcWarden()
+	elseif hero_name == "npc_dota_hero_wisp" then
+		self:ThinkModeFightWisp()
 	end
 end
 
@@ -323,6 +332,8 @@ function BotController:ThinkRoundStart()
 		return self:ThinkRoundStartWraithKing()
 	elseif hero_name == "npc_dota_hero_arc_warden" then
 		return self:ThinkRoundStartArcWarden()
+	elseif hero_name == "npc_dota_hero_wisp" then
+		return self:ThinkRoundStartWisp()
 	end
 end
 

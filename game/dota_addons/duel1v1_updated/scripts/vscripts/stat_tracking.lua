@@ -392,8 +392,6 @@ function GetPlayerSteamIDs()
   local ids = {}
 
   for i, player_id in pairs(GetPlayerIDs()) do
-    local team = PlayerResource:GetTeam(player_id)
-
     if ShouldTrackStatsForPlayer(player_id) then
       ids[player_id] = tostring(PlayerResource:GetSteamID(player_id))
     end

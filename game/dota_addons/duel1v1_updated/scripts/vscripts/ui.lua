@@ -35,7 +35,8 @@ function SetupUI(event_source_index, args)
 
     CustomGameEventManager:Send_ServerToPlayer(player, "end_round", data)
   elseif game_state == GAME_STATE_END then
-    -- UI is automatically all hidden in this state
+    CustomGameEventManager:Send_ServerToPlayer(player, "end_game_no_rematch", nil)
+    CustomGameEventManager:Send_ServerToPlayer(player, "score_update", total_kills)
   end
 
   CustomGameEventManager:Send_ServerToPlayer(player, "score_update", kills)

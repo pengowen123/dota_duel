@@ -277,7 +277,7 @@ function BotController:ThinkAbilitiesWraithKing()
 	end
 
 	if CanCastAbility(black_king_bar, current_mana) then
-		bot_hero:CastAbilityImmediately(black_king_bar, 0)
+		bot_hero:CastAbilityImmediately(black_king_bar, self.bot_id)
 		return THINK_RESULT_INSTANT
 	end
 
@@ -348,7 +348,7 @@ function BotController:ThinkAbilitiesWraithKing()
 		if not is_silenced then
 			if CanCastAbility(wraithfire_blast, current_mana) then
 				if ShouldCastAbility(wraithfire_blast, distance_to_target) then
-					bot_hero:CastAbilityOnTarget(chosen_target, wraithfire_blast, 0)
+					bot_hero:CastAbilityOnTarget(chosen_target, wraithfire_blast, self.bot_id)
 					self.cast_point = 0.35
 					return THINK_RESULT_NON_INSTANT
 				else
@@ -360,7 +360,7 @@ function BotController:ThinkAbilitiesWraithKing()
 		if use_items then
 			if CanCastAbility(heavens_halberd, current_mana) then
 				if ShouldCastAbility(heavens_halberd, distance_to_target) then
-					bot_hero:CastAbilityOnTarget(chosen_target, heavens_halberd, 0)
+					bot_hero:CastAbilityOnTarget(chosen_target, heavens_halberd, self.bot_id)
 					return THINK_RESULT_INSTANT
 				else
 					choose_new_target = true
@@ -374,12 +374,12 @@ function BotController:ThinkAbilitiesWraithKing()
 					or self.use_only_self_cast
 
 				if self_cast_ethereal_blade then
-					bot_hero:CastAbilityOnTarget(bot_hero, ethereal_blade, 0)
+					bot_hero:CastAbilityOnTarget(bot_hero, ethereal_blade, self.bot_id)
 				else
 					if ShouldCastAbility(ethereal_blade, distance_to_target) then
-						bot_hero:CastAbilityOnTarget(chosen_target, ethereal_blade, 0)
+						bot_hero:CastAbilityOnTarget(chosen_target, ethereal_blade, self.bot_id)
 					else
-						bot_hero:CastAbilityOnTarget(bot_hero, ethereal_blade, 0)
+						bot_hero:CastAbilityOnTarget(bot_hero, ethereal_blade, self.bot_id)
 					end
 				end
 				return THINK_RESULT_INSTANT
@@ -387,7 +387,7 @@ function BotController:ThinkAbilitiesWraithKing()
 
 			if CanCastAbility(scythe_of_vyse, current_mana) then
 				if ShouldCastAbility(scythe_of_vyse, distance_to_target) then
-					bot_hero:CastAbilityOnTarget(chosen_target, scythe_of_vyse, 0)
+					bot_hero:CastAbilityOnTarget(chosen_target, scythe_of_vyse, self.bot_id)
 					return THINK_RESULT_INSTANT
 				else
 					choose_new_target = true
@@ -402,12 +402,12 @@ function BotController:ThinkAbilitiesWraithKing()
 					or is_silenced
 
 				if self_cast_euls_scepter then
-					bot_hero:CastAbilityOnTarget(bot_hero, euls_scepter, 0)
+					bot_hero:CastAbilityOnTarget(bot_hero, euls_scepter, self.bot_id)
 				else
 					if ShouldCastAbility(euls_scepter, distance_to_target) then
-						bot_hero:CastAbilityOnTarget(chosen_target, euls_scepter, 0)
+						bot_hero:CastAbilityOnTarget(chosen_target, euls_scepter, self.bot_id)
 					else
-						bot_hero:CastAbilityOnTarget(bot_hero, euls_scepter, 0)
+						bot_hero:CastAbilityOnTarget(bot_hero, euls_scepter, self.bot_id)
 					end
 				end
 				return THINK_RESULT_INSTANT
@@ -416,11 +416,11 @@ function BotController:ThinkAbilitiesWraithKing()
 			if CanCastAbility(hurricane_pike, current_mana) then
 				local self_cast_hurricane_pike = bot_hero:HasModifier("modifier_slark_pounce_leash")
 				if self_cast_hurricane_pike then
-					bot_hero:CastAbilityOnTarget(bot_hero, hurricane_pike, 0)
+					bot_hero:CastAbilityOnTarget(bot_hero, hurricane_pike, self.bot_id)
 					self:EnterModeRun(3.0)
 				else
 					if ShouldCastAbility(hurricane_pike, distance_to_target) then
-						bot_hero:CastAbilityOnTarget(chosen_target, hurricane_pike, 0)
+						bot_hero:CastAbilityOnTarget(chosen_target, hurricane_pike, self.bot_id)
 						self:EnterModeRun(3.0)
 						return THINK_RESULT_INSTANT
 					else
@@ -431,7 +431,7 @@ function BotController:ThinkAbilitiesWraithKing()
 
 			if CanCastAbility(abyssal_blade, current_mana) then
 				if ShouldCastAbility(abyssal_blade, distance_to_target) then
-					bot_hero:CastAbilityOnTarget(chosen_target, abyssal_blade, 0)
+					bot_hero:CastAbilityOnTarget(chosen_target, abyssal_blade, self.bot_id)
 					return THINK_RESULT_INSTANT
 				else
 					choose_new_target = true
@@ -441,12 +441,12 @@ function BotController:ThinkAbilitiesWraithKing()
 			if CanCastAbility(blade_mail, current_mana)
 				and not has_blade_mail
 				and self.taking_very_high_damage then
-				bot_hero:CastAbilityImmediately(blade_mail, 0)
+				bot_hero:CastAbilityImmediately(blade_mail, self.bot_id)
 				return THINK_RESULT_INSTANT
 			end
 
 			if CanCastAbility(shivas_guard, current_mana) then
-				bot_hero:CastAbilityImmediately(shivas_guard, 0)
+				bot_hero:CastAbilityImmediately(shivas_guard, self.bot_id)
 			end
 
 			-- Cast satanic if low on health and in the fight mode
@@ -455,7 +455,7 @@ function BotController:ThinkAbilitiesWraithKing()
 				and CanCastAbility(satanic, current_mana)
 				and not bot_hero:IsAttackImmune()
 				and not bot_hero:IsDisarmed() then
-				bot_hero:CastAbilityImmediately(satanic, 0)
+				bot_hero:CastAbilityImmediately(satanic, self.bot_id)
 			end
 		end
 
@@ -473,22 +473,22 @@ function BotController:ThinkAbilitiesWraithKing()
 		local result = THINK_RESULT_INSTANT
 
 		if CanCastAbility(ethereal_blade, current_mana) then
-			bot_hero:CastAbilityOnTarget(bot_hero, ethereal_blade, 0)
+			bot_hero:CastAbilityOnTarget(bot_hero, ethereal_blade, self.bot_id)
 		elseif CanCastAbility(euls_scepter, current_mana) then
-			bot_hero:CastAbilityOnTarget(bot_hero, euls_scepter, 0)
+			bot_hero:CastAbilityOnTarget(bot_hero, euls_scepter, self.bot_id)
 		elseif CanCastAbility(hurricane_pike, current_mana) then
-			bot_hero:CastAbilityOnTarget(bot_hero, hurricane_pike, 0)
+			bot_hero:CastAbilityOnTarget(bot_hero, hurricane_pike, self.bot_id)
 			self:EnterModeRun(3.0)
 		elseif CanCastAbility(blade_mail, current_mana) then
-			bot_hero:CastAbilityImmediately(blade_mail, 0)
+			bot_hero:CastAbilityImmediately(blade_mail, self.bot_id)
 		elseif CanCastAbility(shivas_guard, current_mana) then
-			bot_hero:CastAbilityImmediately(shivas_guard, 0)
+			bot_hero:CastAbilityImmediately(shivas_guard, self.bot_id)
 		-- This is here for when the bot is attacking creeps while playing versus a riki who has the
 		-- talent
 		elseif CanCastAbility(satanic, current_disable)
 			and not bot_hero:IsAttackImmune()
 			and not bot_hero:IsDisarmed() then
-			bot_hero:CastAbilityImmediately(satanic, 0)
+			bot_hero:CastAbilityImmediately(satanic, self.bot_id)
 		else
 			result = THINK_RESULT_NONE
 		end

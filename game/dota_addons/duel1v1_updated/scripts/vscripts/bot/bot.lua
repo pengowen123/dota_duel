@@ -414,11 +414,11 @@ function BotController:GatherEnemyInfo()
 				-- Assume these heroes have some evasion from their talents/abilities because there is no
 				-- reason to not use those talents
 				if player_hero_name == "npc_dota_hero_phantom_assassin" then
-					inverse_evasion = inverse_evasion * 0.5
+					inverse_evasion = inverse_evasion * 0.2
 				elseif player_hero_name == "npc_dota_hero_drow_ranger" then
-					inverse_evasion = inverse_evasion * 0.75
-				elseif player_hero_name == "npc_dota_hero_bounty_hunter" then
 					inverse_evasion = inverse_evasion * 0.5
+				elseif player_hero_name == "npc_dota_hero_bounty_hunter" then
+					inverse_evasion = inverse_evasion * 0.6
 				elseif player_hero_name == "npc_dota_hero_brewmaster" then
 					-- Probably better to just run from him instead of fighting
 					-- inverse_evasion = inverse_evasion * 0.2
@@ -498,7 +498,7 @@ function BotController:GatherEnemyInfo()
 							inverse_status_resistance = inverse_status_resistance * INVERSE_SATANIC_STATUS_RESISTANCE
 
 						elseif item_name == "item_sange" then
-							inverse_status_resistance = inverse_status_resistance * 0.86
+							inverse_status_resistance = inverse_status_resistance * 0.8
 
 						elseif item_name == "item_sange_and_yasha" or item_name == "item_kaya_and_sange" then
 							inverse_status_resistance = inverse_status_resistance * 0.8
@@ -548,7 +548,7 @@ function BotController:GetStatusDurationMultiplier()
 			if item_name == "item_satanic" then
 				multiplier = multiplier * INVERSE_SATANIC_STATUS_RESISTANCE
 			elseif item_name == "item_heavens_halberd" then
-				multiplier = multiplier * 0.86
+				multiplier = multiplier * 0.8
 			end
 		end
 	end

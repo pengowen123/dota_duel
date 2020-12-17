@@ -127,6 +127,9 @@ end
 
 -- An ability was used by a player
 function GameMode:OnAbilityUsed(keys)
+	for k, v in pairs(keys) do
+		print(k, v)
+	end
 end
 
 -- A non-player entity (necro-book, chen creep, etc) used an ability
