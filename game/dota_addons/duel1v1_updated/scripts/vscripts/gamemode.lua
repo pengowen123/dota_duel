@@ -176,6 +176,7 @@ function GameMode:OnGameInProgress()
   Notifications:ClearBottomFromAll()
 
   SetGameState(GAME_STATE_BUY)
+  GameRules:SetTimeOfDay(0.5)
 
   added_current_game_stats = false
 

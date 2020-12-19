@@ -27,8 +27,6 @@ function OnStartTouch(keys)
 				modifier:Destroy()
 				return
 			elseif modifier_name == "modifier_arc_warden_spark_wraith_thinker" then
-				modifier:StartIntervalThink(0.1)
-
 				local creep = CreateUnitByName(
 					"npc_dota_creep_badguys_melee",
 					activator:GetAbsOrigin() + Vector(1, 1, 0),
@@ -51,6 +49,9 @@ function OnStartTouch(keys)
 				modifier:Destroy()
 				return
 			elseif modifier_name == "modifier_kunkka_torrent_thinker" then
+				modifier:Destroy()
+				return
+			elseif modifier_name == "modifier_leshrac_split_earth_thinker" then
 				modifier:Destroy()
 				return
 			end

@@ -508,7 +508,8 @@ end
 
 
 -- Resets the talents of all players
--- NOTE: Since 7.23, this is redundant but is kept around just in case ClearBuffs doesn't catch everything
+-- NOTE: While talents no longer need to be reset, this is a harder reset than ClearBuffs so it is
+--       kept around for safety
 function ResetTalents()
   local player_IDs = GetPlayerIDs()
   local player_items = GetPlayerInventories()
@@ -524,8 +525,10 @@ function ResetTalents()
     -- Cancel TP scrolls
     hero_entity:Interrupt()
 
+    -- Check for permanent buffs
     local has_moon_shard = hero_entity:HasModifier("modifier_item_moon_shard_consumed")
     local has_scepter = hero_entity:HasModifier("modifier_item_ultimate_scepter_consumed")
+    local has_scepter_shard = HasScepterShard(hero_entity)
 
     -- Collect modifiers and items for the spirit bear of this hero if it has one
     for i, entity in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
@@ -564,6 +567,10 @@ function ResetTalents()
 
     if has_scepter then
       new_hero:AddItemByName("item_ultimate_scepter_2")
+    end
+
+    if has_scepter_shard then
+      new_hero:AddItemByName("item_aghanims_shard")
     end
 
     local re_add_items = function()

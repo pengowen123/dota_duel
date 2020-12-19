@@ -15,6 +15,9 @@ neutral_items = {
   ["item_iron_talon"] = true,
   ["item_mango_tree"] = true,
   ["item_arcane_ring"] = true,
+  ["item_possessed_mask"] = true,
+  ["item_chipped_vest"] = true,
+  ["item_mysterious_hat"] = true,
   -- sic
   ["item_elixer"] = true,
   ["item_elixir"] = true,
@@ -33,6 +36,8 @@ neutral_items = {
   ["item_dragon_scale"] = true,
   ["item_essence_ring"] = true,
   ["item_nether_shawl"] = true,
+  ["item_quicksilver_amulet"] = true,
+  ["item_bullwhip"] = true,
   ["item_tome_of_aghanim"] = true,
   ["item_craggy_coat"] = true,
   ["item_greater_faerie_fire"] = true,
@@ -46,6 +51,10 @@ neutral_items = {
   ["item_paladin_sword"] = true,
   ["item_orb_of_destruction"] = true,
   ["item_titan_sliver"] = true,
+  ["item_elven_tunic"] = true,
+  ["item_cloak_of_flames"] = true,
+  ["item_ceremonial_robe"] = true,
+  ["item_psychic_headband"] = true,
   ["item_witless_shako"] = true,
   ["item_timeless_relic"] = true,
   ["item_spell_prism"] = true,
@@ -60,6 +69,9 @@ neutral_items = {
   ["item_panic_button"] = true,
   ["item_the_leveller"] = true,
   ["item_minotaur_horn"] = true,
+  ["item_penta_edged_sword"] = true,
+  ["item_stormcrafter"] = true,
+  ["item_trickster_cloak"] = true,
   ["item_force_boots"] = true,
   ["item_seer_stone"] = true,
   ["item_mirror_shield"] = true,
@@ -75,6 +87,8 @@ neutral_items = {
   ["item_ex_machina"] = true,
   ["item_desolator_2"] = true,
   ["item_phoenix_ash"] = true,
+  ["item_giants_ring"] = true,
+  ["item_book_of_shadows"] = true,
 }
 
 
@@ -618,6 +632,12 @@ function MapInventoryItems(player_id, fn)
       end
     end
   end
+end
+
+
+-- Returns whether the entity has consumed a scepter shard
+function HasScepterShard(entity)
+  return entity:HasModifier("modifier_item_aghanims_shard")
 end
 
 

@@ -50,13 +50,7 @@ function GatherAndSendMatchStats()
 
   GatherMatchStats()
 
-  -- Don't track solo games (they are probably for testing, and are not worth tracking anyways)
-  if game_stats.player_count <= 1 then
-    return
-  end
-
-  -- Don't track local lobbies or games with cheats (unless in tools mode)
-  if not IsInToolsMode() and (GameRules:IsCheatMode() or not IsDedicatedServer()) then
+  if not ShouldMatchBeTracked() then
     return
   end
 
@@ -64,6 +58,11 @@ function GatherAndSendMatchStats()
   local post_error_msg = "Failed to send match data to stat tracking server"
   SendStats("POST", "matches.json", game_stats, post_error_msg)
   SendStats("POST", "matches_short.json", game_stats_short, post_error_msg)
+
+  local bot_in_game = false
+  for player_id, steam_id in pairs(GetPlayerSteamIDs()) do
+    bot_in_game = bot_in_game or IsBot(player_id)
+  end
 
   -- Update individual player stats
   for player_id, steam_id in pairs(GetPlayerSteamIDs()) do
@@ -78,7 +77,10 @@ function GatherAndSendMatchStats()
       SendStats("PUT", GetPlayerURL(steam_id), new_player_stats, get_error_msg)
     end
 
-    GetPlayerStats(player_id, callback)
+    -- Update only the bot's stats in bot matches (so that players can't abuse them for wins)
+    if (not bot_in_game) or IsBot(player_id) then
+      GetPlayerStats(player_id, callback)
+    end
   end
 end
 
@@ -277,6 +279,11 @@ end
 -- Gathers stats for all players, and updates the stats UI for the provided player, or for all
 -- players if none is provided
 function UpdatePlayerStatsUI(update_ui_only_for_player)
+  local bot_in_game = false
+  for player_id, steam_id in pairs(GetPlayerSteamIDs()) do
+    bot_in_game = bot_in_game or IsBot(player_id)
+  end
+
   -- Prevents sending unnecessary update events
   local sent_full_update_event = false
 
@@ -308,9 +315,18 @@ function UpdatePlayerStatsUI(update_ui_only_for_player)
             player_stats[player_id] = InitialPlayerStats()
           end
 
-          -- Display current player stats added to stats from the DB (live updates without extra DB requests)
-          data.players[player_id].wins = data.players[player_id].wins + player_stats[player_id].wins
-          data.players[player_id].losses = data.players[player_id].losses + player_stats[player_id].losses
+          -- Don't display updates to stats locally if they won't be updated in the DB
+          -- NOTE: ShouldMatchBeTracked can return false initially, then true later if a bot is added,
+          --       therefore causing matches played before the bot was added to be incorrectly tracked
+          --       for the player.
+          --       This is prevented only because player stats are not tracked in bot matches
+          --       If it is ever an issue, the matches can be filtered in GatherAndSendMatchStats and
+          --       this can be changed to use the filtered stats
+          if ((not bot_in_game) or IsBot(player_id)) and ShouldMatchBeTracked() then
+            -- Display current player stats added to stats from the DB (live updates without extra DB requests)
+            data.players[player_id].wins = data.players[player_id].wins + player_stats[player_id].wins
+            data.players[player_id].losses = data.players[player_id].losses + player_stats[player_id].losses
+          end
         else
           -- Use new player data while waiting for real data to come in
           full_update = false
@@ -424,4 +440,32 @@ function ShouldTrackStatsForPlayer(player_id)
   return IsActualPlayer(player_id)
     -- Only include bots added through the add bot button
     and ((not IsBot(player_id)) or IsRealBot(player_id))
+end
+
+
+-- Returns whether to track stats for the current match
+function ShouldMatchBeTracked()
+  local dont_track = false
+
+  -- Don't track solo games (they are probably for testing, and are not worth tracking anyways)
+  dont_track = dont_track or (GetPlayerCount() <= 1)
+
+  -- Don't track local lobbies or games with cheats (unless in tools mode)
+  dont_track = dont_track or ((not IsInToolsMode()) and (GameRules:IsCheatMode() or not IsDedicatedServer()))
+
+  return not dont_track
+end
+
+
+-- Returns how many players will have their stats tracked
+function GetPlayerCount()
+  local count = 0
+
+  for i, player_id in pairs(GetPlayerIDs()) do
+    if ShouldTrackStatsForPlayer(player_id) then
+      count = count + 1
+    end
+  end
+
+  return count
 end

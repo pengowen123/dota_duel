@@ -31,11 +31,11 @@ function GameMode:OnNPCSpawned(keys)
 		end
 
 		-- Only run on newly created NPCs
-		if entity:GetLevel() > 1 then
+		if entity.GetLevel and entity:GetLevel() > 1 then
 			return
 		end
 
-		if entity:IsRealHero() and not IsClone(entity) then
+		if entity.IsRealHero and entity:IsRealHero() and not IsClone(entity) then
 			LevelEntityToMax(entity)
 			ClearInventory(entity)
 
@@ -127,9 +127,9 @@ end
 
 -- An ability was used by a player
 function GameMode:OnAbilityUsed(keys)
-	for k, v in pairs(keys) do
-		print(k, v)
-	end
+	-- for k, v in pairs(keys) do
+		-- print(k, v)
+	-- end
 end
 
 -- A non-player entity (necro-book, chen creep, etc) used an ability
@@ -228,23 +228,21 @@ end
 
 -- This function is called whenever any player sends a chat message to team or All
 function GameMode:OnPlayerChat(keys)
+	-- local player = PlayerResource:GetSelectedHeroEntity(0)
+
+	-- for i, modifier in pairs(player:FindAllModifiers()) do
+	-- 	print(modifier:GetName())
+	-- end
+
 	-- local entity = Entities:First()
 
-	-- local i = 0
 	-- while entity do
-	-- 	if entity:GetClassname() == "dota_item_rune" then
-	-- 		i = i + 1
-	-- 	end
-
 	-- 	local classname = entity:GetClassname()
 
 	-- 	if classname ~= "ent_dota_tree" then
-	-- 		if entity.IsItem and entity:IsItem() then
-	-- 			print(classname, entity:GetParent())
-	-- 		end
+			-- print(entity:GetClassname(), entity:GetName())
 	-- 	end
 
 	-- 	entity = Entities:Next(entity)
 	-- end
-	-- print(i, "entities")
 end

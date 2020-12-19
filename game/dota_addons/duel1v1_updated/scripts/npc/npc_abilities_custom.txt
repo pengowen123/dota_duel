@@ -104,6 +104,8 @@
     "AbilityCooldown"       "4.0"
     "AbilityManaCost"       "40 55 70 85"
 
+    "HasShardUpgrade"       "1"
+
     "AbilitySpecial"
     {
       "01"

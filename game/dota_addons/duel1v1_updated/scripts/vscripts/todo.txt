@@ -5,5 +5,5 @@ translate everything in the game to other languages:
 
 add intro screen to help new players
 fix heroes not sinking into the ground
-
-make bot games not contribute to player stats (only track the matches and the bot's stats)
+fix alchemist scepter gifted buff and self buff not persisting through rounds (complex)
+find a way to remove hoodwink's acorn shot tree vision (valve may make destroying the tree remove it at some point)

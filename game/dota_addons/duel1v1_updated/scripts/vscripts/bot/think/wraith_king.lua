@@ -95,7 +95,7 @@ function BotController:ThinkShopWraithKing()
 		item_5 = "item_hurricane_pike"
 	elseif strategy == ITEM_BUILD_STRATEGY_DEFENSIVE_PASSIVE then
 		if not predictions["mana_burn"] then
-			item_3 = "item_satanic"
+			item_3 = defensive_item
 		end
 		item_4 = defensive_item
 		if predictions["high_status_resistance"] or predictions["high_evasion"] then
@@ -120,7 +120,7 @@ function BotController:ThinkShopWraithKing()
 
 	-- Replace euls/pike/abyssal with satanic if status resistance is needed
 	if needs_status_resistance then
-		item_5 = "item_satanic"
+		item_5 = "item_sange_and_yasha"
 	end
 
 	-- Blademail is effectively a 4.5 second disable versus heroes that can't attack during it

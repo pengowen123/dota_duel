@@ -31,8 +31,8 @@ end
 -- Chooses a hero for the bot to play and returns the hero name
 function MakeBotHeroChoice()
 	local hero_pool = {
-		-- "npc_dota_hero_skeleton_king",
-		"npc_dota_hero_wisp",
+		"npc_dota_hero_skeleton_king",
+		-- "npc_dota_hero_wisp",
 		-- "npc_dota_hero_arc_warden",
 	}
 	local choice_index = RandomInt(1, #hero_pool)
