@@ -20,7 +20,7 @@ VICTORY_REASON_NO_HERO = 3
 
 
 game_stats = {
-  match_id = tostring(GameRules:GetMatchID()),
+  match_id = tostring(GameRules:Script_GetMatchID()),
   map = GetMapName(),
   player_count = 0,
   bot_player_count = 0,
