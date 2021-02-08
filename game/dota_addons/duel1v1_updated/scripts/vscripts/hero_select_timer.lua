@@ -105,6 +105,8 @@ function RestartGame()
 
 		SetGameState(GAME_STATE_HERO_LOAD)
 
+		SetPreviousRoundEndTime()
+
 		PrecacheUnitByNameAsync(hero_name, function()
 			-- Clear inventory to prevent reaching the items purchased limit
 			local old_hero = PlayerResource:GetSelectedHeroEntity(playerID)

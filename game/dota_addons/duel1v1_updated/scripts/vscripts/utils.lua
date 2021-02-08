@@ -109,6 +109,8 @@ function GetPlayerEntities()
   end
 
   -- Also add these entities because the above code won't find them
+  -- NOTE: This adds duplicates if more than one of any of these heroes are in the game, but that
+  -- shouldn't cause any issues
   local entity_names = {
     "npc_dota_hero_meepo",
     "npc_dota_hero_arc_warden",
@@ -275,6 +277,7 @@ function IsMonkeyKingClone(entity)
   return entity:HasModifier("modifier_monkey_king_fur_army_soldier_hidden")
     or   entity:HasModifier("modifier_monkey_king_fur_army_soldier")
     or   entity:HasModifier("modifier_monkey_king_fur_army_soldier_inactive")
+    or   entity:HasModifier("modifier_monkey_king_fur_army_soldier_in_position")
 end
 
 
@@ -459,17 +462,29 @@ function RemoveOldHeroes()
     end
   end
 
+  local old_heroes = {}
   local entity = Entities:First()
   while entity do
     if entity.IsHero and entity:IsHero() then
       if not IsDummyHero(entity) and not hero_entities[entity] then
-        if not IsClone(entity) or not hero_entities[entity:GetCloneSource()] then
-          UTIL_Remove(entity)
+        -- There doesn't seem to be a way to check whether clones belong to old heroes, so a
+        -- time-based check is used here instead. This relies on SetPreviousRoundEndTime being
+        -- called at the latest possible time before new heroes are created for players in order to
+        -- catch all old heroes/clones. If SetPreviousRoundEndTime is called too early, some old
+        -- heroes/clones will persist until the next time RemoveOldHeroes is called, but this
+        -- shouldn't cause any issues.
+        if entity:GetCreationTime() < PreviousRoundEndTime() then
+          table.insert(old_heroes, entity)
         end
       end
     end
 
     entity = Entities:Next(entity)
+  end
+
+  -- Entities are removed in a separate loop to avoid iterator invalidation
+  for i, old_hero in pairs(old_heroes) do
+    UTIL_Remove(old_hero)
   end
 end
 

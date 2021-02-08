@@ -66,6 +66,9 @@ function OnStartTouch(keys)
 				return
 			end
 		end
+
+		-- Monkey king clones must not be killed
+		return
 	end
 
 	-- Spirit bears are useless in base because they are silenced and rooted, so the player is forced

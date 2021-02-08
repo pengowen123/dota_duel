@@ -130,10 +130,6 @@ end
 -- Starts the next round, resetting all player entities and teleporting them to the arena
 -- Also removes nightstalker's darkness and hides the ready-up UI
 function StartRound()
-  -- Prevent the end round timer from teleporting players back to their base after the round starts
-  -- Also remove the timer that kills everything in the arena
-  Timers:RemoveTimer("reset_players")
-
   if not (game_state == GAME_STATE_BUY) then
     return
   end
@@ -234,31 +230,7 @@ function EndRound()
   -- Respawn all players
   -- RespawnPlayers()
 
-  -- To catch heroes like storm spirit when they are invulnerable, call ResetPlayers 15
-  -- times with 1 second between each call
-  ResetPlayers(true)
-
-  local resets = 15
-  local reset_delay = 1.0
-
-  local reset = function()
-    ResetPlayers(false)
-
-    resets = resets - 1
-
-    if resets == 0 then
-      return nil
-    end
-
-    return reset_delay
-  end
-
-  local args = {
-    endTime = 0.5,
-    callback = reset
-  }
-  
-  Timers:CreateTimer("reset_players", args)
+  ResetPlayers()
 
   -- To prevent reaching the item purchased limit because of items dropped on the ground
   ClearBases()
@@ -267,6 +239,8 @@ function EndRound()
 
   -- Stop the death music, otherwise it plays for a long time
   SetMusicStatus(DOTA_MUSIC_STATUS_PRE_GAME_EXPLORATION, 5.0)
+
+  SetPreviousRoundEndTime()
 
   if game_state == GAME_STATE_BUY then
     -- Reset talents so players can try new ones
@@ -646,4 +620,16 @@ end
 
 function CenterPlayerCameras()
   CustomGameEventManager:Send_ServerToAllClients("center_camera", nil)
+end
+
+
+-- Returns the last time a round or game ended
+previous_round_end_time = 0
+function PreviousRoundEndTime()
+  return previous_round_end_time
+end
+
+
+function SetPreviousRoundEndTime()
+  previous_round_end_time = GameRules:GetGameTime()
 end

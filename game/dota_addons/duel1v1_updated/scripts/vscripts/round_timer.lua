@@ -32,8 +32,16 @@ end
 
 -- Sets the round start timer to the provided value (in seconds)
 function SetRoundStartTimer(seconds)
+	-- This is done at least 4 seconds before the round starts so that spark wraith vision has enough
+	-- time to disappear
 	if seconds <= ROUND_START_DELAY and game_state == GAME_STATE_BUY then
 		PrepareNextRound()
+	end
+
+	-- This is done at least 1 second before the round starts so that MK clone vision has enough time
+	-- to disappear
+	if seconds <= 1 then
+		RemoveOldHeroes()
 	end
 
 	-- This is called again here so the countdown only starts after one second has passed
@@ -50,8 +58,16 @@ function CountDownTimer()
 		-- Count down one second
 		round_start_timer = round_start_timer - 1
 
+		-- This is done at least 4 seconds before the round starts so that spark wraith vision has enough
+		-- time to disappear
 		if round_start_timer == 15 or round_start_timer == ROUND_START_DELAY then
 			PrepareNextRound()
+		end
+
+		-- This is done at least 1 second before the round starts so that MK clone vision has enough time
+		-- to disappear
+		if round_start_timer <= 1 then
+			RemoveOldHeroes()
 		end
 
 		-- Disable add bot button so it can't be added during or right before a round
