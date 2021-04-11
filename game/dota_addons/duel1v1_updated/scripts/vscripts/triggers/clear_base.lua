@@ -37,6 +37,13 @@ function OnStartTouch(keys)
 
 				Timers:CreateTimer(0.25, function()
 					creep:Kill(nil, creep)
+					-- for i, foo in pairs(Entities:FindAllByClassname("npc_dota_thinker")) do
+					-- 	local modifier = foo:FindModifierByName("modifier_arc_warden_spark_wraith_thinker")
+
+					-- 	if modifier then
+					-- 		modifier:Destroy()
+					-- 	end
+					-- end
 				end)
 				return
 			elseif modifier_name == "modifier_tinker_march_thinker" then

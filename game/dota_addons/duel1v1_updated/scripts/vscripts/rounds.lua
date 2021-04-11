@@ -134,6 +134,9 @@ function StartRound()
     return
   end
 
+  -- Prevent the end round timer from teleporting players back to their base after the round starts
+  Timers:RemoveTimer("reset_players")
+
   SetGameState(GAME_STATE_FIGHT)
 
   SpawnAllNeutrals()
@@ -230,7 +233,31 @@ function EndRound()
   -- Respawn all players
   -- RespawnPlayers()
 
-  ResetPlayers()
+  -- To catch heroes like storm spirit when they are invulnerable, call ResetPlayers 15
+  -- times with 1 second between each call
+  ResetPlayers(true)
+
+  local resets = 15
+  local reset_delay = 1.0
+
+  local reset = function()
+    ResetPlayers(false)
+
+    resets = resets - 1
+
+    if resets == 0 then
+      return nil
+    end
+
+    return reset_delay
+  end
+
+  local args = {
+    endTime = 0.5,
+    callback = reset
+  }
+
+  Timers:CreateTimer("reset_players", args)
 
   -- To prevent reaching the item purchased limit because of items dropped on the ground
   ClearBases()

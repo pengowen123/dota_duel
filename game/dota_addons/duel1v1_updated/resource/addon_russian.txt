@@ -1,51 +1,82 @@
 ﻿"lang"
 {
-	"Language"		"Russian"
-	"Tokens"
-	{		
-		"DOTA_GameMode_15"		        "Dota Duel"
-		"addon_game_name"			"Dota Duel"
-		
-		
-		//------------------------
-		// Items
-		//------------------------
+        "Language"                                                                                      "Russian"
+        "Tokens"
+        {
+                "DOTA_GameMode_15"                                                                      "Дуэли 1х1 / 2х2"
+                "addon_game_name"                                                                       "Дуэли 1х1 / 2х2"
+
+
+                //------------------------
+                // Items
+                //------------------------
 
                 //------------------------
                 // Modifiers
                 //------------------------
 
-                "DOTA_Tooltip_modifier_stun"                                                            "Оглушён"
-                "DOTA_Tooltip_modifier_stun_Description"                                                "Оглушён до начала раунда.Используйте это время для покупки или смены предметов."
+                "DOTA_Tooltip_modifier_stun"                                                            "Время покупки"
+                "DOTA_Tooltip_modifier_stun_Description"                                                "Используйте время до покупки до начала следющего раунда."
 
-                "DOTA_Tooltip_leave_arena_modifier"                                                     "Вне поля боя"
-                "DOTA_Tooltip_leave_arena_modifier_Description"                                         "Вы проиграете через 8 секунд если не окажетесь на поле боя."
-  
-                "DOTA_Tooltip_pudge_flesh_heap_stacks_custom"                                           "Flesh Heap"
-                "DOTA_Tooltip_pudge_flesh_heap_stacks_custom_Description"                               "Даёт Пуджу %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%% дополнительного сопротивления магии"
+                "DOTA_Tooltip_leave_arena_modifier"                                                     "За пределами арены"
+                "DOTA_Tooltip_leave_arena_modifier_Description"                                         "Вы умрете, если через  8 секунд не вернетесь на арену."
+
+                "DOTA_Tooltip_modifier_bear_disable"                                                    "Погиб"
+                "DOTA_Tooltip_modifier_bear_disable_Description"                                        "Необходимо призвать Spirit Bear что бы использовать."
 
 
                 //------------------------
                 // Abilities
                 //------------------------
 
-                "DOTA_Tooltip_ability_night_stalker_darkness_custom"                                    "Darkness"
-                "DOTA_Tooltip_ability_night_stalker_darkness_custom_Description"                        "Night Stalker подавляет солнечный свет, создавая непроглядную тьму, в которой он раскрывает свои силы в полной мере. При использовании снижает радиус обзора вражеских героев, юнитов, вардов и зданий до 675"
+                "DOTA_Tooltip_ability_night_stalker_darkness_custom"                                    "Dark Ascension"
+                "DOTA_Tooltip_ability_night_stalker_darkness_custom_Description"                        "Подавляет солнечный свет, создавая непроглядную тьму и раскрывая силы героя в полной мере. Он получает беспрепятственный обзор, полёт и дополнительный урон."
+                "DOTA_Tooltip_ability_night_stalker_darkness_Lore"                                      "Жалкое зрелище: даже сильнейшие из воинов начинают бояться темноты."
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom_duration"                           "ДЛИТЕЛЬНОСТЬ:"
+                "DOTA_Tooltip_ability_night_stalker_darkness_custom_bonus_damage"                       "ДОПОЛНИТЕЛЬНЫЙ УРОН:"
 
-                "DOTA_Tooltip_ability_pudge_flesh_heap_custom"                                          "Flesh Heap"
-                "DOTA_Tooltip_ability_pudge_flesh_heap_custom_Description"                              "Даёт Пуджу сопротивление магии.Не даёт бонусную силу."
-                "DOTA_Tooltip_ability_pudge_flesh_heap_custom_spell_resist"                             "%СОПРОТИВЛЕНИЕ МАГИИ:"
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom"                             "Ice Vortex"
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_Description"                 "Создаёт вихрь ледяной энергии и увеличивает магический урон, наносимый врагам в области действия."
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_shard_description"           "Вихрь наносит 40 урона в секунду и уменьшает скорость атаки на 20."
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_Lore"                        "Ледяные, жгучие ветра подчиняются прихоти Калдра, остужая поле битвы."
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_Note0"                       "Даёт обзор по небольшой области."
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_movement_speed_pct"          "%ЗАМЕДЛЕНИЕ:"
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_spell_resist_pct"            "%СНИЖЕНИЕ СОПРОТИВЛЕНИЯ:"
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_radius"                      "РАДИУС ВИХРЯ:"
+                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_vortex_duration"             "ДЛИТЕЛЬНОСТЬ:"
 
 
                 //------------------------
                 // Text
                 //------------------------
 
-                "duel_player_lose"                                                                       "{reason}, победа присуждается {team}"
-                "duel_no_selected_hero"                                                                  "Игрок не выбрал героя"
-                "duel_disconnect"                                                                        "Игрок отключился"
-                "duel_time_remaining"                                                                    "Следющий раунд начинается черз: {d:seconds} секунд"
-                "duel_ready_up"                                                                          "Приготовтесь"
+                "duel_player_lose"                                                                      "{reason}, побеждает команда {team}"
+                "duel_no_selected_hero"                                                                 "Игрок не выбрал персонажа"
+                "duel_disconnect"                                                                       "Игрок отключился"
+                "duel_time_remaining"                                                                   "Следующий раунд начинается через: {d:seconds} секунд"
+                "duel_ready_up"                                                                         "Приготовиться"
+                "duel_rematch_time_remaining"                                                           "Игра закончится через: {d:seconds} секунд"
+                "duel_vote_rematch"                                                                     "Голосовать за реванш"
+                "duel_victory"                                                                          "{team} побежают"
+                "duel_restarting"                                                                       "Перезапуск игры..."
+                "duel_select_time_remaining"                                                            "Игра начинается через: {d:seconds} секунд"
+                "duel_loading_heroes"                                                                   "Загрузка..."
+                "duel_surrender"                                                                        "Сдаться"
+                "duel_surrender_yes"                                                                    "Да"
+                "duel_surrender_no"                                                                     "Нет"
+                "duel_confirm_surrender"                                                                "Подтвердить поражение"
+                "duel_confirm_surrender_question"                                                       "Вы действительно хотите сдаться?"
+                "duel_surrender_notification"                                                           "{losing_team} сдались"
+                "duel_add_bot"                                                                          "Добавить бота"
+                "duel_bot_glhf"                                                                         "Удачи и веселой игры"
+                "duel_bot_gg"                                                                           "Хорошая игра"
+                "duel_random_hero"                                                                      "Случайный персонаж"
+                "duel_neutral_item_tier_1"                                                              "Тир 1"
+                "duel_neutral_item_tier_2"                                                              "Тир 2"
+                "duel_neutral_item_tier_3"                                                              "Тир 3"
+                "duel_neutral_item_tier_4"                                                              "Тир 4"
+                "duel_neutral_item_tier_5"                                                              "Тир 5"
+                "duel_wins"                                                                             "Побед"
+                "duel_losses"                                                                           "Поражений"
         }
 }

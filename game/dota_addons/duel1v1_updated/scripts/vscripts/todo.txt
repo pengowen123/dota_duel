@@ -1,9 +1,10 @@
 translate everything in the game to other languages:
   - spanish
   - tagalog
-  - russian
 
 add intro screen to help new players
 fix heroes not sinking into the ground
 fix alchemist scepter gifted buff and self buff not persisting through rounds (complex)
-find a way to remove hoodwink's acorn shot tree vision (valve may make destroying the tree remove it at some point)
+fix aghs spark wraith vision persisting in a nice way
+
+remove dota plus ad in pick screen

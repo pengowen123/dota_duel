@@ -263,11 +263,13 @@ function AddCurrentGameStats(victory_reason)
         player_stats[player_id] = InitialPlayerStats()
       end
 
-      -- Track wins/losses for each player
-      if team == round.winner then
-        player_stats[player_id].wins = player_stats[player_id].wins + 1
-      else
-        player_stats[player_id].losses = player_stats[player_id].losses + 1
+      -- Track wins/losses for each player (but not if a player didn't pick a hero)
+      if victory_reason ~= VICTORY_REASON_NO_HERO then
+        if team == round.winner then
+          player_stats[player_id].wins = player_stats[player_id].wins + 1
+        else
+          player_stats[player_id].losses = player_stats[player_id].losses + 1
+        end
       end
     end
   end
