@@ -80,12 +80,12 @@
 
             </Button>
 
-            <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_royal_jelly')">
+<!--             <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_royal_jelly')">
 
               <DOTAItemImage itemname="item_royal_jelly" />
 
             </Button>
-
+ -->
             <Button class="ItemButton" oncontextmenu="OnNeutralItemPurchased('item_chipped_vest')">
 
               <DOTAItemImage itemname="item_chipped_vest" />

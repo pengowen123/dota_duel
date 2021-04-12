@@ -15,6 +15,9 @@ function SetupPregameHeroSelect()
   // Hide pregame minimap
   pregame_panel.FindChildTraverse("HeroPickMinimap").style.visibility = "collapse";
 
+  // Hide dota plus ad
+  pregame_panel.FindChildTraverse("FriendsAndFoes").style.visibility = "collapse";
+
   // Hide empty player slots
   RemoveUnusedTeamPlayerSlots(radiant_players);
   RemoveUnusedTeamPlayerSlots(dire_players);

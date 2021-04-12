@@ -3,14 +3,14 @@
   // Black king bar that is always at the lowest duration
   "item_black_king_bar"
   {
-    "AbilityCooldown"       "70.0"
+    "AbilityCooldown"       "75.0"
     
     "AbilitySpecial"
     {
       "03"
       {
         "var_type"        "FIELD_FLOAT"
-        "duration"        "5.0"
+        "duration"        "6.0"
       }
       "04"
       {

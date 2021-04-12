@@ -92,6 +92,7 @@ var hero_name_table = [
 	"npc_dota_hero_centaur",
 	"npc_dota_hero_chaos_knight",
 	"npc_dota_hero_rattletrap",
+	"npc_dota_hero_dawnbreaker",
 	"npc_dota_hero_doom_bringer",
 	"npc_dota_hero_dragon_knight",
 	"npc_dota_hero_earth_spirit",
@@ -140,19 +141,19 @@ function Initialize()
 
 
 // Called when a player selects a hero
-function OnSelectHero(hero_id)
+function OnSelectHero(hero)
 {
 	var player_id = Players.GetLocalPlayer();
-	var data = { "id": player_id, "hero": hero_name_table[hero_id] };
+	var data = { "id": player_id, "hero": hero };
 
  	GameEvents.SendCustomGameEventToServer("player_select_hero_js", data);
 
- 	// Remove border from all hero buttons
+  // Remove border from all hero buttons
 	RemoveButtonBorders();
 
- 	// Add border to selected hero button
- 	var id = "#hero_" + hero_id.toString();
- 	var selected_button = $(id);
+	// Add border to selected hero button
+	var id = "#" + hero;
+	var selected_button = $(id);
  	selected_button.style.border = "5px";
 }
 
@@ -160,8 +161,9 @@ function OnSelectHero(hero_id)
 // Called when a player clicks the random hero button
 function ChooseRandomHero()
 {
-	var id = Math.floor(Math.random() * (hero_name_table.length + 1));
-	OnSelectHero(id);
+	var index = Math.floor(Math.random() * (hero_name_table.length + 1));
+	var hero = hero_name_table[index];
+	OnSelectHero(hero);
 }
 
 
@@ -197,7 +199,7 @@ function AllVotedRematch()
 function RemoveButtonBorders()
 {
 	for (var i = 0; i < hero_name_table.length; i++) {
-		var id = "#hero_" + i.toString();
+		var id = "#" + hero_name_table[i];
 		$(id).style.border = 0;
 	}
 }

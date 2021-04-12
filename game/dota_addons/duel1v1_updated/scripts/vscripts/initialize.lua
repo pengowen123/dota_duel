@@ -34,12 +34,9 @@ function LevelEntityToMax(entity)
         -- activate fire remnant and shadow step seem to always return 4 while no other
         -- ability does
         if ability:CanAbilityBeUpgraded() ~= 4 then
-          -- Only talents require higher levels than 6, which must not be upgraded here
-          if ability:GetHeroLevelRequiredToUpgrade() <= 6 then
-            -- Lua ranges are inclusive so this starts at 1 to compensate
-            for i=1,ability:GetMaxLevel() - ability:GetLevel() do
-              entity:UpgradeAbility(ability)
-            end
+          -- Lua ranges are inclusive so this starts at 1 to compensate
+          for i=1,ability:GetMaxLevel() - ability:GetLevel() do
+            entity:UpgradeAbility(ability)
           end
         end
       end
