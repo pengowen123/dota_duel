@@ -414,10 +414,10 @@ function ResetNecromastery(entity)
     local necromastery = entity:FindModifierByName("modifier_nevermore_necromastery")
 
     if necromastery ~= nil then
-      max = 36
+      max = 20
 
       if entity:HasScepter() then
-        max = 46
+        max = 25
       end
 
       necromastery:SetStackCount(max)

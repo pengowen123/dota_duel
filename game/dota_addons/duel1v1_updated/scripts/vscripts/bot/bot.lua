@@ -46,9 +46,9 @@ CRYSTALYS_CRIT_MULTIPLIER = 1.7
 INVERSE_BUTTERFLY_EVASION = 0.65
 -- Raw HP plus HP from strength
 HEART_HEALTH = 400 + (20 * 45)
--- Base is 40, minus 10 from octarine, minus 7 from aghanim's scepter, minus 3 from reincarnation
+-- Base is 60, minus 15 from octarine, minus 7 from aghanim's scepter, minus 3 from reincarnation
 -- time
-EFFECTIVE_REINCARNATION_ULT_COOLDOWN = 20
+EFFECTIVE_REINCARNATION_ULT_COOLDOWN = 35
 -- Time spent in wraith form after death
 REINCARNATION_AGHANIM_DURATION = 7
 -- The amount of time spent taking very high amounts of damage to be considered high damage burst

@@ -1,7 +1,8 @@
 Dark Ascension
 Ice Vortex
 Black King Bar
+Aeon Disk
 shops.txt
-neutral_items in utils.lua
+neutral_items in utils.lua and npc_items_custom.txt
 hero_select UI (xml and random list)
 neutral_item_shop UI

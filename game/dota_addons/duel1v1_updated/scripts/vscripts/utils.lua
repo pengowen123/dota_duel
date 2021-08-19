@@ -6,8 +6,8 @@ MAX_KILLS = 5
 STRENGTH_MAGIC_RESISTANCE = 0.00
 NEUTRAL_ITEM_SLOT = 16
 
-
 neutral_items = {
+  -- Tier 1
   ["item_keen_optic"] = true,
   ["item_royal_jelly"] = true,
   ["item_poor_mans_shield"] = true,
@@ -18,6 +18,8 @@ neutral_items = {
   ["item_possessed_mask"] = true,
   ["item_chipped_vest"] = true,
   ["item_mysterious_hat"] = true,
+  ["item_unstable_wand"] = true,
+  ["item_pogo_stick"] = true,
   -- sic
   ["item_elixer"] = true,
   ["item_elixir"] = true,
@@ -25,6 +27,7 @@ neutral_items = {
   ["item_ironwood_tree"] = true,
   ["item_trusty_shovel"] = true,
   ["item_faded_broach"] = true,
+  -- Tier 2
   ["item_grove_bow"] = true,
   ["item_vampire_fangs"] = true,
   ["item_ring_of_aquila"] = true,
@@ -39,6 +42,9 @@ neutral_items = {
   ["item_quicksilver_amulet"] = true,
   ["item_bullwhip"] = true,
   ["item_tome_of_aghanim"] = true,
+  ["item_misericorde"] = true,
+  ["item_paintball"] = true,
+  -- Tier 3
   ["item_craggy_coat"] = true,
   ["item_greater_faerie_fire"] = true,
   ["item_quickening_charm"] = true,
@@ -55,6 +61,8 @@ neutral_items = {
   ["item_cloak_of_flames"] = true,
   ["item_ceremonial_robe"] = true,
   ["item_psychic_headband"] = true,
+  ["item_black_powder_bag"] = true,
+  -- Tier 4
   ["item_witless_shako"] = true,
   ["item_timeless_relic"] = true,
   ["item_spell_prism"] = true,
@@ -72,6 +80,9 @@ neutral_items = {
   ["item_penta_edged_sword"] = true,
   ["item_stormcrafter"] = true,
   ["item_trickster_cloak"] = true,
+  ["item_ascetic_cap"] = true,
+  ["item_heavy_blade"] = true,
+  -- Tier 5
   ["item_force_boots"] = true,
   ["item_seer_stone"] = true,
   ["item_mirror_shield"] = true,
@@ -89,6 +100,7 @@ neutral_items = {
   ["item_phoenix_ash"] = true,
   ["item_giants_ring"] = true,
   ["item_book_of_shadows"] = true,
+  ["item_force_field"] = true,
 }
 
 

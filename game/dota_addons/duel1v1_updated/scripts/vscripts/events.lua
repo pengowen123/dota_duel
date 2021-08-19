@@ -142,14 +142,20 @@ end
 
 -- A player leveled up an ability
 function GameMode:OnPlayerLearnedAbility(keys)
-	-- Add a modifier representing the ice vortex cooldown talent so that it is available in the client
-	if keys.abilityname == "special_bonus_unique_ancient_apparition_3" then
+	-- Add modifiers representing flat cooldown reduction talents so that they are available
+	-- clientside (used for ability tooltips)
+	local talent_names = {
+		["special_bonus_unique_ancient_apparition_3"] = true,
+		["special_bonus_unique_night_stalker"] = true,
+	}
+
+	if talent_names[keys.abilityname] then
 		local player_id = keys.PlayerID
 		local hero = PlayerResource:GetSelectedHeroEntity(player_id)
 		local ability = hero:FindAbilityByName(keys.abilityname)
 
 		local data = { duration = -1 }
-		local modifier = hero:AddNewModifier(hero, nil, "modifier_special_bonus_unique_ancient_apparition_3", data)
+		local modifier = hero:AddNewModifier(hero, nil, "modifier_" .. keys.abilityname, data)
 		modifier:SetStackCount(ability:GetSpecialValueFor("value"))
 	end
 end

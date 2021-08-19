@@ -5,14 +5,20 @@
 
   "night_stalker_darkness_custom"
   {
-    "BaseClass"               "ability_datadriven"
+    "AbilityName"             "night_stalker_darkness_custom"
+    "AbilityTextureName"      "night_stalker_darkness_custom"
+    "BaseClass"               "ability_lua"
+    "ScriptFile"              "abilities/night_stalker_darkness_custom.lua"
+
     "AbilityBehavior"         "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
     "AbilityType"             "DOTA_ABILITY_TYPE_ULTIMATE"
-    "AbilityTextureName"      "night_stalker_darkness_custom"
+    "SpellDispellableType"    "SPELL_DISPELLABLE_NO"
     "HasScepterUpgrade"       "0"
     
+    "AbilityCastAnimation"    "ACT_DOTA_CAST_ABILITY_4"
     "AbilityCastPoint"        "0.3 0.3 0.3"
-    "AbilityCooldown"         "160 140 120"
+
+    "AbilityCooldown"         "150 140 130"
     "AbilityManaCost"         "125 175 225"
   
     "precache"
@@ -27,60 +33,13 @@
       {
         "var_type"            "FIELD_FLOAT"
         "duration"            "30.0"
+        "LinkedSpecialBonus"  "special_bonus_unique_night_stalker_7"
       }
-
       "02"
       {
         "var_type"            "FIELD_INTEGER"
         "bonus_damage"        "50 100 150"
-      }
-    }
-  
-    "OnSpellStart"
-    {
-      "FireSound"
-      {
-        "EffectName"          "Hero_Nightstalker.Darkness"
-        "Target"              "CASTER"
-      }
-  
-      "FireEffect"
-      {
-        "EffectName"          "particles/units/heroes/hero_night_stalker/nightstalker_ulti.vpcf"
-        "EffectAttachType"    "follow_origin"
-        "Target"              "CASTER"
-      }
-  
-      "ApplyModifier"
-      {
-        "ModifierName"        "modifier_night_stalker_darkness"
-        "Duration"            "%duration"
-        "Target"              "CASTER"
-      }
-
-      "ApplyModifier"
-      {
-        "ModifierName"        "modifier_night_stalker_dark_ascension_damage"
-        "Duration"            "%duration"
-        "Target"              "CASTER"
-      }
-  
-      "RunScript"
-      {
-        "ScriptFile"          "scripts/vscripts/abilities/darkness.lua"
-        "Function"            "Darkness"
-      }
-    }
-
-    "Modifiers"
-    {
-      "modifier_night_stalker_dark_ascension_damage"
-      {
-          "IsHidden"                                  "1"
-          "Properties"
-          {
-            "MODIFIER_PROPERTY_DAMAGE_BONUS" "%bonus_damage"
-          }   
+        "LinkedSpecialBonus"  "special_bonus_unique_night_stalker_3"
       }
     }
   }
@@ -115,7 +74,7 @@
       }
       "02"
       {
-        "var_type"        "FIELD_INTEGER"
+        "var_type"        "FIELD_FLOAT"
         "talent_cooldown_bonus"  "2.0"
       }
       "03"

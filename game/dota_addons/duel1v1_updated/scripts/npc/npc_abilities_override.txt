@@ -1,27 +1,4 @@
 // Dota Abilities Override File
 "DOTAAbilities"
 {
-  "Version"   "1"
-
-  "item_courier"
-  {
-    "ItemPurchasable" "0"
-  }
-  "item_flying_courier"
-  {
-    "ItemPurchasable" "0"
-  }
-  "item_recipe_rapier"
-  {
-    "ItemPurchasable" "0"
-
-    "ItemRequirements"
-    {
-        "01" "item_dummy_unpurchasable;item_dummy_unpurchasable"
-    }
-  }
-  "item_rapier"
-  {
-    "ItemPurchasable" "0"
-  }
 }
