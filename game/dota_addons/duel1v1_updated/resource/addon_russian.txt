@@ -31,7 +31,7 @@
 
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom"                                    "Dark Ascension"
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom_Description"                        "Подавляет солнечный свет, создавая непроглядную тьму и раскрывая силы героя в полной мере. Он получает беспрепятственный обзор, полёт и дополнительный урон."
-                "DOTA_Tooltip_ability_night_stalker_darkness_Lore"                                      "Жалкое зрелище: даже сильнейшие из воинов начинают бояться темноты."
+                "DOTA_Tooltip_ability_night_stalker_darkness_custom_Lore"                               "Жалкое зрелище: даже сильнейшие из воинов начинают бояться темноты."
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom_duration"                           "ДЛИТЕЛЬНОСТЬ:"
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom_bonus_damage"                       "ДОПОЛНИТЕЛЬНЫЙ УРОН:"
 

@@ -105,6 +105,7 @@ var hero_name_table = [
 	"npc_dota_hero_life_stealer",
 	"npc_dota_hero_lycan",
 	"npc_dota_hero_magnataur",
+	"npc_dota_hero_marci",
 	"npc_dota_hero_mars",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_omniknight",
