@@ -8,3 +8,4 @@ fix alchemist scepter gifted buff and self buff not persisting through rounds (c
 fix aghs spark wraith vision persisting in a nice way
 fix death timers not counting down during hero pick phase
 test undying giving away free points on death
+fix underlord ult vision persisting

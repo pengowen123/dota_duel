@@ -30,7 +30,12 @@ function GameMode:OnNPCSpawned(keys)
 			return 0.3
 		end
 
-		-- Only run on newly created NPCs
+		-- Prevent neutral creeps from getting stronger over time
+		if entity.RemoveModifierByName then
+			entity:RemoveModifierByName("modifier_neutral_upgrade")
+		end
+
+		-- Only level newly created NPCs
 		if entity.GetLevel and entity:GetLevel() > 1 then
 			return
 		end

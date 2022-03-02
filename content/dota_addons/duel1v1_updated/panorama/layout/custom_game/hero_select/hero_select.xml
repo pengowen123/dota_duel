@@ -574,6 +574,11 @@
 						</Button>
 					</Panel>
 					<Panel class="HeroPanel">
+						<Button class="HeroButton" id="npc_dota_hero_primal_beast" onactivate="OnSelectHero('npc_dota_hero_primal_beast')">
+							<DOTAHeroImage heroname="npc_dota_hero_primal_beast" />
+						</Button>
+					</Panel>
+					<Panel class="HeroPanel">
 						<Button class="HeroButton" id="npc_dota_hero_pudge" onactivate="OnSelectHero('npc_dota_hero_pudge')">
 							<DOTAHeroImage heroname="npc_dota_hero_pudge" />
 						</Button>

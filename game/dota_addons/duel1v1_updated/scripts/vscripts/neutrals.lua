@@ -66,8 +66,11 @@ neutral_camp_info = {
 	  	["npc_dota_neutral_wildkin"] = 2,
 		},
 		[15] = {
-	  	["npc_dota_neutral_dark_troll"] = 2,
-	  	["npc_dota_neutral_forest_troll_high_priest"] = 1,
+			["npc_dota_neutral_dark_troll"] = 2,
+			["npc_dota_neutral_dark_troll_warlord"] = 1,
+		},
+		[16] = {
+			["npc_dota_neutral_warpine_raider"] = 2,
 		},
   },
   [1] = {
@@ -83,9 +86,13 @@ neutral_camp_info = {
 	  	["npc_dota_neutral_small_thunder_lizard"] = 2,
 	  	["npc_dota_neutral_big_thunder_lizard"] = 1,
 		},
-	 --  [3] = {
-	 --  	["npc_dota_neutral_prowler_acolyte"] = 2,
-	 --  	["npc_dota_neutral_prowler_shaman"] = 1,
+		[3] = {
+			["npc_dota_neutral_frostbitten_golem"] = 2,
+			["npc_dota_neutral_ice_shaman"] = 1,
+		},
+		-- [4] = {
+		--  	["npc_dota_neutral_prowler_acolyte"] = 2,
+		--  	["npc_dota_neutral_prowler_shaman"] = 1,
 		-- },
 	}
 }
@@ -111,7 +118,7 @@ function SpawnNeutrals(camp)
 
   local camp_info = neutral_camp_info[camp_type]
   local variant_count = #camp_info
-  local chosen_variant = math.random(0, variant_count - 1)
+  local chosen_variant = math.random(0, variant_count)
   local creeps = camp_info[chosen_variant]
 
   for name, count in pairs(creeps) do

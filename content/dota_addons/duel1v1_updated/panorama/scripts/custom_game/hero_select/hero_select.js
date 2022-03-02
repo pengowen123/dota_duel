@@ -110,6 +110,7 @@ var hero_name_table = [
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_omniknight",
 	"npc_dota_hero_phoenix",
+	"npc_dota_hero_primal_beast",
 	"npc_dota_hero_pudge",
 	"npc_dota_hero_sand_king",
 	"npc_dota_hero_slardar",

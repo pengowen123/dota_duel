@@ -4,5 +4,7 @@ Black King Bar
 Aeon Disk
 shops.txt
 neutral_items in utils.lua and npc_items_custom.txt
+activelist.txt
 hero_select UI (xml and random list)
 neutral_item_shop UI
+neutral camps
