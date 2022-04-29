@@ -20,7 +20,7 @@ function SetupUI(event_source_index, args)
       end)
     end
   elseif game_state == GAME_STATE_FIGHT then
-    -- Hide the ready-up and surrender UIs
+    -- Hide the ready-up and surrender UIs and show the round timeout timer
     CustomGameEventManager:Send_ServerToPlayer(player, "start_round", nil)
   elseif game_state == GAME_STATE_REMATCH then
     -- Hide the ready-up and surrender UIs and show the rematch UI
@@ -29,10 +29,11 @@ function SetupUI(event_source_index, args)
     -- Hide the ready-up and surrender UIs and show the hero select UI
     CustomGameEventManager:Send_ServerToPlayer(player, "all_voted_rematch", nil)
   elseif game_state == GAME_STATE_HERO_LOAD then
-    -- Hide the surrender UI
+    -- Don't show the surrender UI
     local data = {}
     data.enable_surrender = false
 
+    -- Hide the round timeout timer
     CustomGameEventManager:Send_ServerToPlayer(player, "end_round", data)
   elseif game_state == GAME_STATE_END then
     CustomGameEventManager:Send_ServerToPlayer(player, "end_game_no_rematch", nil)

@@ -9,14 +9,18 @@ else
 end
 STAT_SERVER = STAT_SERVER .. "/"
 
+
+-- Reasons for a match ending (also update GetVictoryReasonString)
 -- A team won 5 rounds
 VICTORY_REASON_ROUNDS = 0
--- A team reached surrendered
+-- A team surrendered
 VICTORY_REASON_SURRENDER = 1
 -- A team disconnected
 VICTORY_REASON_DISCONNECT = 2
 -- A player didn't pick a hero
 VICTORY_REASON_NO_HERO = 3
+-- Both teams won 5 rounds (through a draw on the last round)
+VICTORY_REASON_DRAW = 4
 
 
 game_stats = {
@@ -72,6 +76,7 @@ function GatherAndSendMatchStats()
       local new_player_stats = {
         wins = obj.wins + player_stats[player_id].wins,
         losses = obj.losses + player_stats[player_id].losses,
+        draws = obj.draws + player_stats[player_id].draws,
       }
 
       SendStats("PUT", GetPlayerURL(steam_id), new_player_stats, get_error_msg)
@@ -197,6 +202,11 @@ function GetPlayerStats(player_id, callback)
       obj = InitialPlayerStats()
     end
 
+    -- Add draws stat to old entries
+    if obj.draws == nil then
+      obj.draws = 0
+    end
+
     player_stats_from_db[player_id] = obj
 
     callback(obj)
@@ -263,9 +273,11 @@ function AddCurrentGameStats(victory_reason)
         player_stats[player_id] = InitialPlayerStats()
       end
 
-      -- Track wins/losses for each player (but not if a player didn't pick a hero)
+      -- Track wins/losses/draws for each player (but not if a player didn't pick a hero)
       if victory_reason ~= VICTORY_REASON_NO_HERO then
-        if team == round.winner then
+        if round.winner == DOTA_TEAM_NEUTRALS then
+          player_stats[player_id].draws = player_stats[player_id].draws + 1
+        elseif team == round.winner then
           player_stats[player_id].wins = player_stats[player_id].wins + 1
         else
           player_stats[player_id].losses = player_stats[player_id].losses + 1
@@ -310,6 +322,7 @@ function UpdatePlayerStatsUI(update_ui_only_for_player)
           data.players[player_id] = {
             wins = player_stats_from_db[player_id].wins,
             losses = player_stats_from_db[player_id].losses,
+            draws = player_stats_from_db[player_id].draws,
           }
 
           -- Initialize missing stats
@@ -328,6 +341,7 @@ function UpdatePlayerStatsUI(update_ui_only_for_player)
             -- Display current player stats added to stats from the DB (live updates without extra DB requests)
             data.players[player_id].wins = data.players[player_id].wins + player_stats[player_id].wins
             data.players[player_id].losses = data.players[player_id].losses + player_stats[player_id].losses
+            data.players[player_id].draws = data.players[player_id].draws + player_stats[player_id].draws
           end
         else
           -- Use new player data while waiting for real data to come in
@@ -357,6 +371,7 @@ function InitialPlayerStats()
   return {
     wins = 0,
     losses = 0,
+    draws = 0,
   }
 end
 
@@ -368,6 +383,8 @@ function GetWinnerString(team)
     return "radiant"
   elseif team == DOTA_TEAM_BADGUYS then
     return "dire"
+  elseif team == DOTA_TEAM_NEUTRALS then
+    return "draw"
   end
 end
 
@@ -400,6 +417,8 @@ function GetVictoryReasonString(reason)
     return "VICTORY_REASON_DISCONNECT"
   elseif reason == VICTORY_REASON_NO_HERO then
     return "VICTORY_REASON_NO_HERO"
+  elseif reason == VICTORY_REASON_DRAW then
+    return "VICTORY_REASON_DRAW"
   end
 end
 

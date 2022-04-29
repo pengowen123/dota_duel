@@ -112,6 +112,7 @@ function UpdatePlayerStats(args)
 
     player_stats_panel.GetChild(1).text = player.wins.toString();
     player_stats_panel.GetChild(4).text = player.losses.toString();
+    player_stats_panel.GetChild(7).text = player.draws.toString();
   }
 }
 

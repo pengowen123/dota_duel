@@ -14,21 +14,13 @@ function OnSurrender(event_source_index, args)
     local team = PlayerResource:GetTeam(player_id)
     local team_winner = GetOppositeTeam(team)
 
-    EndGameDelayed(team_winner, VICTORY_REASON_SURRENDER)
-
-    text = "#duel_player_lose"
-    losing_team_name = GetLocalizationTeamName(team)
-    winning_team_name = GetLocalizationTeamName(team_winner)
-
-    Notifications:ClearBottomFromAll()
-    Notifications:BottomToAll({
-      text = text,
-      duration = 10,
-      vars = {
-        reason = "#duel_surrender_notification",
-        team = winning_team_name,
-        losing_team = losing_team_name,
-      },
-    })
+    local losing_team_name = GetLocalizationTeamName(team)
+    local winning_team_name = GetLocalizationTeamName(team_winner)
+    local vars = {
+      reason = "#duel_surrender_notification",
+      team = winning_team_name,
+      losing_team = losing_team_name,
+    }
+    EndGameDelayed(team_winner, VICTORY_REASON_SURRENDER, "#duel_player_lose", vars)
   end
 end

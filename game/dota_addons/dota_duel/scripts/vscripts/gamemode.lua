@@ -49,6 +49,7 @@ require('modifiers')
 require('initialize')
 require('ready')
 require('round_timer')
+require('round_timeout_timer')
 require('rematch_timer')
 require('rematch')
 require('kills')
@@ -412,7 +413,7 @@ function MakeTeamLose(team, text, allow_rematch, victory_reason)
   game_result = opposite_team
 
   if allow_rematch then
-    EndGameDelayed(game_result, victory_reason)
+    EndGameDelayed(game_result, victory_reason, nil, nil)
   else
     SetGameState(GAME_STATE_END)
 

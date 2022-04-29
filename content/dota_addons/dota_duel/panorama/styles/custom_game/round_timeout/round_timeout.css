@@ -1,0 +1,26 @@
+.Root
+{
+	width: 100%;
+	height: 100%;
+}
+
+.RoundTimeout
+{
+	horizontal-align: center;
+	vertical-align: top;
+
+	width: 5%;
+	height: 5%;
+
+	margin-top: 4%;
+}
+
+.RoundTimeoutTimer
+{
+	horizontal-align: center;
+	vertical-align: center;
+
+	color: white;
+	font-size: 32px;
+	text-shadow: 1px 1px 1px 3.0 #33333333;
+}

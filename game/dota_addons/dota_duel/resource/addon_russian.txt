@@ -58,6 +58,7 @@
                 "duel_rematch_time_remaining"                                                           "Игра закончится через: {d:seconds} секунд"
                 "duel_vote_rematch"                                                                     "Голосовать за реванш"
                 "duel_victory"                                                                          "{team} побежают"
+                "duel_draw"                                                                             "ничья"
                 "duel_restarting"                                                                       "Перезапуск игры..."
                 "duel_select_time_remaining"                                                            "Игра начинается через: {d:seconds} секунд"
                 "duel_loading_heroes"                                                                   "Загрузка..."
@@ -78,5 +79,6 @@
                 "duel_neutral_item_tier_5"                                                              "Тир 5"
                 "duel_wins"                                                                             "Побед"
                 "duel_losses"                                                                           "Поражений"
+                "duel_draws"                                                                            "ничьих"
         }
 }

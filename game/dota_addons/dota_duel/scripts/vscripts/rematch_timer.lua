@@ -30,9 +30,19 @@ end
 -- Ends the game after a delay and shows the rematch UI
 -- `winner` should be either DOTA_TEAM_GOODGUYS or DOTA_TEAM_BADGUYS
 -- Requires the reason the current game ended (see VICTORY_REASON_*)
-function EndGameDelayed(winner, victory_reason)
+function EndGameDelayed(winner, victory_reason, notification_text, notification_vars)
 	if IsMatchEnded() or (game_state == GAME_STATE_REMATCH) then
 		return
+	end
+
+	-- Send a notification with the reason for the game ending
+	if notification_text then
+	  Notifications:ClearBottomFromAll()
+	  Notifications:BottomToAll({
+	    text = notification_text,
+	    duration = 10,
+	    vars = notification_vars,
+	  })
 	end
 
 	SetMusicStatus(DOTA_MUSIC_STATUS_NONE, 0.0)

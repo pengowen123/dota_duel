@@ -11,6 +11,9 @@ function modifier_stun:CheckState()
 		-- Certain heroes must be silenced while in base to prevent exploits, but it is safer to just
 		-- silence all heroes
 		[MODIFIER_STATE_SILENCED] = true,
+		-- Prevents exploits with seer stone but also prevents moon shard from being manually cast
+		-- Can be enabled and moon shards automatically cast if it ever is a problem
+		-- [MODIFIER_STATE_MUTED] = true,
 	}
 
 	local parent = self:GetParent()

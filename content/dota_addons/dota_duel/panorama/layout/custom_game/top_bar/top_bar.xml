@@ -34,7 +34,7 @@
 
 				<Panel class="PlayerStats">
 
-					<Label class="WinLabel" text="#duel_wins" />
+					<Label class="WinsLabel" text="#duel_wins" />
 
 					<Label class="PlayerWins" text="0" />
 
@@ -43,6 +43,12 @@
 					<Label class="LossesLabel" text="#duel_losses" />
 
 					<Label class="PlayerLosses" text="0" />
+
+					<Panel class="PlayerStatsSpacer" />
+
+					<Label class="DrawsLabel" text="#duel_draws" />
+
+					<Label class="PlayerDraws" text="0" />
 
 				</Panel>
 

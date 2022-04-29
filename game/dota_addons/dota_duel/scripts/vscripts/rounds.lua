@@ -8,6 +8,11 @@ require('kills')
 require('hero_select')
 
 
+-- Whether the latest/current round ended in a draw
+round_drew = false
+-- Whether EndRoundDelayed was called and the round will end in a few seconds
+is_round_ending = false
+
 -- Tracks how many players are dead on each team
 dead_players = {
   [DOTA_TEAM_GOODGUYS] = 0,
@@ -61,57 +66,26 @@ function OnEntityDeath(event)
 
         Timers:CreateTimer("set_respawn_time", args)
 
-        -- End the round if all players on a team have died
-        if dead_players[team] >= PlayerResource:GetPlayerCountForTeam(team) then
-          dead_players[DOTA_TEAM_GOODGUYS] = 0
-          dead_players[DOTA_TEAM_BADGUYS] = 0
+        -- All players are killed and scores updated on round draw, so don't update scores
+        -- redundantly
+        if not round_drew then
+          -- End the round if all players on a team have died
+          if dead_players[team] >= PlayerResource:GetPlayerCountForTeam(team) then
+            dead_players[DOTA_TEAM_GOODGUYS] = 0
+            dead_players[DOTA_TEAM_BADGUYS] = 0
 
-          -- Is nil if no player has won yet, 0 if radiant won and 1 if dire won
-          local winner = nil
-
-          if team == DOTA_TEAM_GOODGUYS then
-            AwardDireKill()
-          elseif team == DOTA_TEAM_BADGUYS then
-            AwardRadiantKill()
-          end
-
-          if GetRadiantKills() >= MAX_KILLS then
-            winner = DOTA_TEAM_GOODGUYS
-          end
-
-          if GetDireKills() >= MAX_KILLS then
-            winner = DOTA_TEAM_BADGUYS
-          end
-
-          if winner then
-            EndGameDelayed(winner, VICTORY_REASON_ROUNDS)
-
-            text = "#duel_victory"
-            team = GetLocalizationTeamName(winner)
-
-            Notifications:ClearBottomFromAll()
-            Notifications:BottomToAll({
-              text = text,
-              duration = 10,
-              vars = {
-                team = team,
-              }
-            })
-          end
-
-          -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
-          -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
-          local first_reset_delay = 5.0
-
-          Timers:RemoveTimer("set_respawn_time")
-          SetRespawnTimes(first_reset_delay)
-
-          Timers:CreateTimer(
-            first_reset_delay,
-            function()
-              EndRound()
+            if team == DOTA_TEAM_GOODGUYS then
+              AwardDireKill()
+            elseif team == DOTA_TEAM_BADGUYS then
+              AwardRadiantKill()
             end
-          )
+
+            CheckTeamScores()
+
+            if not is_round_ending then
+              EndRoundDelayed()
+            end
+          end
         end
       end
     end
@@ -128,11 +102,14 @@ end
 
 
 -- Starts the next round, resetting all player entities and teleporting them to the arena
--- Also removes nightstalker's darkness and hides the ready-up UI
+-- Also removes nightstalker's darkness and updates the UI
 function StartRound()
   if not (game_state == GAME_STATE_BUY) then
     return
   end
+
+  -- Start the timeout timer to limit how long rounds can last
+  InitRoundTimeoutTimer()
 
   -- Prevent the end round timer from teleporting players back to their base after the round starts
   Timers:RemoveTimer("reset_players")
@@ -215,6 +192,9 @@ function EndRound()
     return
   end
 
+  is_round_ending = false
+  round_drew = false
+
   InitReadyUpData()
 
   -- If a player has reached 5 kills, game_state will be GAME_STATE_REMATCH/GAME_STATE_HERO_SELECT
@@ -273,6 +253,27 @@ function EndRound()
     -- Reset talents so players can try new ones
     ResetTalents()
   end
+end
+
+
+-- Ends the round after a few seconds to avoid a sharp transition
+function EndRoundDelayed()
+  is_round_ending = true
+
+  -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
+  -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
+  local delay = 5.0
+
+  -- Set respawn times so the delay is clearly visible for dead players
+  Timers:RemoveTimer("set_respawn_time")
+  SetRespawnTimes(delay)
+
+  Timers:CreateTimer(
+    delay,
+    function()
+      EndRound()
+    end
+  )
 end
 
 

@@ -1,5 +1,10 @@
 -- Handling of the custom scoreboard system
 
+
+-- Constants
+MAX_KILLS = 5
+
+
 -- Kills for the current match
 kills = {}
 -- Total kills of all matches
@@ -54,4 +59,32 @@ function AwardDireKill()
 	total_kills.dire = total_kills.dire + 1
 
 	CustomGameEventManager:Send_ServerToAllClients("score_update", kills)
+end
+
+-- Checks whether one or both teams have won and ends the game if so
+function CheckTeamScores()
+  -- Is nil if no player has won yet, DOTA_TEAM_* if a team has won, or DOTA_TEAM_NEUTRALS if both
+  -- teams reached the max kills
+  local winner = nil
+
+  local radiant = GetRadiantKills()
+  local dire = GetDireKills()
+
+  if radiant >= MAX_KILLS and dire >= MAX_KILLS then
+		winner = DOTA_TEAM_NEUTRALS
+  elseif radiant >= MAX_KILLS then
+    winner = DOTA_TEAM_GOODGUYS
+  elseif dire >= MAX_KILLS then
+    winner = DOTA_TEAM_BADGUYS
+  end
+
+  if winner then
+		if winner == DOTA_TEAM_NEUTRALS then
+	    EndGameDelayed(winner, VICTORY_REASON_DRAW, "#duel_draw", nil)
+	  else
+	    local team = GetLocalizationTeamName(winner)
+			local vars = { team = team }
+	    EndGameDelayed(winner, VICTORY_REASON_ROUNDS, "#duel_victory", vars)
+		end
+  end
 end

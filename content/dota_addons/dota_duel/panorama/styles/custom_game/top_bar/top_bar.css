@@ -158,7 +158,7 @@
 	visibility: collapse;
 
 	width: 100%;
-	height: 80px;
+	height: 120px;
 
 	flow-children: down;
 
@@ -169,7 +169,7 @@
 	background-color: gradient(linear, 0% 0%, 0% 100%, from(#191C1EFF), to(#22292FFF));
 }
 
-.WinLabel
+.WinsLabel
 {
 	font-family: Radiance;
 	font-size: 15px;
@@ -215,6 +215,24 @@
 	font-family: Radiance;
 	font-size: 16px;
 	color: #FF4743FF;
+
+	horizontal-align: center;
+}
+
+.DrawsLabel
+{
+	font-family: Radiance;
+	font-size: 15px;
+	color: #BFBFBFFF;
+
+	horizontal-align: center;
+}
+
+.PlayerDraws
+{
+	font-family: Radiance;
+	font-size: 16px;
+	color: #BFBFBFFF;
 
 	horizontal-align: center;
 }
