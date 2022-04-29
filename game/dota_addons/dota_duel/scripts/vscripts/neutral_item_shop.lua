@@ -72,6 +72,11 @@ function PurchaseNeutralItem(item_owner, entity, item_name, use_stash)
   -- Make the item sellable
   item:SetPurchaser(item_owner)
 
+  -- Disable seer stone to prevent abuse (will be re-enabled at round start)
+  if item:GetAbilityName() == "item_seer_stone" then
+    item:SetActivated(false)
+  end
+
   if empty_slot then
     -- Destroy equipped neutral item temporarily
     local equipped_item = entity:GetItemInSlot(NEUTRAL_ITEM_SLOT)

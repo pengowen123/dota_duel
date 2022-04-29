@@ -373,6 +373,15 @@ function SetupInventory(entity, item_owner, inventory)
       entity:SwapItems(0, i)
     end
   end
+
+  for i = 0,20 do
+    local item = entity:GetItemInSlot(i)
+
+    -- Disable seer stone to prevent abuse (will be re-enabled at round start)
+    if item and item:GetAbilityName() == "item_seer_stone" then
+      item:SetActivated(false)
+    end
+  end
 end
 
 

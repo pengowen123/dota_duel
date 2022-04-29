@@ -132,18 +132,29 @@ function StartRound()
       end
     end
 
+    for i = 0,20 do
+      local item = player_entity:GetItemInSlot(i)
+
+      -- Enable seer stones (disabled in base to prevent abuse)
+      if item and item:GetAbilityName() == "item_seer_stone" then
+        item:SetActivated(true)
+      end
+    end
+
     -- Keep spirit bears disabled and away from the shop so lone druid can't cheat
     if player_entity:GetName() == "npc_dota_lone_druid_bear" then
-      player_entity:AddNewModifier(player_entity, nil, "modifier_bear_disable", {})
+      -- It's simpler to just kill the bear and doesn't seem to cause problems so far
+      player_entity:Kill(nil, player_entity)
+      -- player_entity:AddNewModifier(player_entity, nil, "modifier_bear_disable", {})
 
-      local point = Vector(-12000, 12000, 0)
+      -- local point = Vector(-12000, 12000, 0)
 
-      -- Keep bears from separate teams in different places so they don't get vision of each other
-      if player_entity:GetTeam() == DOTA_TEAM_BADGUYS then
-        point = Vector(12000, 12000, 0)
-      end
+      -- -- Keep bears from separate teams in different places so they don't get vision of each other
+      -- if player_entity:GetTeam() == DOTA_TEAM_BADGUYS then
+      --   point = Vector(12000, 12000, 0)
+      -- end
 
-      FindClearSpaceForUnit(player_entity, point, false)
+      -- FindClearSpaceForUnit(player_entity, point, false)
     else
       -- This must happen after buffs are cleared to also teleport invulnerable heroes such as those in Eul's Scepter
       TeleportEntityByTeam(player_entity, "arena_start_radiant", "arena_start_dire", true)
