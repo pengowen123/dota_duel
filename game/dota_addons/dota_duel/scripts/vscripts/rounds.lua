@@ -121,8 +121,6 @@ function StartRound()
   local player_entities = GetPlayerEntities()
 
   for i, player_entity in pairs(player_entities) do
-    -- Buffs are cleared before cooldowns reset so tiny doesn't start the round with tree grab on
-    -- cooldown if he used it in the fountain
     ClearBuffs(player_entity)
     ResetCooldowns(player_entity)
 
@@ -428,34 +426,14 @@ end
 
 
 -- Removes all temporary buffs on the provided entity
--- NOTE: Probably made redundant by ResetTalents but kept around just in case
 function ClearBuffs(entity)
   local modifiers = entity:FindAllModifiers()
-  -- print("entity name: " .. entity:GetName())
 
   for i, modifier in pairs(modifiers) do
     local name = modifier:GetName()
-    -- print("modifier: " .. name)
 
-    -- Don't remove modifiers such as ones that represent abiltiies
-    if IsSafeToRemove(modifier) then
-      -- print("removing modifier: " .. name)
+    if modifier:GetDuration() ~= -1 then
       modifier:Destroy()
-    else
-      -- print("not removing modifier: " .. name)
-    end
-
-    -- Reset undying reincarnation talent cooldown
-    if name == "modifier_special_bonus_reincarnation" then
-      modifier:ForceRefresh()
-    end
-
-    -- Some modifiers are both the stack count and the passive, so they must be removed to reset the stack count
-    -- However, removing them removes the passive as well so the modifier is re-added here to fix that
-    local ability_origin = ShouldBeReadded(name)
-
-    if ability_origin then
-      entity:AddNewModifier(entity, entity:GetAbilityByIndex(ability_origin), name, {})
     end
   end
 end
@@ -510,8 +488,9 @@ end
 
 
 -- Resets the talents of all players
--- NOTE: While talents no longer need to be reset, this is a harder reset than ClearBuffs so it is
---       kept around for safety
+-- NOTE: While talents no longer need to be reset, this is the simplest way to hard-reset all
+--       heroes, so it is used to avoid necessitating more ad-hoc methods in ClearBuffs and
+--       other reset functions
 function ResetTalents()
   local player_IDs = GetPlayerIDs()
   local player_items = GetPlayerInventories()
