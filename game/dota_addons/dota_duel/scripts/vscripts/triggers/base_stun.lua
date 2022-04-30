@@ -54,7 +54,7 @@ function OnStartTouch(trigger)
 
 				for i, bear in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
 					if bear:GetOwner() == activator then
-						local tp_scroll = CreateItem("item_tpscroll", activator, activator)
+						local tp_scroll = CreateAndConfigureItem("item_tpscroll", activator)
 	          tp_scroll:SetCurrentCharges(3)
 	          bear:AddItem(tp_scroll)
 	        end

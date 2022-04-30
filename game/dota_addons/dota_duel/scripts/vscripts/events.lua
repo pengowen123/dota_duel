@@ -44,7 +44,7 @@ function GameMode:OnNPCSpawned(keys)
 			LevelEntityToMax(entity)
 			ClearInventory(entity)
 
-		  local tp_scroll = CreateItem("item_tpscroll", entity, entity)
+		  local tp_scroll = CreateAndConfigureItem("item_tpscroll", entity)
 		  tp_scroll:SetCurrentCharges(3)
 		  entity:AddItem(tp_scroll)
 

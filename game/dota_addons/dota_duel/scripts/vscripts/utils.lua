@@ -310,7 +310,7 @@ function SetupInventory(entity, item_owner, inventory)
   ClearInventory(entity)
 
   -- Add TP scrolls
-  local tp_scroll = CreateItem("item_tpscroll", item_owner, item_owner)
+  local tp_scroll = CreateAndConfigureItem("item_tpscroll", item_owner)
   tp_scroll:SetCurrentCharges(3)
   entity:AddItem(tp_scroll)
 
@@ -323,9 +323,7 @@ function SetupInventory(entity, item_owner, inventory)
       local item_info = inventory[i]
 
       if item_info and IsNeutralItem(item_info[1]) then
-        local item = CreateItem(item_info[1], item_owner, item_owner)
-
-        item:SetPurchaser(item_owner)
+        local item = CreateAndConfigureItem(item_info[1], item_owner)
 
         entity:AddItem(item)
         -- Swap with first backpack slot (it's where neutral items go if the neutral slot is filled)
@@ -340,11 +338,7 @@ function SetupInventory(entity, item_owner, inventory)
   local real_neutral_item = inventory[NEUTRAL_ITEM_SLOT]
 
   if real_neutral_item then
-    local item = CreateItem(real_neutral_item[1], item_owner, item_owner)
-
-    -- This makes neutral items sellable
-    item:SetPurchaser(item_owner)
-
+    local item = CreateAndConfigureItem(real_neutral_item[1], item_owner)
     entity:AddItem(item)
   end
 
@@ -356,7 +350,7 @@ function SetupInventory(entity, item_owner, inventory)
 
     -- Neutral items are handled separately
     if item_info and not IsNeutralItem(item_info[1]) then
-      local item = CreateItem(item_info[1], item_owner, item_owner)
+      local item = CreateAndConfigureItem(item_info[1], item_owner)
 
       if item_info[2] then
         item:SetCurrentCharges(item_info[2])
@@ -366,20 +360,8 @@ function SetupInventory(entity, item_owner, inventory)
         item:SetSecondaryCharges(item_info[3])
       end
 
-      -- This makes neutral items sellable
-      item:SetPurchaser(item_owner)
-
       entity:AddItem(item)
       entity:SwapItems(0, i)
-    end
-  end
-
-  for i = 0,20 do
-    local item = entity:GetItemInSlot(i)
-
-    -- Disable seer stone to prevent abuse (will be re-enabled at round start)
-    if item and item:GetAbilityName() == "item_seer_stone" then
-      item:SetActivated(false)
     end
   end
 end
@@ -632,4 +614,22 @@ function SendServerMessage(text)
   local data = {}
   data.text = text
   CustomGameEventManager:Send_ServerToAllClients("server_message", data)
+end
+
+
+-- Creates and returns an item owned by `owner`, setting its purchaser and disabling it as
+-- necessary
+-- This should always be used over CreateItem
+function CreateAndConfigureItem(name, owner)
+  local item = CreateItem(name, owner, owner)
+
+  -- Make the item sellable (important for neutral items)
+  item:SetPurchaser(owner)
+
+  -- Disable seer stone to prevent abuse (will be re-enabled at round start)
+  if item:GetAbilityName() == "item_seer_stone" then
+    item:SetActivated(false)
+  end
+
+  return item
 end

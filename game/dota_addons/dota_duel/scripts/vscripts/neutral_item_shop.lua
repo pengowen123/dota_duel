@@ -67,15 +67,7 @@ function PurchaseNeutralItem(item_owner, entity, item_name, use_stash)
     end
   end
 
-  local item = CreateItem(item_name, item_owner, item_owner)
-
-  -- Make the item sellable
-  item:SetPurchaser(item_owner)
-
-  -- Disable seer stone to prevent abuse (will be re-enabled at round start)
-  if item:GetAbilityName() == "item_seer_stone" then
-    item:SetActivated(false)
-  end
+  local item = CreateAndConfigureItem(item_name, item_owner)
 
   if empty_slot then
     -- Destroy equipped neutral item temporarily
@@ -95,13 +87,11 @@ function PurchaseNeutralItem(item_owner, entity, item_name, use_stash)
 
     -- Re-add equipped neutral item
     if equipped_item_name then
-      local new_equipped_item = CreateItem(equipped_item_name, item_owner, item_owner)
+      local new_equipped_item = CreateAndConfigureItem(equipped_item_name, item_owner)
 
-      -- Makes the item sellable
+      -- Make the item sellable by its owner
       if equipped_item_owner then
         new_equipped_item:SetPurchaser(equipped_item_owner)
-      else
-        new_equipped_item:SetPurchaser(item_owner)
       end
 
       entity:AddItem(new_equipped_item)
