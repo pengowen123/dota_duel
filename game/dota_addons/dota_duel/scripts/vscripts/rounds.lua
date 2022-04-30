@@ -25,6 +25,28 @@ function OnEntityDeath(event)
 
   -- Only count the death if the entity is a hero and won't reincarnate
   if entity:IsRealHero() then
+    local player_id = entity:GetPlayerOwnerID()
+    local updated_after_respawn = false
+
+    -- Update respawn timer
+    local update_respawn_timer = function()
+      CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
+
+      local hero = PlayerResource:GetSelectedHeroEntity(player_id)
+
+      if hero then
+        if not hero:IsAlive() then
+          return 1.0
+        elseif not updated_after_respawn then
+          -- Update once after respawn to guarantee the UI doesn't get stuck
+          updated_after_respawn = true
+          return 1.0
+        end
+      end
+    end
+
+    Timers:CreateTimer(0.2, update_respawn_timer)
+
     if entity:IsReincarnating() then
       if global_bot_controller then
         if entity:GetName() == "npc_dota_hero_skeleton_king" then
@@ -43,21 +65,6 @@ function OnEntityDeath(event)
           SetRespawnTimes(999.0)
           return 1.0
         end
-
-        local player_id = entity:GetPlayerOwnerID()
-
-        -- Update respawn timer
-        local update_respawn_timer = function()
-          CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
-
-          local hero = PlayerResource:GetSelectedHeroEntity(player_id)
-
-          if hero and not hero:IsAlive() then
-            return 1.0
-          end
-        end
-
-        Timers:CreateTimer(0.1, update_respawn_timer)
 
         local args = {
           endTime = 0.0,

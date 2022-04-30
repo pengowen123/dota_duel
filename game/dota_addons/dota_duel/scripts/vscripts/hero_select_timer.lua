@@ -88,6 +88,8 @@ function RestartGame()
 		end
 	end
 
+	SetGameState(GAME_STATE_HERO_LOAD)
+
 	for i, playerID in pairs(GetPlayerIDs()) do
 		local hero_name = hero_select_data[playerID]
 
@@ -102,8 +104,6 @@ function RestartGame()
 				return
 			end
 		end
-
-		SetGameState(GAME_STATE_HERO_LOAD)
 
 		SetPreviousRoundEndTime()
 

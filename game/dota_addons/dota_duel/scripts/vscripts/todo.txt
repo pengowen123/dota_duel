@@ -6,7 +6,6 @@ add intro screen to help new players
 fix heroes not sinking into the ground
 fix alchemist scepter gifted buff and self buff not persisting through rounds (complex)
 fix aghs spark wraith vision persisting in a nice way
-
 fix underlord ult vision persisting
+
 test undying giving away free points on death
-fix death timers not counting down during hero pick phase
