@@ -15,6 +15,8 @@ function Precache( context )
   ]]
 
   DebugPrint("[BAREBONES] Performing pre-load precache")
+
+  PrecacheResource("soundfile", "soundevents/game_sounds_custom.vsndevts", context)
 end
 
 -- Create the game mode when we activate
