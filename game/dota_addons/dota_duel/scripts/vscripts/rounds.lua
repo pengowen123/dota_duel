@@ -60,10 +60,13 @@ function OnEntityDeath(event)
         local team = entity:GetTeam()
         dead_players[team] = dead_players[team] + 1
 
-        -- Fix respawn time to prevent respawns without calling SetHeroRespawnEnabled
-        local set_respawn_time = function()
-          SetRespawnTimes(999.0)
-          return 1.0
+        -- Fix respawn time while round is ongoing to prevent respawns without calling
+        -- SetHeroRespawnEnabled
+        if not is_round_ending then
+          local set_respawn_time = function()
+            SetRespawnTimes(999.0)
+            return 1.0
+          end
         end
 
         local args = {
