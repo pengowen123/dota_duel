@@ -67,14 +67,14 @@ function OnEntityDeath(event)
             SetRespawnTimes(999.0)
             return 1.0
           end
+
+          local args = {
+            endTime = 0.0,
+            callback = set_respawn_time
+          }
+
+          Timers:CreateTimer("set_respawn_time", args)
         end
-
-        local args = {
-          endTime = 0.0,
-          callback = set_respawn_time
-        }
-
-        Timers:CreateTimer("set_respawn_time", args)
 
         -- All players are killed and scores updated on round draw, so don't update scores
         -- redundantly
