@@ -14,14 +14,8 @@ function night_stalker_darkness_custom:OnSpellStart()
   ParticleManager:SetParticleControl(particle, 0, caster:GetAbsOrigin())
   ParticleManager:SetParticleControl(particle, 1, caster:GetAbsOrigin())
 
-  -- Add buff (with talents applied)
+  -- Add buff
   local duration = self:GetLevelSpecialValueFor("duration", self:GetLevel() - 1)
-  local talent = caster:FindAbilityByName("special_bonus_unique_night_stalker_7")
-
-  if talent and talent:GetLevel() > 0 then
-    duration = duration + talent:GetSpecialValueFor("value")
-  end
-
   caster:AddNewModifier(caster, self, "modifier_night_stalker_darkness", { duration = duration })
   -- Add tracking buff that persists through death (used to apply night time)
   caster:AddNewModifier(caster, self, "modifier_night_stalker_darkness_timer", { duration = duration })
@@ -51,14 +45,5 @@ end
 
 
 function night_stalker_darkness_custom:GetCooldown(level)
-  local caster = self:GetCaster()
-  local cooldown = self.BaseClass.GetCooldown(self, level)
-
-  local talent_value = caster:GetModifierStackCount("modifier_special_bonus_unique_night_stalker", caster)
-
-  if talent_value then
-    cooldown = cooldown - talent_value
-  end
-
-  return cooldown
+  return self.BaseClass.GetCooldown(self, level)
 end

@@ -19,6 +19,9 @@ neutral_items = {
   ["item_mysterious_hat"] = true,
   ["item_unstable_wand"] = true,
   ["item_pogo_stick"] = true,
+  ["item_seeds_of_serenity"] = true,
+  ["item_lance_of_pursuit"] = true,
+  ["item_occult_bracelet"] = true,
   -- sic
   ["item_elixer"] = true,
   ["item_elixir"] = true,
@@ -43,6 +46,9 @@ neutral_items = {
   ["item_tome_of_aghanim"] = true,
   ["item_misericorde"] = true,
   ["item_paintball"] = true,
+  ["item_eye_of_the_vizier"] = true,
+  ["item_specialists_array"] = true,
+  ["item_dagger_of_ristul"] = true,
   -- Tier 3
   ["item_craggy_coat"] = true,
   ["item_greater_faerie_fire"] = true,
@@ -61,6 +67,7 @@ neutral_items = {
   ["item_ceremonial_robe"] = true,
   ["item_psychic_headband"] = true,
   ["item_black_powder_bag"] = true,
+  ["item_ogre_seal_totem"] = true,
   -- Tier 4
   ["item_witless_shako"] = true,
   ["item_timeless_relic"] = true,
@@ -632,4 +639,12 @@ function CreateAndConfigureItem(name, owner)
   end
 
   return item
+end
+
+
+-- Kills the provided NPC, bypassing shallow grave and similar effects
+-- Does not prevent reincarnation
+function KillNPC(entity)
+  ClearBuffs(entity)
+  entity:Kill(nil, activator)
 end

@@ -37,16 +37,7 @@ end
 
 
 function ancient_apparition_ice_vortex_custom:GetCooldown(level)
-  local caster = self:GetCaster()
-  local cooldown = self.BaseClass.GetCooldown(self, level)
-
-  local talent_value = caster:GetModifierStackCount("modifier_special_bonus_unique_ancient_apparition_3", caster)
-
-  if talent_value then
-    cooldown = cooldown - talent_value
-  end
-
-  return cooldown
+  return self.BaseClass.GetCooldown(self, level)
 end
 
 

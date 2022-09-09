@@ -35,7 +35,7 @@ function leave_arena_modifier:OnDestroy()
 			Timers:CreateTimer(reincarnate_delay, re_add_modifier)
 		end
 
-		parent:Kill(nil, parent)
+		KillNPC(parent)
 	end
 end
 

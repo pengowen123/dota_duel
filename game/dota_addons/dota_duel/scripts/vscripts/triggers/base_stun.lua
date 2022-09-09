@@ -23,7 +23,7 @@ function OnStartTouch(trigger)
 	if game_state == GAME_STATE_FIGHT then
 		-- Killing monkey king clones results in hundreds of them being spawned, crashing the game
 		if not IsMonkeyKingClone(activator) then
-			activator:Kill(nil, activator)
+			KillNPC(activator)
 		end
 
 		return
@@ -31,20 +31,9 @@ function OnStartTouch(trigger)
 
 	local name = activator:GetName()
 
-	if name == "npc_dota_hero_monkey_king" then
-		for i, modifier in pairs(activator:FindAllModifiers()) do
-			local name = modifier:GetName()
-
-			local monkey_clone_modifiers = {
-				["modifier_monkey_king_fur_army_soldier"] = true,
-				["modifier_monkey_king_fur_army_soldier_hidden"] = true,
-				["modifier_monkey_king_fur_army_soldier_active"] = true,
-			}
-
-			if monkey_clone_modifiers[name] then
-				return
-			end
-		end
+	if IsMonkeyKingClone(activator) then
+		-- The stun modifier shouldn't be added to Monkey King clones
+		return
 	elseif name == "npc_dota_hero_lone_druid" then
 		Timers:CreateTimer(0.5, function()
 			if activator:GetAbilityByIndex(0):GetLevel() >= 3 then

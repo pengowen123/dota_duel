@@ -51,7 +51,7 @@ function EndRoundOnTimeout()
   -- Doesn't actually catch reincarnating heroes, but their respawn time is set to the round end
   -- delay anyways so it still looks smooth
   for i, hero in pairs(GetPlayerEntities()) do
-    hero:Kill(nil, hero)
+    KillNPC(hero)
   end
 
   AwardRadiantKill()

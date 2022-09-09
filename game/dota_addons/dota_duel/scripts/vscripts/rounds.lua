@@ -81,9 +81,6 @@ function OnEntityDeath(event)
         if not round_drew then
           -- End the round if all players on a team have died
           if dead_players[team] >= PlayerResource:GetPlayerCountForTeam(team) then
-            dead_players[DOTA_TEAM_GOODGUYS] = 0
-            dead_players[DOTA_TEAM_BADGUYS] = 0
-
             if team == DOTA_TEAM_GOODGUYS then
               AwardDireKill()
             elseif team == DOTA_TEAM_BADGUYS then
@@ -213,6 +210,10 @@ function EndRound()
 
   is_round_ending = false
   round_drew = false
+
+  -- Reset the dead player counters
+  dead_players[DOTA_TEAM_GOODGUYS] = 0
+  dead_players[DOTA_TEAM_BADGUYS] = 0
 
   InitReadyUpData()
 
