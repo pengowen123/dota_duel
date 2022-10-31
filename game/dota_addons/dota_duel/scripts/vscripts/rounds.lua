@@ -339,7 +339,7 @@ function SetRespawnTimes(time)
   for i, player_id in pairs(GetPlayerIDs()) do
     local player_entity = PlayerResource:GetSelectedHeroEntity(player_id)
 
-    if player_entity and not player_entity:IsAlive() then
+    if player_entity and not player_entity:IsAlive() and not player_entity:IsReincarnating() then
       player_entity:SetTimeUntilRespawn(time)
     end
   end

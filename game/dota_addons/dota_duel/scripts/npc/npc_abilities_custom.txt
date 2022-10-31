@@ -24,7 +24,7 @@
     {
       "AbilityCooldown"
       {
-        "value"                                 "150 140 130"
+        "value"                                 "140 135 130"
         "special_bonus_unique_night_stalker"    "-50"
       }
       "duration"
