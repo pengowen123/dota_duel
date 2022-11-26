@@ -553,7 +553,7 @@ end
 
 -- Returns whether the 1v1 map is being played
 function IsOneVsOneMap()
-  return GetMapName() == "duel1v1"
+  return GameRules:GetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS) == 1
 end
 
 
@@ -563,7 +563,8 @@ function CanAddBot()
   total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
   total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
 
-  return IsOneVsOneMap() and (total_players == 1) and not IsMatchEnded()
+  -- FIXME: Disabled until bots are rewritten due to them being hardcoded for the old map
+  return false and IsOneVsOneMap() and (total_players == 1) and not IsMatchEnded()
 end
 
 
