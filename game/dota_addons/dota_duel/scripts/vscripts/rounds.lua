@@ -56,6 +56,7 @@ function OnEntityDeath(event)
         end
       end
     else
+      -- Only update state during the round so that post-round kills don't affect anything
       if game_state == GAME_STATE_FIGHT then
         local team = entity:GetTeam()
         dead_players[team] = dead_players[team] + 1
@@ -339,8 +340,11 @@ function SetRespawnTimes(time)
   for i, player_id in pairs(GetPlayerIDs()) do
     local player_entity = PlayerResource:GetSelectedHeroEntity(player_id)
 
-    if player_entity and not player_entity:IsAlive() and not player_entity:IsReincarnating() then
-      player_entity:SetTimeUntilRespawn(time)
+    if player_entity and not player_entity:IsAlive() then
+      -- Don't set respawn times for reincarnating players unless the round is over
+      if game_state ~= GAME_STATE_FIGHT or not player_entity:IsReincarnating() then
+        player_entity:SetTimeUntilRespawn(time)
+      end
     end
   end
 end

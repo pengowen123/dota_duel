@@ -5,6 +5,7 @@
 	[
 		"duel1v1",
 		"duel2v2",
+		"duel3v3",
 	]
 	IsPlayable = 1
 	PenaltiesEnabled = 0
@@ -19,6 +20,10 @@
 		{
 			MaxPlayers = 4
 			map = "duel2v2"
+		},
+		{
+			MaxPlayers = 6
+			map = "duel3v3"
 		},
 	]
 	HideInTools = false

@@ -90,14 +90,20 @@ USE_CUSTOM_TEAM_COLORS_FOR_PLAYERS = false          -- Should we use custom team
 
 USE_AUTOMATIC_PLAYERS_PER_TEAM = false   -- Should we set the number of players to 10 / MAX_NUMBER_OF_TEAMS?
 
+-- The number of players on each team, by map
+players_per_team = {
+	["duel1v1"] = 1,
+	["duel2v2"] = 2,
+	["duel3v3"] = 3,
+}
+players_per_team = players_per_team[GetMapName()]
+
 CUSTOM_TEAM_PLAYER_COUNT = {}           -- If we're not automatically setting the number of players per team, use this table
-CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_GOODGUYS] = 1
-CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_BADGUYS]  = 1
+CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_GOODGUYS] = players_per_team
+CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_BADGUYS]  = players_per_team
 
--- Special settings for the 2v2 map
-if GetMapName() == "duel2v2" then
+-- Special settings for non-1v1 maps
+if players_per_team > 1 then
+	-- Allow players to choose teams (they are shuffled by default but players might want to set them manually)
 	SKIP_TEAM_SETUP = false
-
-	CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_GOODGUYS] = 2
-	CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_BADGUYS]  = 2
 end

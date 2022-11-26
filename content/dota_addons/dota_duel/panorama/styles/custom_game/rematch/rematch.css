@@ -46,7 +46,7 @@
 .PlayerRematch
 {
 	width: 100%;
-	height: 80px;
+	height: 50px;
 }
 
 // Shows player name
@@ -116,8 +116,8 @@
 {
 	background-color: black;
 	opacity: 0.5;
-	width: 52px;
-	height: 52px;
+	width: 45px;
+	height: 45px;
 
 	horizontal-align: right;
 	vertical-align: center;
