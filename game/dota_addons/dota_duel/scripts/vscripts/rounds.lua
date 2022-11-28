@@ -342,7 +342,7 @@ function SetRespawnTimes(time)
 
     if player_entity and not player_entity:IsAlive() then
       -- Don't set respawn times for reincarnating players unless the round is over
-      if game_state ~= GAME_STATE_FIGHT or not player_entity:IsReincarnating() then
+      if game_state ~= GAME_STATE_FIGHT or is_round_ending or not player_entity:IsReincarnating() then
         player_entity:SetTimeUntilRespawn(time)
       end
     end
