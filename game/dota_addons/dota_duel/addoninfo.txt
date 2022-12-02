@@ -4,8 +4,11 @@
 	maps =
 	[
 		"duel1v1",
+		"duel1v1_classic",
 		"duel2v2",
+		"duel2v2_classic",
 		"duel3v3",
+		"duel3v3_classic",
 	]
 	IsPlayable = 1
 	PenaltiesEnabled = 0
@@ -18,12 +21,24 @@
 			map = "duel1v1"
 		},
 		{
+			MaxPlayers = 2
+			map = "duel1v1_classic"
+		},
+		{
 			MaxPlayers = 4
 			map = "duel2v2"
 		},
 		{
+			MaxPlayers = 4
+			map = "duel2v2_classic"
+		},
+		{
 			MaxPlayers = 6
 			map = "duel3v3"
+		},
+		{
+			MaxPlayers = 6
+			map = "duel3v3_classic"
 		},
 	]
 	HideInTools = false

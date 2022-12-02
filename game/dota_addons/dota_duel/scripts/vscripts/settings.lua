@@ -7,7 +7,7 @@ ALLOW_SAME_HERO_SELECTION = true        -- Should we let people select the same 
 HERO_SELECTION_TIME = 30.0              -- How long should we let people select their hero?
 PRE_GAME_TIME = 0.0                    -- How long after people select their heroes should the horn blow and the game start?
 POST_GAME_TIME = 60.0                   -- How long should we let people look at the scoreboard before closing the server automatically?
-TREE_REGROW_TIME = 300.0                 -- How long should it take individual trees to respawn after being cut down/destroyed?
+TREE_REGROW_TIME = 120.0                 -- How long should it take individual trees to respawn after being cut down/destroyed?
 
 GOLD_PER_TICK = 99999                     -- How much gold should players get per tick?
 GOLD_TICK_TIME = 1                      -- How long should we wait in seconds between gold ticks?
@@ -93,8 +93,11 @@ USE_AUTOMATIC_PLAYERS_PER_TEAM = false   -- Should we set the number of players 
 -- The number of players on each team, by map
 players_per_team = {
 	["duel1v1"] = 1,
+	["duel1v1_classic"] = 1,
 	["duel2v2"] = 2,
+	["duel2v2_classic"] = 2,
 	["duel3v3"] = 3,
+	["duel3v3_classic"] = 3,
 }
 players_per_team = players_per_team[GetMapName()]
 

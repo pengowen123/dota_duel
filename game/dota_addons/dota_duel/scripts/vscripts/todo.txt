@@ -7,6 +7,3 @@ fix heroes not sinking into the ground
 fix alchemist scepter gifted buff and self buff not persisting through rounds (complex)
 fix aghs spark wraith vision persisting in a nice way
 fix underlord ult vision persisting
-
-make new map with lowground outside
-fix infinite respawn

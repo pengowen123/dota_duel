@@ -1,8 +1,8 @@
 duel3v3
 {
 	material materials/overviews/duel3v3.vmat
-	pos_x -8192
-	pos_y 8192
+	pos_x -8189
+	pos_y 8193
 	scale 16.000
 }
 

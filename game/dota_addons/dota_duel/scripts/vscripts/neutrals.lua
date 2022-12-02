@@ -134,11 +134,11 @@ function IsPopulated(camp)
   local origin = camp:GetOrigin()
   local camp_radius = 300.0
 
-  local entity = Entities:FindByClassnameWithin(nil, "npc_dota_creep_neutral", origin, camp_radius)
-
-  if entity then
-    return true
-  end
+  for i, entity in pairs(Entities:FindAllByClassnameWithin("npc_dota_creep_neutral", origin, camp_radius)) do
+	  if entity and entity:IsAlive() then
+	    return true
+	  end
+	end
 
   return false
 end
