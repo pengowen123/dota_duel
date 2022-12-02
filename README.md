@@ -1,6 +1,6 @@
 # Dota Duel
 
-A custom game for DOTA 2 that allows players to have 1v1 and 2v2 duels. If you want to play Dota Duel, subscribe to it on the [Steam Workshop][0].
+A custom game for DOTA 2 that allows players to have 1v1, 2v2, and 3v3 duels. If you want to play Dota Duel, subscribe to it on the [Steam Workshop][0].
 
 # Development
 
