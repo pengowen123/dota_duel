@@ -17,14 +17,24 @@ function OnStartTouch(keys)
 		for i, modifier in pairs(activator:FindAllModifiers()) do
 			local modifier_name = modifier:GetName()
 
-			if modifier_name == "modifier_arc_warden_scepter" then
+			-- Thinker modifiers that just have to be `Destroy`ed
+			local simple_destroy = {
+				["modifier_slardar_puddle_thinker"] = true,
+				["modifier_item_gem_of_true_sight"] = true,
+				["modifier_tinker_march_thinker"] = true,
+				["modifier_ancient_apparition_ice_vortex_custom_thinker"] = true,
+				["modifier_kunkka_ghost_ship_fleet"] = true,
+				["modifier_kunkka_torrent_thinker"] = true,
+				["modifier_leshrac_split_earth_thinker"] = true,
+				-- Vision persists for this, but it's difficult to fix
+				["modifier_sniper_shrapnel_thinker"] = true,
+			}
+
+			if simple_destroy[modifier_name] then
+				modifier:Destroy()
+				return
+			elseif modifier_name == "modifier_arc_warden_scepter" then
 				modifier:StartIntervalThink(1.0)
-				return
-			elseif modifier_name == "modifier_slardar_puddle_thinker" then
-				modifier:Destroy()
-				return
-			elseif modifier_name == "modifier_item_gem_of_true_sight" then
-				modifier:Destroy()
 				return
 			elseif modifier_name == "modifier_arc_warden_spark_wraith_thinker" then
 				local creep = CreateUnitByName(
@@ -33,33 +43,21 @@ function OnStartTouch(keys)
 					false,
 					nil,
 					nil,
-					DOTA_TEAM_NEUTRALS)
+					DOTA_TEAM_NEUTRALS
+				)
 
 				Timers:CreateTimer(0.25, function()
 					creep:Kill(nil, creep)
-					-- for i, foo in pairs(Entities:FindAllByClassname("npc_dota_thinker")) do
-					-- 	local modifier = foo:FindModifierByName("modifier_arc_warden_spark_wraith_thinker")
 
-					-- 	if modifier then
-					-- 		modifier:Destroy()
-					-- 	end
-					-- end
+					-- This doesn't remove the vision but at least removes the spark wraiths visually to avoid confusion
+					for i, thinker in pairs(Entities:FindAllByClassname("npc_dota_thinker")) do
+						local modifier = thinker:FindModifierByName("modifier_arc_warden_spark_wraith_thinker")
+
+						if modifier then
+							modifier:Destroy()
+						end
+					end
 				end)
-				return
-			elseif modifier_name == "modifier_tinker_march_thinker" then
-				modifier:Destroy()
-				return
-			elseif modifier_name == "modifier_ancient_apparition_ice_vortex_custom_thinker" then
-				modifier:Destroy()
-				return
-			elseif modifier_name == "modifier_kunkka_ghost_ship_fleet" then
-				modifier:Destroy()
-				return
-			elseif modifier_name == "modifier_kunkka_torrent_thinker" then
-				modifier:Destroy()
-				return
-			elseif modifier_name == "modifier_leshrac_split_earth_thinker" then
-				modifier:Destroy()
 				return
 			end
 		end
@@ -120,15 +118,15 @@ function OnStartTouch(keys)
 
 		local modifiers = activator:FindAllModifiers()
 
-	  for i, modifier in pairs(modifiers) do
-	    if modifier:GetName() == "modifier_arc_warden_tempest_double" then
-	    	is_tempest_double = true
-	    end
-    end
+		for i, modifier in pairs(modifiers) do
+			if modifier:GetName() == "modifier_arc_warden_tempest_double" then
+				is_tempest_double = true
+			end
+		end
 
-    if not is_tempest_double then
-    	return
-    end
+		if not is_tempest_double then
+			return
+		end
 	end
 
 	if string.find(name, "npc_dota_hero") and name ~= "npc_dota_hero_arc_warden" and not activator:IsIllusion() then

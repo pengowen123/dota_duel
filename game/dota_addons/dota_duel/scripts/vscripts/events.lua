@@ -2,7 +2,7 @@
 
 function GameMode:OnDisconnect(keys)
 	Timers:CreateTimer(0.1, function()
-	  CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
+		CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
 	end)
 end
 
@@ -10,9 +10,9 @@ function GameMode:OnGameRulesStateChange(keys)
 	local new_state = GameRules:State_Get()
 
 	if new_state == DOTA_GAMERULES_STATE_HERO_SELECTION then
-	  -- Fetch player stats at the start so that they are available by the time the stats are displayed
-	  -- Must be done after team selection is finished, so it is done here instead of in InitGameMode
-	  UpdatePlayerStatsUI()
+		-- Fetch player stats at the start so that they are available by the time the stats are displayed
+		-- Must be done after team selection is finished, so it is done here instead of in InitGameMode
+		UpdatePlayerStatsUI()
 	elseif new_state == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
 		if IsOneVsOneMap() then
 			Timers:CreateTimer(0.1, ShuffleTeams)
@@ -20,7 +20,7 @@ function GameMode:OnGameRulesStateChange(keys)
 	end
 end
 
--- An NPC has spawned somewhere in game.  This includes heroes
+-- An NPC has spawned somewhere in game.	This includes heroes
 function GameMode:OnNPCSpawned(keys)
 	Timers:CreateTimer(0.1, function()
 		local entity = EntIndexToHScript(keys.entindex)
@@ -44,11 +44,16 @@ function GameMode:OnNPCSpawned(keys)
 			LevelEntityToMax(entity)
 			ClearInventory(entity)
 
-		  local tp_scroll = CreateAndConfigureItem("item_tpscroll", entity)
-		  tp_scroll:SetCurrentCharges(3)
-		  entity:AddItem(tp_scroll)
+			local tp_scroll = CreateAndConfigureItem("item_tpscroll", entity)
+			tp_scroll:SetCurrentCharges(3)
+			entity:AddItem(tp_scroll)
 
-		  CustomGameEventManager:Send_ServerToAllClients("rebuild_hero_lists", {})
+			-- Automatically give players Moon Shard for convenience
+			local moon_shard = entity:AddItemByName("item_moon_shard")
+			local player_index = 0
+			entity:CastAbilityOnTarget(entity, moon_shard, player_index)
+
+			CustomGameEventManager:Send_ServerToAllClients("rebuild_hero_lists", {})
 
 			-- In case players don't have assigned heroes when rebuild_hero_lists is sent
 			Timers:CreateTimer(0.5, function()
@@ -58,7 +63,7 @@ function GameMode:OnNPCSpawned(keys)
 	end)
 end
 
--- An entity somewhere has been hurt.  This event fires very often with many units so don't do too many expensive
+-- An entity somewhere has been hurt.	This event fires very often with many units so don't do too many expensive
 -- operations here
 function GameMode:OnEntityHurt(keys)
 	local hurt = EntIndexToHScript(keys.entindex_killed)
@@ -122,7 +127,7 @@ end
 
 function GameMode:OnPlayerReconnect(keys)
 	Timers:CreateTimer(0.1, function()
-	  CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
+		CustomGameEventManager:Send_ServerToAllClients("update_hero_lists", {})
 	end)
 end
 

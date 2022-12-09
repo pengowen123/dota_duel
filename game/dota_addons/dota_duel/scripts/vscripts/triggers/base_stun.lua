@@ -44,9 +44,16 @@ function OnStartTouch(trigger)
 				for i, bear in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
 					if bear:GetOwner() == activator then
 						local tp_scroll = CreateAndConfigureItem("item_tpscroll", activator)
-	          tp_scroll:SetCurrentCharges(3)
-	          bear:AddItem(tp_scroll)
-	        end
+						tp_scroll:SetCurrentCharges(3)
+						bear:AddItem(tp_scroll)
+
+						-- Give the Spirit Bear the Moon Shard buff if it doesn't already have it
+						if not bear:HasModifier("modifier_item_moon_shard_consumed") then
+							local moon_shard = bear:AddItemByName("item_moon_shard")
+							local player_index = 0
+							bear:CastAbilityOnTarget(bear, moon_shard, player_index)
+						end
+					end
 				end
 			else
 				return 0.5
