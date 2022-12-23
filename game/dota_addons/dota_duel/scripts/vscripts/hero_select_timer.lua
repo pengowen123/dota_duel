@@ -100,7 +100,9 @@ function RestartGame()
 				hero_name = hero:GetName()
 			else
 				-- Make the player lose again if they don't select a hero
-				MakePlayerLose(playerID, "#duel_no_selected_hero", true)
+				MakePlayerLose(playerID, "#duel_no_selected_hero", true, VICTORY_REASON_NO_HERO)
+				-- Note that `OnGameInProgress` is never called in this case, which means this match's
+				-- stats won't be tracked, but a player did not pick a hero, so it doesn't really matter
 				return
 			end
 		end
@@ -114,7 +116,8 @@ function RestartGame()
 			if old_hero then
 				ClearInventory(old_hero)
 
-				PlayerResource:ReplaceHeroWith(playerID, hero_name, 99999, 99999)
+				-- The new hero must be level 1 so that OnNPCSpawned will detect it as newly spawned
+				PlayerResource:ReplaceHeroWith(playerID, hero_name, 1, 1)
 			else
 				local player = PlayerResource:GetPlayer(playerID)
 				local hero = CreateHeroForPlayer(hero_name, player)

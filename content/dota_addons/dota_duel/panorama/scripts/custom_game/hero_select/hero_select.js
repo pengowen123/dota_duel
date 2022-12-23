@@ -255,7 +255,7 @@ function ToggleChatOffset(enabled)
 	var y = "-250px";
 	if (enabled)
 	{
-	  y = "-50px";
+	  y = "25px";
 	}
 
 	chat.style.y = y;

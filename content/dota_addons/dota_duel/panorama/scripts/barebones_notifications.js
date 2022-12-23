@@ -116,14 +116,19 @@ function AddNotification(msg, panel) {
 function localize_with_vars(text, vars)
 {
   text = $.Localize(text);
+  var previous_text = null;
 
-  for (var field in vars)
-  {
-    if (vars.hasOwnProperty(field))
+  // Perform the substitution repeatedly to support recursive localization variables
+  while (text !== previous_text) {
+    previous_text = text;
+    for (var field in vars)
     {
-      var value = $.Localize(vars[field]);
+      if (vars.hasOwnProperty(field))
+      {
+        var value = $.Localize(vars[field]);
 
-      text = text.replace("{" + field + "}", value);
+        text = text.replace("{" + field + "}", value);
+      }
     }
   }
 

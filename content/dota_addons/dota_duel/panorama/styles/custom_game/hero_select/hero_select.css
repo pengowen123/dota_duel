@@ -31,6 +31,8 @@
 	height: 5%;
 	horizontal-align: center;
 
+	margin-top: 2%;
+
 	color: white;
 	font-size: 30px;
 	text-shadow: 1px 1px 1px 3.0 #33333333;
@@ -85,7 +87,7 @@
 .BottomPanel
 {
 	width: 100%;
-	height: 20%;
+	height: 18%;
 }
 
 // Random hero button
