@@ -22,6 +22,7 @@ var hero_name_table = [
 	"npc_dota_hero_lich",
 	"npc_dota_hero_lina",
 	"npc_dota_hero_lion",
+	"npc_dota_hero_muerta",
 	"npc_dota_hero_furion",
 	"npc_dota_hero_necrolyte",
 	"npc_dota_hero_ogre_magi",
