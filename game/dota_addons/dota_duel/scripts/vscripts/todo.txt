@@ -7,3 +7,25 @@ fix heroes not sinking into the ground
 fix alchemist scepter gifted buff and self buff not persisting through rounds (complex)
 fix aghs spark wraith vision persisting in a nice way
 fix underlord ult vision persisting
+
+move dire top neutral creeps up a bit
+fix instant backpack swapping exploit
+fix dc through closing the game and stopped timers
+look into top bar triangle delimiters
+fix no draws on last round (only delay if other team has 4 points, then just checkscores only on endround)
+fix being able to purge/avoid out of arena debuff
+fix vengeful spirit illusion lasting for a few seconds
+fix disruptor cheat by disabling ability for a few seconds
+fix seer stone not being disabled (maybe only affects post-game, but test after winning a round)
+s/\t/  /
+
+bots:
+- implement thinkers:
+  - implement other bots
+- general logic and utilities:
+  - add ability thinker handling:
+    - add to avoid points automatically
+    - add interface to interact with magnetic field (probably IsInMagneticField and GetNearbyMagneticFieldPoint with default but overridable search radius)
+- hero data
+- fix stat tracking
+- setup vote UI

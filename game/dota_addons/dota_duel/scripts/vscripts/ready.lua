@@ -44,7 +44,7 @@ function InitReadyUpData()
 	for i, id in pairs(GetPlayerIDs()) do
 		ready_up_data[id] = false
 
-		-- Make bots always ready up
+		-- Force bots to ready up (only necessary for testing; the custom bots do this themselves)
 		if IsBot(id) then
 			ForceReadyUp(id)
 		end

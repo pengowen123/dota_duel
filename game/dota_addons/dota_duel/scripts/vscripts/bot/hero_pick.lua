@@ -1,41 +1,87 @@
--- Logic for the bot picking a hero and the creation of its hero entity
+-- Logic for selecting bots' heroes
 
--- Selects a new hero for the bot to use. Requires that one already exists (usually created by
--- using Tutorial:AddBot).
---
--- `callback` will be given the new hero entity as an argument when it finishes loading
-function SelectNewBotHero(hero_name, callback)
-	bot_id = nil
-	for i, id in pairs(GetPlayerIDs()) do
-		if IsBot(id) then
-			bot_id = id
-			PlayerResource:ReplaceHeroWith(id, hero_name, 999999, 99999)
-		end
-	end
 
-	-- Waits for the new hero to load, then calls the callback
-	local check_new_hero = function()
-		local bot_hero = PlayerResource:GetSelectedHeroEntity(bot_id)
+hero_pool = {
+  -- "npc_dota_hero_spectre",
+  -- "npc_dota_hero_ogre_magi",
+  "npc_dota_hero_wisp",
+  -- "npc_dota_hero_juggernaut",
+  -- "npc_dota_hero_ursa",
+  -- "npc_dota_hero_arc_warden",
+}
 
-		if bot_hero then
-			callback(bot_hero)
-		else
-			return 0.5
-		end
-	end
 
-	Timers:CreateTimer(0.1, check_new_hero)
+-- A list of heroes picked by any radiant bot during this match (reset for rematches)
+bot_picks_radiant = {}
+-- A list of heroes picked by any dire bot during this match (reset for rematches)
+bot_picks_dire = {}
+
+
+-- Returns the list of heroes picked by any bot on the given team during this match
+function GetBotHeroPicks(team)
+  if team == DOTA_TEAM_GOODGUYS then
+    return bot_picks_radiant
+  elseif team == DOTA_TEAM_BADGUYS then
+    return bot_picks_dire
+  end
 end
 
 
--- Chooses a hero for the bot to play and returns the hero name
-function MakeBotHeroChoice()
-	local hero_pool = {
-		"npc_dota_hero_skeleton_king",
-		-- "npc_dota_hero_wisp",
-		-- "npc_dota_hero_arc_warden",
-	}
-	local choice_index = RandomInt(1, #hero_pool)
+-- Registers that a bot on the given team picked a hero
+function AddBotHeroPick(team, hero)
+  if team == DOTA_TEAM_GOODGUYS then
+    table.insert(bot_picks_radiant, hero)
+  elseif team == DOTA_TEAM_BADGUYS then
+    table.insert(bot_picks_dire, hero)
+  end
+end
 
-  return hero_pool[choice_index]
+
+-- Resets the bot hero pick lists
+-- Should be called on rematch
+function ResetBotHeroPicks()
+  bot_picks_radiant = {}
+  bot_picks_dire = {}
+end
+
+
+-- Returns a random hero name for a bot on the given team to pick
+-- Guaranteed to return unique hero names until all possible heroes have been picked, in which case
+-- a random non-unique hero name will be returned instead
+-- Calling `ResetBotHeroPicks` resets this function so that it starts from the full hero pool again
+function PickBotHero(team)
+  local already_picked = GetBotHeroPicks(team)
+  -- Heroes from the bot's hero pool that another bot on the team did not already pick
+  local valid_heroes = {}
+
+  for _, possible_hero in pairs(hero_pool) do
+    local exists = false
+
+    for _, existing_hero in pairs(already_picked) do
+      if existing_hero == possible_hero then
+        exists = true
+        break
+      end
+    end
+
+    -- The hero is a valid choice if it's not in `already_picked`
+    if not exists then
+      table.insert(valid_heroes, possible_hero)
+    end
+  end
+
+  local hero_name = nil
+
+  if #valid_heroes > 0 then
+    -- If there are valid choices, pick one at random
+    hero_name = valid_heroes[RandomInt(1, #valid_heroes)]
+  else
+    -- Otherwise, just pick a random hero from the bot's hero pool
+    hero_name = hero_pool[RandomInt(1, #hero_pool)]
+  end
+
+  -- Add this hero to the list of picked heroes
+  AddBotHeroPick(team, hero_name)
+
+  return hero_name
 end

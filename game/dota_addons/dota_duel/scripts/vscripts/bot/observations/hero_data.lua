@@ -1,0 +1,66 @@
+-- Hero-specific data for the bots to take advantage of
+
+-- Initial observation chances so the bots don't have to start adapating from scratch each game
+HERO_OBSERVATION_DATA = {
+  -- TODO: fill in completely when bots are done
+  ["npc_dota_hero_ogre_magi"] = {
+    ["high_status_resistance"]   = 0.1,
+    ["high_evasion"]             = 0.1,
+    ["high_disable_amount"]      = 0.1,
+    ["high_consecutive_disable"] = 0.1,
+    ["high_magic_damage"]        = 0.1,
+    ["high_pure_damage"]         = 0.1,
+    ["high_burst_damage"]        = 0.1,
+    ["mana_burn"]                = 0.1,
+  },
+  ["npc_dota_hero_spectre"] = {
+    ["high_status_resistance"]   = 0.2,
+    ["high_evasion"]             = 0.2,
+    ["high_disable_amount"]      = 0.2,
+    ["high_consecutive_disable"] = 0.2,
+    ["high_magic_damage"]        = 0.2,
+    ["high_pure_damage"]         = 0.2,
+    ["high_burst_damage"]        = 0.2,
+    ["mana_burn"]                = 0.2,
+  },
+  ["npc_dota_hero_juggernaut"] = {
+    ["high_status_resistance"]   = 0.3,
+    ["high_evasion"]             = 0.3,
+    ["high_disable_amount"]      = 0.3,
+    ["high_consecutive_disable"] = 0.3,
+    ["high_magic_damage"]        = 0.3,
+    ["high_pure_damage"]         = 0.3,
+    ["high_burst_damage"]        = 0.3,
+    ["mana_burn"]                = 0.3,
+  },
+  ["npc_dota_hero_arc_warden"] = {
+    ["high_status_resistance"]   = 0.4,
+    ["high_evasion"]             = 0.4,
+    ["high_disable_amount"]      = 0.4,
+    ["high_consecutive_disable"] = 0.4,
+    ["high_magic_damage"]        = 0.4,
+    ["high_pure_damage"]         = 0.4,
+    ["high_burst_damage"]        = 0.4,
+    ["mana_burn"]                = 0.4,
+  },
+  ["npc_dota_hero_ursa"] = {
+    ["high_status_resistance"]   = 0.5,
+    ["high_evasion"]             = 0.5,
+    ["high_disable_amount"]      = 0.5,
+    ["high_consecutive_disable"] = 0.5,
+    ["high_magic_damage"]        = 0.5,
+    ["high_pure_damage"]         = 0.5,
+    ["high_burst_damage"]        = 0.5,
+    ["mana_burn"]                = 0.5,
+  },
+  ["npc_dota_hero_wisp"] = {
+    ["high_status_resistance"]   = 0.6,
+    ["high_evasion"]             = 0.6,
+    ["high_disable_amount"]      = 0.6,
+    ["high_consecutive_disable"] = 0.6,
+    ["high_magic_damage"]        = 0.6,
+    ["high_pure_damage"]         = 0.6,
+    ["high_burst_damage"]        = 0.6,
+    ["mana_burn"]                = 0.6,
+  },
+}

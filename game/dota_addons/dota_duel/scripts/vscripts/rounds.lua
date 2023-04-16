@@ -19,7 +19,8 @@ dead_players = {
   [DOTA_TEAM_BADGUYS] = 0,
 }
 
--- Ends the round if a player died
+-- Ends the round if all players on a team died
+-- Also handles top bar death logic
 function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
@@ -47,15 +48,7 @@ function OnEntityDeath(event)
 
     Timers:CreateTimer(0.2, update_respawn_timer)
 
-    if entity:IsReincarnating() then
-      if global_bot_controller then
-        if entity:GetName() == "npc_dota_hero_skeleton_king" then
-          if entity:GetTeam() == PlayerResource:GetTeam(global_bot_controller.bot_id) then
-            global_bot_controller:OnReincarnate()
-          end
-        end
-      end
-    else
+    if not entity:IsReincarnating() then
       -- Only update state during the round so that post-round kills don't affect anything
       if game_state == GAME_STATE_FIGHT then
         local team = entity:GetTeam()
@@ -152,6 +145,7 @@ function StartRound()
     -- Keep spirit bears disabled and away from the shop so lone druid can't cheat
     if player_entity:GetName() == "npc_dota_lone_druid_bear" then
       -- It's simpler to just kill the bear and doesn't seem to cause problems so far
+      -- Must be done after resetting its cooldowns
       player_entity:Kill(nil, player_entity)
       -- player_entity:AddNewModifier(player_entity, nil, "modifier_bear_disable", {})
 
@@ -197,6 +191,9 @@ function StartRound()
   -- Otherwise, they keep building up every round, eventually causing lag
   RemoveOldHeroes()
 
+  -- Trigger bot actions for the round start
+  BotOnRoundStart()
+
   if first_round then
     first_round = false
   end
@@ -208,6 +205,8 @@ function EndRound()
   if game_state == GAME_STATE_BUY then
     return
   end
+  -- TODO: this could be called after a new match has already started if players rematch and pick heroes very quickly
+  --       test this and consider if unconditionally waiting to trigger the rematch vote until this is called would be better
 
   is_round_ending = false
   round_drew = false
@@ -269,6 +268,9 @@ function EndRound()
   SetMusicStatus(DOTA_MUSIC_STATUS_PRE_GAME_EXPLORATION, 5.0)
 
   SetPreviousRoundEndTime()
+
+  -- Trigger bot actions for the round end
+  BotOnRoundEnd()
 
   if game_state == GAME_STATE_BUY then
     -- Reset talents so players can try new ones
@@ -534,7 +536,7 @@ function ResetTalents()
 
     -- Check for permanent buffs
     local has_moon_shard = hero_entity:HasModifier("modifier_item_moon_shard_consumed")
-    local has_scepter = hero_entity:HasModifier("modifier_item_ultimate_scepter_consumed")
+    local has_scepter = HasConsumedScepter(hero_entity)
     local has_scepter_shard = HasScepterShard(hero_entity)
 
     -- Collect modifiers and items for the spirit bear of this hero if it has one
@@ -618,6 +620,7 @@ function ResetTalents()
 
     -- Level up hero again (it is done in OnNPCSpawned, however it fails to catch some aghanim's
     -- scepter related abilities, such as Io spirits movement)
+    -- TODO: test that this is still necessary
     Timers:CreateTimer(0.5, function() LevelEntityToMax(new_hero) end)
   end
 end
@@ -628,6 +631,7 @@ function DestroyDroppedGems()
   local collector = GetDummyHero()
   local gem_count = 0
   for i,entity in pairs(Entities:FindAllByClassname("dota_item_drop")) do
+    -- TODO: this should probably be incremented only if the item is a gem
     gem_count = gem_count + 1
     local item = entity:GetContainedItem()
 

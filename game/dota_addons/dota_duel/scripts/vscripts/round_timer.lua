@@ -5,6 +5,10 @@ require('utils')
 
 
 -- Constants
+
+-- Must be at least 4 for:
+-- Spark Wraith lingering vision to disappear
+-- Glimpse to not send players to the center of the map
 ROUND_START_DELAY = 4
 
 round_start_timer = 0

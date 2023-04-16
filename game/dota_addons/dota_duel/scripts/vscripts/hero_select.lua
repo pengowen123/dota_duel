@@ -30,13 +30,9 @@ function InitHeroSelectData()
 	for i, id in pairs(GetPlayerIDs()) do
 		hero_select_data[id] = false
 
+		-- Force bots to pick a hero (only necessary for testing; the custom bots do this themselves)
 		if IsBot(id) then
-			if global_bot_controller then
-				-- Select a new hero for bots
-				hero_select_data[id] = MakeBotHeroChoice()
-			else
-				hero_select_data[id] = PlayerResource:GetSelectedHeroName(id)
-			end
+			hero_select_data[id] = PlayerResource:GetSelectedHeroName(id)
 		end
 	end
 end

@@ -28,17 +28,7 @@ function OnVoteRematch(event_source_index, args)
 	CustomGameEventManager:Send_ServerToAllClients("player_vote_rematch_lua", data)
 
 	if AllVotedRematch() then
-		SetGameState(GAME_STATE_HERO_SELECT)
-		CustomGameEventManager:Send_ServerToAllClients("all_voted_rematch", nil)
-		-- Hide the victory notification
-    Notifications:ClearBottomFromAll()
-    -- Prevent the game from ending because a rematch will happen
-		rematch_timer = 0
-		-- Prevent new rounds from starting
-		round_start_timer = 0
-		-- Start a timer for the hero select phase
-		local game_start_delay = 30
-		SetHeroSelectTimer(game_start_delay)
+		Rematch()
 	end
 end
 
@@ -73,4 +63,23 @@ function AllVotedRematch()
 	end
 
 	return true
+end
+
+
+-- Initiates a rematch
+function Rematch()
+	-- Update the game state
+	SetGameState(GAME_STATE_HERO_SELECT)
+	-- Trigger any rematch hooks
+	BotOnRematch()
+	CustomGameEventManager:Send_ServerToAllClients("all_voted_rematch", nil)
+	-- Hide the victory notification
+  Notifications:ClearBottomFromAll()
+  -- Prevent the game from ending because a rematch will happen
+	rematch_timer = 0
+	-- Prevent new rounds from starting
+	round_start_timer = 0
+	-- Start a timer for the hero select phase
+	local game_start_delay = 30
+	SetHeroSelectTimer(game_start_delay)
 end

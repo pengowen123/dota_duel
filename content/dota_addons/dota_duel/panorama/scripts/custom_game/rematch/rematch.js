@@ -11,6 +11,7 @@ function Initialize()
 {
 	GameEvents.Subscribe("start_game", StartGame);
 	GameEvents.Subscribe("end_game", EndGame);
+	GameEvents.Subscribe("end_game_no_rematch", EndGameNoRematch);
 	GameEvents.Subscribe("player_vote_rematch_lua", OnVoteRematch);
 	GameEvents.Subscribe("rematch_timer_update", TimerUpdate);
 	GameEvents.Subscribe("all_voted_rematch", OnAllVotedRematch);
@@ -134,6 +135,12 @@ function EndGame(args)
 	{
 		EnableVoteRematchButton(true);
 	}
+}
+
+// Called when the game ends fully (with no possibility of a rematch)
+function EndGameNoRematch(args)
+{
+	EnableVoteRematchPanel(false);
 }
 
 

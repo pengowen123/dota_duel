@@ -1,10 +1,22 @@
+General updates:
 Dark Ascension
 Ice Vortex
 Black King Bar
 Aeon Disk
+armor formula (bot utils)
+bots
+
+New items:
 shops.txt
+
+Neutral item additions or rotations:
 neutral_items in utils.lua and npc_items_custom.txt
+neutral_item_shop UI
+
+New hero:
 activelist.txt
 hero_select UI (xml and random list)
-neutral_item_shop UI
+bot hero data
+
+Neutral creep changes:
 neutral camps

@@ -110,6 +110,14 @@ neutral_items = {
 }
 
 
+monkey_king_clone_modifiers = {
+  ["modifier_monkey_king_fur_army_soldier_hidden"] = true,
+  ["modifier_monkey_king_fur_army_soldier"] = true,
+  ["modifier_monkey_king_fur_army_soldier_inactive"] = true,
+  ["modifier_monkey_king_fur_army_soldier_in_position"] = true,
+}
+
+
 -- Returns a table containing handles to all player entities
 function GetPlayerEntities()
   local player_entities = {}
@@ -199,18 +207,6 @@ function GetOppositeTeam(team)
 end
 
 
--- Returns the player entity of a player that is on the opposite team of the provided one
-function GetEnemyPlayer(team)
-  local player_entities = GetPlayerEntities()
-
-  for i, player_entity in pairs(player_entities) do
-    if player_entity:GetTeam() ~= team then
-      return player_entity
-    end
-  end
-end
-
-
 -- Returns whether a timer with the given name exists
 function TimerExists(name)
   return Timers.timers[name] ~= nil
@@ -233,27 +229,19 @@ end
 
 -- Returns whether the provided entity is a monkey king clone
 function IsMonkeyKingClone(entity)
-  return entity:HasModifier("modifier_monkey_king_fur_army_soldier_hidden")
-    or   entity:HasModifier("modifier_monkey_king_fur_army_soldier")
-    or   entity:HasModifier("modifier_monkey_king_fur_army_soldier_inactive")
-    or   entity:HasModifier("modifier_monkey_king_fur_army_soldier_in_position")
+  for _, modifier in pairs(entity:FindAllModifiers()) do
+    if monkey_king_clone_modifiers[modifier:GetName()] then
+      return true
+    end
+  end
+
+  return false
 end
 
 
 -- Returns whether the match has ended
 function IsMatchEnded()
   return (GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME) or (game_state == GAME_STATE_END)
-end
-
-
--- Clears all players' inventories and stashes
-function ClearInventories()
-  for i, playerID in pairs(GetPlayerIDs()) do
-    local player = PlayerResource:GetPlayer(playerID)
-    local player_entity = player:GetAssignedHero()
-
-    ClearInventory(player_entity)
-  end
 end
 
 
@@ -441,7 +429,7 @@ end
 
 -- Returns whether the player with the provided ID is a bot
 function IsBot(id)
-  return tostring(PlayerResource:GetSteamID(id)) == "0"
+  return #tostring(PlayerResource:GetSteamID(id)) == 1
 end
 
 
@@ -451,12 +439,6 @@ function EnableAddBotButton(enabled)
   data.enabled = enabled
 
   CustomGameEventManager:Send_ServerToAllClients("enable_add_bot_button", data)
-end
-
-
--- Returns the multiplier for physical damage taken given an armor value
-function GetPhysicalDamageMultiplier(armor_value)
-  return 1 - ((0.052 * armor_value) / (0.9 + 0.048 * math.abs(armor_value)))
 end
 
 
@@ -488,51 +470,6 @@ function IsDummyHero(entity)
 end
 
 
--- Returns whether the provided entity is taunted
-function IsTaunted(entity)
-  local taunt_modifiers = {
-    ["modifier_axe_berserkers_call"] = true,
-    ["modifier_troll_warlord_battle_trance"] = true,
-    ["modifier_winter_wyvern_winters_curse"] = true,
-    ["modifier_huskar_life_break_taunt"] = true,
-    ["modifier_aether_remnant_pull"] = true,
-  }
-
-  for i,modifier in pairs(entity:FindAllModifiers()) do
-    local modifier_name = modifier:GetName()
-
-    if taunt_modifiers[modifier_name] then
-      return true
-    end
-  end
-
-  return false
-end
-
-
--- Returns whether the provided entity is feared
-function IsFeared(entity)
-  local fear_modifiers = {
-    ["modifier_dark_willow_debuff_fear"] = true,
-    ["modifier_lone_druid_savage_roar"] = true,
-    ["modifier_queenofpain_scream_of_pain_fear"] = true,
-    ["modifier_terrorblade_fear"] = true,
-    ["modifier_nevermore_requiem_fear"] = true,
-    ["modifier_vengeful_spirit_wave_of_terror_fear"] = true,
-  }
-
-  for i,modifier in pairs(entity:FindAllModifiers()) do
-    local modifier_name = modifier:GetName()
-
-    if fear_modifiers[modifier_name] then
-      return true
-    end
-  end
-
-  return false
-end
-
-
 -- Returns whether the provided entity is a clone
 function IsClone(entity)
   local player_id = entity:GetPlayerOwnerID()
@@ -551,20 +488,16 @@ function IsClone(entity)
 end
 
 
--- Returns whether the 1v1 map is being played
+-- Returns whether a 1v1 map is being played
 function IsOneVsOneMap()
   return GameRules:GetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS) == 1
 end
 
 
--- Returns whether a bot can be added (only on 1v1 map and if playing solo)
-function CanAddBot()
-  local total_players = 0
-  total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
-  total_players = total_players + PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS)
-
-  -- FIXME: Disabled until bots are rewritten due to them being hardcoded for the old map
-  return false and IsOneVsOneMap() and (total_players == 1) and not IsMatchEnded()
+-- Returns whether a 1v1 game is being played, regardless of the map being played on
+function IsOneVsOneGame()
+  return PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS) == 1
+    and PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS) == 1
 end
 
 
@@ -601,6 +534,12 @@ function MapInventoryItems(player_id, fn)
 end
 
 
+-- Returns whether the entity has consumed an aghanim's scepter
+function HasConsumedScepter(entity)
+  return entity:HasModifier("modifier_item_ultimate_scepter_consumed")
+end
+
+
 -- Returns whether the entity has consumed a scepter shard
 function HasScepterShard(entity)
   return entity:HasModifier("modifier_item_aghanims_shard")
@@ -612,6 +551,7 @@ function SetMusicStatus(status, intensity)
   for i, player_id in pairs(GetPlayerIDs()) do
     local player = PlayerResource:GetPlayer(player_id)
     -- NOTE: Currently disabled because it is buggy
+    -- TODO: investigate SetCustomGameAllowHeroPickMusic
     -- player:SetMusicStatus(status, intensity)
   end
 end
@@ -648,4 +588,32 @@ end
 function KillNPC(entity)
   ClearBuffs(entity)
   entity:Kill(nil, activator)
+end
+
+
+-- Replaces a player's hero with a new one and returns the new entity
+function ReplaceHero(player_id, hero_name)
+  -- Clear inventory to prevent reaching the items purchased limit
+  local old_hero = PlayerResource:GetSelectedHeroEntity(player_id)
+
+  if old_hero then
+    -- If the player already has a hero entity, it can simply be replaced with the built-in function
+    ClearInventory(old_hero)
+
+    -- The new hero must be level 1 so that OnNPCSpawned will detect it as newly spawned
+    return PlayerResource:ReplaceHeroWith(player_id, hero_name, 1, 1)
+  else
+    -- Otherwise, a new hero entity must be created and manually assigned
+    local player = PlayerResource:GetPlayer(player_id)
+    local hero = CreateHeroForPlayer(hero_name, player)
+
+    hero:SetControllableByPlayer(player_id, false)
+    -- Add stun modifier manually because the trigger takes a few seconds to add it for some reason
+    hero:AddNewModifier(hero, nil, "modifier_stun", {})
+
+    player:SetSelectedHero(hero_name)
+    player:SetAssignedHeroEntity(hero)
+
+    return hero
+  end
 end

@@ -14,6 +14,7 @@ function GameMode:OnGameRulesStateChange(keys)
 		-- Must be done after team selection is finished, so it is done here instead of in InitGameMode
 		UpdatePlayerStatsUI()
 	elseif new_state == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
+		-- TODO: consider enabling this universally
 		if IsOneVsOneMap() then
 			Timers:CreateTimer(0.1, ShuffleTeams)
 		end
@@ -53,6 +54,9 @@ function GameMode:OnNPCSpawned(keys)
 			local player_index = 0
 			entity:CastAbilityOnTarget(entity, moon_shard, player_index)
 
+			-- Trigger bot actions for when a hero spawns
+			BotOnHeroSpawned(entity)
+
 			CustomGameEventManager:Send_ServerToAllClients("rebuild_hero_lists", {})
 
 			-- In case players don't have assigned heroes when rebuild_hero_lists is sent
@@ -67,57 +71,13 @@ end
 -- operations here
 function GameMode:OnEntityHurt(keys)
 	local hurt = EntIndexToHScript(keys.entindex_killed)
-	if hurt.GetName then
-		if global_bot_controller then
-			if hurt:GetName() == "npc_dota_hero_skeleton_king" then
-				if hurt:GetTeam() == DOTA_TEAM_BADGUYS then
-					-- Update damage counters (not 100% accurate because damage type is not always provided,
-					-- but it is good enough in most cases)
-					local damage = keys.damage
-					-- Percentage of magic damage taken that gets mitigated
-					local bot_magic_resistance = hurt:GetMagicalArmorValue()
-					local bot_armor = hurt:GetPhysicalArmorValue(false)
-					-- Percentage of physical damage taken that gets mitigated
-					local bot_physical_resistance = 1 - GetPhysicalDamageMultiplier(bot_armor)
+	local attacker = keys.entindex_attacker and EntIndexToHScript(keys.entindex_attacker)
+	local damage = keys.damage
+	local inflictor = keys.entindex_inflictor and EntIndexToHScript(keys.entindex_inflictor)
 
-					if keys.entindex_inflictor then
-						local inflictor = EntIndexToHScript(keys.entindex_inflictor)
-						local damage_type = inflictor:GetAbilityDamageType()
-
-						if inflictor:IsItem() then
-							-- Items are assumed to cause magical damage
-							-- Blademail may cause physical damage to the bot but this should be negligible
-							-- because the bot doesn't do much damage
-							if bot_magic_resistance < 1 then
-								local base_damage = damage / (1 - bot_magic_resistance)
-								global_bot_controller.damage_taken["magical"] = global_bot_controller.damage_taken["magical"] + base_damage
-							end
-						else
-							-- Reverse mitigations to get the base damage of the source
-							if damage_type == DAMAGE_TYPE_PHYSICAL then
-								local base_damage = damage / (1 - bot_physical_resistance)
-								global_bot_controller.damage_taken["physical"] = global_bot_controller.damage_taken["physical"] + base_damage
-
-							elseif damage_type == DAMAGE_TYPE_MAGICAL then
-								local base_damage = damage / (1 - bot_magic_resistance)
-								global_bot_controller.damage_taken["magical"] = global_bot_controller.damage_taken["magical"] + base_damage
-
-							elseif damage_type == DAMAGE_TYPE_PURE then
-								global_bot_controller.damage_taken["pure"] = global_bot_controller.damage_taken["pure"] + damage
-							end
-						end
-					else
-						-- If there is no inflictor, it is probably an auto-attack which is mostly physical damage
-						local base_damage = damage / (1 - bot_physical_resistance)
-						-- After each round, each entity takes their HP in damage with no inflictor, this filters that out
-						if hurt:GetMaxHealth() == damage then
-							return
-						end
-						global_bot_controller.damage_taken["physical"] = global_bot_controller.damage_taken["physical"] + base_damage
-					end
-				end
-			end
-		end
+	-- Trigger bot actions for when an entity is hurt
+	if attacker then
+		BotOnEntityHurt(hurt, attacker, damage, inflictor)
 	end
 end
 
@@ -137,9 +97,13 @@ end
 
 -- An ability was used by a player
 function GameMode:OnAbilityUsed(keys)
-	-- for k, v in pairs(keys) do
-		-- print(k, v)
-	-- end
+	local caster = EntIndexToHScript(keys.caster_entindex)
+	local ability = caster:FindAbilityByName(keys.abilityname)
+		or caster:FindItemInInventory(keys.abilityname)
+
+	if ability then
+		BotOnAbilityUsed(caster, ability)
+	end
 end
 
 -- A non-player entity (necro-book, chen creep, etc) used an ability
@@ -229,6 +193,10 @@ end
 -- This function is called whenever any player sends a chat message to team or All
 function GameMode:OnPlayerChat(keys)
 	-- local player = PlayerResource:GetSelectedHeroEntity(0)
+
+	-- for _, entity in pairs(GetUnits(player:GetTeam(), player:GetAbsOrigin(), 1000.0, nil)) do
+	-- 	print("unit name, isvalid", entity:GetUnitName(), IsValidUnit(entity))
+	-- end
 
 	-- for i, modifier in pairs(player:FindAllModifiers()) do
 	-- 	print(modifier:GetName())

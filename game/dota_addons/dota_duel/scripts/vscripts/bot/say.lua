@@ -1,11 +1,9 @@
--- An event handler to process localized messages from the bot
+-- An event handler to process localized messages from the bots
 
 function OnBotSayAllChat(event_source_index, args)
-	local message = args["message"]
+  local message = args["message"]
+  local player_id = args["player_id"]
 
-	if global_bot_controller then
-		local bot = PlayerResource:GetPlayer(global_bot_controller.bot_id)
-
-		Say(bot, message, false)
-	end
+  local bot = PlayerResource:GetPlayer(player_id)
+  Say(bot, message, false)
 end

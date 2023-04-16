@@ -65,14 +65,6 @@ function EndGameDelayed(winner, victory_reason, notification_text, notification_
 		end
 	end
 
-	if global_bot_controller then
-		local say = function()
-			global_bot_controller:SayAllChat("#duel_bot_gg")
-		end
-
-		Timers:CreateTimer(2.0, say)
-	end
-
 	-- Add data for current game
 	AddCurrentGameStats(victory_reason)
 
@@ -108,15 +100,20 @@ function EndGame()
 	end
 	end_game_called = true
 
+	-- Trigger bot actions for the game ending
+	BotOnGameEnd()
+
 	CustomGameEventManager:Send_ServerToAllClients("end_game_no_rematch", nil)
 	-- Display total kills across all matches
 	CustomGameEventManager:Send_ServerToAllClients("score_update", total_kills)
 	SetGameState(GAME_STATE_END)
-	GameRules:SetGameWinner(game_result)
 
 	GatherAndSendMatchStats()
-
 	UpdatePlayerStatsUI()
+
+	-- End the game after a short delay to allow bot messages to be sent properly
+	-- TODO: test that this is still necessary with bot messages using topbar UI
+	Timers:CreateTimer(0.5, function() GameRules:SetGameWinner(game_result) end)
 end
 
 

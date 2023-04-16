@@ -64,7 +64,7 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/surrender/surrender.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/round_timeout/round_timeout.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/add_bot/add_bot.xml" />
-    <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/bot_chat/bot_chat.xml" />
+    <CustomUIElement type="HudTopBar" layoutfile="file://{resources}/layout/custom_game/bot_chat/bot_chat.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/ui_loaded_detector/ui_loaded_detector.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/neutral_item_shop/neutral_item_shop.xml" />
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/center_camera/center_camera.xml" />

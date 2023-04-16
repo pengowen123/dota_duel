@@ -84,6 +84,8 @@ function RestartGame()
 		if hero_select_data[playerID] then
 			hero_load_state[playerID] = false
 		else
+			-- TODO: this seems redundant, as tryongameinprogress always sets this
+			--       test that this is the case and remove it
 			hero_load_state[playerID] = true
 		end
 	end
@@ -110,26 +112,7 @@ function RestartGame()
 		SetPreviousRoundEndTime()
 
 		PrecacheUnitByNameAsync(hero_name, function()
-			-- Clear inventory to prevent reaching the items purchased limit
-			local old_hero = PlayerResource:GetSelectedHeroEntity(playerID)
-
-			if old_hero then
-				ClearInventory(old_hero)
-
-				-- The new hero must be level 1 so that OnNPCSpawned will detect it as newly spawned
-				PlayerResource:ReplaceHeroWith(playerID, hero_name, 1, 1)
-			else
-				local player = PlayerResource:GetPlayer(playerID)
-				local hero = CreateHeroForPlayer(hero_name, player)
-
-				hero:SetControllableByPlayer(playerID, false)
-				-- Add stun modifier manually because the trigger takes a few seconds to add it for some reason
-				hero:AddNewModifier(hero, nil, "modifier_stun", {})
-
-				player:SetSelectedHero(hero_name)
-				player:SetAssignedHeroEntity(hero)
-			end
-
+			ReplaceHero(playerID, hero_name)
 			TryOnGameInProgress(playerID)
 		end)
 	end
@@ -153,9 +136,4 @@ function TryOnGameInProgress(playerID)
 	end
 
 	GameMode:OnGameInProgress()
-
-	-- Reset the bot if it exists
-	if global_bot_controller then
-		global_bot_controller:Reset()
-	end
 end

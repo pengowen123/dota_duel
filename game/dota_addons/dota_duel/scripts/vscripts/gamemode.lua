@@ -211,15 +211,27 @@ function GameMode:OnGameInProgress()
   local game_start_delay = 60
   SetRoundStartTimer(game_start_delay)
 
-  -- Enable the add bot button if there is only one player and they are on the 1v1 map
-  if CanAddBot() then
-    local enable_button = function()
-      EnableAddBotButton(true)
+  -- Enable the add bot button
+  local enable_button = function()
+    EnableAddBotButton(true)
+  end
+
+  -- There must be a delay for events to be properly sent at the time this function is called
+  Timers:CreateTimer(2.0, enable_button)
+
+  -- Trigger bot actions for the match start after all heroes have loaded (handled by rematch
+  -- system, but this is necessary for the first match)
+  Timers:CreateTimer(function()
+    -- Check that all players have a hero entity
+    for _, id in pairs(GetPlayerIDs()) do
+      -- If a hero doesn't exist for a player, wait a second before checking again
+      if not PlayerResource:GetSelectedHeroEntity(id) then
+        return 1.0
+      end
     end
 
-    -- There must be a delay for events to be properly sent at the time this function is called
-    Timers:CreateTimer(2.0, enable_button)
-  end
+    BotOnMatchStart()
+  end)
 end
 
 -- This function initializes the game mode and is called before anyone loads into the game
@@ -263,7 +275,7 @@ function GameMode:InitGameMode()
   CustomGameEventManager:RegisterListener("player_ready_js", OnReadyUp)
   CustomGameEventManager:RegisterListener("player_vote_rematch_js", OnVoteRematch)
   CustomGameEventManager:RegisterListener("player_select_hero_js", OnSelectHero)
-  CustomGameEventManager:RegisterListener("add_bot", OnAddBot)
+  CustomGameEventManager:RegisterListener("add_bot", FillEmptySlotsWithBots)
   CustomGameEventManager:RegisterListener("bot_message_localized", OnBotSayAllChat)
   CustomGameEventManager:RegisterListener("player_ui_loaded", SetupUI)
   CustomGameEventManager:RegisterListener("player_purchase_neutral_item", OnPlayerPurchaseNeutralItem)

@@ -26,6 +26,7 @@ function OnStartTouch(keys)
 				["modifier_kunkka_ghost_ship_fleet"] = true,
 				["modifier_kunkka_torrent_thinker"] = true,
 				["modifier_leshrac_split_earth_thinker"] = true,
+				["modifier_disruptor_static_storm_thinker"] = true,
 				-- Vision persists for this, but it's difficult to fix
 				["modifier_sniper_shrapnel_thinker"] = true,
 			}
@@ -151,7 +152,4 @@ function OnStartTouch(keys)
 		-- Make the entity commit suicide
 		activator:Kill(nil, activator)
 	end
-end
-
-function OnEndTouch(keys)
 end

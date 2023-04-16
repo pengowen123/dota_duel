@@ -445,17 +445,6 @@ function IsActualPlayer(player_id)
 end
 
 
--- Returns whether the player is a bot AI added through the add bot button
--- Returns false for bots added with -createhero or other means
-function IsRealBot(player_id)
-  if global_bot_controller then
-    return global_bot_controller.bot_id == player_id
-  else
-    return false
-  end
-end
-
-
 -- Returns whether to track stats for the player
 function ShouldTrackStatsForPlayer(player_id)
   return IsActualPlayer(player_id)
