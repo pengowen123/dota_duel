@@ -1,7 +1,6 @@
 "use strict";
 
 
-var READY_UP_IMAGE_URL = "file://{resources}/images/custom_game/ready/checkmark.png";
 var client_team = Players.GetTeam(Players.GetLocalPlayer());
 var is_spectator_client = !(client_team === DOTATeam_t.DOTA_TEAM_GOODGUYS ||
 													  client_team === DOTATeam_t.DOTA_TEAM_BADGUYS);
@@ -38,17 +37,24 @@ function Initialize()
 }
 
 
-// Creates a PlayerReady element
+// Creates a PlayerReady panel and returns it
 // PlayerReady contains the name of the provided player and a checkbox to show whether
 // they have readied up
 function AddPlayer(id)
 {
-	var name = Players.GetPlayerName(id);
 	var panel = $.CreatePanel("Panel", $("#Players"), id.toString());
 	panel.SetHasClass("PlayerReady", true);
 	panel.BLoadLayoutSnippet("PlayerReady");
+
+	// Set the player's name
 	var player_name = panel.GetChild(0).GetChild(0);
+	var name = Players.GetPlayerName(id);
 	player_name.text = name;
+
+	// Hide the checkmark initially
+	SetReady(id, false);
+
+	return panel;
 }
 
 
@@ -58,7 +64,7 @@ function ReadyUp()
 	var id = Players.GetLocalPlayer();
 	var data = { "id": id };
 
-	// Disable the ready up button to prevent trolling (pressing it again will set the timer back to 3 seconds)
+	// Disable the ready up button
 	EnableReadyUpButton(false);
 	
  	GameEvents.SendCustomGameEventToServer("player_ready_js", data);
@@ -69,24 +75,22 @@ function ReadyUp()
 function OnReadyUp(args)
 {
 	var id = args.id;
-	SetReadyUpImage(id, READY_UP_IMAGE_URL);
+	SetReady(id, true);
 }
 
 
-// Sets the image source of the ready-up image for the player with the given id
-function SetReadyUpImage(id, src)
+// Sets whether the checkmark is shown for the player with the given id
+function SetReady(id, ready)
 {
 	var player_panel = $("#" + id.toString());
 
-	if (player_panel)
+	if (!player_panel)
 	{
-		var image = player_panel.GetChild(1).GetChild(0).GetChild(0);
-		image.SetImage(src);
+		player_panel = AddPlayer(id);
 	}
-	else {
-		AddPlayer(id);
-		SetReadyUpImage(id, src);
-	}
+
+	var image = player_panel.GetChild(1).GetChild(0).GetChild(0);
+	image.visible = ready;
 }
 
 
@@ -119,7 +123,7 @@ function EndRound()
 			var team = Players.GetTeam(id);
 			if (team === DOTATeam_t.DOTA_TEAM_GOODGUYS || team === DOTATeam_t.DOTA_TEAM_BADGUYS)
 			{
-				SetReadyUpImage(id, "");
+				SetReady(id, false);
 			}
 		}
 	}

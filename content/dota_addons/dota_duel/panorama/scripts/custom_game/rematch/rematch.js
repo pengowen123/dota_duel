@@ -38,17 +38,24 @@ function Initialize()
 }
 
 
-// Creates a PlayerRematch element
+// Creates a PlayerRematch element and returns it
 // PlayerRematch contains the name of the provided player and a checkbox to show whether
 // they have voted to rematch
 function AddPlayer(id)
 {
-	var name = Players.GetPlayerName(id);
 	var panel = $.CreatePanel("Panel", $("#Players"), id.toString());
 	panel.SetHasClass("PlayerRematch", true);
 	panel.BLoadLayoutSnippet("PlayerRematch");
+
+	// Set the player's name
+	var name = Players.GetPlayerName(id);
 	var player_name = panel.GetChild(0).GetChild(0);
 	player_name.text = name;
+
+	// Hide the checkmark initially
+	SetVotedRematch(id, false);
+
+	return panel;
 }
 
 
@@ -68,24 +75,22 @@ function VoteRematch()
 function OnVoteRematch(args)
 {
 	var id = args.id;
-	SetVoteRematchImage(id, "file://{resources}/images/custom_game/ready/checkmark.png");
+	SetVotedRematch(id, true);
 }
 
 
-// Sets the image source of the vote rematch image for the player with the given id
-function SetVoteRematchImage(id, src)
+// Sets whether the checkmark is shown for the player with the given id
+function SetVotedRematch(id, voted)
 {
-	var selector = "#" + id.toString();
-	var player_panel = $(selector);
+	var player_panel = $("#" + id.toString());
 
 	if (!player_panel)
 	{
-		AddPlayer(id);
-		player_panel = $(selector);
+		player_panel = AddPlayer(id);
 	}
 
 	var image = player_panel.GetChild(1).GetChild(0).GetChild(0);
-	image.SetImage(src);
+	image.visible = voted;
 }
 
 
@@ -112,7 +117,7 @@ function StartGame()
 			var team = Players.GetTeam(id);
 			if (team === DOTATeam_t.DOTA_TEAM_GOODGUYS || team === DOTATeam_t.DOTA_TEAM_BADGUYS)
 			{
-				SetVoteRematchImage(id, "");
+				SetVotedRematch(id, false);
 			}
 		}
 	}

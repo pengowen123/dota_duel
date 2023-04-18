@@ -24,7 +24,7 @@
 
 					<Panel class="RematchImage">
 
-						<Image id="RematchImage" />
+						<Image id="RematchImage" src="file://{images}/custom_game/general/checkmark.png" />
 
 					</Panel>
 

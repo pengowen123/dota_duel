@@ -208,6 +208,8 @@ function GameMode:OnGameInProgress()
   CustomGameEventManager:Send_ServerToAllClients("end_round", data)
 
   -- Start the first round after 60 seconds
+  -- TODO: try doing this before showing the ready-up UI to fix the "[!d:seconds]" bug (also in
+  --       EndRound)
   local game_start_delay = 60
   SetRoundStartTimer(game_start_delay)
 

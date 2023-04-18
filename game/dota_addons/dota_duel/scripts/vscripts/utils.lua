@@ -377,6 +377,7 @@ end
 -- Returns the correct localization string for the name of the provided team
 -- `winner` should be either DOTA_TEAM_GOODGUYS or DOTA_TEAM_BADGUYS
 function GetLocalizationTeamName(team)
+  -- TODO: replace with custom localization vars to bring back "Radiant" instead of "The Radiant"
   if team == DOTA_TEAM_GOODGUYS then
     return "#DOTA_GoodGuys"
   elseif team == DOTA_TEAM_BADGUYS then

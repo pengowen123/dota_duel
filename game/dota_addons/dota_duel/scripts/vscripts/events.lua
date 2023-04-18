@@ -14,7 +14,8 @@ function GameMode:OnGameRulesStateChange(keys)
 		-- Must be done after team selection is finished, so it is done here instead of in InitGameMode
 		UpdatePlayerStatsUI()
 	elseif new_state == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
-		-- TODO: consider enabling this universally
+		-- Shuffle teams on 1v1 maps only (players might be in a party and want to choose specific
+		-- teams on other maps, and they can use the shuffle button anyways)
 		if IsOneVsOneMap() then
 			Timers:CreateTimer(0.1, ShuffleTeams)
 		end
