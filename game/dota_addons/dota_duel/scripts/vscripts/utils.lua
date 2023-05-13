@@ -388,6 +388,7 @@ end
 
 -- Removes all old hero entities, such as those left behind when giving players new heroes
 -- NOTE: Do not call this until all spark wraiths have been removed or they will get stuck
+-- TODO: try removing this and seeing if clear base works/can be fixed
 function RemoveOldHeroes()
   local hero_names = {}
   local hero_entities = {}

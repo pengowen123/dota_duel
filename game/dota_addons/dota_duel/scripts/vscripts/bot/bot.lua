@@ -198,7 +198,7 @@ end
 function BotController:OnRoundEnd()
   -- Update the state and predictions
   self.mode = MODE_BUY
-  self.observations:FinalizeCurrentRoundObservations()
+  self.observations:FinalizeCurrentRoundObservations(self.hero, self.team)
   self.observations:UpdatePredictions()
 end
 

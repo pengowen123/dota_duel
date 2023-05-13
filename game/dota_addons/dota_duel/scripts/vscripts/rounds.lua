@@ -270,6 +270,8 @@ function EndRound()
   SetPreviousRoundEndTime()
 
   -- Trigger bot actions for the round end
+  -- NOTE: This must be called before `ResetTalents` so the bot's stored hero handle is not
+  --       invalidated while still being used
   BotOnRoundEnd()
 
   if game_state == GAME_STATE_BUY then

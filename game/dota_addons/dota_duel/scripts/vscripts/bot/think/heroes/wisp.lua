@@ -16,10 +16,10 @@ function BotWisp:New(player_id)
   local bot = BotBase.New(self, player_id)
 
   bot.ability_think_functions = {
-    BotWisp.ThinkTether,
-    BotWisp.ThinkSpirits,
-    BotWisp.ThinkOvercharge,
-    BotWisp.ThinkRelocate,
+    self.ThinkTether,
+    self.ThinkSpirits,
+    self.ThinkOvercharge,
+    self.ThinkRelocate,
   }
 
   -- The currently tethered unit, if any
@@ -140,14 +140,6 @@ function BotWisp:GetTetherPoint()
 end
 
 
-function BotWisp:ThinkRoundStart(hero)
-  -- Reset unit handles
-  self.tether_unit = nil
-
-  BotBase.ThinkRoundStart(self, hero)
-end
-
-
 function BotWisp:GetAttackTarget(hero, current_mode, observation_state)
   if self.tether_unit
     and self.tether_unit:IsHero()
@@ -163,9 +155,18 @@ function BotWisp:GetAttackTarget(hero, current_mode, observation_state)
 end
 
 
+function BotWisp:ThinkRoundStart(hero)
+  -- Reset unit handles
+  self.tether_unit = nil
+
+  BotBase.ThinkRoundStart(self, hero)
+end
+
+
 function BotWisp:Think(hero, current_mode, observation_state)
   -- Update tether unit just in case (already done by `ThinkTether`, but in very rare cases it
   -- isn't)
+  -- TODO: test that this is still necessary with thinktether change (permahex wisp and break tether manually)
   if not IsValidUnit(self.tether_unit) then
     self.tether_unit = nil
   end
@@ -254,16 +255,16 @@ end
 
 -- Performs actions with the tether ability
 function BotWisp:ThinkTether(hero, current_mode, observation_state)
+  -- Detect when tether breaks
+  if not hero:HasModifier("modifier_wisp_tether") then
+    self.tether_unit = nil
+  end
+
   if self:IsBusy(hero) then
     return
   end
 
   local tether = hero:FindAbilityByName("wisp_tether")
-
-  -- Detect when tether breaks
-  if not hero:HasModifier("modifier_wisp_tether") then
-    self.tether_unit = nil
-  end
 
   if CanCastAbility(hero, tether) and (self.tether_unit == nil) then
     -- Choose a nearby ally to tether

@@ -24,6 +24,13 @@ local invisibility_heroes = {
   ["npc_dota_hero_windrunner"] = true,
 }
 
+-- Heroes with a special form of high evasion
+-- Evasion is checked dynamically in `GatherObservations`, but special cases must handled here
+local special_high_evasion_heroes = {
+  -- Magnetic field is a form of high evasion but does not actually grant evasion directly
+  ["npc_dota_hero_arc_warden"] = true,
+}
+
 
 -- Returns a new table of value trackers used to make observations
 function NewTrackerTable()
@@ -407,9 +414,14 @@ function Observations:FinalizeCurrentRoundObservations(bot_hero, bot_team)
       self:SetObservation("disruptor_cheat")
     end
 
-    -- Check `invisibility`
+    -- Check `invisibility` (also checked dynamically)
     if invisibility_heroes[hero_name] then
       self:SetObservation("invisibility")
+    end
+
+    -- Check `high_evasion` (also checked dynamically)
+    if special_high_evasion_heroes[hero_name] then
+      self:SetObservation("high_evasion")
     end
   end
 

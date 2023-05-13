@@ -19,7 +19,7 @@
 -- - `BotBase:GetControllableUnits`
 -- - `BotBase:GetAttackTarget`
 -- - `BotBase:GetDisableTarget`
--- - `BotBase:GetPowerOfAvailableBuffs`
+-- - `BotBase:GetPowerOfAvailableCooldowns`
 -- - All item `Think*` methods
 -- - `BotBase.hunt_points`
 -- - `BotBase.ability_think_functions`
@@ -28,10 +28,13 @@
 -- - `BotBase.buff_power`
 -- - `BotBase.debuff_power`
 -- - `BotBase.ability_modifiers`
+-- - `BotBase.ability_power`
 --
 -- In general, each hero's abilities and their respective buffs/debuffs should be added to
--- `ability_think_functions`, `buff_power`, `debuff_power`, and `ability_modifiers` (using
--- `table.insert` to avoid deleting existing entries unless overriding a default value).
+-- `ability_think_functions`, `buff_power`, `debuff_power`, `ability_modifiers`, and `ability_power`
+-- (using insertion to avoid deleting existing entries unless overriding a default value).
+-- Note that an ability should be added to only one of `ability_modifiers` or `ability_power`, but
+-- not both.
 
 BotBase = {}
 BotBase.__index = BotBase
@@ -107,6 +110,9 @@ function BotBase:New(player_id)
     ["item_sheepstick"] = "modifier_sheepstick_debuff",
     ["item_nullifier"] = "modifier_item_nullifier_mute",
   }
+  -- The contribution to the bot's desire to fight from each ability or item that is off cooldown
+  -- This should only be used for abilities and items that cannot be added to `ability_modifiers`
+  bot.ability_power = {}
 
   return bot
 end
@@ -289,7 +295,7 @@ function BotBase:GetDesireFight(hero, current_mode, observation_state)
   end
 
   -- Prefer to fight when cooldowns are available or active
-  desire = desire + self:GetPowerOfAvailableBuffs(hero)
+  desire = desire + self:GetPowerOfAvailableCooldowns(hero)
 
   if self.attack_target then
     -- Prefer to fight when the attack target is disabled
@@ -420,10 +426,11 @@ end
 
 
 -- Returns the total power of the bot's active or available buffs, debuffs, and other useful
--- cooldowns (based on the `buff_power`, `debuff_power`, and `ability_modifiers` fields)
+-- cooldowns (based on the `buff_power`, `debuff_power`, `ability_modifiers`, and `ability_power`
+-- fields)
 -- This power represents the current strength of the bot in comparison to its default state (i.e.,
--- with no cooldowns active)
-function BotBase:GetPowerOfAvailableBuffs(hero)
+-- with no cooldowns active or available)
+function BotBase:GetPowerOfAvailableCooldowns(hero)
   local total = 0.0
 
   -- Sum power of buffs on the bot
@@ -446,24 +453,49 @@ function BotBase:GetPowerOfAvailableBuffs(hero)
     end
   end
 
-  -- Sum power of available cooldowns
+  -- Sum power of available ability and item cooldowns
+
+  -- Returns the power of the ability if the ability is off cooldown and has an associated power
+  -- value
+  local get_ability_power = function(ability)
+    -- Check that the ability is off cooldown
+    if ability:GetCooldownTimeRemaining() == 0 then
+      local name = ability:GetAbilityName()
+      local buff_name = self.ability_modifiers[name]
+
+      if buff_name then
+        -- Use the power of the associated buff/debuff if available
+        return self.buff_power[buff_name] or self.debuff_power[buff_name]
+      elseif self.ability_power[name] then
+        -- Use the power of the ability itself if available otherwise
+        return self.ability_power[name]
+      end
+    end
+  end
+
   for i=0,5 do
     local ability = hero:GetAbilityByIndex(i)
-    local cooldown_ready = ability and (ability:GetCooldownTimeRemaining() == 0)
-    local buff_name = ability and self.ability_modifiers[ability:GetAbilityName()]
 
-    if cooldown_ready and buff_name then
-      total = total + (self.buff_power[buff_name] or self.debuff_power[buff_name])
+    if ability then
+      local power = get_ability_power(ability)
+
+      if power then
+        print("adding power (name, value):", ability:GetAbilityName(), power)
+        total = total + power
+      end
     end
   end
 
   for _, i in pairs({ 0, 1, 2, 3, 4, 5, NEUTRAL_ITEM_SLOT }) do
     local item = hero:GetItemInSlot(i)
-    local cooldown_ready = item and (item:GetCooldownTimeRemaining() == 0)
-    local buff_name = item and self.ability_modifiers[item:GetAbilityName()]
 
-    if cooldown_ready and buff_name then
-      total = total + (self.buff_power[buff_name] or self.debuff_power[buff_name])
+    if item then
+      local power = get_ability_power(item)
+
+      if power then
+        print("adding power (name, value):", item:GetAbilityName(), power)
+        total = total + power
+      end
     end
   end
 

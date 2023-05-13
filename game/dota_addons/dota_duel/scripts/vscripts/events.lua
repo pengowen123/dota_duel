@@ -104,6 +104,8 @@ function GameMode:OnAbilityUsed(keys)
 
 	if ability then
 		BotOnAbilityUsed(caster, ability)
+
+		print("ability cast: ", ability:GetAbilityName())
 	end
 end
 
@@ -193,15 +195,15 @@ end
 
 -- This function is called whenever any player sends a chat message to team or All
 function GameMode:OnPlayerChat(keys)
-	-- local player = PlayerResource:GetSelectedHeroEntity(0)
+	local player = PlayerResource:GetSelectedHeroEntity(0)
 
 	-- for _, entity in pairs(GetUnits(player:GetTeam(), player:GetAbsOrigin(), 1000.0, nil)) do
 	-- 	print("unit name, isvalid", entity:GetUnitName(), IsValidUnit(entity))
 	-- end
 
-	-- for i, modifier in pairs(player:FindAllModifiers()) do
-	-- 	print(modifier:GetName())
-	-- end
+	for i, modifier in pairs(player:FindAllModifiers()) do
+		print(modifier:GetName())
+	end
 
 	-- local entity = Entities:First()
 
