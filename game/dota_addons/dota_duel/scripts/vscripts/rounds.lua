@@ -24,8 +24,8 @@ dead_players = {
 function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
-  -- Only count the death if the entity is a hero and won't reincarnate
-  if entity:IsRealHero() then
+  -- Only count the death if the entity is a real hero and won't reincarnate
+  if entity:IsRealHero() and not IsClone(entity) then
     local player_id = entity:GetPlayerOwnerID()
     local updated_after_respawn = false
 
