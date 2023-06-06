@@ -34,18 +34,10 @@
   {
     "AbilityCooldown"       "90.0"
 
-    "AbilitySpecial"
+    "AbilityValues"
     {
-      "03"
-      {
-        "var_type"        "FIELD_FLOAT"
-        "duration"        "6.0"
-      }
-      "04"
-      {
-        "var_type"        "FIELD_INTEGER"
-        "max_level"       "1"
-      }
+      "duration"        "6.0"
+      "max_level"       "1"
     }
   }
 
