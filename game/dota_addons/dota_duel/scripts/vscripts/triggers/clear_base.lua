@@ -27,6 +27,8 @@ function OnStartTouch(keys)
 				["modifier_kunkka_torrent_thinker"] = true,
 				["modifier_leshrac_split_earth_thinker"] = true,
 				["modifier_disruptor_static_storm_thinker"] = true,
+				["modifier_item_dustofappearance_thinker"] = true,
+				["modifier_gem_active_truesight"] = true,
 				-- Vision persists for this, but it's difficult to fix
 				["modifier_sniper_shrapnel_thinker"] = true,
 			}
