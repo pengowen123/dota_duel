@@ -7,6 +7,7 @@ fix heroes not sinking into the ground
 fix alchemist scepter gifted buff and self buff not persisting through rounds (complex)
 fix aghs spark wraith vision persisting in a nice way
 fix underlord ult vision persisting
+fix nyx mind flare not being increased by past damage (probably impossible)
 
 move dire top neutral creeps up a bit
 fix instant backpack swapping exploit

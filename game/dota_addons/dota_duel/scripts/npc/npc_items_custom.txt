@@ -33,7 +33,7 @@
   "item_black_king_bar"
   {
     "AbilityCooldown"       "90.0"
-    
+
     "AbilitySpecial"
     {
       "03"
@@ -71,51 +71,52 @@
 
   "item_ward_observer"
   {
-    "ItemStockMax"          "4"
-    "ItemStockTime"         "1"
-    "ItemStockInitial"      "4"
+    "ItemStockMax"          "0"
   }
 
   "item_ward_sentry"
   {
-    "ItemStockMax"          "10"
-    "ItemStockTime"         "1"
-    "ItemStockInitial"      "10"
+    "ItemStockMax"          "0"
   }
 
   "item_smoke_of_deceit"
   {
-    "ItemStockMax"          "3" 
-    "ItemStockTime"         "1"
-    "ItemStockInitial"      "3"
+    "ItemStockMax"          "0"
   }
 
   "item_gem"
   {
-    "ItemStockMax"          "1" 
-    "ItemStockTime"         "1"
-    "ItemStockInitial"      "1"
+    "ItemStockMax"          "0"
   }
 
   "item_infused_raindrop"
   {
-    "ItemStockMax"          "1" 
-    "ItemStockTime"         "1"
-    "ItemStockInitial"      "1"
-  }
-
-  "item_tome_of_knowledge"
-  {
-    "ItemStockMax"          "3"
-    "ItemStockTime"         "1"
-    "ItemStockInitial"      "3"
+    "ItemStockMax"          "0"
   }
 
   "item_aghanims_shard"
   {
-    "ItemStockMax"          "1"
-    "ItemStockTime"         "1"
-    "ItemStockInitial"      "1"
+    "ItemStockMax"          "0"
+  }
+
+  "item_clarity"
+  {
+    "ItemStockMax"          "0"
+  }
+
+  "item_enchanted_mango"
+  {
+    "ItemStockMax"          "0"
+  }
+
+  "item_flask"
+  {
+    "ItemStockMax"          "0"
+  }
+
+  "item_tango"
+  {
+    "ItemStockMax"          "0"
   }
 
   "item_dummy_unpurchasable"
