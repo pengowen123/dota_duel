@@ -30,3 +30,4 @@ bots:
 - hero data
 - fix stat tracking
 - setup vote UI
+- add notes to update.txt

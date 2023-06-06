@@ -2,7 +2,6 @@
 
 
 -- Constants
-STRENGTH_MAGIC_RESISTANCE = 0.00
 NEUTRAL_ITEM_SLOT = 16
 
 neutral_items = {

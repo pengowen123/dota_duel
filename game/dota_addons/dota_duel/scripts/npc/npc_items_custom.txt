@@ -116,6 +116,5 @@
     "ID"                "9999"
     "ItemCost"          "1"
     "ItemPurchasable"   "0"
-    "ItemSellable"      "1"
   }
 }

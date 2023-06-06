@@ -227,6 +227,7 @@ function CanBeIllusion(npc)
   -- Check if the NPC has an item that can create illusions
   -- Backpack slots must be checked as well because manta style can be swapped into the backpack
   -- during the transformation time, removing it from the illusions' inventories
+  -- TODO: abstract this kind of loop out (rg "0, 1, 2")
   for _, i in pairs({ 0, 1, 2, 3, 4, 5, 6, 7, 8, NEUTRAL_ITEM_SLOT }) do
     local item = npc:GetItemInSlot(i)
 
