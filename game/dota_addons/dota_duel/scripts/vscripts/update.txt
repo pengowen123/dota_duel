@@ -10,7 +10,7 @@ New items:
 shops.txt
 
 Neutral item additions or rotations:
-neutral_items in utils.lua and npc_items_custom.txt
+neutral_items in utils.lua
 neutral_item_shop UI
 
 New hero:

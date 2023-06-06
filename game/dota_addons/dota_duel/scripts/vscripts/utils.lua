@@ -575,6 +575,7 @@ function CreateAndConfigureItem(name, owner)
 
   -- Make the item sellable (important for neutral items)
   item:SetPurchaser(owner)
+  item:SetSellable(true)
 
   -- Disable seer stone to prevent abuse (will be re-enabled at round start)
   if item:GetAbilityName() == "item_seer_stone" then
