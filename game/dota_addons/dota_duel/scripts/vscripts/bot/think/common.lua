@@ -266,7 +266,7 @@ function CastDemonicon(npc, swap_after)
       for i=6,8 do
         local item = npc:GetItemInSlot(i)
 
-        if item and IsNeutralItem(item:GetName()) and not (i == NEUTRAL_ITEM_SLOT) then
+        if item and IsNeutralItem(item) and not (i == NEUTRAL_ITEM_SLOT) then
           npc:SwapItems(i, NEUTRAL_ITEM_SLOT)
           break
         end

@@ -246,6 +246,9 @@ function GameMode:InitGameMode()
   -- Disable neutral item stash (clearing it crashes the game so it is just disabled)
   gamemode_entity:SetNeutralStashEnabled(false)
 
+  -- Disable neutral item drops
+  gamemode_entity:SetAllowNeutralItemDrops(false)
+
   -- Disable default music (broken)
   GameRules:SetCustomGameAllowBattleMusic(false)
   GameRules:SetCustomGameAllowHeroPickMusic(true)

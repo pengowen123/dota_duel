@@ -618,6 +618,7 @@ function ResetTalents()
     end
 
     -- Re-add items from inventory half a second after replacing the hero
+    -- TODO: investigate why this timer is necessary to prevent double moonshard bug (ignoring clearinventory stuff in onnpcspawned)
     Timers:CreateTimer(0.5, re_add_items)
 
     -- Level up hero again (it is done in OnNPCSpawned, however it fails to catch some aghanim's

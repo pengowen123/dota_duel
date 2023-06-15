@@ -4,110 +4,6 @@
 -- Constants
 NEUTRAL_ITEM_SLOT = 16
 
-neutral_items = {
-  -- Tier 1
-  ["item_keen_optic"] = true,
-  ["item_royal_jelly"] = true,
-  ["item_poor_mans_shield"] = true,
-  ["item_ocean_heart"] = true,
-  ["item_iron_talon"] = true,
-  ["item_mango_tree"] = true,
-  ["item_arcane_ring"] = true,
-  ["item_possessed_mask"] = true,
-  ["item_chipped_vest"] = true,
-  ["item_mysterious_hat"] = true,
-  ["item_unstable_wand"] = true,
-  ["item_pogo_stick"] = true,
-  ["item_seeds_of_serenity"] = true,
-  ["item_lance_of_pursuit"] = true,
-  ["item_occult_bracelet"] = true,
-  -- sic
-  ["item_elixer"] = true,
-  ["item_elixir"] = true,
-  ["item_broom_handle"] = true,
-  ["item_ironwood_tree"] = true,
-  ["item_trusty_shovel"] = true,
-  ["item_faded_broach"] = true,
-  -- Tier 2
-  ["item_grove_bow"] = true,
-  ["item_vampire_fangs"] = true,
-  ["item_ring_of_aquila"] = true,
-  ["item_repair_kit"] = true,
-  ["item_pupils_gift"] = true,
-  ["item_helm_of_the_undying"] = true,
-  ["item_imp_claw"] = true,
-  ["item_philosophers_stone"] = true,
-  ["item_dragon_scale"] = true,
-  ["item_essence_ring"] = true,
-  ["item_nether_shawl"] = true,
-  ["item_quicksilver_amulet"] = true,
-  ["item_bullwhip"] = true,
-  ["item_tome_of_aghanim"] = true,
-  ["item_misericorde"] = true,
-  ["item_paintball"] = true,
-  ["item_eye_of_the_vizier"] = true,
-  ["item_specialists_array"] = true,
-  ["item_dagger_of_ristul"] = true,
-  -- Tier 3
-  ["item_craggy_coat"] = true,
-  ["item_greater_faerie_fire"] = true,
-  ["item_quickening_charm"] = true,
-  ["item_mind_breaker"] = true,
-  ["item_third_eye"] = true,
-  ["item_spider_legs"] = true,
-  ["item_vambrace"] = true,
-  ["item_clumsy_net"] = true,
-  ["item_enchanted_quiver"] = true,
-  ["item_paladin_sword"] = true,
-  ["item_orb_of_destruction"] = true,
-  ["item_titan_sliver"] = true,
-  ["item_elven_tunic"] = true,
-  ["item_cloak_of_flames"] = true,
-  ["item_ceremonial_robe"] = true,
-  ["item_psychic_headband"] = true,
-  ["item_black_powder_bag"] = true,
-  ["item_ogre_seal_totem"] = true,
-  -- Tier 4
-  ["item_witless_shako"] = true,
-  ["item_timeless_relic"] = true,
-  ["item_spell_prism"] = true,
-  ["item_princes_knife"] = true,
-  ["item_flicker"] = true,
-  ["item_spy_gadget"] = true,
-  ["item_ninja_gear"] = true,
-  -- sic
-  ["item_illusionsts_cape"] = true,
-  ["item_illusionists_cape"] = true,
-  ["item_havoc_hammer"] = true,
-  ["item_panic_button"] = true,
-  ["item_the_leveller"] = true,
-  ["item_minotaur_horn"] = true,
-  ["item_penta_edged_sword"] = true,
-  ["item_stormcrafter"] = true,
-  ["item_trickster_cloak"] = true,
-  ["item_ascetic_cap"] = true,
-  ["item_heavy_blade"] = true,
-  -- Tier 5
-  ["item_force_boots"] = true,
-  ["item_seer_stone"] = true,
-  ["item_mirror_shield"] = true,
-  ["item_fallen_sky"] = true,
-  ["item_fusion_rune"] = true,
-  ["item_apex"] = true,
-  ["item_ballista"] = true,
-  ["item_woodland_striders"] = true,
-  ["item_recipe_trident"] = true,
-  ["item_trident"] = true,
-  ["item_demonicon"] = true,
-  ["item_pirate_hat"] = true,
-  ["item_ex_machina"] = true,
-  ["item_desolator_2"] = true,
-  ["item_phoenix_ash"] = true,
-  ["item_giants_ring"] = true,
-  ["item_book_of_shadows"] = true,
-  ["item_force_field"] = true,
-}
-
 
 monkey_king_clone_modifiers = {
   ["modifier_monkey_king_fur_army_soldier_hidden"] = true,
@@ -134,8 +30,6 @@ function GetPlayerEntities()
   end
 
   -- Also add these entities because the above code won't find them
-  -- NOTE: This adds duplicates if more than one of any of these heroes are in the game, but that
-  -- shouldn't cause any issues
   local entity_names = {
     "npc_dota_hero_meepo",
     "npc_dota_hero_arc_warden",
@@ -272,7 +166,8 @@ end
 
 
 -- Gets the inventory of the entity
--- Returns a table with items of the form [item_name, item_charges, item_secondary_charges]
+-- Returns a table with items containing the following fields: `name`, `charges`,
+-- `secondary_charges`, `is_neutral_item`
 -- The items are ordered by their index in the inventory
 -- Ignores TP scrolls
 function GetInventoryOfEntity(entity)
@@ -284,9 +179,10 @@ function GetInventoryOfEntity(entity)
     if item then
       if not (item:GetAbilityName() == "item_tpscroll") then
         inventory[i] = {
-          [1] = item:GetAbilityName(),
-          [2] = item:GetCurrentCharges(),
-          [3] = item:GetSecondaryCharges(),
+          ["name"] = item:GetAbilityName(),
+          ["charges"] = item:GetCurrentCharges(),
+          ["secondary_charges"] = item:GetSecondaryCharges(),
+          ["is_neutral_item"] = IsNeutralItem(item),
         }
       end
     end
@@ -316,8 +212,8 @@ function SetupInventory(entity, item_owner, inventory)
     if i ~= NEUTRAL_ITEM_SLOT then
       local item_info = inventory[i]
 
-      if item_info and IsNeutralItem(item_info[1]) then
-        local item = CreateAndConfigureItem(item_info[1], item_owner)
+      if item_info and (item_info["is_neutral_item"] == true) then
+        local item = CreateAndConfigureItem(item_info["name"], item_owner)
 
         entity:AddItem(item)
         -- Swap with first backpack slot (it's where neutral items go if the neutral slot is filled)
@@ -332,7 +228,7 @@ function SetupInventory(entity, item_owner, inventory)
   local real_neutral_item = inventory[NEUTRAL_ITEM_SLOT]
 
   if real_neutral_item then
-    local item = CreateAndConfigureItem(real_neutral_item[1], item_owner)
+    local item = CreateAndConfigureItem(real_neutral_item["name"], item_owner)
     entity:AddItem(item)
   end
 
@@ -343,15 +239,15 @@ function SetupInventory(entity, item_owner, inventory)
     local item_info = inventory[i]
 
     -- Neutral items are handled separately
-    if item_info and not IsNeutralItem(item_info[1]) then
-      local item = CreateAndConfigureItem(item_info[1], item_owner)
+    if item_info and (item_info["is_neutral_item"] == false) then
+      local item = CreateAndConfigureItem(item_info["name"], item_owner)
 
-      if item_info[2] then
-        item:SetCurrentCharges(item_info[2])
+      if item_info["charges"] then
+        item:SetCurrentCharges(item_info["charges"])
       end
 
-      if item_info[3] then
-        item:SetSecondaryCharges(item_info[3])
+      if item_info["secondary_charges"] then
+        item:SetSecondaryCharges(item_info["secondary_charges"])
       end
 
       entity:AddItem(item)
@@ -503,8 +399,8 @@ end
 
 
 -- Returns whether the item is a neutral item
-function IsNeutralItem(item_name)
-  return neutral_items[item_name] ~= nil
+function IsNeutralItem(item)
+  return item:IsNeutralDrop()
 end
 
 

@@ -3,6 +3,7 @@ Dark Ascension
 Ice Vortex
 Black King Bar
 Aeon Disk
+Necromastery
 armor formula (bot utils)
 bots
 
