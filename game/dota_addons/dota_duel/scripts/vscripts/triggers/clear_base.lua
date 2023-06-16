@@ -25,6 +25,7 @@ function OnStartTouch(keys)
 				["modifier_ancient_apparition_ice_vortex_custom_thinker"] = true,
 				["modifier_kunkka_ghost_ship_fleet"] = true,
 				["modifier_kunkka_torrent_thinker"] = true,
+				["modifier_kunkka_torrent_storm"] = true,
 				["modifier_leshrac_split_earth_thinker"] = true,
 				["modifier_disruptor_static_storm_thinker"] = true,
 				["modifier_item_dustofappearance_thinker"] = true,
