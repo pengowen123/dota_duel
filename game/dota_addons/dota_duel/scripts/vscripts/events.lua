@@ -32,7 +32,7 @@ function GameMode:OnNPCSpawned(keys)
 			return 0.3
 		end
 
-		-- Prevent neutral creeps from getting stronger over time
+		-- Disable neutral creep stat scaling (ability scaling is still active)
 		if entity.RemoveModifierByName then
 			entity:RemoveModifierByName("modifier_neutral_upgrade")
 		end
@@ -197,13 +197,13 @@ end
 function GameMode:OnPlayerChat(keys)
 	local player = PlayerResource:GetSelectedHeroEntity(0)
 
-	-- for _, entity in pairs(GetUnits(player:GetTeam(), player:GetAbsOrigin(), 1000.0, nil)) do
-	-- 	print("unit name, isvalid", entity:GetUnitName(), IsValidUnit(entity))
-	-- end
-
-	for i, modifier in pairs(player:FindAllModifiers()) do
-		print(modifier:GetName())
+	for _, entity in pairs(GetUnits(player:GetTeam(), player:GetAbsOrigin(), 500.0, nil)) do
+		print("unit name, isvalid", entity:GetUnitName(), IsValidUnit(entity))
 	end
+
+	-- for i, modifier in pairs(player:FindAllModifiers()) do
+	-- 	print(modifier:GetName())
+	-- end
 
 	-- local entity = Entities:First()
 

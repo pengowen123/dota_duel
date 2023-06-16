@@ -97,6 +97,10 @@ neutral_camp_info = {
 	}
 }
 
+-- The maximum level that neutral creep abilities can reach without chen's bonus
+-- All neutral creep abilities are permanently set to this level
+MAX_NEUTRAL_CREEP_ABILITY_LEVEL = 3
+
 
 -- Spawns neutrals at all neutral camps
 function SpawnAllNeutrals()
@@ -122,9 +126,12 @@ function SpawnNeutrals(camp)
   local creeps = camp_info[chosen_variant]
 
   for name, count in pairs(creeps) do
-  	for i = 0, count - 1 do
-	  	CreateUnitByName(name, origin, true, nil, nil, DOTA_TEAM_NEUTRALS)
-	  end
+		for i = 0, count - 1 do
+			local unit = CreateUnitByName(name, origin, true, nil, nil, DOTA_TEAM_NEUTRALS)
+
+			-- Force all creeps to have the maximum ability level, consistent with the late game in dota
+			LevelNeutralAbilities(unit)
+		end
   end
 end
 
@@ -141,4 +148,21 @@ function IsPopulated(camp)
 	end
 
   return false
+end
+
+
+-- Levels the neutral creep's abilities to the maximum level they can reach without chen's bonus
+function LevelNeutralAbilities(npc)
+	for i=0,25 do
+		local ability = npc:GetAbilityByIndex(i)
+
+		if ability then
+			-- There doesn't seem to be a general way to detect the max level of these abilities, so a
+			-- fixed value is used instead (the max level is currently constant, so this is fine for the
+			-- moment)
+			-- This also incorrectly increases the level of certain abilities that only have one level,
+			-- but this doesn't seem to cause any issues
+			ability:SetLevel(MAX_NEUTRAL_CREEP_ABILITY_LEVEL)
+		end
+	end
 end
