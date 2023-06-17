@@ -35,16 +35,6 @@
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom_duration"                           "ДЛИТЕЛЬНОСТЬ:"
                 "DOTA_Tooltip_ability_night_stalker_darkness_custom_bonus_damage"                       "ДОПОЛНИТЕЛЬНЫЙ УРОН:"
 
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom"                             "Ice Vortex"
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_Description"                 "Создаёт вихрь ледяной энергии и увеличивает магический урон, наносимый врагам в области действия."
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_shard_description"           "Вихрь наносит 40 урона в секунду и уменьшает скорость атаки на 20."
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_Lore"                        "Ледяные, жгучие ветра подчиняются прихоти Калдра, остужая поле битвы."
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_Note0"                       "Даёт обзор по небольшой области."
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_movement_speed_pct"          "%ЗАМЕДЛЕНИЕ:"
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_spell_resist_pct"            "%СНИЖЕНИЕ СОПРОТИВЛЕНИЯ:"
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_radius"                      "РАДИУС ВИХРЯ:"
-                "DOTA_Tooltip_ability_ancient_apparition_ice_vortex_custom_vortex_duration"             "ДЛИТЕЛЬНОСТЬ:"
-
 
                 //------------------------
                 // Text

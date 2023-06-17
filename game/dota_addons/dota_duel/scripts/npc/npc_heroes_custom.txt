@@ -5,10 +5,4 @@
     "override_hero"     "npc_dota_hero_night_stalker"
     "Ability6"          "night_stalker_darkness_custom"
   }
-
-  "npc_dota_hero_ancient_apparition_custom"
-  {
-    "override_hero"       "npc_dota_hero_ancient_apparition"
-    "Ability2"            "ancient_apparition_ice_vortex_custom"
-  }
 }
