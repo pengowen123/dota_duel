@@ -1,9 +1,9 @@
 General updates:
 Dark Ascension
-Ice Vortex
-Black King Bar
-Aeon Disk
-Necromastery
+Black King Bar cooldown/duration
+Aeon Disk cooldown
+Necromastery charges
+Desolator charges
 armor formula (bot utils)
 bots
 
