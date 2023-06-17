@@ -1,17 +1,5 @@
 "DOTAAbilities"
 {
-  // Hide courier from shop
-  "item_courier"
-  {
-    "ItemPurchasable" "0"
-  }
-
-  // Hide courier from shop
-  "item_flying_courier"
-  {
-    "ItemPurchasable" "0"
-  }
-
   // Give rapier an uncompletable recipe
   "item_recipe_rapier"
   {
@@ -60,6 +48,8 @@
       }
     }
   }
+
+  // Disable stock counts
 
   "item_ward_observer"
   {
@@ -111,6 +101,8 @@
     "ItemStockMax"          "0"
   }
 
+  // Dummy item used to make items unassemblable without removing them from the game (the latter
+  // causes console error spam)
   "item_dummy_unpurchasable"
   {
     "ID"                "9999"
