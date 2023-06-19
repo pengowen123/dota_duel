@@ -11,12 +11,11 @@ New items:
 shops.txt
 
 Neutral item additions or rotations:
-neutral_items in utils.lua
-neutral_item_shop UI
+neutral_item_shop.xml
 
 New hero:
 activelist.txt
-hero_select UI (xml and random list)
+hero_select UI (xml and random list in js)
 bot hero data
 
 Neutral creep changes:

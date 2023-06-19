@@ -14,7 +14,7 @@
 .HeroSelect
 {
 	width: 80%;
-	height: 70%;
+	height: 75%;
 
 	horizontal-align: center;
 	vertical-align: top;
@@ -44,28 +44,65 @@
 .Heroes
 {
 	width: 100%;
-	height: 75%;
+	height: 85%;
 
 	horizontal-align: center;
 	vertical-align: bottom;
 
-	flow-children: up;
+	flow-children: right;
+}
+
+// Panels that hold two vertically-stacked hero categories
+.HeroesSide
+{
+	width: 50%;
+	height: 100%;
+
+	flow-children: down;
+}
+
+// Panels for each category
+.HeroesCategory
+{
+	width: 90%;
+	height: 50%;
+
+	horizontal-align: center;
+
+	flow-children: down;
+}
+
+// Labels at the top of each hero category
+.HeroesCategoryLabel
+{
+	horizontal-align: center;
+
+	margin-top: 2%;
+
+	color: #BBBBBB;
+	font-size: 24px;
+	text-shadow: 1px 1px 1px 3.0 #333333;
+
+	opacity: 1.0;
 }
 
 // Panels that hold all heroes from a specific category
-.HeroesCategory
+.HeroesList
 {
 	width: 100%;
-	height: 30%;
+	height: 85%;
+
+	horizontal-align: center;
 
 	flow-children: right-wrap;
+
 }
 
 // Individual hero panels
 .HeroPanel
 {
-	width: 6.25%;
-	height: 30%;
+	width: 59px;
+	height: 95px;
 
 	background-color: transparent;
 }
@@ -73,29 +110,64 @@
 // Button to select a hero
 .HeroButton
 {
-	width: 71px;
-	height: 40px;
+	width: 49px;
+	height: 85px;
 
 	horizontal-align: center;
 	vertical-align: center;
 
 	background-color: #BBBBBBFF;
-	border: 0px;
+}
+
+// Hero images
+DOTAHeroImage
+{
+	transform: scaleX(1.15) scaleY(1.15);
 }
 
 // Panel at the bottom of the root panel
 .BottomPanel
 {
 	width: 100%;
-	height: 18%;
+	height: 10%;
 }
 
 // Random hero button
 #RandomHero
 {
-	vertical-align: center;
+	vertical-align: bottom;
 	horizontal-align: center;
 
-	width: 15%;
-	height: 35%;
+	margin-bottom: 10%;
+
+	width: 250px;
+	height: 50px;
+}
+
+// A class to apply the hero selection border animation
+.HeroSelectAnimation
+{
+	animation-name: select_hero;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+// The animation for the hero selection border
+@keyframes 'select_hero'
+{
+	0%
+	{
+		border: 5px solid #CCCCCCFF;
+	}
+
+	50%
+	{
+		border: 5px solid #55555544;
+	}
+
+	100%
+	{
+		border: 5px solid #CCCCCCFF;
+	}
 }

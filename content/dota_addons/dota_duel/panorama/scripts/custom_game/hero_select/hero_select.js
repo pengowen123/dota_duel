@@ -139,7 +139,7 @@ function Initialize()
 
 	// Due to the inconsistency of the `start_round` event being successfully sent at the
 	// start of the game, just hide everything here
-	EnableHeroSelectPanel(false);
+	EnableHeroSelectPanel(true);
 }
 
 
@@ -151,13 +151,9 @@ function OnSelectHero(hero)
 
  	GameEvents.SendCustomGameEventToServer("player_select_hero_js", data);
 
-  // Remove border from all hero buttons
+  // Remove border from all hero buttons except for the selected one
 	RemoveButtonBorders();
-
-	// Add border to selected hero button
-	var id = "#" + hero;
-	var selected_button = $(id);
- 	selected_button.style.border = "5px";
+	SetHeroSelected(hero, true);
 }
 
 
@@ -202,8 +198,7 @@ function AllVotedRematch()
 function RemoveButtonBorders()
 {
 	for (var i = 0; i < hero_name_table.length; i++) {
-		var id = "#" + hero_name_table[i];
-		$(id).style.border = 0;
+		SetHeroSelected(hero_name_table[i], false);
 	}
 }
 
@@ -223,6 +218,25 @@ function EnableHeroSelectPanel(enabled)
 {
 	var panel = $("#HeroSelect");
 	EnableElement(panel, enabled);
+}
+
+
+// Sets whether the hero is selected in the UI
+function SetHeroSelected(hero_name, selected)
+{
+	var id = "#" + hero_name;
+	var panel = $(id).GetParent();
+
+	if (selected)
+	{
+		// panel.style.border = "5px solid #FF0000";
+		panel.AddClass("HeroSelectAnimation");
+	}
+	else
+	{
+		// panel.style.border = "0px";
+		panel.RemoveClass("HeroSelectAnimation");
+	}
 }
 
 
@@ -253,10 +267,10 @@ function ToggleChatOffset(enabled)
 		.FindChildTraverse("HUDElements")
 		.FindChildTraverse("HudChat");
 
-	var y = "-250px";
+	var y = "-220px";
 	if (enabled)
 	{
-	  y = "25px";
+	  y = "50px";
 	}
 
 	chat.style.y = y;

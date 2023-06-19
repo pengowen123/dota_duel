@@ -21,637 +21,674 @@
 
 			<Panel class="Heroes" id="Heroes">
 
-				<Panel class="HeroesCategory" id="HeroesInt">
+				<Panel class="HeroesSide" id="HeroesLeft">
 
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_ancient_apparition" onactivate="OnSelectHero('npc_dota_hero_ancient_apparition')">
-							<DOTAHeroImage heroname="npc_dota_hero_ancient_apparition" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_bane" onactivate="OnSelectHero('npc_dota_hero_bane')">
-							<DOTAHeroImage heroname="npc_dota_hero_bane" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_batrider" onactivate="OnSelectHero('npc_dota_hero_batrider')">
-							<DOTAHeroImage heroname="npc_dota_hero_batrider" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_chen" onactivate="OnSelectHero('npc_dota_hero_chen')">
-							<DOTAHeroImage heroname="npc_dota_hero_chen" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_crystal_maiden" onactivate="OnSelectHero('npc_dota_hero_crystal_maiden')">
-							<DOTAHeroImage heroname="npc_dota_hero_crystal_maiden" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_dark_seer" onactivate="OnSelectHero('npc_dota_hero_dark_seer')">
-							<DOTAHeroImage heroname="npc_dota_hero_dark_seer" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_dark_willow" onactivate="OnSelectHero('npc_dota_hero_dark_willow')">
-							<DOTAHeroImage heroname="npc_dota_hero_dark_willow" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_dazzle" onactivate="OnSelectHero('npc_dota_hero_dazzle')">
-							<DOTAHeroImage heroname="npc_dota_hero_dazzle" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_death_prophet" onactivate="OnSelectHero('npc_dota_hero_death_prophet')">
-							<DOTAHeroImage heroname="npc_dota_hero_death_prophet" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_disruptor" onactivate="OnSelectHero('npc_dota_hero_disruptor')">
-							<DOTAHeroImage heroname="npc_dota_hero_disruptor" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_enchantress" onactivate="OnSelectHero('npc_dota_hero_enchantress')">
-							<DOTAHeroImage heroname="npc_dota_hero_enchantress" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_enigma" onactivate="OnSelectHero('npc_dota_hero_enigma')">
-							<DOTAHeroImage heroname="npc_dota_hero_enigma" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_grimstroke" onactivate="OnSelectHero('npc_dota_hero_grimstroke')">
-							<DOTAHeroImage heroname="npc_dota_hero_grimstroke" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_invoker" onactivate="OnSelectHero('npc_dota_hero_invoker')">
-							<DOTAHeroImage heroname="npc_dota_hero_invoker" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_jakiro" onactivate="OnSelectHero('npc_dota_hero_jakiro')">
-							<DOTAHeroImage heroname="npc_dota_hero_jakiro" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_keeper_of_the_light" onactivate="OnSelectHero('npc_dota_hero_keeper_of_the_light')">
-							<DOTAHeroImage heroname="npc_dota_hero_keeper_of_the_light" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_leshrac" onactivate="OnSelectHero('npc_dota_hero_leshrac')">
-							<DOTAHeroImage heroname="npc_dota_hero_leshrac" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_lich" onactivate="OnSelectHero('npc_dota_hero_lich')">
-							<DOTAHeroImage heroname="npc_dota_hero_lich" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_lina" onactivate="OnSelectHero('npc_dota_hero_lina')">
-							<DOTAHeroImage heroname="npc_dota_hero_lina" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_lion" onactivate="OnSelectHero('npc_dota_hero_lion')">
-							<DOTAHeroImage heroname="npc_dota_hero_lion" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_muerta" onactivate="OnSelectHero('npc_dota_hero_muerta')">
-							<DOTAHeroImage heroname="npc_dota_hero_muerta" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_furion" onactivate="OnSelectHero('npc_dota_hero_furion')">
-							<DOTAHeroImage heroname="npc_dota_hero_furion" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_necrolyte" onactivate="OnSelectHero('npc_dota_hero_necrolyte')">
-							<DOTAHeroImage heroname="npc_dota_hero_necrolyte" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_ogre_magi" onactivate="OnSelectHero('npc_dota_hero_ogre_magi')">
-							<DOTAHeroImage heroname="npc_dota_hero_ogre_magi" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_oracle" onactivate="OnSelectHero('npc_dota_hero_oracle')">
-							<DOTAHeroImage heroname="npc_dota_hero_oracle" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_obsidian_destroyer" onactivate="OnSelectHero('npc_dota_hero_obsidian_destroyer')">
-							<DOTAHeroImage heroname="npc_dota_hero_obsidian_destroyer" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_puck" onactivate="OnSelectHero('npc_dota_hero_puck')">
-							<DOTAHeroImage heroname="npc_dota_hero_puck" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_pugna" onactivate="OnSelectHero('npc_dota_hero_pugna')">
-							<DOTAHeroImage heroname="npc_dota_hero_pugna" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_queenofpain" onactivate="OnSelectHero('npc_dota_hero_queenofpain')">
-							<DOTAHeroImage heroname="npc_dota_hero_queenofpain" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_rubick" onactivate="OnSelectHero('npc_dota_hero_rubick')">
-							<DOTAHeroImage heroname="npc_dota_hero_rubick" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_shadow_demon" onactivate="OnSelectHero('npc_dota_hero_shadow_demon')">
-							<DOTAHeroImage heroname="npc_dota_hero_shadow_demon" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_shadow_shaman" onactivate="OnSelectHero('npc_dota_hero_shadow_shaman')">
-							<DOTAHeroImage heroname="npc_dota_hero_shadow_shaman" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_silencer" onactivate="OnSelectHero('npc_dota_hero_silencer')">
-							<DOTAHeroImage heroname="npc_dota_hero_silencer" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_skywrath_mage" onactivate="OnSelectHero('npc_dota_hero_skywrath_mage')">
-							<DOTAHeroImage heroname="npc_dota_hero_skywrath_mage" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_storm_spirit" onactivate="OnSelectHero('npc_dota_hero_storm_spirit')">
-							<DOTAHeroImage heroname="npc_dota_hero_storm_spirit" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_techies" onactivate="OnSelectHero('npc_dota_hero_techies')">
-							<DOTAHeroImage heroname="npc_dota_hero_techies" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_tinker" onactivate="OnSelectHero('npc_dota_hero_tinker')">
-							<DOTAHeroImage heroname="npc_dota_hero_tinker" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_visage" onactivate="OnSelectHero('npc_dota_hero_visage')">
-							<DOTAHeroImage heroname="npc_dota_hero_visage" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_void_spirit" onactivate="OnSelectHero('npc_dota_hero_void_spirit')">
-							<DOTAHeroImage heroname="npc_dota_hero_void_spirit" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_warlock" onactivate="OnSelectHero('npc_dota_hero_warlock')">
-							<DOTAHeroImage heroname="npc_dota_hero_warlock" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_windrunner" onactivate="OnSelectHero('npc_dota_hero_windrunner')">
-							<DOTAHeroImage heroname="npc_dota_hero_windrunner" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_winter_wyvern" onactivate="OnSelectHero('npc_dota_hero_winter_wyvern')">
-							<DOTAHeroImage heroname="npc_dota_hero_winter_wyvern" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_witch_doctor" onactivate="OnSelectHero('npc_dota_hero_witch_doctor')">
-							<DOTAHeroImage heroname="npc_dota_hero_witch_doctor" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_zuus" onactivate="OnSelectHero('npc_dota_hero_zuus')">
-							<DOTAHeroImage heroname="npc_dota_hero_zuus" />
-						</Button>
+					<Panel class="HeroesCategory" id="HeroesStr">
+
+						<Label class="HeroesCategoryLabel" text="#DOTA_HeroSelectorCategory_PrimaryAttribute_Strength" />
+
+						<Panel class="HeroesList">
+
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_alchemist" onactivate="OnSelectHero('npc_dota_hero_alchemist')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_alchemist" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_axe" onactivate="OnSelectHero('npc_dota_hero_axe')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_axe" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_bristleback" onactivate="OnSelectHero('npc_dota_hero_bristleback')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_bristleback" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_centaur" onactivate="OnSelectHero('npc_dota_hero_centaur')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_centaur" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_chaos_knight" onactivate="OnSelectHero('npc_dota_hero_chaos_knight')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_chaos_knight" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_dawnbreaker" onactivate="OnSelectHero('npc_dota_hero_dawnbreaker')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_dawnbreaker" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_doom_bringer" onactivate="OnSelectHero('npc_dota_hero_doom_bringer')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_doom_bringer" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_dragon_knight" onactivate="OnSelectHero('npc_dota_hero_dragon_knight')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_dragon_knight" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_earth_spirit" onactivate="OnSelectHero('npc_dota_hero_earth_spirit')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_earth_spirit" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_earthshaker" onactivate="OnSelectHero('npc_dota_hero_earthshaker')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_earthshaker" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_elder_titan" onactivate="OnSelectHero('npc_dota_hero_elder_titan')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_elder_titan" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_huskar" onactivate="OnSelectHero('npc_dota_hero_huskar')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_huskar" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_kunkka" onactivate="OnSelectHero('npc_dota_hero_kunkka')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_kunkka" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_legion_commander" onactivate="OnSelectHero('npc_dota_hero_legion_commander')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_legion_commander" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_life_stealer" onactivate="OnSelectHero('npc_dota_hero_life_stealer')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_life_stealer" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_mars" onactivate="OnSelectHero('npc_dota_hero_mars')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_mars" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_night_stalker" onactivate="OnSelectHero('npc_dota_hero_night_stalker')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_night_stalker" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_omniknight" onactivate="OnSelectHero('npc_dota_hero_omniknight')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_omniknight" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_primal_beast" onactivate="OnSelectHero('npc_dota_hero_primal_beast')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_primal_beast" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_pudge" onactivate="OnSelectHero('npc_dota_hero_pudge')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_pudge" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_slardar" onactivate="OnSelectHero('npc_dota_hero_slardar')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_slardar" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_spirit_breaker" onactivate="OnSelectHero('npc_dota_hero_spirit_breaker')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_spirit_breaker" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_sven" onactivate="OnSelectHero('npc_dota_hero_sven')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_sven" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_tidehunter" onactivate="OnSelectHero('npc_dota_hero_tidehunter')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_tidehunter" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_tiny" onactivate="OnSelectHero('npc_dota_hero_tiny')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_tiny" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_treant" onactivate="OnSelectHero('npc_dota_hero_treant')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_treant" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_tusk" onactivate="OnSelectHero('npc_dota_hero_tusk')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_tusk" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_abyssal_underlord" onactivate="OnSelectHero('npc_dota_hero_abyssal_underlord')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_abyssal_underlord" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_undying" onactivate="OnSelectHero('npc_dota_hero_undying')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_undying" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_skeleton_king" onactivate="OnSelectHero('npc_dota_hero_skeleton_king')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_skeleton_king" />
+								</Button>
+							</Panel>
+
+						</Panel>
+
 					</Panel>
 
-				</Panel>
+					<Panel class="HeroesCategory" id="HeroesInt">
 
-				<Panel class="HeroesCategory" id="HeroesAgi">
+						<Label class="HeroesCategoryLabel" text="#DOTA_HeroSelectorCategory_PrimaryAttribute_Intelligence" />
 
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_antimage" onactivate="OnSelectHero('npc_dota_hero_antimage')">
-							<DOTAHeroImage heroname="npc_dota_hero_antimage" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_arc_warden" onactivate="OnSelectHero('npc_dota_hero_arc_warden')">
-							<DOTAHeroImage heroname="npc_dota_hero_arc_warden" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_bloodseeker" onactivate="OnSelectHero('npc_dota_hero_bloodseeker')">
-							<DOTAHeroImage heroname="npc_dota_hero_bloodseeker" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_bounty_hunter" onactivate="OnSelectHero('npc_dota_hero_bounty_hunter')">
-							<DOTAHeroImage heroname="npc_dota_hero_bounty_hunter" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_broodmother" onactivate="OnSelectHero('npc_dota_hero_broodmother')">
-							<DOTAHeroImage heroname="npc_dota_hero_broodmother" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_clinkz" onactivate="OnSelectHero('npc_dota_hero_clinkz')">
-							<DOTAHeroImage heroname="npc_dota_hero_clinkz" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_drow_ranger" onactivate="OnSelectHero('npc_dota_hero_drow_ranger')">
-							<DOTAHeroImage heroname="npc_dota_hero_drow_ranger" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_ember_spirit" onactivate="OnSelectHero('npc_dota_hero_ember_spirit')">
-							<DOTAHeroImage heroname="npc_dota_hero_ember_spirit" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_faceless_void" onactivate="OnSelectHero('npc_dota_hero_faceless_void')">
-							<DOTAHeroImage heroname="npc_dota_hero_faceless_void" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_gyrocopter" onactivate="OnSelectHero('npc_dota_hero_gyrocopter')">
-							<DOTAHeroImage heroname="npc_dota_hero_gyrocopter" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_hoodwink" onactivate="OnSelectHero('npc_dota_hero_hoodwink')">
-							<DOTAHeroImage heroname="npc_dota_hero_hoodwink" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_juggernaut" onactivate="OnSelectHero('npc_dota_hero_juggernaut')">
-							<DOTAHeroImage heroname="npc_dota_hero_juggernaut" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_lone_druid" onactivate="OnSelectHero('npc_dota_hero_lone_druid')">
-							<DOTAHeroImage heroname="npc_dota_hero_lone_druid" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_luna" onactivate="OnSelectHero('npc_dota_hero_luna')">
-							<DOTAHeroImage heroname="npc_dota_hero_luna" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_medusa" onactivate="OnSelectHero('npc_dota_hero_medusa')">
-							<DOTAHeroImage heroname="npc_dota_hero_medusa" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_meepo" onactivate="OnSelectHero('npc_dota_hero_meepo')">
-							<DOTAHeroImage heroname="npc_dota_hero_meepo" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_mirana" onactivate="OnSelectHero('npc_dota_hero_mirana')">
-							<DOTAHeroImage heroname="npc_dota_hero_mirana" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_morphling" onactivate="OnSelectHero('npc_dota_hero_morphling')">
-							<DOTAHeroImage heroname="npc_dota_hero_morphling" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_monkey_king" onactivate="OnSelectHero('npc_dota_hero_monkey_king')">
-							<DOTAHeroImage heroname="npc_dota_hero_monkey_king" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_naga_siren" onactivate="OnSelectHero('npc_dota_hero_naga_siren')">
-							<DOTAHeroImage heroname="npc_dota_hero_naga_siren" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_nyx_assassin" onactivate="OnSelectHero('npc_dota_hero_nyx_assassin')">
-							<DOTAHeroImage heroname="npc_dota_hero_nyx_assassin" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_pangolier" onactivate="OnSelectHero('npc_dota_hero_pangolier')">
-							<DOTAHeroImage heroname="npc_dota_hero_pangolier" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_phantom_assassin" onactivate="OnSelectHero('npc_dota_hero_phantom_assassin')">
-							<DOTAHeroImage heroname="npc_dota_hero_phantom_assassin" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_phantom_lancer" onactivate="OnSelectHero('npc_dota_hero_phantom_lancer')">
-							<DOTAHeroImage heroname="npc_dota_hero_phantom_lancer" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_razor" onactivate="OnSelectHero('npc_dota_hero_razor')">
-							<DOTAHeroImage heroname="npc_dota_hero_razor" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_riki" onactivate="OnSelectHero('npc_dota_hero_riki')">
-							<DOTAHeroImage heroname="npc_dota_hero_riki" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_nevermore" onactivate="OnSelectHero('npc_dota_hero_nevermore')">
-							<DOTAHeroImage heroname="npc_dota_hero_nevermore" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_slark" onactivate="OnSelectHero('npc_dota_hero_slark')">
-							<DOTAHeroImage heroname="npc_dota_hero_slark" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_sniper" onactivate="OnSelectHero('npc_dota_hero_sniper')">
-							<DOTAHeroImage heroname="npc_dota_hero_sniper" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_spectre" onactivate="OnSelectHero('npc_dota_hero_spectre')">
-							<DOTAHeroImage heroname="npc_dota_hero_spectre" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_templar_assassin" onactivate="OnSelectHero('npc_dota_hero_templar_assassin')">
-							<DOTAHeroImage heroname="npc_dota_hero_templar_assassin" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_terrorblade" onactivate="OnSelectHero('npc_dota_hero_terrorblade')">
-							<DOTAHeroImage heroname="npc_dota_hero_terrorblade" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_troll_warlord" onactivate="OnSelectHero('npc_dota_hero_troll_warlord')">
-							<DOTAHeroImage heroname="npc_dota_hero_troll_warlord" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_ursa" onactivate="OnSelectHero('npc_dota_hero_ursa')">
-							<DOTAHeroImage heroname="npc_dota_hero_ursa" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_vengefulspirit" onactivate="OnSelectHero('npc_dota_hero_vengefulspirit')">
-							<DOTAHeroImage heroname="npc_dota_hero_vengefulspirit" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_venomancer" onactivate="OnSelectHero('npc_dota_hero_venomancer')">
-							<DOTAHeroImage heroname="npc_dota_hero_venomancer" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_viper" onactivate="OnSelectHero('npc_dota_hero_viper')">
-							<DOTAHeroImage heroname="npc_dota_hero_viper" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_weaver" onactivate="OnSelectHero('npc_dota_hero_weaver')">
-							<DOTAHeroImage heroname="npc_dota_hero_weaver" />
-						</Button>
+						<Panel class="HeroesList">
+
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_ancient_apparition" onactivate="OnSelectHero('npc_dota_hero_ancient_apparition')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_ancient_apparition" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_crystal_maiden" onactivate="OnSelectHero('npc_dota_hero_crystal_maiden')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_crystal_maiden" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_death_prophet" onactivate="OnSelectHero('npc_dota_hero_death_prophet')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_death_prophet" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_disruptor" onactivate="OnSelectHero('npc_dota_hero_disruptor')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_disruptor" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_enchantress" onactivate="OnSelectHero('npc_dota_hero_enchantress')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_enchantress" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_grimstroke" onactivate="OnSelectHero('npc_dota_hero_grimstroke')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_grimstroke" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_invoker" onactivate="OnSelectHero('npc_dota_hero_invoker')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_invoker" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_jakiro" onactivate="OnSelectHero('npc_dota_hero_jakiro')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_jakiro" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_keeper_of_the_light" onactivate="OnSelectHero('npc_dota_hero_keeper_of_the_light')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_keeper_of_the_light" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_leshrac" onactivate="OnSelectHero('npc_dota_hero_leshrac')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_leshrac" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_lich" onactivate="OnSelectHero('npc_dota_hero_lich')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_lich" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_lina" onactivate="OnSelectHero('npc_dota_hero_lina')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_lina" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_lion" onactivate="OnSelectHero('npc_dota_hero_lion')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_lion" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_muerta" onactivate="OnSelectHero('npc_dota_hero_muerta')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_muerta" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_furion" onactivate="OnSelectHero('npc_dota_hero_furion')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_furion" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_necrolyte" onactivate="OnSelectHero('npc_dota_hero_necrolyte')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_necrolyte" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_ogre_magi" onactivate="OnSelectHero('npc_dota_hero_ogre_magi')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_ogre_magi" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_oracle" onactivate="OnSelectHero('npc_dota_hero_oracle')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_oracle" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_obsidian_destroyer" onactivate="OnSelectHero('npc_dota_hero_obsidian_destroyer')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_obsidian_destroyer" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_puck" onactivate="OnSelectHero('npc_dota_hero_puck')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_puck" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_pugna" onactivate="OnSelectHero('npc_dota_hero_pugna')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_pugna" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_queenofpain" onactivate="OnSelectHero('npc_dota_hero_queenofpain')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_queenofpain" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_rubick" onactivate="OnSelectHero('npc_dota_hero_rubick')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_rubick" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_shadow_demon" onactivate="OnSelectHero('npc_dota_hero_shadow_demon')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_shadow_demon" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_shadow_shaman" onactivate="OnSelectHero('npc_dota_hero_shadow_shaman')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_shadow_shaman" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_silencer" onactivate="OnSelectHero('npc_dota_hero_silencer')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_silencer" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_skywrath_mage" onactivate="OnSelectHero('npc_dota_hero_skywrath_mage')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_skywrath_mage" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_storm_spirit" onactivate="OnSelectHero('npc_dota_hero_storm_spirit')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_storm_spirit" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_tinker" onactivate="OnSelectHero('npc_dota_hero_tinker')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_tinker" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_warlock" onactivate="OnSelectHero('npc_dota_hero_warlock')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_warlock" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_witch_doctor" onactivate="OnSelectHero('npc_dota_hero_witch_doctor')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_witch_doctor" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_zuus" onactivate="OnSelectHero('npc_dota_hero_zuus')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_zuus" />
+								</Button>
+							</Panel>
+
+						</Panel>
+
 					</Panel>
 
 				</Panel>
 
-				<Panel class="HeroesCategory" id="HeroesStr">
+				<Panel class="HeroesSide" id="HeroesRight">
 
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_abaddon" onactivate="OnSelectHero('npc_dota_hero_abaddon')">
-							<DOTAHeroImage heroname="npc_dota_hero_abaddon" />
-						</Button>
+					<Panel class="HeroesCategory" id="HeroesAgi">
+
+						<Label class="HeroesCategoryLabel" text="#DOTA_HeroSelectorCategory_PrimaryAttribute_Agility" />
+
+						<Panel class="HeroesList">
+
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_antimage" onactivate="OnSelectHero('npc_dota_hero_antimage')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_antimage" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_arc_warden" onactivate="OnSelectHero('npc_dota_hero_arc_warden')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_arc_warden" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_bloodseeker" onactivate="OnSelectHero('npc_dota_hero_bloodseeker')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_bloodseeker" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_bounty_hunter" onactivate="OnSelectHero('npc_dota_hero_bounty_hunter')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_bounty_hunter" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_clinkz" onactivate="OnSelectHero('npc_dota_hero_clinkz')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_clinkz" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_drow_ranger" onactivate="OnSelectHero('npc_dota_hero_drow_ranger')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_drow_ranger" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_ember_spirit" onactivate="OnSelectHero('npc_dota_hero_ember_spirit')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_ember_spirit" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_faceless_void" onactivate="OnSelectHero('npc_dota_hero_faceless_void')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_faceless_void" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_gyrocopter" onactivate="OnSelectHero('npc_dota_hero_gyrocopter')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_gyrocopter" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_hoodwink" onactivate="OnSelectHero('npc_dota_hero_hoodwink')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_hoodwink" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_juggernaut" onactivate="OnSelectHero('npc_dota_hero_juggernaut')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_juggernaut" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_luna" onactivate="OnSelectHero('npc_dota_hero_luna')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_luna" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_medusa" onactivate="OnSelectHero('npc_dota_hero_medusa')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_medusa" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_meepo" onactivate="OnSelectHero('npc_dota_hero_meepo')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_meepo" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_morphling" onactivate="OnSelectHero('npc_dota_hero_morphling')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_morphling" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_monkey_king" onactivate="OnSelectHero('npc_dota_hero_monkey_king')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_monkey_king" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_naga_siren" onactivate="OnSelectHero('npc_dota_hero_naga_siren')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_naga_siren" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_phantom_assassin" onactivate="OnSelectHero('npc_dota_hero_phantom_assassin')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_phantom_assassin" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_phantom_lancer" onactivate="OnSelectHero('npc_dota_hero_phantom_lancer')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_phantom_lancer" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_razor" onactivate="OnSelectHero('npc_dota_hero_razor')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_razor" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_riki" onactivate="OnSelectHero('npc_dota_hero_riki')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_riki" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_nevermore" onactivate="OnSelectHero('npc_dota_hero_nevermore')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_nevermore" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_slark" onactivate="OnSelectHero('npc_dota_hero_slark')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_slark" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_sniper" onactivate="OnSelectHero('npc_dota_hero_sniper')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_sniper" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_spectre" onactivate="OnSelectHero('npc_dota_hero_spectre')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_spectre" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_templar_assassin" onactivate="OnSelectHero('npc_dota_hero_templar_assassin')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_templar_assassin" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_terrorblade" onactivate="OnSelectHero('npc_dota_hero_terrorblade')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_terrorblade" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_troll_warlord" onactivate="OnSelectHero('npc_dota_hero_troll_warlord')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_troll_warlord" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_ursa" onactivate="OnSelectHero('npc_dota_hero_ursa')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_ursa" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_viper" onactivate="OnSelectHero('npc_dota_hero_viper')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_viper" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_weaver" onactivate="OnSelectHero('npc_dota_hero_weaver')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_weaver" />
+								</Button>
+							</Panel>
+
+						</Panel>
+
 					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_alchemist" onactivate="OnSelectHero('npc_dota_hero_alchemist')">
-							<DOTAHeroImage heroname="npc_dota_hero_alchemist" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_axe" onactivate="OnSelectHero('npc_dota_hero_axe')">
-							<DOTAHeroImage heroname="npc_dota_hero_axe" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_beastmaster" onactivate="OnSelectHero('npc_dota_hero_beastmaster')">
-							<DOTAHeroImage heroname="npc_dota_hero_beastmaster" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_brewmaster" onactivate="OnSelectHero('npc_dota_hero_brewmaster')">
-							<DOTAHeroImage heroname="npc_dota_hero_brewmaster" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_bristleback" onactivate="OnSelectHero('npc_dota_hero_bristleback')">
-							<DOTAHeroImage heroname="npc_dota_hero_bristleback" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_centaur" onactivate="OnSelectHero('npc_dota_hero_centaur')">
-							<DOTAHeroImage heroname="npc_dota_hero_centaur" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_chaos_knight" onactivate="OnSelectHero('npc_dota_hero_chaos_knight')">
-							<DOTAHeroImage heroname="npc_dota_hero_chaos_knight" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_rattletrap" onactivate="OnSelectHero('npc_dota_hero_rattletrap')">
-							<DOTAHeroImage heroname="npc_dota_hero_rattletrap" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_dawnbreaker" onactivate="OnSelectHero('npc_dota_hero_dawnbreaker')">
-							<DOTAHeroImage heroname="npc_dota_hero_dawnbreaker" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_doom_bringer" onactivate="OnSelectHero('npc_dota_hero_doom_bringer')">
-							<DOTAHeroImage heroname="npc_dota_hero_doom_bringer" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_dragon_knight" onactivate="OnSelectHero('npc_dota_hero_dragon_knight')">
-							<DOTAHeroImage heroname="npc_dota_hero_dragon_knight" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_earth_spirit" onactivate="OnSelectHero('npc_dota_hero_earth_spirit')">
-							<DOTAHeroImage heroname="npc_dota_hero_earth_spirit" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_earthshaker" onactivate="OnSelectHero('npc_dota_hero_earthshaker')">
-							<DOTAHeroImage heroname="npc_dota_hero_earthshaker" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_elder_titan" onactivate="OnSelectHero('npc_dota_hero_elder_titan')">
-							<DOTAHeroImage heroname="npc_dota_hero_elder_titan" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_huskar" onactivate="OnSelectHero('npc_dota_hero_huskar')">
-							<DOTAHeroImage heroname="npc_dota_hero_huskar" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_wisp" onactivate="OnSelectHero('npc_dota_hero_wisp')">
-							<DOTAHeroImage heroname="npc_dota_hero_wisp" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_kunkka" onactivate="OnSelectHero('npc_dota_hero_kunkka')">
-							<DOTAHeroImage heroname="npc_dota_hero_kunkka" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_legion_commander" onactivate="OnSelectHero('npc_dota_hero_legion_commander')">
-							<DOTAHeroImage heroname="npc_dota_hero_legion_commander" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_life_stealer" onactivate="OnSelectHero('npc_dota_hero_life_stealer')">
-							<DOTAHeroImage heroname="npc_dota_hero_life_stealer" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_lycan" onactivate="OnSelectHero('npc_dota_hero_lycan')">
-							<DOTAHeroImage heroname="npc_dota_hero_lycan" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_magnataur" onactivate="OnSelectHero('npc_dota_hero_magnataur')">
-							<DOTAHeroImage heroname="npc_dota_hero_magnataur" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_marci" onactivate="OnSelectHero('npc_dota_hero_marci')">
-							<DOTAHeroImage heroname="npc_dota_hero_marci" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_mars" onactivate="OnSelectHero('npc_dota_hero_mars')">
-							<DOTAHeroImage heroname="npc_dota_hero_mars" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_night_stalker" onactivate="OnSelectHero('npc_dota_hero_night_stalker')">
-							<DOTAHeroImage heroname="npc_dota_hero_night_stalker" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_omniknight" onactivate="OnSelectHero('npc_dota_hero_omniknight')">
-							<DOTAHeroImage heroname="npc_dota_hero_omniknight" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_phoenix" onactivate="OnSelectHero('npc_dota_hero_phoenix')">
-							<DOTAHeroImage heroname="npc_dota_hero_phoenix" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_primal_beast" onactivate="OnSelectHero('npc_dota_hero_primal_beast')">
-							<DOTAHeroImage heroname="npc_dota_hero_primal_beast" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_pudge" onactivate="OnSelectHero('npc_dota_hero_pudge')">
-							<DOTAHeroImage heroname="npc_dota_hero_pudge" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_sand_king" onactivate="OnSelectHero('npc_dota_hero_sand_king')">
-							<DOTAHeroImage heroname="npc_dota_hero_sand_king" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_slardar" onactivate="OnSelectHero('npc_dota_hero_slardar')">
-							<DOTAHeroImage heroname="npc_dota_hero_slardar" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_snapfire" onactivate="OnSelectHero('npc_dota_hero_snapfire')">
-							<DOTAHeroImage heroname="npc_dota_hero_snapfire" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_spirit_breaker" onactivate="OnSelectHero('npc_dota_hero_spirit_breaker')">
-							<DOTAHeroImage heroname="npc_dota_hero_spirit_breaker" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_sven" onactivate="OnSelectHero('npc_dota_hero_sven')">
-							<DOTAHeroImage heroname="npc_dota_hero_sven" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_tidehunter" onactivate="OnSelectHero('npc_dota_hero_tidehunter')">
-							<DOTAHeroImage heroname="npc_dota_hero_tidehunter" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_shredder" onactivate="OnSelectHero('npc_dota_hero_shredder')">
-							<DOTAHeroImage heroname="npc_dota_hero_shredder" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_tiny" onactivate="OnSelectHero('npc_dota_hero_tiny')">
-							<DOTAHeroImage heroname="npc_dota_hero_tiny" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_treant" onactivate="OnSelectHero('npc_dota_hero_treant')">
-							<DOTAHeroImage heroname="npc_dota_hero_treant" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_tusk" onactivate="OnSelectHero('npc_dota_hero_tusk')">
-							<DOTAHeroImage heroname="npc_dota_hero_tusk" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_abyssal_underlord" onactivate="OnSelectHero('npc_dota_hero_abyssal_underlord')">
-							<DOTAHeroImage heroname="npc_dota_hero_abyssal_underlord" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_undying" onactivate="OnSelectHero('npc_dota_hero_undying')">
-							<DOTAHeroImage heroname="npc_dota_hero_undying" />
-						</Button>
-					</Panel>
-					<Panel class="HeroPanel">
-						<Button class="HeroButton" id="npc_dota_hero_skeleton_king" onactivate="OnSelectHero('npc_dota_hero_skeleton_king')">
-							<DOTAHeroImage heroname="npc_dota_hero_skeleton_king" />
-						</Button>
+
+					<Panel class="HeroesCategory" id="HeroesUniversal">
+
+						<Label class="HeroesCategoryLabel" text="#DOTA_HeroSelectorCategory_PrimaryAttribute_All" />
+
+						<Panel class="HeroesList">
+
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_abaddon" onactivate="OnSelectHero('npc_dota_hero_abaddon')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_abaddon" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_bane" onactivate="OnSelectHero('npc_dota_hero_bane')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_bane" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_batrider" onactivate="OnSelectHero('npc_dota_hero_batrider')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_batrider" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_beastmaster" onactivate="OnSelectHero('npc_dota_hero_beastmaster')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_beastmaster" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_brewmaster" onactivate="OnSelectHero('npc_dota_hero_brewmaster')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_brewmaster" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_broodmother" onactivate="OnSelectHero('npc_dota_hero_broodmother')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_broodmother" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_chen" onactivate="OnSelectHero('npc_dota_hero_chen')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_chen" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_rattletrap" onactivate="OnSelectHero('npc_dota_hero_rattletrap')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_rattletrap" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_dark_seer" onactivate="OnSelectHero('npc_dota_hero_dark_seer')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_dark_seer" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_dark_willow" onactivate="OnSelectHero('npc_dota_hero_dark_willow')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_dark_willow" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_dazzle" onactivate="OnSelectHero('npc_dota_hero_dazzle')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_dazzle" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_enigma" onactivate="OnSelectHero('npc_dota_hero_enigma')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_enigma" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_wisp" onactivate="OnSelectHero('npc_dota_hero_wisp')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_wisp" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_lone_druid" onactivate="OnSelectHero('npc_dota_hero_lone_druid')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_lone_druid" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_lycan" onactivate="OnSelectHero('npc_dota_hero_lycan')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_lycan" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_magnataur" onactivate="OnSelectHero('npc_dota_hero_magnataur')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_magnataur" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_marci" onactivate="OnSelectHero('npc_dota_hero_marci')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_marci" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_mirana" onactivate="OnSelectHero('npc_dota_hero_mirana')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_mirana" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_nyx_assassin" onactivate="OnSelectHero('npc_dota_hero_nyx_assassin')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_nyx_assassin" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_pangolier" onactivate="OnSelectHero('npc_dota_hero_pangolier')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_pangolier" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_phoenix" onactivate="OnSelectHero('npc_dota_hero_phoenix')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_phoenix" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_sand_king" onactivate="OnSelectHero('npc_dota_hero_sand_king')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_sand_king" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_snapfire" onactivate="OnSelectHero('npc_dota_hero_snapfire')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_snapfire" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_techies" onactivate="OnSelectHero('npc_dota_hero_techies')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_techies" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_shredder" onactivate="OnSelectHero('npc_dota_hero_shredder')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_shredder" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_vengefulspirit" onactivate="OnSelectHero('npc_dota_hero_vengefulspirit')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_vengefulspirit" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_venomancer" onactivate="OnSelectHero('npc_dota_hero_venomancer')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_venomancer" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_visage" onactivate="OnSelectHero('npc_dota_hero_visage')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_visage" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_void_spirit" onactivate="OnSelectHero('npc_dota_hero_void_spirit')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_void_spirit" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_windrunner" onactivate="OnSelectHero('npc_dota_hero_windrunner')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_windrunner" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_winter_wyvern" onactivate="OnSelectHero('npc_dota_hero_winter_wyvern')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_winter_wyvern" />
+								</Button>
+							</Panel>
+
+						</Panel>
+
 					</Panel>
 
 				</Panel>
