@@ -137,9 +137,9 @@ function Initialize()
 	GameEvents.Subscribe("end_game_no_rematch", EndGame);
 	GameEvents.Subscribe("all_voted_rematch", AllVotedRematch);
 
-	// Due to the inconsistency of the `start_round` event being successfully sent at the
+	// Due to the inconsistency of the `end_round` event being successfully sent at the
 	// start of the game, just hide everything here
-	EnableHeroSelectPanel(true);
+	EnableHeroSelectPanel(false);
 }
 
 

@@ -101,8 +101,8 @@
 // Individual hero panels
 .HeroPanel
 {
-	width: 59px;
-	height: 95px;
+	width: 61px;
+	height: 93px;
 
 	background-color: transparent;
 }
@@ -110,8 +110,8 @@
 // Button to select a hero
 .HeroButton
 {
-	width: 49px;
-	height: 85px;
+	width: 51px;
+	height: 83px;
 
 	horizontal-align: center;
 	vertical-align: center;
