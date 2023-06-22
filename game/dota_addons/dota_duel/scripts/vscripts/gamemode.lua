@@ -215,7 +215,7 @@ function GameMode:OnGameInProgress()
 
   -- Enable the add bot button
   local enable_button = function()
-    EnableAddBotButton(true)
+    -- EnableAddBotButton(true)
   end
 
   -- There must be a delay for events to be properly sent at the time this function is called
