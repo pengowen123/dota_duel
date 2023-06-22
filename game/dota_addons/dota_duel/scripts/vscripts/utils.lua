@@ -69,7 +69,10 @@ end
 function TeleportEntity(entity, target_entity_name)
   local point = Entities:FindByName(nil, target_entity_name):GetAbsOrigin()
 
-  FindClearSpaceForUnit(entity, point, false)
+  -- If interpolation is enabled, the entity will not activate triggers such as the `leave_arena`
+  -- one
+  local skip_position_interpolation = true
+  FindClearSpaceForUnit(entity, point, skip_position_interpolation)
   entity:Stop()
 end
 
