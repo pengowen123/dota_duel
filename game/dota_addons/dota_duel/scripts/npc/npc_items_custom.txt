@@ -101,6 +101,11 @@
     "ItemStockMax"          "0"
   }
 
+  "item_blood_grenade"
+  {
+    "ItemStockMax"          "0"
+  }
+
   // Dummy item used to make items unassemblable without removing them from the game (the latter
   // causes console error spam)
   "item_dummy_unpurchasable"
