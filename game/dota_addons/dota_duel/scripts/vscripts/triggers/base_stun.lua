@@ -47,6 +47,9 @@ function OnStartTouch(trigger)
 						tp_scroll:SetCurrentCharges(3)
 						bear:AddItem(tp_scroll)
 
+						-- Add modifier_stun in case the trigger doesn't add it (it is inconsistent sometimes)
+						bear:AddNewModifier(bear, nil, "modifier_stun", {})
+
 						-- Give the Spirit Bear the Moon Shard buff if it doesn't already have it
 						if not bear:HasModifier("modifier_item_moon_shard_consumed") then
 							local moon_shard = bear:AddItemByName("item_moon_shard")
