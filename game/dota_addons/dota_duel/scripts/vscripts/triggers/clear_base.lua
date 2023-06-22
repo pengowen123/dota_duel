@@ -113,7 +113,8 @@ function OnStartTouch(keys)
 		return
 	end
 
-	if (name == "ent_dota_shop") or (classname == "ent_dota_neutral_item_stash") then
+	-- Don't kill the fountain, shop, or neutral item stash
+	if activator:IsBuilding() then
 		return
 	end
 
