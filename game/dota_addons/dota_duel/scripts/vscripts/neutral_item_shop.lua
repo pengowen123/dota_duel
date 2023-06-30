@@ -26,7 +26,9 @@ function OnPlayerPurchaseNeutralItem(event_source_index, args)
   end
 
   if (selected_entity:GetTeam() == player:GetTeam())
-    and selected_entity:CanSellItems()
+    and selected_entity:HasInventory()
+    and not selected_entity:IsClone()
+    and not selected_entity:IsIllusion()
     and selected_entity:GetPlayerOwnerID() == player_id then
     local is_hero_selected = selected_entity == player
 
