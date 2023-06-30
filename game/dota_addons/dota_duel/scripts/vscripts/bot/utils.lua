@@ -181,7 +181,7 @@ end
 
 -- Returns the multiplier for magic damage taken by the NPC
 function GetMagicDamageMultiplierForNPC(npc)
-  return 1 - npc:GetMagicalArmorValue()
+  return 1 - npc:Script_GetMagicalArmorValue(false, nil)
 end
 
 

@@ -4,10 +4,10 @@
 hero_pool = {
   -- "npc_dota_hero_spectre",
   -- "npc_dota_hero_ogre_magi",
-  -- "npc_dota_hero_wisp",
+  "npc_dota_hero_wisp",
   -- "npc_dota_hero_juggernaut",
   -- "npc_dota_hero_ursa",
-  "npc_dota_hero_arc_warden",
+  -- "npc_dota_hero_arc_warden",
 }
 
 

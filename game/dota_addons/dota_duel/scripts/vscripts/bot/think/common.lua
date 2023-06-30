@@ -724,7 +724,7 @@ function GetAttackTarget(npc, enemies_to_consider, damage_type)
       score = score + 3000.0
     end
 
-    if e:IsAttackImmune() or e:IsUntargetable() then
+    if e:IsAttackImmune() or e:IsUntargetableFrom(npc) then
       score = score - 500.0
     end
 
@@ -832,6 +832,7 @@ end
 
 -- Returns whether the NPC can cast the ability
 -- If `target` is specified, whether it is targetable by the ability is also considered
+-- TODO: maybe add isuntargetable stuff here
 function CanCastAbility(npc, ability, target)
   if IsFeared(npc) then
     return false
