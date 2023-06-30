@@ -21,7 +21,6 @@ fix seer stone not being disabled (maybe only affects post-game, but test after 
 s/\t/  /
 
 fix heroes not being teleported to the arena
-investigate meepo constant death in base after dying to bloodthorn (check IsClone onentitydeath logic)
 
 bots:
 - implement thinkers:

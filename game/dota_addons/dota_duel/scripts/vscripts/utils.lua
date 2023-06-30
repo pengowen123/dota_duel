@@ -233,28 +233,33 @@ function SetupInventory(entity, item_owner, inventory)
   if real_neutral_item then
     local item = CreateAndConfigureItem(real_neutral_item["name"], item_owner)
     entity:AddItem(item)
+
+    -- If a non-neutral item was in the neutral item slot, it must be swapped because it will be
+    -- added to the main inventory
+    if not real_neutral_item["is_neutral_item"] then
+      entity:SwapItems(0, NEUTRAL_ITEM_SLOT)
+    end
   end
 
   -- Add normal items
   for i = 20,0,-1 do
-    local item = entity:GetItemInSlot(i)
+    if i ~= NEUTRAL_ITEM_SLOT then
+      local item_info = inventory[i]
 
-    local item_info = inventory[i]
+      if item_info and (item_info["is_neutral_item"] == false) then
+        local item = CreateAndConfigureItem(item_info["name"], item_owner)
 
-    -- Neutral items are handled separately
-    if item_info and (item_info["is_neutral_item"] == false) then
-      local item = CreateAndConfigureItem(item_info["name"], item_owner)
+        if item_info["charges"] then
+          item:SetCurrentCharges(item_info["charges"])
+        end
 
-      if item_info["charges"] then
-        item:SetCurrentCharges(item_info["charges"])
+        if item_info["secondary_charges"] then
+          item:SetSecondaryCharges(item_info["secondary_charges"])
+        end
+
+        entity:AddItem(item)
+        entity:SwapItems(0, i)
       end
-
-      if item_info["secondary_charges"] then
-        item:SetSecondaryCharges(item_info["secondary_charges"])
-      end
-
-      entity:AddItem(item)
-      entity:SwapItems(0, i)
     end
   end
 end
