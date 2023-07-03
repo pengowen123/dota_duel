@@ -34,7 +34,7 @@ function OnStartTouch(trigger)
 	if IsMonkeyKingClone(activator) then
 		-- The stun modifier shouldn't be added to Monkey King clones
 		return
-	elseif name == "npc_dota_hero_lone_druid" then
+	elseif (name == "npc_dota_hero_lone_druid") and not activator:IsIllusion() then
 		Timers:CreateTimer(0.5, function()
 			if activator:GetAbilityByIndex(0):GetLevel() >= 3 then
 				-- Lone Druid is silenced in the fountain to prevent bugs with the transformation period of his
