@@ -20,8 +20,6 @@ fix disruptor cheat by disabling ability for a few seconds
 fix seer stone not being disabled (maybe only affects post-game, but test after winning a round)
 s/\t/  /
 
-fix heroes not being teleported to the arena
-
 bots:
 - implement thinkers:
   - implement other bots

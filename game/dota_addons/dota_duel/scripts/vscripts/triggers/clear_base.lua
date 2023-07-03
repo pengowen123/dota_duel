@@ -114,7 +114,7 @@ function OnStartTouch(keys)
 	end
 
 	-- Don't kill the fountain, shop, or neutral item stash
-	if activator:IsBuilding() then
+	if activator.IsBuilding and activator:IsBuilding() then
 		return
 	end
 

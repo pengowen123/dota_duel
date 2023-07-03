@@ -502,7 +502,7 @@ function DestroyDroppedItems()
     local item = entity:GetContainedItem()
 
     if item then
-      -- Don't destroy gems (they are handles by DestroyDroppedGems)
+      -- Don't destroy gems (they are handled by DestroyDroppedGems)
       if item:GetAbilityName() ~= "item_gem" then
         item:Destroy()
         entity:Kill()
