@@ -26,6 +26,11 @@ function IsValidUnit(entity)
     and not entity:IsUnselectable()
     and not (entity:IsInvulnerable() and not entity:HasAttackCapability())
     and not (entity:IsOther() and entity:NoHealthBar())
+    -- Exclude special units such as Muerta's Parting Shot soul
+    -- This also incorrectly excludes ordinary units that are invulnerable and untargetable, such
+    -- as Visage when in Stone Form with Book of Shadows active, but these cases are rare and
+    -- of little significance
+    and not (entity:IsUntargetableFrom(entity) and entity:IsInvulnerable())
     -- Exclude invisible special units such as thinkers and announcers
     and (entity:GetModelName() ~= "models/development/invisiblebox.vmdl")
 end
