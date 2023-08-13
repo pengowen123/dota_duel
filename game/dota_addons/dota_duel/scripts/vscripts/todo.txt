@@ -8,7 +8,6 @@ fix alchemist scepter gifted buff and self buff not persisting through rounds (c
 fix aghs spark wraith vision persisting in a nice way
 fix underlord ult vision persisting
 fix nyx mind flare not being increased by past damage (probably impossible)
-remove unnecessary settings from settings.lua to reduce maintenance burden
 
 move dire top neutral creeps up a bit
 fix instant backpack swapping exploit
@@ -19,6 +18,14 @@ fix vengeful spirit illusion lasting for a few seconds
 fix disruptor cheat by disabling ability for a few seconds
 fix seer stone not being disabled (maybe only affects post-game, but test after winning a round)
 s/\t/  /
+improve wisp bot vs mars
+improve bots vs wk aghs
+
+fix heroes not showing up
+fix top bar not being overridden
+fix hero not spawning after rematch
+remove unnecessary settings from settings.lua to reduce maintenance burden
+fix error with bot saying gg when player doesn't select a hero
 
 bots:
 - implement thinkers:

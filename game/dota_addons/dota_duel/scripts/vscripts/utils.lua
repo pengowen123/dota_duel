@@ -288,7 +288,8 @@ function GetLocalizationTeamName(team)
 end
 
 
--- Removes all old hero entities, such as those left behind when giving players new heroes
+-- Removes all old hero entities that are left behind when giving players new hero entities
+-- This includes persistent units owned by the old heroes, such as clones and spirit bears
 -- NOTE: Do not call this until all spark wraiths have been removed or they will get stuck
 -- TODO: try removing this and seeing if clear base works/can be fixed
 function RemoveOldHeroes()
@@ -307,7 +308,7 @@ function RemoveOldHeroes()
   local old_heroes = {}
   local entity = Entities:First()
   while entity do
-    if entity.IsHero and entity:IsHero() then
+    if entity.IsHero and (entity:IsHero() or IsSpiritBear(entity)) then
       if not IsDummyHero(entity) and not hero_entities[entity] then
         -- There doesn't seem to be a way to check whether clones belong to old heroes, so a
         -- time-based check is used here instead. This relies on SetPreviousRoundEndTime being
@@ -425,7 +426,7 @@ function MapInventoryItems(player_id, fn)
   end
 
   for j, entity in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
-    if entity:GetOwnerEntity() == hero then
+    if entity:GetPlayerOwnerID() == player_id then
       for i=0,20 do
         local item = entity:GetItemInSlot(i)
 
@@ -521,4 +522,23 @@ function ReplaceHero(player_id, hero_name)
 
     return hero
   end
+end
+
+
+-- Returns whether the entity is a spirit bear
+function IsSpiritBear(entity)
+  return entity:GetClassname() == "npc_dota_lone_druid_bear"
+end
+
+
+-- Returns whether the entity is:
+-- - a hero,
+-- - not an illusion,
+-- - not a clone,
+-- - and not a spirit bear
+function IsRealHero(entity)
+  return entity.IsRealHero
+    and entity:IsRealHero()
+    and not IsClone(entity)
+    and not IsSpiritBear(entity)
 end

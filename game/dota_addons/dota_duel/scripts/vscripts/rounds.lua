@@ -25,7 +25,7 @@ function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
   -- Only count the death if the entity is a hero and won't reincarnate
-  if entity:IsRealHero() then
+  if IsRealHero(entity) then
     local player_id = entity:GetPlayerOwnerID()
     local updated_after_respawn = false
 
@@ -548,7 +548,7 @@ function ResetTalents()
 
     -- Collect modifiers and items for the spirit bear of this hero if it has one
     for i, entity in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
-      if entity:GetOwnerEntity() == hero_entity then
+      if entity:GetPlayerOwnerID() == playerID then
         bear_moon_shards[playerID] = entity:HasModifier("modifier_item_moon_shard_consumed")
         bear_items[playerID] = GetInventoryOfEntity(entity)
         ClearInventory(entity)
@@ -603,7 +603,7 @@ function ResetTalents()
         new_hero:GetAbilityByIndex(0):CastAbility()
 
         for i, entity in pairs(Entities:FindAllByName("npc_dota_lone_druid_bear")) do
-          if entity:GetOwnerEntity() == new_hero then
+          if entity:GetPlayerOwnerID() == playerID then
             -- Re-add moon shard buff
             if bear_moon_shards[playerID] then
               local moon_shard = entity:AddItemByName("item_moon_shard")

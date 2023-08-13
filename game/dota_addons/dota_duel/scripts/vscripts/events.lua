@@ -37,12 +37,8 @@ function GameMode:OnNPCSpawned(keys)
 			entity:RemoveModifierByName("modifier_neutral_upgrade")
 		end
 
-		-- Only level newly created NPCs
-		if entity.GetLevel and entity:GetLevel() > 1 then
-			return
-		end
-
-		if entity.IsRealHero and entity:IsRealHero() and not IsClone(entity) then
+		-- Only level newly-created real heroes
+		if IsRealHero(entity) and entity:GetLevel() <= 1 then
 			LevelEntityToMax(entity)
 			ClearInventory(entity)
 
