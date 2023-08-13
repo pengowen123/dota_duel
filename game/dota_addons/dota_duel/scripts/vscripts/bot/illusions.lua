@@ -25,6 +25,7 @@ nonself_illusion_heroes = {
   ["npc_dota_hero_chaos_knight"] = true,
   ["npc_dota_hero_dark_seer"] = true,
   ["npc_dota_hero_grimstroke"] = true,
+  ["npc_dota_hero_morphling"] = true,
   ["npc_dota_hero_shadow_demon"] = true,
 }
 
@@ -33,9 +34,9 @@ illusion_heroes = {
   ["npc_dota_hero_anti_mage"] = true,
   ["npc_dota_hero_bane"] = true,
   ["npc_dota_hero_chaos_knight"] = true,
-  ["npc_dota_hero_dark_seer"] = true,
   ["npc_dota_hero_grimstroke"] = true,
   ["npc_dota_hero_hoodwink"] = true,
+  ["npc_dota_hero_morphling"] = true,
   ["npc_dota_hero_naga_siren"] = true,
   ["npc_dota_hero_phantom_lancer"] = true,
   ["npc_dota_hero_rubick"] = true,
@@ -214,7 +215,7 @@ end
 
 -- Returns whether it is possible for the NPC to be an illusion
 function CanBeIllusion(npc)
-  -- Only heroes can create illusions
+  -- Only entities considered to be heroes can create illusions
   if not npc:IsHero() then
     return false
   end
