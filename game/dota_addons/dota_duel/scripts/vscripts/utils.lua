@@ -135,6 +135,12 @@ function IsMonkeyKingClone(entity)
 end
 
 
+-- Returns whether the provided entity is a meepo clone
+function IsMeepoClone(entity)
+  return (entity:GetCloneSource() ~= nil) and (entity:GetName() == "npc_dota_hero_meepo")
+end
+
+
 -- Returns whether the match has ended
 function IsMatchEnded()
   return (GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME) or (game_state == GAME_STATE_END)

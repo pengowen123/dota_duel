@@ -25,7 +25,7 @@ function OnEntityDeath(event)
   local entity = EntIndexToHScript(event.entindex_killed)
 
   -- Only count the death if the entity is a hero and won't reincarnate
-  if IsRealHero(entity) then
+  if IsRealHero(entity) or IsMeepoClone(entity) then
     local player_id = entity:GetPlayerOwnerID()
     local updated_after_respawn = false
 
