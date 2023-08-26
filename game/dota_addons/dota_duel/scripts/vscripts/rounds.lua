@@ -558,20 +558,8 @@ function ResetTalents()
       end
     end
 
-    -- Replace the hero with a dummy
-    local temp_hero_name = "npc_dota_hero_invoker"
-    if temp_hero_name == hero_name then
-      temp_hero_name = "npc_dota_hero_abaddon"
-    end
-    local dummy_hero = PlayerResource:ReplaceHeroWith(playerID, temp_hero_name, 99999, 99999)
-
-    -- Clear the dummy hero's inventory
-    -- It starts with a town portal scroll and if it is not destroyed, the items purchased limit
-    -- is reduced by 1 every round
-    ClearInventory(dummy_hero)
-
-    -- Replace dummy with the original hero
-    local new_hero = PlayerResource:ReplaceHeroWith(playerID, hero_name, 99999, 99999)
+    -- Create a new hero entity for the player
+    local new_hero = ReplaceHero(playerID, hero_name)
 
     -- Re-add aghanim's scepter and moon shard buffs
     if has_moon_shard then

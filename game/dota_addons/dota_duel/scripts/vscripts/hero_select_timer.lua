@@ -112,8 +112,12 @@ function RestartGame()
 		SetPreviousRoundEndTime()
 
 		PrecacheUnitByNameAsync(hero_name, function()
-			ReplaceHero(playerID, hero_name)
-			TryOnGameInProgress(playerID)
+			-- The hero must not be replaced on the same frame as the precache finishing to avoid the new
+			-- one randomly being instantly deleted (which appears to be a dota bug)
+			Timers:CreateTimer(0.1, function()
+				ReplaceHero(playerID, hero_name)
+				TryOnGameInProgress(playerID)
+			end)
 		end)
 	end
 

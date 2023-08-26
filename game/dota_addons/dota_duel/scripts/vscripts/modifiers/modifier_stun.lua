@@ -1,4 +1,5 @@
 if modifier_stun == nil then modifier_stun = class({}) end
+-- TODO: investigate why this doesn't get removed on death (disable round end on death to test repeated death in base)
 
 
 function modifier_stun:CheckState()
