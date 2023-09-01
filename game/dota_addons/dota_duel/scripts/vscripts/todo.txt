@@ -31,6 +31,7 @@ test crystal maiden clone IsValidUnit
 fix bot error at end of supernova
 move invoker to universal heroes on pick screen
 update illusions for morphling (check whether visible on line 312)
+investigate casting seer stone before round
 
 bots:
 - implement thinkers:

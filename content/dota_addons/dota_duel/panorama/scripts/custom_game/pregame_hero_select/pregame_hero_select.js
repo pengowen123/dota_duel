@@ -46,10 +46,16 @@ function RemoveUnusedTeamPlayerSlots(team_panel)
   var children = team_panel.Children();
 
   for (var i = children.length - 1; i >= 0; i--) {
-    var player_name = children[i].FindChildTraverse("PlayerName").text;
+    var player_name_label = children[i].FindChildTraverse("PlayerName");
 
-    // Steam names can't be fewer than 2 character so this is safe
-    if (player_name === "")
+    // Only consider player panels
+    if (player_name_label === null)
+    {
+      continue;
+    }
+
+    // Steam names can't be fewer than 2 characters so this is safe
+    if (player_name_label.text === "")
     {
       children[i].style.visibility = "collapse";
     }
