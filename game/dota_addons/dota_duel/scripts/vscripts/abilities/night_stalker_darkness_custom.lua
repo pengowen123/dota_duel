@@ -14,6 +14,15 @@ function night_stalker_darkness_custom:OnSpellStart()
   ParticleManager:SetParticleControl(particle, 0, caster:GetAbsOrigin())
   ParticleManager:SetParticleControl(particle, 1, caster:GetAbsOrigin())
 
+  -- Refresh basic ability cooldowns
+  for i = 0, caster:GetAbilityCount() - 1 do
+    local ability = caster:GetAbilityByIndex(i)
+
+    if ability and (ability:GetAbilityType() == ABILITY_TYPE_BASIC) then
+      ability:EndCooldown()
+    end
+  end
+
   -- Add buff
   local duration = self:GetLevelSpecialValueFor("duration", self:GetLevel() - 1)
   caster:AddNewModifier(caster, self, "modifier_night_stalker_darkness", { duration = duration })

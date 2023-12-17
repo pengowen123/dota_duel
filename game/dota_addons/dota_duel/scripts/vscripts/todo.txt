@@ -23,7 +23,6 @@ improve bots vs wk aghs
 
 fix heroes not showing up
 fix top bar not being overridden
-fix hero not spawning after rematch
 remove unnecessary settings from settings.lua to reduce maintenance burden
 fix error with bot saying gg when player doesn't select a hero
 
@@ -32,6 +31,7 @@ fix bot error at end of supernova
 move invoker to universal heroes on pick screen
 update illusions for morphling (check whether visible on line 312)
 investigate casting seer stone before round
+fix isvalidentity with book of shadows
 
 bots:
 - implement thinkers:
@@ -45,3 +45,5 @@ bots:
 - fix stat tracking
 - setup vote UI
 - add notes to update.txt
+
+update for 7.35

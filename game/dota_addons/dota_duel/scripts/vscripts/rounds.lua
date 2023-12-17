@@ -426,7 +426,7 @@ function ResetCooldowns(entity)
 
       -- Give Desolator maximum charges
       if item:GetName() == "item_desolator" then
-        max_charges = 20
+        max_charges = 30
       end
 
       -- Don't set charges on consumables so players can buy more
