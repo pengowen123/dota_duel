@@ -115,6 +115,11 @@
 								</Button>
 							</Panel>
 							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_ogre_magi" onactivate="OnSelectHero('npc_dota_hero_ogre_magi')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_ogre_magi" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
 								<Button class="HeroButton" id="npc_dota_hero_omniknight" onactivate="OnSelectHero('npc_dota_hero_omniknight')">
 									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_omniknight" />
 								</Button>
@@ -221,11 +226,6 @@
 								</Button>
 							</Panel>
 							<Panel class="HeroPanel">
-								<Button class="HeroButton" id="npc_dota_hero_invoker" onactivate="OnSelectHero('npc_dota_hero_invoker')">
-									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_invoker" />
-								</Button>
-							</Panel>
-							<Panel class="HeroPanel">
 								<Button class="HeroButton" id="npc_dota_hero_jakiro" onactivate="OnSelectHero('npc_dota_hero_jakiro')">
 									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_jakiro" />
 								</Button>
@@ -268,11 +268,6 @@
 							<Panel class="HeroPanel">
 								<Button class="HeroButton" id="npc_dota_hero_necrolyte" onactivate="OnSelectHero('npc_dota_hero_necrolyte')">
 									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_necrolyte" />
-								</Button>
-							</Panel>
-							<Panel class="HeroPanel">
-								<Button class="HeroButton" id="npc_dota_hero_ogre_magi" onactivate="OnSelectHero('npc_dota_hero_ogre_magi')">
-									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_ogre_magi" />
 								</Button>
 							</Panel>
 							<Panel class="HeroPanel">
@@ -589,6 +584,11 @@
 							<Panel class="HeroPanel">
 								<Button class="HeroButton" id="npc_dota_hero_enigma" onactivate="OnSelectHero('npc_dota_hero_enigma')">
 									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_enigma" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_invoker" onactivate="OnSelectHero('npc_dota_hero_invoker')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_invoker" />
 								</Button>
 							</Panel>
 							<Panel class="HeroPanel">

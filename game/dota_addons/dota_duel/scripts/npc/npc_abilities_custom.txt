@@ -36,7 +36,7 @@
       "bonus_damage"
       {
         "value"                                 "50 100 150"
-        "special_bonus_unique_night_stalker_3"  "+35"
+        "special_bonus_unique_night_stalker_3"  "+30"
       }
     }
 

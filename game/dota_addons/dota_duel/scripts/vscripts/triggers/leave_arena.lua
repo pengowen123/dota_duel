@@ -34,6 +34,6 @@ function OnEndTouch(trigger)
 	if game_state == GAME_STATE_FIGHT then
 		local data = { duration = 8.0 }
 
-		activator:AddNewModifier(trigger.activator, nil, "leave_arena_modifier", data)
+		activator:AddNewModifier(activator, nil, "leave_arena_modifier", data)
 	end
 end

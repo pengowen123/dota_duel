@@ -15,32 +15,23 @@
     "item"    "item_dust"
     "item"    "item_bottle"
     "item"    "item_aghanims_shard"
-
   }
-
   "attributes"
   {
     "item"    "item_branches"
-
     "item"    "item_gauntlets"
     "item"    "item_slippers"
     "item"    "item_mantle"
-
     "item"    "item_circlet"
-
     "item"    "item_belt_of_strength"
     "item"    "item_boots_of_elves"
     "item"    "item_robe"
-
     "item"    "item_crown"
-
     "item"    "item_ogre_axe"
     "item"    "item_blade_of_alacrity"
     "item"    "item_staff_of_wizardry"
     "item"    "item_diadem"
-
   }
-
   "weapons_armor"
   {
     "item"    "item_quelling_blade"
@@ -59,7 +50,6 @@
     "item"    "item_claymore"
     "item"    "item_mithril_hammer"
   }
-
   "misc"
   {
     "item"    "item_ring_of_regen"
@@ -76,8 +66,9 @@
     "item"    "item_shadow_amulet"
     "item"    "item_ghost"
     "item"    "item_blink"
+    "item"    "item_ring_of_health"
+    "item"    "item_void_stone"
   }
-
   // Level 1 - Green Recipes
   "basics"
   {
@@ -97,9 +88,7 @@
     "item"    "item_helm_of_the_dominator"
     "item"    "item_travel_boots"
     "item"    "item_moon_shard"
-    "item"    "item_helm_of_the_overlord"
   }
-
   // Level 2 - Blue Recipes
   "support"
   {
@@ -108,7 +97,6 @@
     "item"    "item_headdress"
     "item"    "item_urn_of_shadows"
     "item"    "item_tranquil_boots"
-    "item"    "item_medallion_of_courage"
     "item"    "item_pavise"
     "item"    "item_arcane_boots"
     "item"    "item_ancient_janggo"
@@ -119,9 +107,8 @@
     "item"    "item_pipe"
     "item"    "item_guardian_greaves"
     "item"    "item_boots_of_bearing"
-    "item"    "item_wraith_pact"
+    "item"    "item_devastator"
   }
-
   "magics"
   {
     "item"    "item_veil_of_discord"
@@ -141,7 +128,6 @@
     "item"    "item_gungir"
     "item"    "item_wind_waker"
   }
-
   // Level 3 - Purple Recipes
   "defense"
   {
@@ -150,7 +136,6 @@
     "item"    "item_blade_mail"
     "item"    "item_aeon_disk"
     "item"    "item_soul_booster"
-    "item"    "item_eternal_shroud"
     "item"    "item_crimson_guard"
     "item"    "item_lotus_orb"
     "item"    "item_black_king_bar"
@@ -161,8 +146,9 @@
     "item"    "item_heart"
     "item"    "item_assault"
     "item"    "item_bloodstone"
+    "item"    "item_helm_of_the_overlord"
+    "item"    "item_eternal_shroud"
   }
-
   "weapons"
   {
     "item"    "item_lesser_crit"
@@ -184,8 +170,10 @@
     "item"    "item_abyssal_blade"
     "item"    "item_revenants_brooch"
     "item"    "item_disperser"
+    "item"    "item_aetherial_halo"
+    "item"    "item_caster_rapier"
+    "item"    "item_angels_demise"
   }
-
   // Level 4 - Orange / Orb / Artifacts
   "artifacts"
   {
@@ -210,11 +198,10 @@
     "item"    "item_arcane_blink"
     "item"    "item_harpoon"
   }
-
   "secretshop"
   {
-    "item"    "item_ring_of_health"
-    "item"    "item_void_stone"
+    "item"    "item_ring_of_tarrasque"
+    "item"    "item_tiara_of_selemene"
     "item"    "item_cornucopia"
     "item"    "item_energy_booster"
     "item"    "item_vitality_booster"

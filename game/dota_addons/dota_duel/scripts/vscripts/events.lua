@@ -191,11 +191,11 @@ end
 
 -- This function is called whenever any player sends a chat message to team or All
 function GameMode:OnPlayerChat(keys)
-	local player = PlayerResource:GetSelectedHeroEntity(0)
+	-- local player = PlayerResource:GetSelectedHeroEntity(0)
 
-	for _, entity in pairs(GetUnits(player:GetTeam(), player:GetAbsOrigin(), 500.0, nil)) do
-		print("unit name, isvalid", entity:GetUnitName(), IsValidUnit(entity))
-	end
+	-- for _, entity in pairs(GetUnits(player:GetTeam(), player:GetAbsOrigin(), 500.0, nil)) do
+	-- 	print("unit name, isvalid", entity:GetUnitName(), IsValidUnit(entity))
+	-- end
 
 	-- for i, modifier in pairs(player:FindAllModifiers()) do
 	-- 	print(modifier:GetName())

@@ -45,5 +45,3 @@ bots:
 - fix stat tracking
 - setup vote UI
 - add notes to update.txt
-
-update for 7.35

@@ -45,7 +45,8 @@ require('events')
 
 -- Gamemode modules (not barebones)
 require('rounds')
-require('modifiers')
+-- Included in `addon_init.lua` to fix a bug
+-- require('modifiers')
 require('initialize')
 require('ready')
 require('round_timer')
