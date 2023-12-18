@@ -113,8 +113,13 @@ function OnStartTouch(keys)
 		return
 	end
 
+	-- Buildings that are safe to destroy
+	local safe_building_classnames = {
+		["npc_dota_unit_underlord_portal"] = true,
+	}
+
 	-- Don't kill the fountain, shop, or neutral item stash
-	if activator.IsBuilding and activator:IsBuilding() then
+	if activator.IsBuilding and activator:IsBuilding() and not safe_building_classnames[classname] then
 		return
 	end
 
