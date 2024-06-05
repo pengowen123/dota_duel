@@ -255,9 +255,9 @@ function GameMode:InitGameMode()
   GameRules:SetCustomGameAllowHeroPickMusic(true)
   GameRules:SetCustomGameAllowMusicAtGameStart(false)
 
-  -- Set a small strategy time so that players don't have to wait
-  -- It is non-zero to give players time to load everything and avoid crashes on low-end machines
-  GameRules:SetStrategyTime(3.0)
+  -- Set a strategy time long enough for players to select facets
+  -- Must be non-zero to give players time to load everything and avoid crashes on low-end machines
+  GameRules:SetStrategyTime(15.0)
 
   -- Disable pregame time for accurate match duration
   GameRules:SetPreGameTime(0.0)
