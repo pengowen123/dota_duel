@@ -21,6 +21,9 @@ FIXED_RESPAWN_TIME = 5                  -- What time should we use for a fixed r
 BUYBACK_ENABLED = false                 -- Should we allow people to buyback when they die?
 DISABLE_DAY_NIGHT_CYCLE = true          -- Should we disable the day night cycle from naturally occurring? (Manual adjustment still possible)
 TREE_REGROW_TIME = 90.0                 -- How long should it take individual trees to respawn after being cut down/destroyed?
+FOUNTAIN_PERCENTAGE_HEALTH_REGEN = 100  -- What should we use for the percentage fountain health regen? Use -1 to keep the default dota behavior.
+FOUNTAIN_PERCENTAGE_MANA_REGEN = 100    -- What should we use for the percentage fountain mana regen? Use -1 to keep the default dota behavior.
+
 
 -- Infinite gold
 STARTING_GOLD = 99999                   -- How much starting gold should we give to each player?

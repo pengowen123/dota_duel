@@ -146,6 +146,8 @@ function GameMode:_CaptureGameMode()
     mode:SetBuybackEnabled( BUYBACK_ENABLED )
     mode:SetFixedRespawnTime( FIXED_RESPAWN_TIME ) 
     mode:SetDaynightCycleDisabled( DISABLE_DAY_NIGHT_CYCLE )
+    mode:SetFountainPercentageHealthRegen( FOUNTAIN_PERCENTAGE_HEALTH_REGEN )
+    mode:SetFountainPercentageManaRegen( FOUNTAIN_PERCENTAGE_MANA_REGEN )
 
     self:OnFirstPlayerLoaded()
   end 

@@ -124,6 +124,7 @@ function StartRound()
   for i, player_entity in pairs(player_entities) do
     ClearBuffs(player_entity)
     ResetCooldowns(player_entity)
+    ResetHealthAndMana(player_entity)
 
     for i, modifier in pairs(player_entity:FindAllModifiers()) do
       local name = modifier:GetName()
@@ -439,6 +440,13 @@ function ResetCooldowns(entity)
   end
 
   ResetNecromastery(entity)
+end
+
+
+-- Resets the health and mana of the entity
+function ResetHealthAndMana(entity)
+  entity:SetHealth(entity:GetMaxHealth())
+  entity:SetMana(entity:GetMaxMana())
 end
 
 
