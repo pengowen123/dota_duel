@@ -20,7 +20,7 @@
   // Set Black King Bar's cooldown and duration to final values
   "item_black_king_bar"
   {
-    "AbilityCooldown"       "90.0"
+    "AbilityCooldown"       "95.0"
 
     "AbilityValues"
     {

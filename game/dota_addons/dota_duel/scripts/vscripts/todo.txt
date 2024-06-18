@@ -6,7 +6,6 @@ add intro screen to help new players
 fix alchemist scepter gifted buff and self buff not persisting through rounds (complex)
 fix aghs spark wraith vision persisting in a nice way
 fix underlord ult vision persisting
-fix nyx mind flare not being increased by past damage (probably impossible)
 
 move dire top neutral creeps up a bit
 fix instant backpack swapping exploit
@@ -20,7 +19,6 @@ s/\t/  /
 improve wisp bot vs mars
 improve bots vs wk aghs
 
-fix heroes not showing up
 fix error with bot saying gg when player doesn't select a hero
 
 test crystal maiden clone IsValidUnit
