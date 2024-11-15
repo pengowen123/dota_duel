@@ -296,6 +296,11 @@
 								</Button>
 							</Panel>
 							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_ringmaster" onactivate="OnSelectHero('npc_dota_hero_ringmaster')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_ringmaster" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
 								<Button class="HeroButton" id="npc_dota_hero_rubick" onactivate="OnSelectHero('npc_dota_hero_rubick')">
 									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_rubick" />
 								</Button>
@@ -413,6 +418,11 @@
 							<Panel class="HeroPanel">
 								<Button class="HeroButton" id="npc_dota_hero_juggernaut" onactivate="OnSelectHero('npc_dota_hero_juggernaut')">
 									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_juggernaut" />
+								</Button>
+							</Panel>
+							<Panel class="HeroPanel">
+								<Button class="HeroButton" id="npc_dota_hero_kez" onactivate="OnSelectHero('npc_dota_hero_kez')">
+									<DOTAHeroImage heroimagestyle="portrait" heroname="npc_dota_hero_kez" />
 								</Button>
 							</Panel>
 							<Panel class="HeroPanel">
