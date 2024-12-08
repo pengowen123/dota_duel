@@ -171,6 +171,29 @@ end
 function GameMode:OnHeroInGame(hero)
 end
 
+
+-- Track whether Night Stalker's Night Reign talent has ever been active
+night_stalker_night_reign_used = false
+
+
+-- Disables Night Stalker's Night Reign talent
+-- Must be called after all hero entities have been created
+function DisableNightStalkerNightReign()
+  for i, entity in pairs(GetPlayerEntities()) do
+    if entity:GetName() == "npc_dota_hero_night_stalker" and entity:GetHeroFacetID() == 2 then
+      night_stalker_night_reign_used = true
+      break
+    end
+  end
+
+  if night_stalker_night_reign_used then
+    GameRules:SetTimeOfDay(0.0)
+  else
+    GameRules:SetTimeOfDay(0.5)
+  end
+end
+
+
 -- Called each time a new game starts (at the start of the match and each time a rematch starts)
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
@@ -178,7 +201,6 @@ function GameMode:OnGameInProgress()
   Notifications:ClearBottomFromAll()
 
   SetGameState(GAME_STATE_BUY)
-  GameRules:SetTimeOfDay(0.5)
 
   added_current_game_stats = false
 
@@ -199,6 +221,10 @@ function GameMode:OnGameInProgress()
       return
     end
   end
+
+  -- Disable Night Stalker's Night Reign talent
+  -- The day/night cycle is disabled, so it effectively causes permanent nighttime
+  Timers:CreateTimer(5.0, DisableNightStalkerNightReign)
 
   -- Hide the vote rematch UI and show the surrender UI
   CustomGameEventManager:Send_ServerToAllClients("start_game", nil)
