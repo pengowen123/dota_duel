@@ -12,7 +12,6 @@ fix instant backpack swapping exploit
 fix dc through closing the game and stopped timers
 look into top bar triangle delimiters
 fix no draws on last round (only delay if other team has 4 points, then just checkscores only on endround)
-fix vengeful spirit illusion lasting for a few seconds
 fix disruptor cheat by disabling ability for a few seconds
 fix seer stone not being disabled (maybe only affects post-game, but test after winning a round)
 s/\t/  /
@@ -28,8 +27,15 @@ update illusions for morphling (check whether visible on line 312)
 fix isvalidentity with book of shadows
 
 fix nightstalker facet (set day on game start)
+fix dummy hero sometimes being visible
+fix timer pause when dc during hero select/pick screen
+
 use resettoheroselection
-find way to change facets
+find way to change facets:
+- create bot for each hero with debugcreateherowithvariant and swap player to it
+- hide existing heroes/players in all functions and UI
+- add hooks to hero select screen to detect facet choice
+- disconnect bots after each debugcreateherowithvariant call to reuse player IDs
 
 bots:
 - implement thinkers:

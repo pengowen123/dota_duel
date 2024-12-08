@@ -7,9 +7,7 @@ round_timeout_timer = 0
 
 -- Initializes the custom timer
 function InitRoundTimeoutTimer()
-  -- 3 minutes is just long enough to cast ultimate with long cooldowns (and refresher with some
-  -- CDR if not backpacked) twice
-  round_timeout_timer = 180
+  round_timeout_timer = ROUND_TIMEOUT_TIMER
 
   Timers:RemoveTimer("round_timeout_timer")
 

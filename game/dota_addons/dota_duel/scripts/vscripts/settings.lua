@@ -13,11 +13,18 @@ POST_GAME_TIME = 60.0                   -- How long should we let people look at
 GAME_END_DELAY = 1                      -- How long should we wait after the game winner is set to display the victory banner and End Screen?  Use -1 to keep the default (about 10 seconds)
 VICTORY_MESSAGE_DURATION = 1            -- How long should we wait after the victory message displays to show the End Screen?
 
+-- The delay before the round ends after a team is eliminated
+ROUND_END_DELAY = 5
+-- The max time a round can last before it ends in a draw
+-- 3 minutes is just long enough to cast ultimates with long cooldowns (and refresher with some
+-- CDR if not backpacked) twice
+ROUND_TIMEOUT_TIMER = 180
+
 -- Game rules
 ALLOW_SAME_HERO_SELECTION = true        -- Should we let people select the same hero as each other
 UNIVERSAL_SHOP_MODE = true              -- Should the main shop contain Secret Shop items as well as regular items
-ENABLE_HERO_RESPAWN = true              -- Should the heroes automatically respawn on a timer or stay dead until manually respawned
-FIXED_RESPAWN_TIME = 5                  -- What time should we use for a fixed respawn timer?  Use -1 to keep the default dota behavior.
+ENABLE_HERO_RESPAWN = false             -- Should the heroes automatically respawn on a timer or stay dead until manually respawned
+FIXED_RESPAWN_TIME = -1                 -- What time should we use for a fixed respawn timer?  Use -1 to keep the default dota behavior.
 BUYBACK_ENABLED = false                 -- Should we allow people to buyback when they die?
 DISABLE_DAY_NIGHT_CYCLE = true          -- Should we disable the day night cycle from naturally occurring? (Manual adjustment still possible)
 TREE_REGROW_TIME = 90.0                 -- How long should it take individual trees to respawn after being cut down/destroyed?

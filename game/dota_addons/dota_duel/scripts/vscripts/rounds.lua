@@ -19,6 +19,7 @@ dead_players = {
   [DOTA_TEAM_BADGUYS] = 0,
 }
 
+
 -- Ends the round if all players on a team died
 -- Also handles top bar death logic
 function OnEntityDeath(event)
@@ -54,22 +55,6 @@ function OnEntityDeath(event)
         local team = entity:GetTeam()
         dead_players[team] = dead_players[team] + 1
 
-        -- Fix respawn time while round is ongoing to prevent respawns without calling
-        -- SetHeroRespawnEnabled
-        if not is_round_ending then
-          local set_respawn_time = function()
-            SetRespawnTimes(999.0)
-            return 1.0
-          end
-
-          local args = {
-            endTime = 0.0,
-            callback = set_respawn_time
-          }
-
-          Timers:CreateTimer("set_respawn_time", args)
-        end
-
         -- All players are killed and scores updated on round draw, so don't update scores
         -- redundantly
         if not round_drew then
@@ -87,6 +72,12 @@ function OnEntityDeath(event)
               EndRoundDelayed()
             end
           end
+        else
+          -- This must be called during `OnEntityDeath` so the dead music doesn't play forever
+          -- It will also be called immediately after this when `EndRoundOnTimeout` calls
+          -- `EndRoundDelayed`, but it must be called specifically in `OnEntityDeath` to fix the
+          -- music
+          RespawnPlayersAfterDelay(ROUND_END_DELAY)
         end
       end
     end
@@ -129,7 +120,7 @@ function StartRound()
     for i, modifier in pairs(player_entity:FindAllModifiers()) do
       local name = modifier:GetName()
 
-      if name == "modifier_stun" then
+      if name == "modifier_stun" or name == "modifier_fountain_invulnerability" then
         modifier:Destroy()
       end
     end
@@ -231,9 +222,6 @@ function EndRound()
     SetRoundStartTimer(round_start_delay)
   end
 
-  -- Respawn all players
-  -- RespawnPlayers()
-
   -- To catch heroes like storm spirit when they are invulnerable, call ResetPlayers 15
   -- times with 1 second between each call
   ResetPlayers(true)
@@ -276,8 +264,8 @@ function EndRound()
   BotOnRoundEnd()
 
   if game_state == GAME_STATE_BUY then
-    -- Reset talents so players can try new ones
-    ResetTalents()
+    -- Hard reset all heroes
+    HardResetHeroes()
   end
 end
 
@@ -288,11 +276,10 @@ function EndRoundDelayed()
 
   -- To allow for rounds to end in a draw, give projectiles and abilities time to finish
   -- This includes things like gyrocopter homing missle or ultimate, or an auto attack
-  local delay = 5.0
+  local delay = ROUND_END_DELAY
 
-  -- Set respawn times so the delay is clearly visible for dead players
-  Timers:RemoveTimer("set_respawn_time")
-  SetRespawnTimes(delay)
+  -- Respawn all players as the round ends
+  RespawnPlayersAfterDelay(delay)
 
   Timers:CreateTimer(
     delay,
@@ -327,19 +314,6 @@ function ResetPlayers()
 end
 
 
--- Forces all players to respawn
--- NOTE: Calling this causes the dead music to play permanently
--- function RespawnPlayers()
---   for i, playerID in pairs(GetPlayerIDs()) do
---     local player_entity = PlayerResource:GetSelectedHeroEntity(playerID)
-
---     if player_entity then
---       player_entity:RespawnHero(false, false)
---     end
---   end
--- end
-
-
 -- Sets the respawn time remaining for all dead players
 function SetRespawnTimes(time)
   for i, player_id in pairs(GetPlayerIDs()) do
@@ -352,6 +326,30 @@ function SetRespawnTimes(time)
       end
     end
   end
+end
+
+
+-- Respawns all players after a delay
+function RespawnPlayersAfterDelay(delay)
+  Timers:RemoveTimer("respawn_players_after_delay")
+
+  -- Enable respawns so the dead music doesn't play forever and so the respawning music plays
+  GameRules:SetHeroRespawnEnabled(true)
+  -- Set respawn times so the delay is clearly visible for dead players
+  SetRespawnTimes(delay)
+
+  -- Disable respawns again after all players have respawned
+	local disable_respawns = function()
+    -- Enable respawns so the dead music doesn't play forever and so the respawning music plays
+    GameRules:SetHeroRespawnEnabled(false)
+	end
+
+	local args = {
+		endTime = delay + 1.0,
+		callback = disable_respawns
+	}
+
+	Timers:CreateTimer("respawn_players_after_delay", args)
 end
 
 
@@ -530,11 +528,10 @@ function DestroyRunes()
 end
 
 
--- Resets the talents of all players
--- NOTE: While talents no longer need to be reset, this is the simplest way to hard-reset all
---       heroes, so it is used to avoid necessitating more ad-hoc methods in ClearBuffs and
---       other reset functions
-function ResetTalents()
+-- Replaces the hero entity of each player with a new one
+-- This resets the permanent buffs, talents, and all other aspects of the hero
+-- NOTE: Facets are not reset by this function
+function HardResetHeroes()
   local player_IDs = GetPlayerIDs()
   local player_items = GetPlayerInventories()
   local bear_items = {}
@@ -545,6 +542,11 @@ function ResetTalents()
     -- Get the hero name and the selected hero's entities
     local hero_name = PlayerResource:GetSelectedHeroName(playerID)
     local hero_entity = PlayerResource:GetSelectedHeroEntity(playerID)
+
+    -- Respawn each hero to reset while-dead effects, such as Vengeful Spirit's illusion and
+    -- Earthshaker's on-death Fissure
+    ResetPosition(hero_entity)
+    hero_entity:RespawnHero(false, false)
 
     -- Cancel TP scrolls
     hero_entity:Interrupt()
