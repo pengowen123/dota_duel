@@ -26,7 +26,7 @@ move invoker to universal heroes on pick screen
 update illusions for morphling (check whether visible on line 312)
 fix isvalidentity with book of shadows
 
-fix nightstalker facet (set day on game start)
+update shops
 fix dummy hero sometimes being visible
 fix timer pause when dc during hero select/pick screen
 
